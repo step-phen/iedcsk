@@ -1,0 +1,134 @@
+/* Look of Things I Need for My Writing Activities; layout and spacing stay in Tailwind, artwork paths and spoken lines stay in the .data.ts file. */
+
+/* Classroom backdrop; the picture itself is set from ASSETS.background. */
+.screen {
+  background-color: #9ee7ff;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  color: #22314f;
+}
+
+.messageCard {
+  border: 4px solid #f2c94c;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.blueButton {
+  border: 4px solid white;
+  background: #35a7ff;
+  color: white;
+  box-shadow: 0 6px 0 #176fb4;
+}
+
+.badge {
+  border: 3px solid #22314f;
+  background: white;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #fde7c2;
+  color: #a35b00;
+}
+
+.instructionText {
+  color: #67330d;
+}
+
+.feedbackSuccess {
+  color: #157548;
+}
+
+.feedbackError {
+  color: #a72535;
+}
+
+.itemCard {
+  border: 1px solid #ead9ad;
+  background: white;
+  color: #26364a;
+}
+
+.resultCard {
+  border: 4px solid #35ad6a;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.resultTitle {
+  color: #19814a;
+}
+
+.resultText {
+  color: #30465c;
+}
+
+/* A writing thing pointed out after a wrong pick: green border and a pulsing glow, while framer-motion zooms it in. */
+.itemHint {
+  border: 3px solid #35ad6a;
+  animation: hintGlow 1.2s ease-in-out infinite;
+}
+
+@keyframes hintGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(53, 173, 106, 0.55); }
+  50% { box-shadow: 0 0 0 12px rgba(53, 173, 106, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .itemHint {
+    animation: none;
+    box-shadow: 0 0 0 4px rgba(53, 173, 106, 0.4);
+  }
+}
+
+/* Tablets held sideways, by size rather than touch so a tablet emulator matches too: bag on the left and two rows of five on the right, so everything fits without scrolling. */
+/* ponytail: a laptop window up to 1366px wide gets this layout too; it still fits there, add a touch check if desktop must keep one long row. */
+@media (min-width: 640px) and (max-width: 1366px) and (min-height: 501px) and (orientation: landscape) {
+  .tray {
+    max-width: 660px;
+    margin-inline: auto;
+  }
+
+  .board {
+    flex-direction: row;
+    gap: 5vw;
+  }
+
+  .bag {
+    width: min(24vw, 36dvh);
+    min-width: 0;
+    translate: none;
+  }
+
+  /* Under the bag, since the bag's left side has no room for the bubble here. */
+  .bubble {
+    left: 50%;
+    right: auto;
+    top: 100%;
+    margin: 0.5rem 0 0;
+    width: min(32vw, 380px);
+    translate: -50% 0;
+  }
+
+  .trayOuter {
+    width: min(56vw, 680px);
+    margin-inline: 0;
+  }
+}
+
+/* Tablets held upright (a desktop window is almost never portrait, so no touch check): the title drops below the corner badges, the bag grows into the spare height, and the tray makes two rows of five. */
+@media (min-width: 640px) and (orientation: portrait) {
+  .header {
+    padding-top: 4.5rem;
+  }
+
+  .bag {
+    width: min(42vw, 30dvh, 340px);
+  }
+
+  .tray {
+    max-width: 660px;
+    margin-inline: auto;
+  }
+}

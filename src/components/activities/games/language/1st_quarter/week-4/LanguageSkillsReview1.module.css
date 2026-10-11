@@ -1,0 +1,167 @@
+/* Look of Language Skills Review 1; layout and spacing stay in Tailwind, the tasks and speech stay in LanguageSkillsReview1.data.ts. */
+
+/* A soft pastel sky the bubbles float in; no art yet, so gradients stand in. */
+.screen {
+  background:
+    radial-gradient(circle at 12% 80%, rgba(255, 255, 255, 0.5) 0 6%, transparent 7%),
+    radial-gradient(circle at 88% 30%, rgba(255, 255, 255, 0.45) 0 4%, transparent 5%),
+    radial-gradient(circle at 80% 85%, rgba(255, 255, 255, 0.4) 0 3%, transparent 4%),
+    linear-gradient(180deg, #cfe9ff 0%, #e8e2ff 60%, #ffe3f1 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #e8e2ff;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(123, 107, 255, 0.5);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #7b6bff;
+  background: white;
+  box-shadow: 0 3px 0 rgba(123, 107, 255, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #7b6bff;
+  background: white;
+  color: #5a4ad6;
+  box-shadow: 0 2px 0 rgba(123, 107, 255, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* Three bubbles share one row, capped by the screen height; the target card is a little smaller. */
+.task {
+  --choice-w: clamp(84px, min(calc((100vw - 4rem) / 3.4), 30dvh), 220px);
+}
+
+/* Wide screens put the target card beside the bubbles, so everything fits a 768px-tall tablet. */
+@media (orientation: landscape) {
+  .task {
+    flex-direction: row;
+  }
+}
+
+.target {
+  width: calc(var(--choice-w) * 0.85);
+  border: 4px dashed #7b6bff;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.bubble {
+  width: var(--choice-w);
+  touch-action: manipulation;
+}
+
+/* The soap film: a shiny spot top-left over a faint blue-pink sheen. */
+.film {
+  border: 3px solid rgba(90, 120, 210, 0.75);
+  background:
+    radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.95) 0 7%, rgba(255, 255, 255, 0) 16%),
+    radial-gradient(circle at 70% 78%, rgba(255, 190, 230, 0.45) 0 18%, rgba(255, 190, 230, 0) 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.55) 0 55%, rgba(170, 210, 255, 0.55) 100%);
+  box-shadow: inset 0 0 18px rgba(120, 160, 255, 0.45), 0 6px 14px rgba(90, 120, 210, 0.2);
+}
+
+/* A white disc behind the picture so it reads clearly through the film. */
+.face {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.letter {
+  font-size: calc(var(--choice-w) * 0.42);
+}
+
+.label {
+  font-size: calc(var(--choice-w) * 0.12);
+}
+
+/* The bubble being named aloud. */
+.naming {
+  filter: drop-shadow(0 0 10px rgba(123, 107, 255, 0.85));
+}
+
+/* The right bubble after a miss. */
+.showAnswer {
+  filter: drop-shadow(0 0 14px #ffd23f) drop-shadow(0 0 6px #ffd23f);
+}
+
+.burst {
+  font-size: calc(var(--choice-w) * 0.34);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--choice-w) * 0.6);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #7b6bff;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(123, 107, 255, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

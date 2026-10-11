@@ -1,0 +1,273 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { ModalShell } from "@/components/ui/modal-shell";
+import { toast } from "react-hot-toast";
+import { ClipboardList, Loader2, Pencil, Plus, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { apiFetch } from "@/lib/api";
+import PracticalActivityForm, { type WeekActivity } from "./practical-activity-form";
+import { lessonDay } from "./add-lesson-form";
+
+const ACTIVITY_CHIP = "bg-sidebar/10 text-sidebar";
+
+type WeekLessonData = {
+  lessonId: number;
+  lessonName: string;
+  dayOfWeek: number | null;
+  activities: WeekActivity[];
+};
+
+type LessonActivity = { lessonId: number; activity: WeekActivity };
+
+const CARD_BUTTON =
+  "inline-flex h-7 cursor-pointer items-center gap-1 rounded-lg border px-2 text-[11px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-sidebar/30";
+
+const FORMAT_LABEL = { digital: "Digital", practical: "Practical" } as const;
+
+async function getWeekLessons(
+  moduleId: number,
+  quarter: number,
+  week: number,
+): Promise<WeekLessonData[]> {
+  const res = await apiFetch(
+    `/api/modules/${moduleId}/lessons?quarter=${quarter}&week=${week}`,
+  );
+  if (!res.ok) throw new Error(`GET week lessons failed: ${res.status}`);
+  return res.json();
+}
+
+interface WeekLessonsModalProps {
+  open: boolean;
+  onClose: () => void;
+  moduleName: string;
+  moduleId: number;
+  quarter: number;
+  week: number;
+  /** Opened from one topic's card — narrows the grid and the "Add" form to that topic's day-rows. */
+  lessonIds?: number[];
+  /** Runs after an activity is added (+1) or deleted (-1), so the board's activity count can follow. */
+  onActivityCountChange?: (lessonId: number, delta: number) => void;
+}
+
+/** Flat activities grid for the week — no per-lesson grouping, the "Open"
+ *  card stays on the module board instead of navigating to the lesson page. */
+export default function WeekLessonsModal({
+  open,
+  onClose,
+  moduleName,
+  moduleId,
+  quarter,
+  week,
+  lessonIds,
+  onActivityCountChange,
+}: WeekLessonsModalProps) {
+  const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [lessons, setLessons] = useState<WeekLessonData[]>([]);
+  const visibleLessons = lessonIds?.length ? lessons.filter((l) => lessonIds.includes(l.lessonId)) : lessons;
+  const activities = visibleLessons.flatMap((l) =>
+    l.activities.map((activity) => ({ lessonId: l.lessonId, activity, day: lessonDay(l.dayOfWeek) })),
+  );
+  // The form takes the modal's body while open, instead of stacking a second modal: "new" adds, an activity edits.
+  const [form, setForm] = useState<"new" | LessonActivity | null>(null);
+  const [deleting, setDeleting] = useState<LessonActivity | null>(null);
+  const [deletePending, setDeletePending] = useState(false);
+
+  async function deleteActivity({ lessonId, activity }: LessonActivity) {
+    setDeletePending(true);
+    try {
+      const res = await apiFetch(`/api/practical-activities/${activity.id}`, { method: "DELETE" });
+      if (res.status === 422) {
+        const { errors } = (await res.json()) as { errors: Record<string, string[]> };
+        throw new Error(Object.values(errors)[0]?.[0]);
+      }
+      if (!res.ok) throw new Error();
+      setLessons((prev) => prev.map((l) => (l.lessonId === lessonId ? { ...l, activities: l.activities.filter((a) => a.id !== activity.id) } : l)));
+      onActivityCountChange?.(lessonId, -1);
+      toast.success("Practical activity deleted.", { position: "top-center" });
+    } catch (error) {
+      toast.error(error instanceof Error && error.message ? error.message : "The activity could not be deleted. Please try again.", { position: "top-center" });
+    } finally {
+      setDeletePending(false);
+      setDeleting(null);
+    }
+  }
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-mount flag for SSR-safe portal, must run post-mount
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    let cancelled = false;
+    getWeekLessons(moduleId, quarter, week)
+      .catch((error) => {
+        // An empty grid reads as "No activities found" rather than spinning forever.
+        console.error("[WeekLessonsModal]", error);
+        return [];
+      })
+      .then((data) => {
+        if (!cancelled) {
+          setLessons(data);
+          setLoading(false);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [open, moduleId, quarter, week]);
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <ModalShell
+      open={open}
+      onClose={onClose}
+      title={lessonIds?.length ? (visibleLessons[0]?.lessonName ?? moduleName) : `${moduleName} — Week ${week}`}
+      headerId="week-lessons-title"
+      // The form needs less room than the activity grid.
+      maxWidth={form ? "max-w-lg" : "max-w-3xl"}
+      panelClassName="max-h-[85vh] flex flex-col"
+    >
+      <div className="flex-1 overflow-y-auto scrollbar-hide p-5">
+        {form ? (
+          <PracticalActivityForm
+            // Keyed so switching between activities starts the form fresh.
+            key={form === "new" ? "new" : form.activity.id}
+            lessons={visibleLessons}
+            editing={form === "new" ? undefined : form}
+            onCancel={() => setForm(null)}
+            onSaved={(lessonId, saved) => {
+              setLessons((prev) =>
+                prev.map((l) =>
+                  l.lessonId !== lessonId
+                    ? l
+                    : form === "new"
+                      ? { ...l, activities: [...l.activities, saved] }
+                      : { ...l, activities: l.activities.map((a) => (a.id === saved.id ? saved : a)) },
+                ),
+              );
+              if (form === "new") onActivityCountChange?.(lessonId, 1);
+              setForm(null);
+            }}
+          />
+        ) : (
+        <>
+          {!loading && (
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+              <p className="text-xs text-stone-500">
+                {visibleLessons.length === 0 ? "Add a lesson for this week first, then add activities to it." : "Games and practical activities for this lesson."}
+              </p>
+              <button
+                type="button"
+                onClick={() => setForm("new")}
+                disabled={visibleLessons.length === 0}
+                className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-sidebar px-3 py-2 text-xs font-semibold text-white shadow-sm outline-none transition-colors hover:bg-[#7e1422] focus-visible:ring-2 focus-visible:ring-sidebar/40 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Plus size={14} aria-hidden="true" />
+                Practical Activity
+              </button>
+            </div>
+          )}
+          {loading ? (
+            <div className="flex items-center justify-center py-16 text-stone-400">
+              <Loader2 size={22} className="animate-spin" />
+            </div>
+          ) : activities.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16 text-center text-stone-500">
+              <ClipboardList size={28} className="mb-3 text-stone-300" />
+              No activities found for this lesson.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {activities.map(({ lessonId, activity, day }) => (
+                <div
+                  key={activity.id}
+                  className="bg-stone-50 rounded-xl border border-stone-200 p-3.5 flex flex-col gap-2"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="text-sm font-bold text-stone-900 leading-snug">
+                      {activity.activityName}
+                    </p>
+                    <span
+                      className={`inline-block text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap ${ACTIVITY_CHIP}`}
+                    >
+                      {FORMAT_LABEL[activity.format]}
+                    </span>
+                  </div>
+                  {day && (
+                    <span className="self-start text-[10px] font-bold tracking-wider text-sidebar uppercase bg-rose-50 border border-rose-100 px-1.5 py-0.5 rounded">
+                      {day}
+                    </span>
+                  )}
+                  {(activity.description ?? activity.instructions) && (
+                    <p className="text-xs text-stone-600 leading-snug line-clamp-3">
+                      {activity.description ?? activity.instructions}
+                    </p>
+                  )}
+                  {/* Only the teacher's own practical activities can be changed; digital games come with the system. */}
+                  {activity.format === "practical" && (
+                    <div className="mt-auto flex gap-1.5 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setForm({ lessonId, activity })}
+                        className={`${CARD_BUTTON} border-stone-300 bg-white text-stone-700 hover:border-sidebar hover:text-sidebar`}
+                      >
+                        <Pencil size={12} aria-hidden="true" />
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDeleting({ lessonId, activity })}
+                        className={`${CARD_BUTTON} border-red-200 bg-white text-red-600 hover:bg-red-50`}
+                      >
+                        <Trash2 size={12} aria-hidden="true" />
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+        )}
+      </div>
+
+      <AlertDialog open={!!deleting} onOpenChange={(open) => !open && !deletePending && setDeleting(null)}>
+        <AlertDialogContent className="bg-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Practical Activity?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {deleting?.activity.activityName} will no longer appear in lessons or classes, and checklist skills linked to it will be
+              unlinked. Results learners already have are kept.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deletePending}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              disabled={deletePending}
+              onClick={() => deleting && deleteActivity(deleting)}
+              className="bg-red-600 text-white hover:bg-red-700"
+            >
+              {deletePending ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </ModalShell>,
+    document.body,
+  );
+}

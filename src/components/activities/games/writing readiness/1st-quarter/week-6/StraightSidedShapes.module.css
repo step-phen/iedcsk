@@ -1,0 +1,195 @@
+/* Look of Straight-Sided Shapes; layout and spacing stay in Tailwind (TraceCopyGame), the shapes and speech stay in StraightSidedShapes.data.ts. */
+
+/* A pale sky over a little town street; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #dcefff 0%, #f3f9ff 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #ffe8de;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(232, 99, 58, 0.5);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #e8633a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(232, 99, 58, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #e8633a;
+  background: white;
+  color: #c24a24;
+  box-shadow: 0 2px 0 rgba(232, 99, 58, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The strip showing what has been built so far. */
+.progress {
+  height: clamp(44px, 11dvh, 100px);
+}
+
+/* The trace pad and the copy box: side by side on wide screens, one above the other when upright. */
+.pads {
+  flex-direction: row;
+  gap: clamp(10px, 2vw, 28px);
+}
+
+@media (orientation: portrait) {
+  .pads {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.pad {
+  width: 100%;
+  max-width: 620px;
+  border: 4px solid transparent;
+  background: rgba(255, 255, 255, 0.45);
+  transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+/* The pad the child should use now. */
+.padActive {
+  border-color: #e8633a;
+  box-shadow: 0 0 0 3px rgba(232, 99, 58, 0.25), 0 0 20px 4px rgba(232, 99, 58, 0.35);
+}
+
+.padLabel {
+  border: 2px solid #e8633a;
+  background: white;
+  font-size: clamp(14px, 2.4dvh, 22px);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: clamp(80px, 20dvh, 180px);
+  text-shadow: 0 0 0 white, 0 4px 0 white, 0 -4px 0 white, 4px 0 0 white, -4px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #e8633a;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(232, 99, 58, 0.3);
+}
+
+/* Block Town: buildings standing on one street line. */
+.town {
+  --town-h: clamp(36px, 10dvh, 92px);
+  height: 100%;
+  gap: clamp(4px, 1vw, 12px);
+  padding: 0 calc(var(--town-h) * 0.6);
+  border-bottom: 5px solid #8a8f9c;
+}
+
+.building,
+.plot {
+  transform-origin: 50% 100%;
+}
+
+/* Walls with rows of little windows. */
+.building {
+  border: 3px solid #22314f;
+  border-bottom: none;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0 22%, transparent 24%);
+  background-size: calc(var(--town-h) * 0.3) calc(var(--town-h) * 0.3);
+}
+
+.buildingMissed {
+  background-color: #c4c9d6;
+}
+
+.plot {
+  border: 3px dashed rgba(34, 49, 79, 0.35);
+  border-bottom: none;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.plotNow {
+  border: 3px dashed #22314f;
+  border-bottom: none;
+  background: rgba(255, 255, 255, 0.75);
+  transform-origin: 50% 100%;
+}
+
+.sun {
+  top: -20%;
+  right: -6%;
+  font-size: calc(var(--town-h) * 0.7);
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the pads get the rest. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .progress {
+    height: 34px;
+    margin-top: 4px;
+  }
+
+  .padLabel {
+    font-size: 12px;
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

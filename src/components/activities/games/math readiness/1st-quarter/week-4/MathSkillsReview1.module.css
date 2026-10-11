@@ -1,0 +1,243 @@
+/* Look of Math Skills Review 1; layout and spacing stay in Tailwind, the speech stays in MathSkillsReview1.data.ts. */
+
+/* A train station: sky over a platform; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #d6e4ff 0%, #f1f5ff 70%, #d9d2c3 70%, #c7bda9 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #e6e6ff;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(91, 91, 214, 0.45);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #5b5bd6;
+  background: white;
+  box-shadow: 0 3px 0 rgba(91, 91, 214, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #5b5bd6;
+  background: white;
+  color: #4141b0;
+  box-shadow: 0 2px 0 rgba(91, 91, 214, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* Numeral cards size off the screen, so five fit across a phone and the train still fits below. */
+.stage {
+  --card: clamp(56px, min(16vw, 20dvh), 150px);
+  gap: clamp(8px, 2dvh, 20px);
+}
+
+/* Number recognition: a big speaker to hear the number again. */
+.listen {
+  width: clamp(80px, 24dvh, 190px);
+  height: clamp(80px, 24dvh, 190px);
+  border: 4px solid #22314f;
+  background: #fff4c2;
+  color: #22314f;
+  box-shadow: 0 6px 0 rgba(34, 49, 79, 0.25);
+  touch-action: manipulation;
+}
+
+/* Counting: the group to count on a white board. */
+.board {
+  max-width: 760px;
+  border: 4px solid #22314f;
+  background: white;
+  box-shadow: 0 6px 0 rgba(34, 49, 79, 0.2);
+}
+
+.boardGroup {
+  width: 90%;
+  height: 86%;
+  container-type: size;
+}
+
+/* Matching: the numeral the right group must show. */
+.bigNumber {
+  width: clamp(64px, 18dvh, 150px);
+  height: clamp(64px, 18dvh, 150px);
+  border: 4px solid #22314f;
+  background: #fff4c2;
+  font-size: clamp(44px, 13dvh, 108px);
+  box-shadow: 0 6px 0 rgba(34, 49, 79, 0.25);
+}
+
+/* Comparing: the word to look for. */
+.askBadge {
+  padding: 0.25em 0.9em;
+  border: 4px solid #22314f;
+  background: #fff4c2;
+  font-size: clamp(24px, 6dvh, 52px);
+  letter-spacing: 0.06em;
+}
+
+.choices {
+  gap: clamp(8px, 2vw, 24px);
+}
+
+.numeral {
+  width: var(--card);
+  height: var(--card);
+  flex-shrink: 0;
+  border: 4px solid #22314f;
+  background: white;
+  color: #22314f;
+  font-size: calc(var(--card) * 0.62);
+  box-shadow: 0 5px 0 rgba(34, 49, 79, 0.25);
+  touch-action: manipulation;
+}
+
+.groupCard {
+  flex: 1;
+  max-width: 420px;
+  border: 4px solid #22314f;
+  background: white;
+  box-shadow: 0 5px 0 rgba(34, 49, 79, 0.25);
+  touch-action: manipulation;
+}
+
+.cardGroup {
+  width: 88%;
+  height: 84%;
+  container-type: size;
+}
+
+/* The right choice, picked first time. */
+.right {
+  border-color: #1f8a46;
+  box-shadow: 0 5px 0 #1f8a46, 0 0 18px 5px rgba(60, 208, 112, 0.7);
+}
+
+/* The right choice after a miss. */
+.showAnswer {
+  border-color: #e0a800;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 26px 9px rgba(255, 210, 63, 0.85);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: clamp(56px, 16dvh, 150px);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+/* The number train on its rails; one car per task. */
+.train {
+  --car: clamp(18px, min(6vw, 5dvh), 40px);
+  gap: 4px;
+  padding: 4px 0 6px;
+  background: linear-gradient(transparent calc(100% - 6px), #6b5a45 calc(100% - 6px), #6b5a45 calc(100% - 3px), transparent calc(100% - 3px));
+}
+
+.engine {
+  font-size: calc(var(--car) * 1.4);
+}
+
+.car {
+  width: var(--car);
+  height: calc(var(--car) * 0.85);
+  border: 3px solid #22314f;
+  background: #e8e8f2;
+  box-shadow: 0 3px 0 #22314f;
+}
+
+/* A car for an answered task; it carries a star when it was right first time. */
+.carDone {
+  background: #fff4c2;
+}
+
+.carNow {
+  border-color: #5b5bd6;
+  box-shadow: 0 3px 0 #5b5bd6, 0 0 10px 3px rgba(91, 91, 214, 0.5);
+}
+
+.doneCard {
+  border: 4px solid #5b5bd6;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(91, 91, 214, 0.3);
+}
+
+/* Upright screens stack the three matching groups, so each is wide enough to count. */
+@media (orientation: portrait) {
+  .stack {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stack .groupCard {
+    width: 100%;
+    max-width: 560px;
+  }
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the task gets the rest. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .stage {
+    --card: clamp(48px, 21dvh, 90px);
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

@@ -1,0 +1,180 @@
+/* Look of Number Recognition; layout and spacing stay in Tailwind, objects and spoken lines stay in NumberRecognition.data.ts. */
+
+/* Meadow backdrop; the picture itself is set from ASSETS.background. */
+.screen {
+  background-color: #8fd3f4;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.badge {
+  border: 3px solid #22314f;
+  background: white;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #fde7c2;
+  color: #a35b00;
+}
+
+.speakerButton {
+  border: 2px solid #22314f;
+  background: #fffdf6;
+  box-shadow: 0 2px 0 rgba(34, 49, 79, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.speakerButton:active {
+  transform: scale(0.9);
+}
+
+.speakerButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.dot {
+  background: #e4d9bd;
+  box-shadow: 0 0 0 2px rgba(34, 49, 79, 0.3);
+}
+
+.dotCurrent {
+  box-shadow: 0 0 0 3px rgba(34, 49, 79, 0.55);
+  transform: scale(1.4);
+}
+
+.dotRight {
+  background: #2f9e8f;
+}
+
+.dotMissed {
+  background: #f2b84b;
+}
+
+/* The object being counted aloud after a miss pops and glows, one at a time. */
+.objectCounted {
+  filter: drop-shadow(0 0 10px #ffd23f);
+  animation: countPop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.choice {
+  border: 3px solid #22314f;
+  background: white;
+  color: #22314f;
+  box-shadow: 0 4px 0 rgba(34, 49, 79, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.choice:not(:disabled):active {
+  transform: scale(0.94);
+}
+
+/* A win and a revealed answer share one green, so the child has only one color to read. */
+.choiceCorrect,
+.choiceReveal {
+  border-color: #2f9e8f;
+  background: #dcf3ee;
+  color: #1f6f65;
+}
+
+.choiceCorrect {
+  animation: popIn 0.3s ease-out;
+}
+
+/* After a miss the right number zooms in and glows once the wrong one's shake is over, so the child's eye lands on it. */
+.choiceReveal {
+  z-index: 1;
+  transform: scale(1.15);
+  animation:
+    revealZoom 0.45s 0.35s cubic-bezier(0.16, 1, 0.3, 1) backwards,
+    revealGlow 1.2s 0.8s ease-in-out infinite;
+}
+
+.choiceWrong {
+  border-color: #d9534f;
+  background: #fdecea;
+  animation: shake 0.4s ease-in-out;
+}
+
+/* The other numbers step back so only the answer stands out. */
+.choiceDimmed {
+  opacity: 0.4;
+  transform: scale(0.92);
+  transition: opacity 250ms ease-out, transform 250ms ease-out;
+}
+
+.retryButton {
+  border: 3px solid #22314f;
+  background: #ffd23f;
+  color: #22314f;
+  box-shadow: 0 4px 0 rgba(34, 49, 79, 0.3);
+}
+
+.resultStamp {
+  border: 4px solid white;
+  background: #2f9e8f;
+  color: white;
+  box-shadow: 0 0 0 3px #2f9e8f, 0 4px 0 rgba(34, 49, 79, 0.35);
+  transform: rotate(-8deg);
+}
+
+.result {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes countPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.85); }
+  55% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes revealZoom {
+  0% { transform: scale(1); }
+  60% { transform: scale(1.22); }
+  100% { transform: scale(1.15); }
+}
+
+@keyframes revealGlow {
+  0%, 100% { box-shadow: 0 4px 0 rgba(34, 49, 79, 0.3), 0 0 0 0 rgba(47, 158, 143, 0.55); }
+  50% { box-shadow: 0 4px 0 rgba(34, 49, 79, 0.3), 0 0 0 14px rgba(47, 158, 143, 0); }
+}
+
+@keyframes statusPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  65% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .objectCounted,
+  .choiceCorrect,
+  .choiceReveal,
+  .choiceWrong,
+  .result {
+    animation: none;
+  }
+
+  .choice,
+  .choiceDimmed {
+    transition: none;
+  }
+}

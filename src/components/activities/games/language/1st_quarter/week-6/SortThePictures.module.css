@@ -1,0 +1,182 @@
+/* Look of Sort the Pictures; layout and spacing stay in Tailwind, the pictures and speech stay in SortThePictures.data.ts. */
+
+/* A bright factory wall over a tiled floor; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #fff3d6 0%, #ffe9bd 58%, #e6d3ad 58%, #d6bf93 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #ffe9bd;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(230, 140, 30, 0.5);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #e68c1e;
+  background: white;
+  box-shadow: 0 3px 0 rgba(230, 140, 30, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #e68c1e;
+  background: white;
+  color: #b86a0c;
+  box-shadow: 0 2px 0 rgba(230, 140, 30, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+.factory {
+  --item-w: clamp(80px, min(30vw, 24dvh), 190px);
+  --bin-w: clamp(130px, min(42vw, 30dvh), 300px);
+}
+
+/* The belt: grey rubber with stripes that roll toward the middle. */
+.belt {
+  height: calc(var(--item-w) * 0.22);
+  border: 4px solid #22314f;
+  background: repeating-linear-gradient(90deg, #5b6474 0 18px, #4a5262 18px 36px);
+  animation: roll 1.2s linear infinite;
+}
+
+@keyframes roll {
+  to {
+    background-position: 36px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .belt {
+    animation: none;
+  }
+}
+
+.item {
+  width: var(--item-w);
+  border: 4px solid #22314f;
+  background: white;
+  box-shadow: 0 6px 0 rgba(34, 49, 79, 0.2);
+}
+
+.itemName {
+  font-size: calc(var(--item-w) * 0.13);
+}
+
+.bin {
+  width: var(--bin-w);
+  touch-action: manipulation;
+}
+
+/* The open top where sorted pictures pile up. */
+.binInside {
+  height: calc(var(--bin-w) * 0.42);
+  border: 4px solid #22314f;
+  border-bottom: none;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.binFront {
+  height: calc(var(--bin-w) * 0.34);
+  border: 4px solid #22314f;
+  background: var(--bin-color);
+  box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.15), 0 6px 0 rgba(34, 49, 79, 0.2);
+  color: white;
+  font-size: calc(var(--bin-w) * 0.16);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.sorted {
+  width: calc(var(--bin-w) * 0.24);
+  border: 3px solid #22314f;
+  background: white;
+}
+
+/* The right box after a miss. */
+.showAnswer {
+  filter: drop-shadow(0 0 14px #ffd23f) drop-shadow(0 0 6px #ffd23f);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--bin-w) * 0.4);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #e68c1e;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(230, 140, 30, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: the belt sits beside the boxes and the header tightens. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .board {
+    flex-direction: row;
+  }
+
+  .factory {
+    --item-w: clamp(70px, 26dvh, 120px);
+    --bin-w: clamp(110px, 30dvh, 170px);
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

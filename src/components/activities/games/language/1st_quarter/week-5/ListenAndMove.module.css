@@ -1,0 +1,161 @@
+/* Look of Listen and Move; layout and spacing stay in Tailwind, the lines stay in ListenAndMove.data.ts. */
+
+/* A sunny backyard; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #c9ecff 0%, #eef9ff 38%, #cdeaa6 38%, #a9d67c 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #e7f6d6;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(60, 150, 70, 0.5);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #3c9646;
+  background: white;
+  box-shadow: 0 3px 0 rgba(60, 150, 70, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #3c9646;
+  background: white;
+  color: #2e7a37;
+  box-shadow: 0 2px 0 rgba(60, 150, 70, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* A plus-shaped control pad: an arrow on each side of the yard. */
+.pad {
+  --arrow: clamp(56px, min(18vw, 14dvh), 110px);
+  display: grid;
+  grid-template-columns: var(--arrow) calc(var(--arrow) * 2.2) var(--arrow);
+  grid-template-rows: var(--arrow) calc(var(--arrow) * 2.2) var(--arrow);
+  grid-template-areas:
+    ". up ."
+    "left yard right"
+    ". down .";
+  gap: clamp(6px, 1.4dvh, 14px);
+}
+
+.up {
+  grid-area: up;
+}
+
+.down {
+  grid-area: down;
+}
+
+.left {
+  grid-area: left;
+}
+
+.right {
+  grid-area: right;
+}
+
+.yard {
+  grid-area: yard;
+  border: 4px dashed #5a8f3a;
+  background: radial-gradient(circle, #e6f7cf 0%, #c6e7a0 100%);
+}
+
+.puppy {
+  width: 46%;
+  height: 46%;
+  filter: drop-shadow(0 4px 3px rgba(34, 49, 79, 0.3));
+}
+
+.arrow {
+  border: 4px solid #22314f;
+  background: white;
+  box-shadow: 0 5px 0 rgba(34, 49, 79, 0.2);
+  touch-action: manipulation;
+}
+
+/* The right arrow after a miss. */
+.showAnswer {
+  border-color: #e0a800;
+  box-shadow: 0 0 0 4px #ffd23f, 0 0 20px 6px rgba(255, 210, 63, 0.75);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--arrow) * 0.8);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #3c9646;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(60, 150, 70, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the pad shrinks to fit. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .pad {
+    --arrow: clamp(44px, 13dvh, 70px);
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

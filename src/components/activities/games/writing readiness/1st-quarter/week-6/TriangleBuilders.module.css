@@ -1,0 +1,200 @@
+/* Look of Triangle Builders; layout and spacing stay in Tailwind (TraceCopyGame), the shapes and speech stay in TriangleBuilders.data.ts. */
+
+/* An evening campground with soft grass; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #ffe2c2 0%, #fff3e3 60%, #d6efc0 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #e2ebff;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(58, 111, 214, 0.5);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #3a6fd6;
+  background: white;
+  box-shadow: 0 3px 0 rgba(58, 111, 214, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #3a6fd6;
+  background: white;
+  color: #2a55ad;
+  box-shadow: 0 2px 0 rgba(58, 111, 214, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The strip showing what has been built so far. */
+.progress {
+  height: clamp(44px, 11dvh, 100px);
+}
+
+/* The trace pad and the copy box: side by side on wide screens, one above the other when upright. */
+.pads {
+  flex-direction: row;
+  gap: clamp(10px, 2vw, 28px);
+}
+
+@media (orientation: portrait) {
+  .pads {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.pad {
+  width: 100%;
+  max-width: 620px;
+  border: 4px solid transparent;
+  background: rgba(255, 255, 255, 0.45);
+  transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+/* The pad the child should use now. */
+.padActive {
+  border-color: #3a6fd6;
+  box-shadow: 0 0 0 3px rgba(58, 111, 214, 0.25), 0 0 20px 4px rgba(58, 111, 214, 0.35);
+}
+
+.padLabel {
+  border: 2px solid #3a6fd6;
+  background: white;
+  font-size: clamp(14px, 2.4dvh, 22px);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: clamp(80px, 20dvh, 180px);
+  text-shadow: 0 0 0 white, 0 4px 0 white, 0 -4px 0 white, 4px 0 0 white, -4px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #3a6fd6;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(58, 111, 214, 0.3);
+}
+
+/* The campsite: a row of tents on the grass. */
+.camp {
+  --camp-h: clamp(36px, 10dvh, 92px);
+  height: 100%;
+  gap: clamp(4px, 1vw, 12px);
+}
+
+/* A tent is a triangle with a dark door slit up the middle. */
+.tent {
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  transform-origin: 50% 100%;
+}
+
+.tent::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 26%;
+  height: 46%;
+  transform: translateX(-50%);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: rgba(34, 49, 79, 0.55);
+}
+
+.tentMissed {
+  background: #c4c9d6;
+}
+
+.tentEmpty {
+  background: rgba(34, 49, 79, 0.12);
+}
+
+.tentEmpty::after {
+  display: none;
+}
+
+.tentNow {
+  background: rgba(58, 111, 214, 0.25);
+}
+
+.tentNow::after {
+  display: none;
+}
+
+.fire {
+  margin-left: clamp(6px, 1.5vw, 16px);
+  font-size: calc(var(--camp-h) * 0.7);
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the pads get the rest. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .progress {
+    height: 34px;
+    margin-top: 4px;
+  }
+
+  .padLabel {
+    font-size: 12px;
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

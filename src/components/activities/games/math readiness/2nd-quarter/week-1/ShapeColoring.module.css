@@ -1,0 +1,147 @@
+/* Look of Shape Coloring; layout and spacing stay in Tailwind, the crayon palette and spoken lines stay in ShapeColoring.data.ts. */
+
+/* Cream paper behind the artwork, for aspect ratios the cover crop can't fill; the picture itself is set from ASSETS.background. */
+.screen {
+  background-color: #f6f1e3;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #22314f;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.badge {
+  border: 3px solid #22314f;
+  background: white;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #fde7c2;
+  color: #a35b00;
+}
+
+/* Readable over any part of the artwork. */
+.instruction {
+  background: rgba(255, 255, 255, 0.88);
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.12);
+}
+
+.iconButton {
+  border: 3px solid #22314f;
+  background: white;
+  color: #22314f;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.iconButtonOn {
+  background: #ffd23f;
+}
+
+/* The crayon's pointed shape lives on its inner span, so the glow on the button itself isn't clipped away. */
+.crayon {
+  transition: transform 200ms ease-out, opacity 250ms ease-out;
+}
+
+.crayonBody {
+  clip-path: polygon(50% 0%, 100% 20%, 100% 100%, 0% 100%, 0% 20%);
+  border: 3px solid rgba(34, 49, 79, 0.7);
+}
+
+.crayonSelected {
+  transform: translateY(-8px) scale(1.06);
+  filter: drop-shadow(0 6px 0 rgba(34, 49, 79, 0.35));
+}
+
+.crayonSelected .crayonBody {
+  border-color: #22314f;
+}
+
+/* After a wrong pick the right crayon zooms in and glows once the wrong one's shake is over, until the child picks it. */
+.crayonReveal {
+  z-index: 1;
+  transform: translateY(-10px) scale(1.2);
+  animation:
+    revealZoom 0.45s 0.35s cubic-bezier(0.16, 1, 0.3, 1) backwards,
+    revealGlow 1.2s 0.8s ease-in-out infinite;
+}
+
+.crayonWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+/* The other crayons step back so only the right one stands out. */
+.crayonDimmed {
+  opacity: 0.4;
+}
+
+.retryButton {
+  border: 3px solid #22314f;
+  background: #ffd23f;
+  color: #22314f;
+  box-shadow: 0 4px 0 rgba(34, 49, 79, 0.3);
+}
+
+.resultStamp {
+  border: 4px solid white;
+  background: #2f9e8f;
+  color: white;
+  box-shadow: 0 0 0 3px #2f9e8f, 0 4px 0 rgba(34, 49, 79, 0.35);
+  transform: rotate(-6deg);
+}
+
+.result {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0% { transform: translateY(0) scale(1); }
+  60% { transform: translateY(-12px) scale(1.28); }
+  100% { transform: translateY(-10px) scale(1.2); }
+}
+
+@keyframes revealGlow {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(255, 210, 63, 0.9)); }
+  50% { filter: drop-shadow(0 0 12px rgba(255, 210, 63, 0.95)); }
+}
+
+@keyframes statusPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  65% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crayonReveal,
+  .crayonWrong,
+  .result {
+    animation: none;
+  }
+
+  .crayonReveal {
+    filter: drop-shadow(0 0 8px rgba(255, 210, 63, 0.95));
+  }
+
+  .crayon {
+    transition: none;
+  }
+}

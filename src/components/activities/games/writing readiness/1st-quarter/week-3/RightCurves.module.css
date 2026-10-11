@@ -1,0 +1,309 @@
+/* Look of Right Curves; the board geometry, colors and spoken lines stay in RightCurves.data.ts. */
+
+.screen {
+  --navy: #1e2a4a;
+  --orange: #e8734a;
+  --gold: #f0b429;
+  --paper: #fffdf8;
+  --line: #d8d2c2;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #fbf2e4;
+  color: var(--navy);
+  font-family: "Trebuchet MS", "Segoe UI", Verdana, sans-serif;
+}
+
+/* The playing and result screens sit on a dotted paper pattern. */
+.patterned {
+  padding: 1.5vh 1.5vw;
+  background-image: radial-gradient(rgba(30, 42, 74, 0.1) 1.6px, transparent 1.6px);
+  background-size: 22px 22px;
+}
+
+.message {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.sheet {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: min(98vw, 1180px);
+  height: min(96vh, 560px);
+  padding: clamp(10px, 1.8vh, 20px) clamp(18px, 3vw, 36px);
+  overflow: hidden;
+  border: 3px solid var(--navy);
+  border-radius: 26px;
+  background: var(--paper);
+  box-shadow:
+    0 10px 0 rgba(30, 42, 74, 0.1),
+    0 18px 30px rgba(30, 42, 74, 0.12);
+}
+
+/* Gold folded corners at the top of the sheet. */
+.cornerLeft,
+.cornerRight {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-top: 28px solid var(--gold);
+}
+
+.cornerLeft {
+  left: 0;
+  border-right: 28px solid transparent;
+  border-top-left-radius: 23px;
+}
+
+.cornerRight {
+  right: 0;
+  border-left: 28px solid transparent;
+  border-top-right-radius: 23px;
+}
+
+.nameChip {
+  position: absolute;
+  top: 10px;
+  left: 14px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px 4px 8px;
+  border: 2.5px solid var(--navy);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.nameEmoji {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.nameText {
+  max-width: 8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Result screen. */
+.result {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(4px, 1vh, 10px);
+  text-align: center;
+}
+
+.resultTitle {
+  max-width: 90%;
+  margin: 0;
+  font-size: clamp(18px, 3.4vh, 30px);
+  letter-spacing: 0.5px;
+}
+
+.resultScore {
+  margin: 0;
+  font-size: clamp(16px, 2.8vh, 24px);
+  font-weight: 800;
+  color: var(--orange);
+}
+
+.resultBadge {
+  margin: clamp(2px, 0.8vh, 8px) 0;
+}
+
+.tierTitle {
+  font-size: clamp(13px, 2vh, 17px);
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.tierSub {
+  font-size: clamp(10px, 1.5vh, 13px);
+  font-weight: 600;
+  color: #4b5876;
+}
+
+.finishButton {
+  margin-top: clamp(4px, 1vh, 10px);
+  padding: 12px 40px;
+  border: 3px solid var(--navy);
+  border-radius: 999px;
+  background: var(--gold);
+  box-shadow: 3px 3px 0 var(--navy);
+  color: var(--navy);
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.finishButton:focus-visible {
+  outline: 4px solid var(--navy);
+  outline-offset: 3px;
+}
+
+/* Playing screen. */
+.header {
+  display: flex;
+  flex: none;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 34px;
+}
+
+.rowCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.rowLabel {
+  font-size: clamp(11px, 1.5vh, 15px);
+  font-weight: 800;
+}
+
+.rowNumber {
+  color: var(--orange);
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.dotActive {
+  background: var(--orange);
+}
+
+.scorePill {
+  padding: 3px 12px;
+  border: 2px solid var(--gold);
+  border-radius: 999px;
+  background: #fce4a8;
+  font-size: clamp(10px, 1.4vh, 13px);
+  font-weight: 800;
+}
+
+.title {
+  flex: none;
+  margin: clamp(2px, 0.6vh, 6px) 0;
+  text-align: center;
+  font-size: clamp(18px, 3.2vh, 30px);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.direction {
+  flex: none;
+  margin-bottom: clamp(4px, 0.8vh, 8px);
+  text-align: center;
+  font-size: clamp(12px, 1.7vh, 16px);
+  font-weight: 700;
+  color: #4b5876;
+}
+
+/* The tracing board inside the sheet. */
+.trace {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+  touch-action: none;
+}
+
+.shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+.stage {
+  border: 2px dashed var(--line);
+  border-radius: 16px;
+  background: #fff9ec;
+  cursor: default;
+  touch-action: none;
+}
+
+.cheer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.cheerPill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border: 2px solid;
+  border-radius: 999px;
+  background: var(--paper);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.12);
+  font-size: clamp(13px, 2vh, 18px);
+  font-weight: 900;
+}
+
+.cheerOk {
+  border-color: #3fae72;
+  color: #3fae72;
+}
+
+.cheerFail {
+  border-color: #e15a5a;
+  color: #e15a5a;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(7px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}

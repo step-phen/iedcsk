@@ -1,0 +1,195 @@
+/* Look of Vowel Picture Sort; layout and spacing stay in Tailwind, the pictures and speech stay in VowelPictureSort.data.ts. */
+
+/* Sky over a grassy town street; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #bfe6ff 0%, #e8f6ff 58%, #cfe9b0 58%, #b5dc8f 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #fff1b8;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(230, 150, 20, 0.6);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #e69614;
+  background: white;
+  box-shadow: 0 3px 0 rgba(230, 150, 20, 0.35);
+}
+
+.roundButton {
+  border: 3px solid #e69614;
+  background: white;
+  color: #c47a00;
+  box-shadow: 0 2px 0 rgba(230, 150, 20, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The bus: a picture window for the passenger, a name board, a windshield and two wheels. */
+.bus {
+  /* Capped so the bus (30% of the screen height) plus the street still fit a 768px-tall tablet. */
+  --bus-w: clamp(160px, min(88vw, 48dvh), 440px);
+  width: var(--bus-w);
+  aspect-ratio: 1.6 / 1;
+}
+
+.busBody {
+  border: 4px solid #22314f;
+  border-radius: 18% 24% 10% 10% / 26% 32% 12% 12%;
+  background: linear-gradient(180deg, #ffd84d 0%, #ffc21a 100%);
+  box-shadow: inset 0 -10px 0 rgba(214, 140, 0, 0.35);
+}
+
+.busWindow {
+  border: 4px solid #22314f;
+  background: white;
+}
+
+.windshield {
+  border: 4px solid #22314f;
+  background: linear-gradient(160deg, #e6f6ff 0%, #9fd8ff 100%);
+}
+
+.nameBoard {
+  color: #22314f;
+  font-size: calc(var(--bus-w) * 0.075);
+}
+
+.light {
+  border: 3px solid #22314f;
+  background: #fff6b0;
+}
+
+.wheel {
+  border: 4px solid #22314f;
+  background: radial-gradient(circle, #c9d1db 0 28%, #3a4660 30% 100%);
+}
+
+/* Five stops always share one row; each is a fifth of the width, capped by the screen height. */
+.street {
+  --stop-w: clamp(52px, min(calc((100vw - 4rem) / 5.4), 20dvh), 160px);
+}
+
+.stop {
+  width: var(--stop-w);
+  touch-action: manipulation;
+}
+
+.sign {
+  border: 4px solid var(--stop-color);
+  background: white;
+  box-shadow: 0 0 0 3px #22314f, 0 5px 0 3px rgba(34, 49, 79, 0.25);
+  color: #22314f;
+  font-size: calc(var(--stop-w) * 0.3);
+}
+
+.pole {
+  background: #6b7686;
+  border: 2px solid #22314f;
+}
+
+/* The sidewalk each group of passengers waits on. */
+.curb {
+  background: #d8dde3;
+  border-top: 4px solid #9aa3ad;
+}
+
+.passenger {
+  border: 3px solid #22314f;
+  background: white;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.2);
+}
+
+/* The right stop after a miss. */
+.showAnswer {
+  filter: drop-shadow(0 0 12px #ffd23f) drop-shadow(0 0 5px #ffd23f);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--stop-w) * 0.6);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #e69614;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(230, 150, 20, 0.35);
+}
+
+/* Phones held sideways are only ~320-430px tall: the bus parks beside the stops and the header tightens. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .board {
+    flex-direction: row;
+  }
+
+  .bus {
+    --bus-w: calc(36dvh * 1.6);
+  }
+
+  .street {
+    --stop-w: clamp(48px, min(calc((100vw - 18rem) / 5.4), 22dvh), 110px);
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

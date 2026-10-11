@@ -1,0 +1,155 @@
+/* Look of Show and Say Oo; layout and spacing stay in Tailwind, the lines stay in ShowAndSayOo.data.ts. */
+
+/* An evening forest; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #ffd9a8 0%, #ffe9cc 40%, #cfe8c0 40%, #9fcf8a 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #ffe9cc;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(140, 90, 40, 0.5);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #8c5a28;
+  background: white;
+  box-shadow: 0 3px 0 rgba(140, 90, 40, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #8c5a28;
+  background: white;
+  color: #7a4a1c;
+  box-shadow: 0 2px 0 rgba(140, 90, 40, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* Today's letter, big and small side by side. */
+.letterCard {
+  border: 4px solid #8c5a28;
+  background: #fff7ec;
+  box-shadow: 0 5px 0 rgba(140, 90, 40, 0.3);
+  font-size: clamp(32px, 7dvh, 64px);
+}
+
+/* Four owls share one branch, capped by the screen height. */
+.tree {
+  --owl-w: clamp(64px, min(calc((100vw - 4rem) / 4.6), 22dvh), 170px);
+}
+
+.owlSlot {
+  width: var(--owl-w);
+  touch-action: manipulation;
+}
+
+.owl {
+  font-size: calc(var(--owl-w) * 0.72);
+  filter: drop-shadow(0 3px 2px rgba(34, 49, 79, 0.3));
+}
+
+/* The letter sign each owl holds. */
+.sign {
+  width: calc(var(--owl-w) * 0.78);
+  border: 4px solid #22314f;
+  background: var(--sign-color);
+  box-shadow: 0 4px 0 rgba(34, 49, 79, 0.2);
+  color: #22314f;
+  font-size: calc(var(--owl-w) * 0.42);
+}
+
+.branch {
+  height: calc(var(--owl-w) * 0.16);
+  border: 4px solid #4a2a0f;
+  background: linear-gradient(180deg, #a26a36 0%, #7a4a1c 100%);
+}
+
+/* The right owl after a miss. */
+.showAnswer {
+  filter: drop-shadow(0 0 14px #ffd23f) drop-shadow(0 0 6px #ffd23f);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--owl-w) * 0.7);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #8c5a28;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(140, 90, 40, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: the letter card sits beside the branch and the header tightens. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .board {
+    flex-direction: row;
+  }
+
+  .tree {
+    --owl-w: clamp(56px, 20dvh, 110px);
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

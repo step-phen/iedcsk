@@ -1,0 +1,117 @@
+/* Look of Lines; layout and spacing stay in Tailwind, line shapes, canvas colors and spoken lines stay in Lines.data.ts. */
+
+/* Backdrop; the picture itself is set from ASSETS.background. */
+.screen {
+  background-color: #fbf3e2;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  color: #1b355e;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.badge {
+  border: 2.5px solid #1b355e;
+  background: white;
+}
+
+.avatar {
+  background: #fde7c2;
+  color: #c4542c;
+}
+
+.roundButton {
+  border: 3px solid #1b355e;
+  background: white;
+  color: #1b355e;
+  box-shadow: 0 3px 0 rgba(27, 53, 94, 0.18);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+.roundButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Cream pill the instruction sits in, with the speaker button over its right end. */
+.instruction {
+  border: 3px solid white;
+  background: #fdf1d4;
+  color: #1b355e;
+  box-shadow: 0 3px 0 rgba(27, 53, 94, 0.12);
+}
+
+.pip {
+  border: 3px solid #d3e0f2;
+  background: #f4f8fe;
+  color: #3e5a85;
+}
+
+.pipActive {
+  border-color: white;
+  background: #f4a93f;
+  color: white;
+  box-shadow: 0 0 0 3px #f8cf8a;
+}
+
+.pipClean {
+  border-color: #3cb878;
+  background: #e4f7ed;
+  color: #1f7a4a;
+}
+
+.pipMessy {
+  border-color: #f2a70b;
+  background: #fffaf0;
+  color: #8a5a07;
+}
+
+.stage {
+  border: 4px solid #1b355e;
+  background: #fbfaf6;
+  box-shadow: 0 8px 0 rgba(27, 53, 94, 0.14);
+}
+
+.retryButton {
+  border: 3px solid #1b355e;
+  background: #f4a93f;
+  color: #1b355e;
+  box-shadow: 0 4px 0 rgba(27, 53, 94, 0.3);
+}
+
+.feedback {
+  border: 3px solid #f2a70b;
+  background: white;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+  animation: fadeIn 0.25s ease;
+}
+
+.resultScore {
+  color: #c4542c;
+}
+
+.result {
+  animation: pop 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feedback,
+  .result {
+    animation: none;
+  }
+}

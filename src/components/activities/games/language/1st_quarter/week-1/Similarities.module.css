@@ -1,0 +1,166 @@
+/* Look of Similarities; layout and spacing stay in Tailwind, artwork paths and spoken lines stay in Similarities.data.ts. */
+
+/* Cream paper; the picture itself is set from ASSETS.background. */
+.screen {
+  background-color: #fdf8ed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #16215c;
+}
+
+.badge {
+  border: 3px solid #16215c;
+  background: white;
+  box-shadow: 0 3px 0 rgba(22, 33, 92, 0.18);
+}
+
+.avatar {
+  background: #fde7c2;
+  color: #c4451f;
+}
+
+/* #3E5FC4 not #5B7FDB, since the lighter blue only reached 3.8:1 on white. */
+.instruction {
+  color: #3e5fc4;
+}
+
+/* Darkened from #EB6A45 (3.1:1), since it is the smallest text on screen. */
+.targetLabel {
+  color: #c4451f;
+}
+
+.targetCard {
+  border: 4px solid #f5b942;
+  background: white;
+  box-shadow: 0 6px 0 #e0a430;
+  animation: targetPop 0.35s ease-out;
+}
+
+.speakerButton {
+  border: 2px solid #16215c;
+  background: white;
+  box-shadow: 0 2px 0 rgba(22, 33, 92, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.speakerButton:active {
+  transform: scale(0.9);
+}
+
+.card {
+  border: 3.5px solid #16215c;
+  background: white;
+}
+
+/* A win and a revealed answer share one green, so the child has only one color to read. */
+.cardCorrect,
+.cardReveal {
+  border-color: #4caf63;
+  background: #effbf1;
+}
+
+.cardCorrect {
+  animation: popIn 0.3s ease-out;
+}
+
+/* After a miss the right card zooms in and glows, starting once the wrong card's shake is over, so the child's eye lands on the answer. */
+.cardReveal {
+  z-index: 1;
+  transform: scale(1.15);
+  animation:
+    revealZoom 0.45s 0.35s cubic-bezier(0.16, 1, 0.3, 1) backwards,
+    revealGlow 1.2s 0.8s ease-in-out infinite;
+}
+
+/* The other cards step back so only the answer stands out. */
+.cardDimmed {
+  opacity: 0.4;
+  transform: scale(0.92);
+  transition: opacity 250ms ease-out, transform 250ms ease-out;
+}
+
+.cardWrong {
+  border-color: #e85d3e;
+  animation: shake 0.4s ease-in-out;
+}
+
+.check {
+  border: 3px solid white;
+  background: #4caf63;
+}
+
+.retryButton {
+  border: 3px solid #16215c;
+  background: #f5b942;
+  color: #16215c;
+  box-shadow: 0 4px 0 rgba(22, 33, 92, 0.3);
+}
+
+.resultName {
+  color: #eb6a45;
+}
+
+.resultScore {
+  color: #3e5fc4;
+}
+
+.result {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.85); }
+  55% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes revealZoom {
+  0% { transform: scale(1); }
+  60% { transform: scale(1.22); }
+  100% { transform: scale(1.15); }
+}
+
+@keyframes revealGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(76, 175, 99, 0.55); }
+  50% { box-shadow: 0 0 0 14px rgba(76, 175, 99, 0); }
+}
+
+@keyframes targetPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes statusPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  65% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .targetCard,
+  .cardCorrect,
+  .cardWrong,
+  .cardReveal,
+  .result {
+    animation: none;
+  }
+
+  .cardDimmed {
+    transition: none;
+  }
+}
+
+.speakerButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

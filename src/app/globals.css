@@ -1,0 +1,267 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+/* Short screens such as a phone held landscape, where stacked layouts run out of height. */
+@custom-variant short (@media (max-height: 500px));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-chewy: var(--font-chewy);
+  --font-baloo2: var(--font-baloo2);
+  --font-poppins: var(--font-poppins);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-deep: var(--sidebar-deep);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+body {
+  font-family: var(--font-poppins), sans-serif;
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+
+  /* Teacher sidebar — the school's maroon rail with a single gold accent.
+     These are the only place the rail's colors are defined; the components
+     under components/layout read them through Tailwind's sidebar-* utilities. */
+  --sidebar: #5b0610;
+  --sidebar-deep: #43040c;
+  --sidebar-foreground: #f5efe0;
+  --sidebar-muted: #f5efe099;
+  --sidebar-primary: #f0c04d;
+  --sidebar-primary-foreground: #43040c;
+  --sidebar-accent: #6e0e19;
+  --sidebar-accent-foreground: #f5efe0;
+  --sidebar-border: #f5efe01f;
+  --sidebar-ring: #f0c04d;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  /* The rail is dark in both schemes — keep it identical so it can't drift. */
+  --sidebar: #5b0610;
+  --sidebar-deep: #43040c;
+  --sidebar-foreground: #f5efe0;
+  --sidebar-muted: #f5efe099;
+  --sidebar-primary: #f0c04d;
+  --sidebar-primary-foreground: #43040c;
+  --sidebar-accent: #6e0e19;
+  --sidebar-accent-foreground: #f5efe0;
+  --sidebar-border: #f5efe01f;
+  --sidebar-ring: #f0c04d;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-[#eae4c9] text-foreground;
+  }
+  html {
+    @apply font-sans bg-[#eae4c9];
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgb(0 0 0 / 0.2);
+  border-radius: 9999px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Floating translucent bar: page content scrolls under it, and the bright top edge reads as light on the material. */
+.material-bar {
+  background: rgb(255 255 255 / 0.72);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgb(255 255 255 / 0.7);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 10px 24px -14px rgb(0 0 0 / 0.25);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .material-bar {
+    background: white;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+@media (prefers-contrast: more) {
+  .material-bar {
+    background: white;
+    border-color: #6b7280;
+  }
+}
+
+/* Continuous marquee for text too wide for its container (see
+   components/ui/marquee-text.tsx). The travel distance is one full copy of
+   the text plus the trailing gap, so when the animation wraps, the duplicate
+   copy is sitting exactly where the original began — the loop is seamless
+   rather than snapping back. Distance is per-element, hence the variable. */
+@keyframes marquee-loop {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-1 * var(--marquee-distance)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-marquee-track] {
+    animation: none !important;
+  }
+}
+
+
+/* Learner screens' classroom art, pinned to the viewport and scaled to fill it so tablet and desktop show the same full scene. */
+.learner-bg {
+  position: relative;
+  isolation: isolate;
+}
+.learner-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url("/images/background-images/paper-bg.webp") center bottom / 100% 100% no-repeat;
+}
+/* A portrait phone would squash the wide scene, so it crops the sides instead and keeps the floor. */
+@media (orientation: portrait) {
+  .learner-bg::before {
+    background-size: cover;
+  }
+}
+
+/* Printed reports: only the report's .print-root copy (portaled into <body>) prints, never the teacher sidebar or header. */
+.print-root {
+  display: none;
+}
+@media print {
+  /* No page margin, which also drops the browser's own date, title and URL lines; the copy pads itself like the PDF instead. */
+  /* ponytail: pages after the first start flush at the top edge, add a repeating spacer if lists outgrow one page. */
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  /* Wide tables like the Classroom Record print sideways. */
+  @page landscape {
+    size: A4 landscape;
+    margin: 0;
+  }
+  .print-landscape {
+    page: landscape;
+  }
+  body > *:not(.print-root) {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+  }
+  .print-root {
+    display: block;
+    padding: 30pt 40pt;
+    font-family: Helvetica, Arial, sans-serif;
+    color: black;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

@@ -1,0 +1,392 @@
+/* Look of Draw the Lines; line geometry, colors and scoring stay in DrawTheLines.data.ts. */
+
+.screen {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at 15% 10%, #fff7e4 0%, #fdf8ed 45%, #f7f1e0 100%);
+  font-family: "Baloo 2", "Poppins", "Trebuchet MS", system-ui, sans-serif;
+  overflow: hidden;
+  padding: 14px 30px;
+}
+
+.centered {
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.homeButton {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 2.5px solid #16215c;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.learnerBadge {
+  position: absolute;
+  top: 10px;
+  left: 14px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px 4px 8px;
+  border: 2.5px solid #16215c;
+  border-radius: 999px;
+  background: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  color: #16215c;
+}
+
+.learnerBadgeName {
+  max-width: 8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 2px;
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #eb6a45;
+}
+
+.title {
+  margin: 1px 0 0 0;
+  font-size: clamp(20px, 2.6vw, 26px);
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #16215c;
+}
+
+.instruction {
+  font-size: 14px;
+  font-weight: 700;
+  color: #5b7fdb;
+}
+
+.progressTrack {
+  width: 260px;
+  height: 12px;
+  margin-top: 4px;
+  overflow: hidden;
+  border: 2px solid #16215c;
+  border-radius: 999px;
+  background: #ede4cc;
+}
+
+.progressFill {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f5b942, #eb6a45);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.canvasWrap {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  max-width: 1000px;
+  max-height: 640px;
+  touch-action: none;
+  cursor: pointer;
+}
+
+.toast {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: #16215c;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 800;
+  transform: translateX(-50%);
+}
+
+.footer {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 76px;
+}
+
+.clearButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 30px;
+  border: 3px solid #16215c;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 5px 0 #d8cda9;
+  color: #16215c;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.completeWrap {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+  padding: 10px 20px 20px;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.finishedBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border: 4px solid #16215c;
+  border-radius: 50%;
+  background: #4caf63;
+}
+
+.finishedTitle {
+  margin: 0;
+  font-size: clamp(24px, 3.6vw, 38px);
+  font-weight: 900;
+  color: #16215c;
+}
+
+.scoreRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scoreText {
+  font-size: 20px;
+  font-weight: 800;
+  color: #3e5fc4;
+}
+
+.badgeGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 640px;
+  margin-top: 4px;
+}
+
+.badgeCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 120px;
+  padding: 12px 14px;
+  border: 3px solid #16215c;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 0 #d8cda9;
+}
+
+.badgeTitle {
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+  color: #16215c;
+}
+
+.badgeTier {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.badgeScore {
+  font-size: 14px;
+  font-weight: 900;
+  color: #16215c;
+}
+
+.playAgainButton {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 12px 30px;
+  border: 3px solid #16215c;
+  border-radius: 999px;
+  background: #f5b942;
+  box-shadow: 0 5px 0 #c98f1e;
+  color: #16215c;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+@keyframes startPulse {
+  0%,
+  100% {
+    r: 26;
+    opacity: 0.25;
+  }
+  50% {
+    r: 34;
+    opacity: 0.08;
+  }
+}
+
+.startPulse {
+  animation: startPulse 1.1s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes nudgePulse {
+  0% {
+    r: 18;
+    opacity: 0.9;
+  }
+  100% {
+    r: 30;
+    opacity: 0;
+  }
+}
+
+.nudgePulse {
+  animation: nudgePulse 0.8s ease-out infinite;
+}
+
+@keyframes checkPop {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.checkPop {
+  animation: checkPop 0.35s ease-out;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes statusPop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  65% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.statusPop {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes toastPop {
+  0% {
+    transform: translateX(-50%) scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-50%) scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.toastPop {
+  animation: toastPop 0.3s ease-out;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-10px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(40px) rotate(220deg);
+    opacity: 0;
+  }
+}
+
+.confettiWrap {
+  position: relative;
+  width: 100%;
+  height: 40px;
+}
+
+.confettiPiece {
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 14px;
+  border-radius: 3px;
+  animation: confettiFall 1s ease-in infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen * {
+    animation: none !important;
+  }
+}

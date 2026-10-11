@@ -1,0 +1,190 @@
+/* Look of Reading Review; layout and spacing stay in Tailwind, the tasks and speech stay in ReadingReview.data.ts. */
+
+/* Park meadow art, bottom-anchored so the cards sit on the grass; upright screens get the tall version. */
+.screen {
+  background: #c8ecff url("/images/background-images/reading-review-bg.jpg") center bottom / cover no-repeat;
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+@media (orientation: portrait) {
+  .screen {
+    background-image: url("/images/background-images/reading-review-portrait-bg.jpg");
+  }
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #e3f6d0;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(76, 160, 60, 0.55);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #4ca03c;
+  background: white;
+  box-shadow: 0 3px 0 rgba(76, 160, 60, 0.35);
+}
+
+.roundButton {
+  border: 3px solid #4ca03c;
+  background: white;
+  color: #3a8a2c;
+  box-shadow: 0 2px 0 rgba(76, 160, 60, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The trail: ten stepping stones and a flag in one row, with room above for the learner's token; each stone is about 1.4 wide for each 1 tall. */
+.trail {
+  --stone: clamp(20px, min(calc((100vw - 5rem) / 16), 6.5dvh), 54px);
+  padding-top: calc(var(--stone) * 1.35);
+}
+
+.stone {
+  width: calc(var(--stone) * 1.4);
+  height: var(--stone);
+}
+
+/* A missed stone is the plain stone turned grey. */
+.stoneMissed {
+  filter: grayscale(1) brightness(0.92);
+  opacity: 0.8;
+}
+
+.stoneCurrent {
+  filter: drop-shadow(0 0 2px white) drop-shadow(0 0 4px #4ca03c) drop-shadow(0 0 4px #4ca03c);
+}
+
+/* The flag art is about 3 wide for each 4 tall, standing a little taller than the stones. */
+.flag {
+  width: calc(var(--stone) * 0.98);
+  height: calc(var(--stone) * 1.3);
+}
+
+.token {
+  width: calc(var(--stone) * 1.25);
+  height: calc(var(--stone) * 1.25);
+  border: 3px solid #22314f;
+  background: #e3f6d0;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+/* Three answer cards share one row, capped by the screen height; the target card is a little smaller. */
+.task {
+  --choice-w: clamp(80px, min(calc((100vw - 4rem) / 3.4), 30dvh), 220px);
+}
+
+/* Wide screens put the target card beside the answers, so the trail, target and answers all fit a 768px-tall tablet. */
+@media (orientation: landscape) {
+  .task {
+    flex-direction: row;
+  }
+}
+
+.target {
+  width: calc(var(--choice-w) * 0.85);
+  border: 4px dashed #4ca03c;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.choice {
+  width: var(--choice-w);
+  border: 4px solid #22314f;
+  background: white;
+  box-shadow: 0 6px 0 rgba(34, 49, 79, 0.2);
+  touch-action: manipulation;
+}
+
+.letter {
+  font-size: calc(var(--choice-w) * 0.5);
+}
+
+.emoji {
+  font-size: calc(var(--choice-w) * 0.5);
+}
+
+/* The card being named aloud. */
+.naming {
+  border-color: #4ca03c;
+  box-shadow: 0 0 0 4px #b9e6a8, 0 6px 0 rgba(34, 49, 79, 0.2);
+}
+
+/* The right card after a miss. */
+.showAnswer {
+  border-color: #e0a800;
+  box-shadow: 0 0 0 4px #ffd23f, 0 0 22px 6px rgba(255, 210, 63, 0.75);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--choice-w) * 0.6);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #4ca03c;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(76, 160, 60, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: the header and trail tighten. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

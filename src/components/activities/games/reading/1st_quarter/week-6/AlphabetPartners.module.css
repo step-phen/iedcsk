@@ -1,0 +1,162 @@
+/* Look of Alphabet Partners; layout and spacing stay in Tailwind, the lines stay in AlphabetPartners.data.ts. */
+
+/* Lakeside art, bottom-anchored so the water stays under the pond; upright screens get the tall version. */
+.screen {
+  background: #bfe8ff url("/images/background-images/alphabet-partners-bg.jpg") center bottom / cover no-repeat;
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+@media (orientation: portrait) {
+  .screen {
+    background-image: url("/images/background-images/alphabet-partners-portrait-bg.jpg");
+  }
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #d6efff;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(37, 120, 214, 0.55);
+}
+
+/* Solid with an edge, so it doesn't melt into the white clouds behind it. */
+.promptPill {
+  border: 3px solid #2578d6;
+  background: white;
+  box-shadow: 0 3px 0 rgba(37, 120, 214, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #2578d6;
+  background: white;
+  color: #2578d6;
+  box-shadow: 0 2px 0 rgba(37, 120, 214, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The wooden sign with the big letter the child is fishing for. */
+.sign {
+  width: clamp(72px, 16dvh, 150px);
+  border: 4px solid #6b3f1d;
+  background: linear-gradient(180deg, #e9b57a 0%, #d39556 100%);
+  box-shadow: 0 6px 0 rgba(107, 63, 29, 0.35);
+  color: #3a210c;
+  font-size: clamp(48px, 12dvh, 112px);
+}
+
+/* The pond: fish height is a share of the screen so five lanes always fit. */
+.pond {
+  --fish-h: clamp(44px, 10dvh, 96px);
+  /* See-through so the lake art shows; the light edge still marks where the fish swim. */
+  border: 4px solid rgba(255, 255, 255, 0.75);
+  background: rgba(47, 141, 232, 0.18);
+  box-shadow: inset 0 6px 18px rgba(0, 40, 90, 0.2);
+}
+
+/* Each fish is centred on its animated `left`, so it never swims out of the pond. */
+.fish {
+  height: var(--fish-h);
+  /* The fish art is about 1.45 wide for each 1 tall. */
+  width: calc(var(--fish-h) * 1.45);
+  margin-left: calc(var(--fish-h) * -0.725);
+  touch-action: manipulation;
+}
+
+.letter {
+  /* Sized to the belly patch, which is about half the fish's height. */
+  font-size: calc(var(--fish-h) * 0.5);
+  color: #22314f;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* The right fish after a miss. */
+.showAnswer {
+  filter: drop-shadow(0 0 10px #ffd23f) drop-shadow(0 0 4px #ffd23f);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--fish-h) * 0.9);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #2578d6;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(37, 120, 214, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: the sign sits beside the pond and the header tightens. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .board {
+    flex-direction: row;
+  }
+
+  .sign {
+    width: clamp(64px, 26dvh, 120px);
+    font-size: clamp(40px, 18dvh, 90px);
+  }
+
+  .pond {
+    --fish-h: clamp(38px, 11dvh, 62px);
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

@@ -1,0 +1,162 @@
+/* Look of Say and Point: Ii and Oo; layout and spacing stay in Tailwind, the lines stay in SayAndPointIiOo.data.ts. */
+
+/* A wide open sky over a fairground lawn; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #8fd0ff 0%, #d4efff 62%, #c8e99a 62%, #a6d670 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #ffe1e1;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(230, 80, 80, 0.45);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #e65050;
+  background: white;
+  box-shadow: 0 3px 0 rgba(230, 80, 80, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #e65050;
+  background: white;
+  color: #c43a3a;
+  box-shadow: 0 2px 0 rgba(230, 80, 80, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* Today's two letters, big and small, side by side. */
+.letterCard {
+  border: 4px solid #e65050;
+  background: #fff4f4;
+  box-shadow: 0 5px 0 rgba(230, 80, 80, 0.3);
+  font-size: clamp(28px, 6dvh, 56px);
+}
+
+/* Four balloons share one row, capped by the screen height; a balloon is 0.82 wide for each 1 tall, with its string below. */
+.bunch {
+  --balloon-w: clamp(62px, min(calc((100vw - 4rem) / 4.6), 22dvh), 170px);
+}
+
+.balloonSlot {
+  width: var(--balloon-w);
+  touch-action: manipulation;
+}
+
+.balloon {
+  width: var(--balloon-w);
+  aspect-ratio: 0.82 / 1;
+  border: 4px solid #22314f;
+  border-radius: 50% 50% 48% 48% / 56% 56% 44% 44%;
+  background:
+    radial-gradient(ellipse at 32% 26%, rgba(255, 255, 255, 0.75) 0 10%, rgba(255, 255, 255, 0) 24%),
+    var(--balloon-color);
+  color: #22314f;
+  font-size: calc(var(--balloon-w) * 0.5);
+}
+
+/* The little knot under the balloon. */
+.knot {
+  width: calc(var(--balloon-w) * 0.14);
+  height: calc(var(--balloon-w) * 0.1);
+  margin-top: -3px;
+  border: 3px solid #22314f;
+  border-radius: 40% 40% 20% 20%;
+  background: var(--balloon-color);
+}
+
+.string {
+  width: 2px;
+  height: calc(var(--balloon-w) * 0.55);
+  background: #22314f;
+}
+
+/* The right balloon after a miss. */
+.showAnswer {
+  filter: drop-shadow(0 0 14px #ffd23f) drop-shadow(0 0 6px #ffd23f);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--balloon-w) * 0.7);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #e65050;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(230, 80, 80, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: the letter card sits beside the balloons and the header tightens. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .board {
+    flex-direction: row;
+  }
+
+  .bunch {
+    --balloon-w: clamp(56px, 20dvh, 110px);
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

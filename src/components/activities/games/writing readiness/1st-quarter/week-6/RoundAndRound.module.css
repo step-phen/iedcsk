@@ -1,0 +1,217 @@
+/* Look of Round and Round; layout and spacing stay in Tailwind (TraceCopyGame), the shapes and speech stay in RoundAndRound.data.ts. */
+
+/* A sunny leafy garden; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #e3f6d2 0%, #c7ebb0 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #e3f6d2;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(63, 174, 114, 0.5);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #3fae72;
+  background: white;
+  box-shadow: 0 3px 0 rgba(63, 174, 114, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #3fae72;
+  background: white;
+  color: #2b8a57;
+  box-shadow: 0 2px 0 rgba(63, 174, 114, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The strip showing what has been built so far. */
+.progress {
+  height: clamp(44px, 11dvh, 100px);
+}
+
+/* The trace pad and the copy box: side by side on wide screens, one above the other when upright. */
+.pads {
+  flex-direction: row;
+  gap: clamp(10px, 2vw, 28px);
+}
+
+@media (orientation: portrait) {
+  .pads {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.pad {
+  width: 100%;
+  max-width: 620px;
+  border: 4px solid transparent;
+  background: rgba(255, 255, 255, 0.45);
+  transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+/* The pad the child should use now. */
+.padActive {
+  border-color: #3fae72;
+  box-shadow: 0 0 0 3px rgba(63, 174, 114, 0.25), 0 0 20px 4px rgba(63, 174, 114, 0.35);
+}
+
+.padLabel {
+  border: 2px solid #3fae72;
+  background: white;
+  font-size: clamp(14px, 2.4dvh, 22px);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: clamp(80px, 20dvh, 180px);
+  text-shadow: 0 0 0 white, 0 4px 0 white, 0 -4px 0 white, 4px 0 0 white, -4px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #3fae72;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(63, 174, 114, 0.3);
+}
+
+/* The caterpillar: overlapping round segments ending in a head. */
+.caterpillar {
+  --seg: clamp(30px, 9dvh, 84px);
+  height: 100%;
+  align-items: center;
+}
+
+.segment {
+  width: var(--seg);
+  height: var(--seg);
+  margin-right: calc(var(--seg) * -0.18);
+  border: 3px solid #2b6a3f;
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.segEmpty {
+  border: 3px dashed rgba(43, 106, 63, 0.45);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.segNow {
+  border: 3px dashed #2b6a3f;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.segMissed {
+  background: #c9d1c4;
+}
+
+.head {
+  width: calc(var(--seg) * 1.15);
+  height: calc(var(--seg) * 1.15);
+  border: 3px solid #2b6a3f;
+  background: #7ed957;
+}
+
+/* Two eyes, drawn as one dot with its twin as a shadow. */
+.eye {
+  top: 32%;
+  left: 30%;
+  width: 16%;
+  height: 16%;
+  background: #22314f;
+  box-shadow: calc(var(--seg) * 0.36) 0 0 #22314f;
+}
+
+/* Two antennae with round tips. */
+.head::before,
+.head::after {
+  content: "";
+  position: absolute;
+  top: -32%;
+  width: 3px;
+  height: 36%;
+  background: #2b6a3f;
+}
+
+.head::before {
+  left: 32%;
+  transform: rotate(-18deg);
+}
+
+.head::after {
+  right: 32%;
+  transform: rotate(18deg);
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the pads get the rest. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .progress {
+    height: 34px;
+    margin-top: 4px;
+  }
+
+  .padLabel {
+    font-size: 12px;
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

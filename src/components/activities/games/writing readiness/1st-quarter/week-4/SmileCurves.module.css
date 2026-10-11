@@ -1,0 +1,128 @@
+/* Look of Smile Curves; layout and spacing stay in Tailwind, the faces and speech stay in SmileCurves.data.ts. */
+
+/* A cheerful polka-dot playroom wall with a toy shelf along the bottom; upright screens get the tall version. */
+.screen {
+  background: #fbf3e6 url("/images/background-images/smile-curves-bg.jpg") center bottom / cover no-repeat;
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #3b2a1a;
+}
+
+.pill {
+  border: 3px solid #3b2a1a;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(59, 42, 26, 0.25);
+}
+
+.avatar {
+  background: #ffe6f0;
+}
+
+.title {
+  color: #3b2a1a;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(255, 111, 145, 0.5);
+}
+
+@media (orientation: portrait) {
+  .screen {
+    background-image: url("/images/background-images/smile-curves-portrait-bg.jpg");
+  }
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #ff6f91;
+  background: white;
+  box-shadow: 0 3px 0 rgba(255, 111, 145, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #ff6f91;
+  background: white;
+  color: #d9476d;
+  box-shadow: 0 2px 0 rgba(255, 111, 145, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The face board fills the space left under the header; the stage keeps its own shape inside it. */
+.board {
+  max-width: 1100px;
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: clamp(80px, 22dvh, 200px);
+  text-shadow: 0 0 0 white, 0 4px 0 white, 0 -4px 0 white, 4px 0 0 white, -4px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #ff6f91;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(255, 111, 145, 0.3);
+}
+
+/* The finished friends, five small faces in a row or two, leaving room for the score card below. */
+.parade {
+  gap: clamp(6px, 2vw, 20px);
+  padding-bottom: clamp(70px, 14dvh, 120px);
+}
+
+.friendMini {
+  width: clamp(90px, min(28vw, 30dvh), 220px);
+  aspect-ratio: 800 / 480;
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the board gets the rest. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .doneCard {
+    padding: 4px 16px;
+  }
+
+  .doneScore {
+    font-size: 26px;
+  }
+
+  .parade {
+    padding-bottom: 64px;
+  }
+
+  .friendMini {
+    width: clamp(80px, 17vw, 160px);
+  }
+}

@@ -1,0 +1,212 @@
+/* Look of Vowel Baskets; layout and spacing stay in Tailwind, the pictures and speech stay in VowelsReview.data.ts. */
+
+.screen {
+  background: #bfe8f5;
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #d7f6ef;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(13, 148, 136, 0.6);
+}
+
+.promptPill {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.15);
+}
+
+.roundButton {
+  border: 3px solid #0d9488;
+  background: white;
+  color: #0d9488;
+  box-shadow: 0 2px 0 rgba(13, 148, 136, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The picture the child moves; it lifts and glows once tapped. */
+.card {
+  border: 4px solid #22314f;
+  background: white;
+  box-shadow: 0 6px 0 rgba(34, 49, 79, 0.25);
+  touch-action: none;
+  cursor: grab;
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+.selected {
+  box-shadow: 0 0 0 6px #ffd23f, 0 10px 24px rgba(34, 49, 79, 0.3);
+}
+
+/* --h is one basket's visible height; five in a row are about 8.1 --h wide, three across about 5 --h. */
+.baskets {
+  --h: min(calc((100vw - 4rem) / 8.1), 19dvh);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: calc(var(--h) * 0.25);
+  padding-top: calc(var(--h) * 0.2);
+}
+
+/* Wide screens ignore the row wrappers, so all five baskets share one line. */
+.basketRow {
+  display: contents;
+}
+
+/* Upright screens: three baskets over two, each row centred; three across are about 4.7 --h. */
+@media (orientation: portrait) {
+  .baskets {
+    --h: min(calc((100vw - 2rem) / 4.7), 13dvh);
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--h) * 0.3);
+  }
+
+  .basketRow {
+    display: flex;
+    align-items: flex-end;
+    gap: calc(var(--h) * 0.2);
+  }
+}
+
+/* Upright tablets have the wider sm: side padding. */
+@media (orientation: portrait) and (min-width: 640px) {
+  .baskets {
+    --h: min(calc((100vw - 4rem) / 4.7), 13dvh);
+  }
+}
+
+/* The box is the art's opaque area (measured from the webp) with the full image pushed out past it, so transparent padding never adds space. */
+.basket {
+  position: relative;
+  flex: none;
+  height: var(--h);
+  aspect-ratio: 834 / 590;
+  container-type: inline-size;
+}
+
+.basketArt {
+  position: absolute;
+  left: -32.494%;
+  top: -15.085%;
+  width: 164.988%;
+  height: 130.169%;
+  pointer-events: none;
+}
+
+/* Only the front wall and rim below the opening, laid over the pictures. */
+.basketFront {
+  clip-path: inset(39% 0 0 0);
+}
+
+/* A basket the picture is over, or any basket while a picture is picked up by tapping. */
+.target {
+  filter: drop-shadow(0 0 10px #ffd23f) drop-shadow(0 0 4px #ffd23f);
+}
+
+/* The right basket after a miss. */
+.showAnswer {
+  filter: drop-shadow(0 0 14px #ffd23f) drop-shadow(0 0 6px #ffd23f);
+}
+
+/* The X over a basket picked by mistake. */
+.wrongMark {
+  color: #d63c2f;
+  font-size: 42cqw;
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.label {
+  color: #22314f;
+  transition: background-color 200ms ease-out, color 200ms ease-out;
+}
+
+/* Lights up after a right answer. */
+.lit {
+  background: #ffd23f;
+  color: #7a3d00;
+}
+
+.thumb {
+  filter: drop-shadow(0 2px 2px rgba(34, 49, 79, 0.35));
+}
+
+.doneCard {
+  border: 4px solid #0d9488;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(13, 148, 136, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: everything above the baskets tightens so the picture and all five baskets still fit. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .baskets {
+    --h: min(calc((100vw - 2rem) / 8.1), 21dvh);
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+
+  .doneLine {
+    font-size: 16px;
+  }
+}

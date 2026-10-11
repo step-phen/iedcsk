@@ -1,0 +1,202 @@
+/* Look of Size Sort; layout and spacing stay in Tailwind, the objects, groups and speech stay in SizeSort.data.ts. */
+
+/* No scenery art for this game yet, so a soft peach-to-sky paper stands in. */
+.screen {
+  background: linear-gradient(180deg, #fff3e0 0%, #fef0e6 55%, #eef6ff 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #ffe0c2;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(217, 119, 6, 0.55);
+}
+
+.promptPill {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.15);
+}
+
+.roundButton {
+  border: 3px solid #d97706;
+  background: white;
+  color: #d97706;
+  box-shadow: 0 2px 0 rgba(217, 119, 6, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The object the child moves; it lifts and glows once tapped. */
+.card {
+  border: 4px solid #22314f;
+  background: white;
+  box-shadow: 0 6px 0 rgba(34, 49, 79, 0.25);
+  touch-action: none;
+  cursor: grab;
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+.selected {
+  box-shadow: 0 0 0 6px #ffd23f, 0 10px 24px rgba(34, 49, 79, 0.3);
+}
+
+/* Both group panels sit on one shared baseline; the Big one is drawn larger so the two groups read as different sizes. */
+.groups {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(16px, 4vw, 48px);
+}
+
+.group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(4px, 1dvh, 10px);
+  border: 4px dashed #d97706;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 6px 0 rgba(217, 119, 6, 0.25);
+  padding: clamp(6px, 1.2dvh, 14px) clamp(8px, 1.5vw, 18px);
+}
+
+.groupBig {
+  width: clamp(220px, 34vw, 420px);
+  height: clamp(170px, 30dvh, 300px);
+}
+
+.groupSmall {
+  width: clamp(140px, 22vw, 260px);
+  height: clamp(110px, 20dvh, 190px);
+}
+
+/* The group a dragged object is over, or either group while an object is picked up by tapping. */
+.target {
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 20px 6px rgba(255, 210, 63, 0.6);
+}
+
+/* The right group after a miss. */
+.showAnswer {
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 24px 8px rgba(255, 210, 63, 0.7);
+}
+
+.label {
+  flex: none;
+  color: #22314f;
+  transition: background-color 200ms ease-out, color 200ms ease-out;
+}
+
+/* Lights up after a right answer. */
+.lit {
+  background: #ffd23f;
+  color: #7a3d00;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  gap: 4%;
+  width: 100%;
+  min-height: 0;
+}
+
+.thumb {
+  filter: drop-shadow(0 2px 2px rgba(34, 49, 79, 0.35));
+}
+
+/* The X over a group picked by mistake. */
+.wrongMark {
+  color: #d63c2f;
+  font-size: clamp(28px, 8dvh, 56px);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #d97706;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(217, 119, 6, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: everything above the groups tightens so the object and both groups fit. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .groupBig {
+    width: clamp(160px, 26vw, 300px);
+    height: clamp(110px, 32dvh, 190px);
+  }
+
+  .groupSmall {
+    width: clamp(110px, 18vw, 200px);
+    height: clamp(80px, 22dvh, 130px);
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+
+  .doneLine {
+    font-size: 16px;
+  }
+}

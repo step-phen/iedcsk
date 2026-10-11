@@ -1,0 +1,244 @@
+/* Look of Language Review; layout and spacing stay in Tailwind, the tasks and speech stay in LanguageReview.data.ts. */
+
+/* A starry launch pad at dusk; no art yet, so gradients stand in. */
+.screen {
+  background:
+    radial-gradient(circle at 15% 18%, rgba(255, 255, 255, 0.9) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 72% 12%, rgba(255, 255, 255, 0.8) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 88% 40%, rgba(255, 255, 255, 0.7) 0 1px, transparent 2px),
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.7) 0 1px, transparent 2px),
+    linear-gradient(180deg, #2b3a7a 0%, #5a5fb0 45%, #f0a0b8 85%, #ffd3a0 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #1f2a52;
+}
+
+.pill {
+  border: 3px solid #1f2a52;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 3px 0 rgba(31, 42, 82, 0.35);
+}
+
+.avatar {
+  background: #dfe4ff;
+}
+
+.title {
+  color: white;
+  text-shadow: 0 2px 0 #1f2a52, 0 4px 0 rgba(31, 42, 82, 0.6);
+}
+
+/* Solid with an edge, so it never melts into the sky. */
+.promptPill {
+  border: 3px solid #1f2a52;
+  background: white;
+  box-shadow: 0 3px 0 rgba(31, 42, 82, 0.35);
+}
+
+.roundButton {
+  border: 3px solid #4a57b8;
+  background: white;
+  color: #3a46a0;
+  box-shadow: 0 2px 0 rgba(31, 42, 82, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* Upright screens put the fuel gauge above the task; wide screens stand it up on the left. */
+.mission {
+  flex-direction: column;
+}
+
+.task {
+  --choice-w: clamp(76px, min(calc((100vw - 4rem) / 3.4), 28dvh), 210px);
+}
+
+.gauge {
+  --cell: clamp(14px, min(calc((100vw - 8rem) / 12), 4.5dvh), 34px);
+  flex-direction: row;
+  gap: calc(var(--cell) * 0.2);
+}
+
+.rocketTilt {
+  transform: rotate(45deg);
+}
+
+@media (orientation: landscape) {
+  .mission {
+    flex-direction: row;
+  }
+
+  .task {
+    --choice-w: clamp(70px, min(calc((100vw - 4rem - 70px) / 4.4), 34dvh), 210px);
+    flex-direction: row;
+  }
+
+  .gauge {
+    --cell: clamp(12px, calc((100dvh - 230px) / 12), 40px);
+    flex-direction: column-reverse;
+  }
+
+  .rocketTilt {
+    transform: rotate(-45deg);
+  }
+}
+
+.cell {
+  width: var(--cell);
+  height: var(--cell);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  background: rgba(31, 42, 82, 0.45);
+  font-size: calc(var(--cell) * 0.6);
+}
+
+.cellNow {
+  border-color: #ffd23f;
+  box-shadow: 0 0 8px 2px rgba(255, 210, 63, 0.7);
+}
+
+.cellOn {
+  border-color: #fff3c0;
+  background: linear-gradient(180deg, #ffe066 0%, #f2b134 100%);
+}
+
+.cellMissed {
+  background: #9aa3c4;
+}
+
+.rocket {
+  font-size: calc(var(--cell) * 1.6);
+  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.3));
+}
+
+.target {
+  width: calc(var(--choice-w) * 0.85);
+  border: 4px dashed #ffd23f;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* A chunky control-panel button that presses down. */
+.console {
+  width: var(--choice-w);
+  border: 4px solid #1f2a52;
+  background: linear-gradient(180deg, #ffffff 0%, #e6eaff 100%);
+  box-shadow: 0 6px 0 #1f2a52;
+  touch-action: manipulation;
+}
+
+.light {
+  width: calc(var(--choice-w) * 0.1);
+  height: calc(var(--choice-w) * 0.1);
+  border: 2px solid #1f2a52;
+  background: #c8cde3;
+}
+
+.lightBlue {
+  background: #5aa9ff;
+  box-shadow: 0 0 8px 2px #5aa9ff;
+}
+
+.lightGreen {
+  background: #3cd070;
+  box-shadow: 0 0 8px 2px #3cd070;
+}
+
+.lightGold {
+  background: #ffd23f;
+  box-shadow: 0 0 8px 2px #ffd23f;
+}
+
+.letter {
+  font-size: calc(var(--choice-w) * 0.42);
+}
+
+.label {
+  font-size: calc(var(--choice-w) * 0.12);
+}
+
+/* The button being named aloud. */
+.naming {
+  border-color: #3a7be0;
+}
+
+/* The right button, tapped first time. */
+.right {
+  border-color: #2fae5a;
+  box-shadow: 0 6px 0 #2fae5a, 0 0 18px 4px rgba(60, 208, 112, 0.6);
+}
+
+/* The right button after a miss. */
+.showAnswer {
+  border-color: #e0a800;
+  box-shadow: 0 6px 0 #e0a800, 0 0 0 4px #ffd23f, 0 0 24px 8px rgba(255, 210, 63, 0.8);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--choice-w) * 0.6);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #1f2a52;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(31, 42, 82, 0.35);
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the task gets the rest. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .task {
+    --choice-w: clamp(64px, min(calc((100vw - 4rem - 60px) / 4.6), 50dvh), 210px);
+  }
+
+  .gauge {
+    --cell: clamp(10px, calc((100dvh - 150px) / 13), 30px);
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

@@ -1,0 +1,221 @@
+/* Look of Long and Short; layout and spacing stay in Tailwind, artwork paths and sizes stay in LongOrShort.data.ts. */
+
+/* Jungle-framed paper; the picture itself is set from ASSETS.background. */
+.screen {
+  background-color: #fcf7ea;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.badge {
+  border: 3px solid #8b5cf6;
+  background: white;
+  box-shadow: 0 3px 0 rgba(139, 92, 246, 0.25);
+}
+
+.avatar {
+  background: #ece3ff;
+}
+
+.promptPill {
+  background: rgba(214, 233, 250, 0.9);
+}
+
+/* LONGER / SHORTER: the word the child listens for, in green with a soft underline. */
+.askWord {
+  color: #1f7a3a;
+  text-decoration: underline;
+  text-decoration-color: #8fd19b;
+  text-decoration-thickness: 5px;
+  text-underline-offset: 6px;
+}
+
+.speakerButton {
+  border: 3px solid #2f7de1;
+  background: white;
+  color: #2f7de1;
+  box-shadow: 0 2px 0 rgba(47, 125, 225, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.speakerButton:active {
+  transform: scale(0.9);
+}
+
+/* Both pictures share one width so the short one is drawn at its true share of the long one. */
+.pictures {
+  width: min(100%, 52rem, 110dvh);
+}
+
+.picture {
+  transition: transform 150ms ease-out;
+}
+
+/* Soft ground shadow under each picture. */
+.picture::before {
+  content: "";
+  position: absolute;
+  left: 2%;
+  right: 6%;
+  bottom: 6%;
+  height: 14%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(60, 50, 20, 0.18), transparent);
+}
+
+.picture:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+/* After a wrong tap the right picture zooms in, then keeps wiggling until the next question. */
+.showAnswer {
+  z-index: 1;
+  transform-origin: left center;
+  border-radius: 12px;
+  box-shadow: 0 0 0 4px #ffd23f, 0 0 28px 8px #ffd23f;
+  animation:
+    answerZoom 500ms cubic-bezier(0.16, 1, 0.3, 1) 300ms forwards,
+    answerWiggle 1s ease-in-out 800ms infinite;
+}
+
+@keyframes answerZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.12); }
+}
+
+/* Starts from the zoomed size, so it carries straight on from answerZoom. */
+@keyframes answerWiggle {
+  0%, 100% { transform: scale(1.12) rotate(0deg); }
+  25% { transform: scale(1.16) rotate(-3deg); }
+  75% { transform: scale(1.16) rotate(3deg); }
+}
+
+.toast {
+  border-width: 2px;
+  border-style: solid;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+.toastSuccess {
+  border-color: #2f9e8f;
+  background: #dcf3ee;
+  color: #1f6f65;
+}
+
+.toastError {
+  border-color: #b34a3c;
+  background: #fbe3e1;
+  color: #7a2017;
+}
+
+.stamp {
+  border: 4px solid white;
+  background: #2f9e8f;
+  color: white;
+  box-shadow: 0 0 0 3px #2f9e8f, 0 4px 0 rgba(34, 49, 79, 0.35);
+}
+
+.replayButton {
+  border: 2px solid #22314f;
+  background: #fffdf6;
+  box-shadow: 0 2px 0 rgba(34, 49, 79, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.replayButton:active {
+  transform: scale(0.9);
+}
+
+.recapChip {
+  border: 2px solid rgba(34, 49, 79, 0.2);
+  background: #fffdf6;
+  color: #a89b73;
+  box-shadow: 0 2px 0 rgba(34, 49, 79, 0.15);
+}
+
+.recapCorrect {
+  background: #2f9e8f;
+}
+
+.recapMissed {
+  background: #b34a3c;
+}
+
+.finishButton {
+  border: 3px solid #22314f;
+  background: #ffd23f;
+  color: #22314f;
+  box-shadow: 3px 3px 0 #22314f, 0 16px 24px -14px rgba(34, 49, 79, 0.45);
+}
+
+.finishButton:active {
+  translate: 0 2px;
+  box-shadow: 1px 1px 0 #22314f;
+}
+
+/* Phones held sideways are only ~300px tall: smaller header text and pictures sized by height. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px 8px;
+  }
+
+  .title {
+    height: 34px;
+  }
+
+  .badge {
+    padding: 4px 10px;
+    border-width: 2px;
+  }
+
+  .badge > span {
+    font-size: 15px;
+  }
+
+  .scoreBadge {
+    height: 36px;
+  }
+
+  .instruction {
+    display: none;
+  }
+
+  .prompt {
+    font-size: 20px;
+  }
+
+  .promptPill {
+    padding: 2px 4px 2px 18px;
+  }
+
+  .speakerButton {
+    width: 34px;
+    height: 34px;
+  }
+
+  .pictures {
+    width: min(100%, 95dvh);
+  }
+
+  .board {
+    gap: 2dvh;
+  }
+
+  .result {
+    gap: 1.5dvh;
+  }
+
+  .finishButton {
+    padding: 8px 32px;
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showAnswer {
+    animation: none;
+  }
+}

@@ -1,0 +1,182 @@
+.title {
+  width: min(100%, 360px);
+  aspect-ratio: 3 / 1;
+}
+
+/* Slot and pill offsets are measured from the 1983x793 plank artwork. */
+.stars {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: min(34%, 220px);
+  aspect-ratio: 1983 / 793;
+}
+
+.starRow {
+  position: absolute;
+  left: 9%;
+  right: 9.5%;
+  top: 24%;
+  height: 34%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.starCount {
+  position: absolute;
+  left: 33%;
+  right: 33%;
+  top: 61%;
+  height: 21%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(13px, 3.5vw, 18px);
+  font-weight: 800;
+  color: #6b4a12;
+}
+
+/* The banner file has transparent padding above and below the blank panel.
+   Crop that padding in its display box, keeping the instruction above the art. */
+.instructionArtwork {
+  overflow: hidden;
+}
+
+.instructionArtwork img {
+  object-fit: fill;
+  height: 200% !important;
+  top: -50% !important;
+}
+
+.correct {
+  animation: pop 360ms ease-out;
+}
+
+.wrong {
+  animation: shake 500ms ease-in-out;
+}
+
+.celebrate {
+  animation: sparkle 650ms ease-out;
+}
+
+.hint {
+  animation: hintPulse 600ms ease-in-out 2;
+}
+
+@keyframes hintPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217, 155, 22, 0.15); }
+  50% { box-shadow: 0 0 0 5px rgba(217, 155, 22, 0.45); }
+}
+
+/* Keep the full board visible on short landscape tablets.
+   Smaller phones can scroll vertically without clipping or shrinking taps. */
+@media (min-width: 640px) and (max-height: 700px) {
+  .root {
+    padding: 8px 16px;
+  }
+
+  .shell {
+    gap: 6px;
+  }
+
+  .title {
+    width: 210px;
+  }
+
+  .stars {
+    width: 170px;
+  }
+
+  .instruction button {
+    width: 48px;
+    height: 48px;
+  }
+
+  .instruction p {
+    font-size: 18px;
+  }
+
+  .grid {
+    gap: 10px;
+    padding: 6px;
+  }
+
+  .grid button {
+    min-height: 64px;
+    padding: 4px;
+  }
+
+  .letter {
+    height: clamp(44px, 9dvh, 62px);
+  }
+
+  .letter>span {
+    font-size: clamp(40px, 8dvh, 54px);
+  }
+
+  .feedback {
+    min-height: 48px;
+    font-size: 20px;
+  }
+}
+
+@keyframes pop {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.08);
+  }
+
+  75% {
+    transform: scale(0.97);
+  }
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25%,
+  65% {
+    transform: translateX(-4px);
+  }
+
+  45%,
+  85% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes sparkle {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(1.15) rotate(-5deg);
+  }
+
+  70% {
+    transform: scale(1.05) rotate(5deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .correct,
+  .wrong,
+  .hint,
+  .celebrate {
+    animation: none;
+  }
+}

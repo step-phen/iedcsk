@@ -1,0 +1,105 @@
+/* Look of Rainbow Curves; layout and spacing stay in Tailwind, the arches and speech stay in RainbowCurves.data.ts. */
+
+/* A clear blue sky with a soft green hill; no art yet, so gradients stand in. */
+.screen {
+  background:
+    radial-gradient(ellipse 70% 18% at 50% 100%, #9fdc7c 0 98%, transparent 100%),
+    linear-gradient(180deg, #8fd0ff 0%, #c8e9ff 60%, #eaf7ff 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #1f3a5a;
+}
+
+.pill {
+  border: 3px solid #1f3a5a;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(31, 58, 90, 0.25);
+}
+
+.avatar {
+  background: #dff1ff;
+}
+
+.title {
+  color: #1f3a5a;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(255, 90, 90, 0.45);
+}
+
+/* Solid with an edge, so it never melts into the sky. */
+.promptPill {
+  border: 3px solid #4a8ff0;
+  background: white;
+  box-shadow: 0 3px 0 rgba(74, 143, 240, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #4a8ff0;
+  background: white;
+  color: #2f6fd0;
+  box-shadow: 0 2px 0 rgba(74, 143, 240, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The sky board fills the space left under the header; the stage keeps its own shape inside it. */
+.board {
+  max-width: 1100px;
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: clamp(80px, 22dvh, 200px);
+  text-shadow: 0 0 0 white, 0 4px 0 white, 0 -4px 0 white, 4px 0 0 white, -4px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #4a8ff0;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(74, 143, 240, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the board gets the rest. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .doneCard {
+    padding: 4px 16px;
+  }
+
+  .doneScore {
+    font-size: 26px;
+  }
+}

@@ -1,0 +1,221 @@
+/* Look of Count the Objects; layout and spacing stay in Tailwind, the objects and speech stay in CountTheObjects.data.ts. */
+
+/* A sunny park lawn; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #c8ecff 0%, #e8f7ff 30%, #b7e39a 30%, #93cf72 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #fff1e6;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(226, 84, 70, 0.45);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #e25446;
+  background: white;
+  box-shadow: 0 3px 0 rgba(226, 84, 70, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #e25446;
+  background: white;
+  color: #c03a2d;
+  box-shadow: 0 2px 0 rgba(226, 84, 70, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* Wide screens put the jar beside the blanket; upright ones put it underneath. Objects size off the screen. */
+.scene {
+  --obj: clamp(44px, min(9vw, 13dvh), 120px);
+  flex-direction: row;
+  gap: clamp(10px, 2.5vw, 32px);
+}
+
+/* A red-and-white checked picnic blanket; the numeral cards size off it. */
+.blanket {
+  flex: 1;
+  height: 100%;
+  max-width: 900px;
+  border: 4px solid #b23a2e;
+  background:
+    repeating-linear-gradient(90deg, rgba(226, 84, 70, 0.55) 0 calc(var(--obj) * 0.45), transparent calc(var(--obj) * 0.45) calc(var(--obj) * 0.9)),
+    repeating-linear-gradient(0deg, rgba(226, 84, 70, 0.55) 0 calc(var(--obj) * 0.45), transparent calc(var(--obj) * 0.45) calc(var(--obj) * 0.9)),
+    #fffaf3;
+  box-shadow: 0 8px 0 rgba(120, 40, 30, 0.25);
+  container-type: size;
+}
+
+.object {
+  width: var(--obj);
+  height: var(--obj);
+  touch-action: manipulation;
+  filter: drop-shadow(0 4px 3px rgba(34, 49, 79, 0.3));
+}
+
+.jar {
+  width: calc(var(--obj) * 3.3);
+  height: min(100%, calc(var(--obj) * 4.4));
+}
+
+.lid {
+  width: 82%;
+  height: calc(var(--obj) * 0.32);
+  border: 3px solid #22314f;
+  background: linear-gradient(180deg, #ff8a65 0%, #e25446 100%);
+}
+
+/* The glass: see-through blue with a shine down one side, round at the bottom. */
+.glass {
+  gap: calc(var(--obj) * 0.06);
+  padding: calc(var(--obj) * 0.1);
+  border: 5px solid rgba(255, 255, 255, 0.95);
+  border-top-width: 3px;
+  border-radius: 14px 14px 32% 32% / 14px 14px 18% 18%;
+  background:
+    linear-gradient(90deg, transparent 0 12%, rgba(255, 255, 255, 0.55) 12% 18%, transparent 18%),
+    rgba(190, 228, 255, 0.55);
+  box-shadow: inset 0 0 18px rgba(80, 140, 200, 0.35), 0 6px 0 rgba(34, 49, 79, 0.15);
+}
+
+.jarItem {
+  width: calc(var(--obj) * 0.82);
+  height: calc(var(--obj) * 0.82);
+}
+
+/* The count number each object wears in the jar. */
+.badge {
+  width: calc(var(--obj) * 0.36);
+  height: calc(var(--obj) * 0.36);
+  border: 2px solid white;
+  background: #e25446;
+  color: white;
+  font-size: calc(var(--obj) * 0.22);
+}
+
+/* The numeral cards, laid out across the blanket. */
+.cards {
+  gap: 3cqw;
+  padding: 4cqh 3cqw;
+}
+
+.card {
+  width: min(19cqw, 34cqh);
+  border: 5px solid #22314f;
+  background: white;
+  color: #22314f;
+  font-size: min(12cqw, 22cqh);
+  box-shadow: 0 6px 0 rgba(34, 49, 79, 0.25);
+  touch-action: manipulation;
+}
+
+/* The right card, picked first time. */
+.right {
+  border-color: #2fae5a;
+  box-shadow: 0 6px 0 #2fae5a, 0 0 18px 4px rgba(60, 208, 112, 0.6);
+}
+
+/* The right card after a miss. */
+.showAnswer {
+  border-color: #e0a800;
+  box-shadow: 0 0 0 4px #ffd23f, 0 0 24px 8px rgba(255, 210, 63, 0.8);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: min(16cqw, 30cqh);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #e25446;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(226, 84, 70, 0.3);
+}
+
+@media (orientation: portrait) {
+  .scene {
+    --obj: clamp(40px, min(14vw, 8dvh), 100px);
+    flex-direction: column;
+  }
+
+  .blanket {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+  }
+
+  .jar {
+    width: calc(var(--obj) * 4.4);
+    height: calc(var(--obj) * 3.3);
+  }
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the scene gets the rest. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .scene {
+    --obj: clamp(40px, min(8vw, 14dvh), 80px);
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

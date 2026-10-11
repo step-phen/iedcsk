@@ -1,0 +1,177 @@
+/* Look of Show and Say Ii; layout and spacing stay in Tailwind, the lines stay in ShowAndSayIi.data.ts. */
+
+/* A winter sky over snow; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #a9cdf2 0%, #e0eefc 55%, #f6fbff 55%, #dce9f6 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #dcecff;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(58, 120, 200, 0.5);
+}
+
+/* Solid with an edge, so it never melts into the snow or clouds. */
+.promptPill {
+  border: 3px solid #3a78c8;
+  background: white;
+  box-shadow: 0 3px 0 rgba(58, 120, 200, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #3a78c8;
+  background: white;
+  color: #2a62a8;
+  box-shadow: 0 2px 0 rgba(58, 120, 200, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* Today's letter, big and small side by side. */
+.letterCard {
+  border: 4px solid #3a78c8;
+  background: #f2f8ff;
+  box-shadow: 0 5px 0 rgba(58, 120, 200, 0.3);
+  font-size: clamp(32px, 7dvh, 64px);
+}
+
+/* Upright screens fit three igloos a row (the rest wrap to a second row); wide screens fit all five in one. */
+.village {
+  --igloo-w: clamp(70px, min(calc((100vw - 4rem) / 3.4), 24dvh), 190px);
+}
+
+@media (orientation: landscape) {
+  .village {
+    --igloo-w: clamp(64px, min(calc((100vw - 4rem) / 5.6), 30dvh), 190px);
+  }
+}
+
+.igloo {
+  width: var(--igloo-w);
+  aspect-ratio: 1.25 / 1;
+  touch-action: manipulation;
+}
+
+/* Snow blocks drawn as faint lines across a white dome. */
+.dome {
+  border: 4px solid #22314f;
+  border-bottom-width: 4px;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 21%, #c9dcef 21% 23%),
+    linear-gradient(180deg, #ffffff 0%, #e8f1fb 100%);
+  transition: box-shadow 300ms ease-out;
+}
+
+.lit {
+  box-shadow: 0 0 22px 6px rgba(255, 214, 107, 0.85);
+}
+
+.door {
+  border: 4px solid #22314f;
+  border-bottom: none;
+  border-radius: 50% 50% 0 0 / 70% 70% 0 0;
+  background: #2b3a63;
+  transition: background 300ms ease-out;
+}
+
+.doorLit {
+  background: radial-gradient(circle at 50% 70%, #fff3c4 0%, #ffd66b 60%, #f2a93b 100%);
+}
+
+.letter {
+  font-size: calc(var(--igloo-w) * 0.3);
+  color: #22314f;
+}
+
+.penguin {
+  font-size: calc(var(--igloo-w) * 0.2);
+}
+
+/* The igloos still dark after a miss. */
+.showAnswer {
+  filter: drop-shadow(0 0 12px #ffd23f) drop-shadow(0 0 5px #ffd23f);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--igloo-w) * 0.55);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #3a78c8;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(58, 120, 200, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: the letter card sits beside the village and the header tightens. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .board {
+    flex-direction: row;
+  }
+
+  .village {
+    --igloo-w: clamp(56px, min(calc((100vw - 12rem) / 5.6), 30dvh), 130px);
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

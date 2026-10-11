@@ -1,0 +1,183 @@
+/* Look of More or Less?; layout and spacing stay in Tailwind, the speech stays in MoreOrLess.data.ts. */
+
+/* A playground: sky over grass; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #bfe3ff 0%, #e8f6ff 62%, #a8d98a 62%, #8cc76c 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #ffe9c7;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(224, 122, 31, 0.45);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #e07a1f;
+  background: white;
+  box-shadow: 0 3px 0 rgba(224, 122, 31, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #e07a1f;
+  background: white;
+  color: #b85f12;
+  box-shadow: 0 2px 0 rgba(224, 122, 31, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The seats size off the screen height, so the seesaw and its pivot always fit under the header. */
+.playground {
+  --seat-h: clamp(110px, 44dvh, 380px);
+}
+
+.seesaw {
+  max-width: 1000px;
+}
+
+.seats {
+  padding: 0 2%;
+}
+
+/* A bucket seat on each end of the plank; red on the left, blue on the right. */
+.seat {
+  width: min(44%, calc(var(--seat-h) * 1.25));
+  aspect-ratio: 1.25;
+  margin-bottom: -4px;
+  border: 4px solid #22314f;
+  background: #fff4f0;
+  box-shadow: inset 0 -10px 0 #ff8a73, 0 5px 0 rgba(34, 49, 79, 0.25);
+  touch-action: manipulation;
+}
+
+.seat:last-child {
+  background: #f0f6ff;
+  box-shadow: inset 0 -10px 0 #6aa8f0, 0 5px 0 rgba(34, 49, 79, 0.25);
+}
+
+/* The group to compare, sized off its seat. */
+.group {
+  width: 88%;
+  height: 80%;
+  container-type: size;
+}
+
+.plank {
+  height: clamp(12px, 2.4dvh, 24px);
+  border: 3px solid #5c3b1e;
+  background: linear-gradient(180deg, #d99b5c 0%, #b8763a 100%);
+}
+
+/* The triangle the plank balances on. */
+.pivot {
+  width: clamp(56px, 12dvh, 120px);
+  height: clamp(34px, 8dvh, 76px);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, #ffd23f 0%, #e0a800 100%);
+}
+
+/* The right side, picked first time. */
+.right,
+.right:last-child {
+  border-color: #1f8a46;
+  box-shadow: 0 5px 0 #1f8a46, 0 0 18px 5px rgba(60, 208, 112, 0.7);
+}
+
+/* The right side after a miss. */
+.showAnswer,
+.showAnswer:last-child {
+  border-color: #e0a800;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 26px 9px rgba(255, 210, 63, 0.85);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--seat-h) * 0.55);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #e07a1f;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(224, 122, 31, 0.3);
+}
+
+/* Upright screens have height to spare: taller seats. */
+@media (orientation: portrait) {
+  .seat {
+    width: 46%;
+    aspect-ratio: 0.9;
+  }
+
+  .playground {
+    --seat-h: 34dvh;
+  }
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the seesaw gets the rest. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .playground {
+    --seat-h: 50dvh;
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

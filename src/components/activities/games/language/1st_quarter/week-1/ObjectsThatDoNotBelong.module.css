@@ -1,0 +1,201 @@
+/* Look of Objects That Do Not Belong; layout and spacing stay in Tailwind, colors and spoken lines stay in ObjectsThatDoNotBelong.data.ts. */
+
+/* Dotted cream paper; this game has no background artwork. */
+.screen {
+  background-color: #fbf2e4;
+  background-image: radial-gradient(rgba(30, 42, 74, 0.1) 1.6px, transparent 1.6px);
+  background-size: 22px 22px;
+  font-family: "Trebuchet MS", "Segoe UI", Verdana, sans-serif;
+  color: #1e2a4a;
+}
+
+.card {
+  border: 3px solid #1e2a4a;
+  background: #fffdf8;
+  box-shadow: 0 10px 0 rgba(30, 42, 74, 0.1), 0 18px 30px rgba(30, 42, 74, 0.12);
+}
+
+/* Yellow folded corners at the top of the card. */
+.corner {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-top: 28px solid #f0b429;
+}
+
+.cornerLeft {
+  left: 0;
+  border-radius: 23px 0 0 0;
+  border-right: 28px solid transparent;
+}
+
+.cornerRight {
+  right: 0;
+  border-radius: 0 23px 0 0;
+  border-left: 28px solid transparent;
+}
+
+.badge {
+  border: 2.5px solid #1e2a4a;
+  background: white;
+}
+
+.avatar {
+  background: #fce4a8;
+  color: #c4542c;
+}
+
+.roundButton {
+  border: 2.5px solid #1e2a4a;
+  background: white;
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+.roundButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.eyebrow {
+  color: #c4542c;
+}
+
+.scoreChip {
+  border: 2px solid #f0b429;
+  background: #fce4a8;
+}
+
+.progressTrack {
+  border: 2px solid #d8d2c2;
+  background: #f1ead9;
+}
+
+.progressFill {
+  background: linear-gradient(90deg, #f0b429, #e8734a);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.subtitle {
+  color: #4b5876;
+}
+
+.retryButton {
+  border: 3px solid #1e2a4a;
+  background: #f0b429;
+  color: #1e2a4a;
+  box-shadow: 0 4px 0 rgba(30, 42, 74, 0.3);
+}
+
+.tile {
+  border: 2.5px solid #1e2a4a;
+  background: white;
+  box-shadow: 0 5px 0 rgba(30, 42, 74, 0.12);
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out, opacity 250ms ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tileCorrect {
+  border-color: #3fae72;
+  box-shadow: 0 0 0 4px rgba(63, 174, 114, 0.3), 0 5px 0 rgba(30, 42, 74, 0.12);
+  animation: popIn 0.3s ease-out;
+}
+
+.tileWrong {
+  border-color: #e15a5a;
+  box-shadow: 0 0 0 4px rgba(225, 90, 90, 0.28), 0 5px 0 rgba(30, 42, 74, 0.12);
+  animation: shake 0.4s ease-in-out;
+}
+
+/* After a miss the odd one out zooms in and glows, starting once the wrong tile's shake is over, so the child's eye lands on the answer. */
+.tileReveal {
+  z-index: 1;
+  border-color: #3fae72;
+  transform: scale(1.15);
+  animation:
+    revealZoom 0.45s 0.35s cubic-bezier(0.16, 1, 0.3, 1) backwards,
+    revealGlow 1.2s 0.8s ease-in-out infinite;
+}
+
+/* The other tiles step back so only the answer stands out. */
+.tileDimmed {
+  opacity: 0.4;
+  transform: scale(0.92);
+}
+
+.stamp {
+  border: 2.5px solid #1e2a4a;
+  background: #3fae72;
+  color: white;
+  box-shadow: 0 3px 0 rgba(30, 42, 74, 0.18);
+}
+
+.feedbackCorrect {
+  border: 2px solid #3fae72;
+  background: #dff5e8;
+  color: #23784b;
+}
+
+.feedbackWrong {
+  border: 2px solid #e15a5a;
+  background: #fde7e4;
+  color: #a8302f;
+}
+
+.resultScore {
+  color: #c4542c;
+}
+
+.result {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.85); }
+  55% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes revealZoom {
+  0% { transform: scale(1); }
+  60% { transform: scale(1.22); }
+  100% { transform: scale(1.15); }
+}
+
+@keyframes revealGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(63, 174, 114, 0.55); }
+  50% { box-shadow: 0 0 0 14px rgba(63, 174, 114, 0); }
+}
+
+@keyframes statusPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  65% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile,
+  .progressFill {
+    transition: none;
+  }
+
+  .tileCorrect,
+  .tileWrong,
+  .tileReveal,
+  .result {
+    animation: none;
+  }
+}

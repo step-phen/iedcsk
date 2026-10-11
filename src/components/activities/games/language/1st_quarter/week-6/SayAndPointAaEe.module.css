@@ -1,0 +1,175 @@
+/* Look of Say and Point: Aa and Ee; layout and spacing stay in Tailwind, the lines stay in SayAndPointAaEe.data.ts. */
+
+/* A sunny picnic lawn; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #cdeeff 0%, #f0faff 50%, #d6f0a8 50%, #b4dc7a 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #ffe9c9;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(200, 120, 50, 0.5);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #c8783a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(200, 120, 50, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #c8783a;
+  background: white;
+  color: #a85e22;
+  box-shadow: 0 2px 0 rgba(200, 120, 50, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* Upright screens put the cookie above the two friends; wide screens put it between them. */
+.picnic {
+  --friend-w: clamp(120px, min(42vw, 34dvh), 280px);
+  --cookie: clamp(80px, min(30vw, 24dvh), 180px);
+  display: grid;
+  grid-template-areas:
+    "cookie cookie"
+    "a e";
+  align-items: end;
+  justify-items: center;
+}
+
+@media (orientation: landscape) {
+  .picnic {
+    grid-template-areas: "a cookie e";
+    align-items: center;
+  }
+}
+
+.slotA {
+  grid-area: a;
+}
+
+.slotE {
+  grid-area: e;
+}
+
+.slotCookie {
+  grid-area: cookie;
+}
+
+.friend {
+  width: var(--friend-w);
+  border: 4px solid #22314f;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 6px 0 rgba(34, 49, 79, 0.2);
+  touch-action: manipulation;
+}
+
+.sign {
+  border: 3px solid #22314f;
+  background: #fff3c4;
+  font-size: calc(var(--friend-w) * 0.16);
+}
+
+.cookie {
+  width: var(--cookie);
+  height: var(--cookie);
+  border: 4px solid #7a4a1e;
+  background:
+    radial-gradient(circle at 30% 30%, #5a3414 0 5%, transparent 6%),
+    radial-gradient(circle at 68% 26%, #5a3414 0 4%, transparent 5%),
+    radial-gradient(circle at 74% 66%, #5a3414 0 5%, transparent 6%),
+    radial-gradient(circle at 26% 72%, #5a3414 0 4%, transparent 5%),
+    radial-gradient(circle at 40% 35%, #f6cf8e 0%, #e2a65a 70%, #c98a40 100%);
+  box-shadow: 0 6px 0 rgba(122, 74, 30, 0.35);
+  color: #22314f;
+  font-size: calc(var(--cookie) * 0.46);
+}
+
+/* Once eaten, the cookie shrinks onto the friend's plate. */
+.onPlate {
+  width: calc(var(--cookie) * 0.55);
+  height: calc(var(--cookie) * 0.55);
+  font-size: calc(var(--cookie) * 0.26);
+}
+
+/* The right friend after a miss. */
+.showAnswer {
+  filter: drop-shadow(0 0 14px #ffd23f) drop-shadow(0 0 6px #ffd23f);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--friend-w) * 0.45);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #c8783a;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(200, 120, 50, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

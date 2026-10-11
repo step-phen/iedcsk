@@ -1,0 +1,219 @@
+/* Look of Writing Readiness Final Assessment; layout and spacing stay in Tailwind (ReviewGame), the tasks and speech stay in review.data.ts. */
+
+/* A travel desk under the writing passport; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(160deg, #dbe8ff 0%, #f1e9ff 55%, #ffe7ef 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #e2e7ff;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(58, 79, 184, 0.45);
+}
+
+/* Solid with an edge, so it never melts into the background. */
+.promptPill {
+  border: 3px solid #3a4fb8;
+  background: white;
+  box-shadow: 0 3px 0 rgba(58, 79, 184, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #3a4fb8;
+  background: white;
+  color: #2b3c91;
+  box-shadow: 0 2px 0 rgba(58, 79, 184, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The strip of marks showing how far the child has got. */
+.progress {
+  height: clamp(30px, 6.5dvh, 56px);
+}
+
+/* The passport page each task is printed on; tasks size themselves off it. */
+.board {
+  max-width: 1100px;
+  border: 4px solid #3a4fb8;
+  background:
+    repeating-linear-gradient(45deg, rgba(58, 79, 184, 0.04) 0 12px, transparent 12px 24px),
+    #fffdf6;
+  box-shadow: 0 8px 0 rgba(58, 79, 184, 0.3);
+  container-type: size;
+}
+
+/* Tool and posture choices size themselves off the board. */
+.choices {
+  --card: min(28cqw, 70cqh);
+  gap: 4cqw;
+}
+
+.toolCard {
+  width: var(--card);
+  aspect-ratio: 1;
+  border: 4px solid #22314f;
+  background: white;
+  box-shadow: 0 5px 0 rgba(34, 49, 79, 0.25);
+  touch-action: manipulation;
+}
+
+.postureCard {
+  width: min(40cqw, 82cqh);
+  aspect-ratio: 1;
+  border: 4px solid #22314f;
+  background: #f4f9ff;
+  box-shadow: 0 5px 0 rgba(34, 49, 79, 0.25);
+  touch-action: manipulation;
+}
+
+.label {
+  font-size: calc(var(--card) * 0.12);
+}
+
+/* The right choice, picked first time. */
+.right {
+  border-color: #2fae5a;
+  box-shadow: 0 5px 0 #2fae5a, 0 0 18px 4px rgba(60, 208, 112, 0.6);
+}
+
+/* The right choice after a miss. */
+.showAnswer {
+  border-color: #e0a800;
+  box-shadow: 0 0 0 4px #ffd23f, 0 0 24px 8px rgba(255, 210, 63, 0.8);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: calc(var(--card) * 0.6);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.drawWrong {
+  color: #d63c2f;
+  font-size: 40cqh;
+  text-shadow: 0 0 0 white, 0 4px 0 white, 0 -4px 0 white, 4px 0 0 white, -4px 0 0 white;
+}
+
+/* The model shape and the empty copy box: side by side on wide screens, stacked when upright. */
+.copyRow {
+  gap: 3cqw;
+}
+
+@media (orientation: portrait) {
+  .choices:has(.postureCard),
+  .copyRow {
+    flex-direction: column;
+  }
+
+  .postureCard {
+    width: min(72cqw, 44cqh);
+  }
+}
+
+.doneCard {
+  border: 4px solid #3a4fb8;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(58, 79, 184, 0.3);
+}
+
+/* The row of stamp boxes on the passport's cover strip. */
+.passport {
+  --slot: clamp(18px, min(5dvh, 4.6vw), 44px);
+  gap: clamp(3px, 0.6vw, 8px);
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: #3a4fb8;
+}
+
+.stampBox {
+  width: var(--slot);
+  height: var(--slot);
+  border: 2px dashed rgba(255, 255, 255, 0.55);
+  font-size: calc(var(--slot) * 0.6);
+}
+
+.stamped {
+  border: 2px solid #ffd23f;
+  background: #fff3c4;
+}
+
+.faded {
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.25);
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+
+.stampNow {
+  border: 2px solid white;
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.7);
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the board gets the rest. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .progress {
+    height: 24px;
+    margin-top: 4px;
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

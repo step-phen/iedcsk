@@ -1,0 +1,285 @@
+/* Look of Same or Different; layout and spacing stay in Tailwind, artwork paths stay in SameOrDifferent.data.ts. */
+
+.screen {
+  background-color: #7ec4ea;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: "Baloo 2", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.learnerBadge {
+  border: 2px solid #efd2ff;
+  background: #f9e6ff;
+  color: #59348e;
+  box-shadow: 0 2px 0 #c19cde;
+}
+
+.scorePill {
+  border: 2px solid #b8e6ff;
+  background: #eff8ff;
+  box-shadow: 0 2px 0 #87c5e7;
+}
+
+.pictureCard {
+  border: 2px solid #b7e4ff;
+  background: #fbfdff;
+  box-shadow: 0 4px 0 #87c6e4;
+}
+
+/* Same / Different buttons: wide pill artwork. */
+.answerButton {
+  aspect-ratio: 11 / 4;
+  transition: transform 150ms ease-out;
+}
+
+.answerButton:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+/* After a wrong tap the right button glows, zooms in, then keeps wiggling until the next question. */
+.showAnswer {
+  z-index: 1;
+  box-shadow: 0 0 0 4px #ffd23f, 0 0 28px 8px #ffd23f;
+  animation:
+    answerZoom 500ms cubic-bezier(0.16, 1, 0.3, 1) 300ms forwards,
+    answerWiggle 1s ease-in-out 800ms infinite;
+}
+
+@keyframes answerZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.2); }
+}
+
+/* Starts from the zoomed size, so it carries straight on from answerZoom. */
+@keyframes answerWiggle {
+  0%, 100% { transform: scale(1.2) rotate(0deg); }
+  25% { transform: scale(1.25) rotate(-4deg); }
+  75% { transform: scale(1.25) rotate(4deg); }
+}
+
+.feedback {
+  border-width: 2px;
+  border-style: solid;
+}
+
+.feedbackSuccess {
+  border-color: #90ce5b;
+  background: #e4ffc6;
+  color: #176627;
+  box-shadow: 0 3px 0 #6cbbab;
+}
+
+.feedbackError {
+  border-color: #f3b465;
+  background: #fff0d5;
+  color: #8a431b;
+  box-shadow: 0 3px 0 #e0a45a;
+}
+
+.feedbackStar {
+  fill: #ffdf35;
+  color: #efaa14;
+  filter: drop-shadow(0 2px 0 white);
+}
+
+.stamp {
+  border: 4px solid white;
+  background: #2f9e8f;
+  color: white;
+  box-shadow: 0 0 0 3px #2f9e8f, 0 4px 0 rgba(34, 49, 79, 0.35);
+}
+
+.replayButton {
+  border: 2px solid #22314f;
+  background: #fffdf6;
+  box-shadow: 0 2px 0 rgba(34, 49, 79, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.replayButton:active {
+  transform: scale(0.9);
+}
+
+.recapChip {
+  border: 2px solid rgba(34, 49, 79, 0.2);
+  background: #fffdf6;
+  box-shadow: 0 2px 0 rgba(34, 49, 79, 0.15);
+}
+
+.recapCorrect {
+  background: #2f9e8f;
+}
+
+.recapMissed {
+  background: #b34a3c;
+}
+
+.finishButton {
+  border: 3px solid #22314f;
+  background: #ffd23f;
+  color: #22314f;
+  box-shadow: 3px 3px 0 #22314f, 0 16px 24px -14px rgba(34, 49, 79, 0.45);
+}
+
+.finishButton:active {
+  translate: 0 2px;
+  box-shadow: 1px 1px 0 #22314f;
+}
+
+/* Title banner grows with the screen but never takes more than 16% of its height. */
+.title {
+  height: clamp(48px, min(14vw, 16dvh), 150px);
+}
+
+/* Portrait phones: the title gets its own row so the learner badge and stars never cover it. */
+@media (max-width: 639px) and (orientation: portrait) {
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+  }
+
+  .header > h1 {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+
+  .learnerBadge,
+  .scorePill {
+    position: static;
+  }
+
+  .learnerBadge {
+    justify-self: start;
+  }
+
+  .scorePill {
+    grid-column: 2;
+    justify-self: end;
+  }
+
+  .title {
+    height: clamp(48px, 18vw, 96px);
+  }
+}
+
+/* Laptops and desktops: shrink the board with the window height so a short screen still fits it all. */
+@media (min-width: 1024px) {
+  .instruction {
+    height: min(8rem, 13dvh);
+  }
+
+  .pictureCard {
+    width: min(18rem, 34dvh);
+    height: min(18rem, 34dvh);
+  }
+
+  .answerButton {
+    height: min(8rem, 14dvh);
+  }
+}
+
+/* Thicker borders once the board has room for them. */
+@media (min-width: 640px) {
+  .learnerBadge,
+  .scorePill,
+  .pictureCard {
+    border-width: 3px;
+  }
+}
+
+/* Phones held sideways are wide enough for the sm: sizes but only ~300px tall:
+   size everything by height and put the answer buttons beside the pictures. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px 8px;
+  }
+
+  .header {
+    margin-bottom: 2px;
+  }
+
+  .title {
+    height: 15dvh;
+  }
+
+  .learnerBadge,
+  .scorePill {
+    padding: 4px 10px;
+    gap: 6px;
+    border-width: 2px;
+  }
+
+  .learnerBadge > span {
+    font-size: 14px;
+  }
+
+  .star {
+    width: 18px;
+    height: 18px;
+  }
+
+  .instruction {
+    height: 13dvh;
+  }
+
+  .board {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-areas:
+      "pictures answers"
+      "feedback feedback";
+    place-content: center;
+    column-gap: 4vw;
+    row-gap: 2dvh;
+  }
+
+  .pictures {
+    grid-area: pictures;
+  }
+
+  .pictureCard {
+    width: 46dvh;
+    height: 46dvh;
+    border-width: 2px;
+  }
+
+  .answers {
+    grid-area: answers;
+    flex-direction: column;
+    gap: 4dvh;
+  }
+
+  .answerButton {
+    height: 15dvh;
+  }
+
+  .feedbackRow {
+    grid-area: feedback;
+    min-height: 0;
+  }
+
+  .feedback {
+    padding: 4px 14px;
+    font-size: 14px;
+  }
+
+  .result {
+    gap: 1.5dvh;
+  }
+
+  .finishButton {
+    padding: 8px 32px;
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showAnswer {
+    animation: none;
+  }
+}

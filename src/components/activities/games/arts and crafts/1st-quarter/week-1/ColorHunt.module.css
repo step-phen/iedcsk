@@ -1,0 +1,572 @@
+/* Look of Color Hunt; colors, rules and spoken lines stay in ColorHunt.data.ts. */
+
+/* Fixed over the whole viewport so the backdrop reaches the edges; the image itself is set from ASSETS.background. */
+.screen {
+  --navy: #16215c;
+  --yellow: #f5b942;
+  --green: #4caf63;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 2vh 2vw;
+  overflow: hidden;
+  background-color: #fdf8ed;
+  /* Stretched rather than cropped, so the artwork shows whole. */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  color: var(--navy);
+  font-family: "Baloo 2", "Poppins", "Trebuchet MS", system-ui, sans-serif;
+}
+
+.centered {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  max-width: 1500px;
+  overflow: hidden;
+}
+
+/* Every button sinks when tapped and shows a clear keyboard focus ring. */
+.press {
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.08s;
+}
+
+.press:disabled {
+  cursor: default;
+}
+
+.press:not(:disabled):active {
+  transform: translateY(4px);
+}
+
+.press:focus-visible {
+  outline: 5px solid var(--navy);
+  outline-offset: 4px;
+}
+
+/* Pinned to the screen's top-left corner, outside the centered board. */
+.nameChip {
+  position: absolute;
+  top: 1.6vh;
+  left: 2vw;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 40vw;
+  padding: 5px 24px 5px 5px;
+  border: 3px solid var(--navy);
+  border-radius: 999px;
+  background: #fff;
+  font-size: clamp(18px, 2.4vw, 28px);
+  font-weight: 800;
+}
+
+/* The learner's photo, or their first initial when they have none. */
+.avatar {
+  width: 60px;
+  height: 60px;
+  border: 3px solid var(--navy);
+  background: var(--yellow);
+  font-size: 30px;
+}
+
+.nameChipText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Pinned to the screen's top-right corner: the round stars with the result under them. */
+.starsCorner {
+  position: absolute;
+  top: 1.6vh;
+  right: 2vw;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: clamp(2px, 0.4vw, 5px);
+}
+
+.starsLarge {
+  gap: clamp(6px, 1.4vw, 18px);
+}
+
+.star {
+  width: clamp(20px, 2.8vw, 32px);
+  height: clamp(20px, 2.8vw, 32px);
+}
+
+.starLarge {
+  width: clamp(44px, 8vw, 92px);
+  height: clamp(44px, 8vw, 92px);
+}
+
+.starPath {
+  fill: #fff;
+  stroke: var(--navy);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.starPathFilled {
+  fill: var(--yellow);
+}
+
+.starAhead {
+  opacity: 0.45;
+}
+
+.starCurrent {
+  animation: bob 1.2s ease-in-out infinite;
+}
+
+.starEarned {
+  animation: pop 0.5s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+/* The result pill under the stars. */
+.feedback {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 34vw;
+  padding: 6px 18px;
+  border: 3px solid var(--navy);
+  border-radius: 24px;
+  box-shadow: 0 4px 0 rgba(22, 33, 92, 0.25);
+  font-size: clamp(16px, 2.2vw, 26px);
+  font-weight: 900;
+  line-height: 1.15;
+  text-align: center;
+  animation: pop 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.feedbackFound {
+  background: var(--green);
+  color: #fff;
+}
+
+.feedbackMissed {
+  background: var(--yellow);
+}
+
+.title {
+  margin: 0;
+  padding: 1.6vh 4vw 0;
+  text-align: center;
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 1.2vh 4vw 0;
+  font-size: clamp(18px, 2.8vw, 34px);
+  font-weight: 800;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 3px solid var(--navy);
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 4px 0 rgba(22, 33, 92, 0.2);
+}
+
+.iconButtonLarge {
+  width: 64px;
+  height: 64px;
+}
+
+/* The target color as a big dot and its name, tinted from --light and --dark. */
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 1.2vh;
+  padding: 6px 28px 6px 8px;
+  border: 4px solid var(--navy);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 5px 0 rgba(22, 33, 92, 0.15);
+  font-size: clamp(24px, 3.4vw, 40px);
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--dark);
+}
+
+.swatchDot {
+  width: clamp(40px, 5vw, 56px);
+  height: clamp(40px, 5vw, 56px);
+  border: 4px solid var(--navy);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--light), var(--dark));
+}
+
+/* One dot per pick left; a spent pick is empty. */
+.picks {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1.2vh;
+}
+
+.pick {
+  width: 18px;
+  height: 18px;
+  border: 3px solid var(--navy);
+  border-radius: 50%;
+  background: var(--yellow);
+}
+
+.pickSpent {
+  background: transparent;
+  opacity: 0.35;
+}
+
+.scene {
+  display: flex;
+  flex: 1 1 0;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 1.2vw, 16px);
+  width: 100%;
+  min-height: 0;
+  margin: 1.6vh 0 2.4vh;
+  overflow-y: auto;
+  padding: 2vh 2vw;
+}
+
+.object {
+  position: relative;
+  display: flex;
+  flex: 0 1 clamp(96px, 21vh, 190px);
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  aspect-ratio: 1;
+  padding: clamp(2px, 0.5vh, 6px);
+  border: 4px solid var(--navy);
+  border-radius: 24px;
+  background: #fdf8ed;
+  box-shadow: 0 6px 0 rgba(22, 33, 92, 0.18);
+}
+
+.objectArt {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.objectFound {
+  border-color: var(--green);
+  background: #effbf1;
+  animation: pop 0.3s ease-out;
+}
+
+.objectWrong {
+  border-color: #e85d3e;
+  animation: shake 0.4s ease-in-out;
+}
+
+/* The objects the child missed: zoomed with a green ring, while the others fade back. */
+.objectReveal {
+  z-index: 1;
+  border-color: var(--green);
+  background: #effbf1;
+  transform: scale(1.22);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  animation: reveal 1s ease-in-out 0.4s infinite;
+}
+
+.objectDim {
+  opacity: 0.35;
+  transition: opacity 0.4s;
+}
+
+.check {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+/* Finish screen. */
+.done {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6vh;
+  padding: 2vh 4vw;
+  text-align: center;
+}
+
+.doneTitle {
+  font-size: clamp(30px, 5vw, 60px);
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.doneScore {
+  font-size: clamp(22px, 3.4vw, 40px);
+  font-weight: 800;
+}
+
+/* Loading and error screens. */
+.message {
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 800;
+}
+
+.loadingIcon {
+  font-size: 72px;
+  animation: bob 1.2s ease-in-out infinite;
+}
+
+.retryButton {
+  min-height: 64px;
+  padding: 0 40px;
+  border: 4px solid var(--navy);
+  border-radius: 999px;
+  background: var(--yellow);
+  box-shadow: 0 6px 0 rgba(22, 33, 92, 0.28);
+  color: var(--navy);
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 900;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes reveal {
+  0%,
+  100% {
+    transform: scale(1.22);
+  }
+  50% {
+    transform: scale(1.34);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.12);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Portrait screens (phones, tablets held upright): room under the corner chips, objects in rows of three, result pill at the bottom. */
+@media (max-aspect-ratio: 1/1) {
+  .board {
+    padding-top: calc(72px + 1.6vh);
+  }
+
+  .scene {
+    flex-wrap: wrap;
+    align-content: center;
+    gap: 14px;
+    padding: 12px 4vw;
+  }
+
+  .object {
+    flex: 0 0 min(calc((100% - 28px) / 3), 200px);
+  }
+
+  .feedback {
+    position: fixed;
+    right: 0;
+    bottom: 3vh;
+    left: 0;
+    z-index: 2;
+    width: fit-content;
+    max-width: 90vw;
+    margin-inline: auto;
+  }
+}
+
+/* Phones. */
+@media (max-width: 640px) {
+  .nameChip {
+    gap: 8px;
+    max-width: 54vw;
+    padding: 3px 14px 3px 3px;
+    border-width: 2px;
+    font-size: 16px;
+  }
+
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-width: 2px;
+    font-size: 22px;
+  }
+
+  .board {
+    padding-top: calc(54px + 1.6vh);
+  }
+
+  .question {
+    gap: 10px;
+  }
+
+  .swatch {
+    gap: 10px;
+    padding: 4px 20px 4px 6px;
+    border-width: 3px;
+  }
+
+  .check {
+    top: -8px;
+    right: -8px;
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+  }
+}
+
+/* Short landscape screens (phones on their side): everything above the objects gets tighter. */
+@media (max-height: 520px) {
+  .nameChip {
+    top: 1vh;
+    font-size: 16px;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .title {
+    padding-top: 0.6vh;
+    font-size: 26px;
+  }
+
+  .question {
+    padding-top: 0.4vh;
+    font-size: 16px;
+  }
+
+  .iconButton:not(.iconButtonLarge) {
+    width: 34px;
+    height: 34px;
+  }
+
+  .swatch {
+    margin-top: 0.6vh;
+    padding: 3px 18px 3px 5px;
+    border-width: 3px;
+    font-size: 20px;
+  }
+
+  .swatchDot {
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+  }
+
+  .picks {
+    margin-top: 0.6vh;
+  }
+
+  .scene {
+    margin: 0.8vh 0 1vh;
+    padding: 0.6vh 2vw;
+  }
+
+  .object {
+    flex-basis: clamp(64px, 22vh, 120px);
+  }
+
+  .feedback {
+    font-size: 14px;
+  }
+}
+
+/* Touch screens get a full-size tap target on the replay button. */
+@media (pointer: coarse) {
+  .iconButton:not(.iconButtonLarge) {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen * {
+    animation: none !important;
+  }
+}

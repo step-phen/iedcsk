@@ -1,0 +1,135 @@
+/* Look of Listen and Find the Letter; layout and spacing stay in Tailwind, the lines stay in ListenFindLetter.data.ts. */
+
+/* Beach art, bottom-anchored so the chests sit on the sand; upright screens get the tall version. */
+.screen {
+  background: #bfe8ff url("/images/background-images/listen-find-letter-bg.jpg") center bottom / cover no-repeat;
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+@media (orientation: portrait) {
+  .screen {
+    background-image: url("/images/background-images/listen-find-letter-portrait-bg.jpg");
+  }
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #ffe9b8;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(196, 120, 22, 0.55);
+}
+
+/* Solid with an edge, so it doesn't melt into the white clouds behind it. */
+.promptPill {
+  border: 3px solid #c47816;
+  background: white;
+  box-shadow: 0 3px 0 rgba(196, 120, 22, 0.35);
+}
+
+/* The big "listen" button: hearing the letter is the whole task, so it is the loudest thing on screen. */
+.listen {
+  width: clamp(64px, 14dvh, 120px);
+  height: clamp(64px, 14dvh, 120px);
+  border: 4px solid #c47816;
+  background: #fff6dd;
+  color: #c47816;
+  box-shadow: 0 5px 0 rgba(196, 120, 22, 0.4);
+}
+
+.listen:active {
+  transform: translateY(2px);
+}
+
+/* Three across fit an upright phone (3 x 28vw plus gaps). */
+.chest {
+  --chest-w: clamp(92px, min(28vw, 30dvh), 240px);
+  width: var(--chest-w);
+  /* The shape of the chest art. */
+  aspect-ratio: 1111 / 1017;
+  touch-action: manipulation;
+}
+
+/* Sized to the chest, a touch taller than the plate so small screens can still read it. */
+.plate {
+  color: #4a2a0f;
+  font-size: calc(var(--chest-w) * 0.17);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* The right chest after a miss. */
+.showAnswer {
+  filter: drop-shadow(0 0 12px #ffd23f) drop-shadow(0 0 5px #ffd23f);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: clamp(36px, 9dvh, 80px);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #c47816;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(196, 120, 22, 0.3);
+}
+
+/* Phones held sideways are only ~320-430px tall: the listen button sits beside the chests and the header tightens. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .board {
+    flex-direction: row;
+  }
+
+  .chest {
+    --chest-w: min(42dvh, calc((100vw - 10rem) / 3.4));
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

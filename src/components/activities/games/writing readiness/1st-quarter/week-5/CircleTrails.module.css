@@ -1,0 +1,125 @@
+/* Look of Circle Trails; layout and spacing stay in Tailwind, the circles and speech stay in CircleTrails.data.ts. */
+
+/* A sunny kitchen-table check cloth; no art yet, so gradients stand in. */
+.screen {
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.35) 0 28px, transparent 28px 56px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.35) 0 28px, transparent 28px 56px),
+    #ffd9a8;
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #3b2a1a;
+}
+
+.pill {
+  border: 3px solid #3b2a1a;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(59, 42, 26, 0.25);
+}
+
+.avatar {
+  background: #fff1de;
+}
+
+.title {
+  color: #3b2a1a;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(232, 131, 58, 0.5);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #e8833a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(232, 131, 58, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #e8833a;
+  background: white;
+  color: #c4621c;
+  box-shadow: 0 2px 0 rgba(232, 131, 58, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* The board fills the space left under the header; the stage keeps its own shape inside it. */
+.board {
+  max-width: 1100px;
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: clamp(80px, 22dvh, 200px);
+  text-shadow: 0 0 0 white, 0 4px 0 white, 0 -4px 0 white, 4px 0 0 white, -4px 0 0 white;
+}
+
+.doneCard {
+  border: 4px solid #e8833a;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(232, 131, 58, 0.3);
+}
+
+/* The finished round things, small in a row or two, leaving room for the score card below. */
+.parade {
+  gap: clamp(6px, 2vw, 20px);
+  padding-bottom: clamp(70px, 14dvh, 120px);
+}
+
+.mini {
+  width: clamp(90px, min(28vw, 30dvh), 220px);
+  aspect-ratio: 800 / 480;
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the board gets the rest. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .doneCard {
+    padding: 4px 16px;
+  }
+
+  .doneScore {
+    font-size: 26px;
+  }
+
+  .parade {
+    padding-bottom: 64px;
+  }
+
+  .mini {
+    width: clamp(80px, 17vw, 160px);
+  }
+}

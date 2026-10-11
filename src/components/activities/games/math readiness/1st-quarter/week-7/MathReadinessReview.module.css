@@ -1,0 +1,280 @@
+/* Look of Math Readiness Review; layout and spacing stay in Tailwind, the speech stays in mathReview.data.ts. */
+
+/* A garden: sky over grass; no art yet, so gradients stand in. */
+.screen {
+  background: linear-gradient(180deg, #cdeeff 0%, #effaff 58%, #b9e39b 58%, #93cf70 100%);
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+.pill {
+  border: 3px solid #22314f;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #ffe0ec;
+}
+
+.title {
+  color: #22314f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(214, 69, 122, 0.45);
+}
+
+/* Solid with an edge, so it never melts into a light background. */
+.promptPill {
+  border: 3px solid #d6457a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(214, 69, 122, 0.3);
+}
+
+.roundButton {
+  border: 3px solid #d6457a;
+  background: white;
+  color: #a8305d;
+  box-shadow: 0 2px 0 rgba(214, 69, 122, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.roundButton:active {
+  transform: scale(0.9);
+}
+
+/* Numeral cards size off the screen, so four fit across a phone beside the progress picture. */
+.stage {
+  --card: clamp(56px, min(16vw, 20dvh), 150px);
+  gap: clamp(8px, 2dvh, 20px);
+}
+
+/* Number recognition: a big speaker to hear the number again. */
+.listen {
+  width: clamp(80px, 24dvh, 190px);
+  height: clamp(80px, 24dvh, 190px);
+  border: 4px solid #22314f;
+  background: #fde8f0;
+  color: #22314f;
+  box-shadow: 0 6px 0 rgba(34, 49, 79, 0.25);
+  touch-action: manipulation;
+}
+
+/* Counting: the group to count on a white board. */
+.board {
+  max-width: 760px;
+  border: 4px solid #22314f;
+  background: white;
+  box-shadow: 0 6px 0 rgba(34, 49, 79, 0.2);
+}
+
+.boardGroup {
+  width: 90%;
+  height: 86%;
+  container-type: size;
+}
+
+/* One scattered picture, sized off the board. */
+.scattered {
+  width: min(13cqw, 24cqh);
+  height: min(13cqw, 24cqh);
+}
+
+/* Matching: the numeral the right group must show. */
+.bigNumber {
+  width: clamp(64px, 18dvh, 150px);
+  height: clamp(64px, 18dvh, 150px);
+  border: 4px solid #22314f;
+  background: #fde8f0;
+  font-size: clamp(44px, 13dvh, 108px);
+  box-shadow: 0 6px 0 rgba(34, 49, 79, 0.25);
+}
+
+/* Comparing: the word to look for. */
+.askBadge {
+  padding: 0.25em 0.9em;
+  border: 4px solid #22314f;
+  background: #fde8f0;
+  font-size: clamp(24px, 6dvh, 52px);
+  letter-spacing: 0.06em;
+}
+
+.choices {
+  gap: clamp(8px, 2vw, 24px);
+}
+
+.numeral {
+  width: var(--card);
+  height: var(--card);
+  flex-shrink: 0;
+  border: 4px solid #22314f;
+  background: white;
+  color: #22314f;
+  font-size: calc(var(--card) * 0.62);
+  box-shadow: 0 5px 0 rgba(34, 49, 79, 0.25);
+  touch-action: manipulation;
+}
+
+.groupCard {
+  flex: 1;
+  max-width: 420px;
+  border: 4px solid #22314f;
+  background: white;
+  box-shadow: 0 5px 0 rgba(34, 49, 79, 0.25);
+  touch-action: manipulation;
+}
+
+.cardGroup {
+  width: 88%;
+  height: 84%;
+  container-type: size;
+}
+
+/* The right choice, picked first time. */
+.right {
+  border-color: #1f8a46;
+  box-shadow: 0 5px 0 #1f8a46, 0 0 18px 5px rgba(60, 208, 112, 0.7);
+}
+
+/* The right choice after a miss. */
+.showAnswer {
+  border-color: #e0a800;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 26px 9px rgba(255, 210, 63, 0.85);
+}
+
+.wrongMark {
+  color: #d63c2f;
+  font-size: clamp(56px, 16dvh, 150px);
+  text-shadow: 0 0 0 white, 0 3px 0 white, 0 -3px 0 white, 3px 0 0 white, -3px 0 0 white;
+}
+
+/* The progress picture sits beside the task on wide screens and above it when upright; it sizes off its own box. */
+.arena {
+  flex-direction: row;
+  gap: clamp(10px, 2.5vw, 32px);
+}
+
+.progress {
+  width: clamp(110px, 20vw, 260px);
+  container-type: size;
+}
+
+/* The number flower: a petal per task around a sunny heart. */
+.flower {
+  width: min(92cqw, 92cqh);
+  aspect-ratio: 1;
+}
+
+.petal {
+  left: 40%;
+  bottom: 50%;
+  width: 20%;
+  height: 44%;
+  transform-origin: 50% 100%;
+  border: 3px dashed rgba(34, 49, 79, 0.35);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.petalWon {
+  border: 3px solid #a8305d;
+  background: linear-gradient(180deg, #ff8fb8 0%, #d6457a 100%);
+}
+
+.petalMissed {
+  border: 3px solid #b8b0a6;
+  background: #e9e4dc;
+}
+
+.heart {
+  left: 34%;
+  top: 34%;
+  width: 32%;
+  height: 32%;
+  border: 3px solid #b77f00;
+  background: radial-gradient(circle at 40% 35%, #ffe680 0%, #f2b134 100%);
+}
+
+.doneCard {
+  border: 4px solid #d6457a;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 0 rgba(214, 69, 122, 0.3);
+}
+
+/* Upright screens stack the three matching groups, so each is wide enough to count. */
+/* Upright screens put the progress picture on top and stack the three matching groups. */
+@media (orientation: portrait) {
+  .arena {
+    flex-direction: column;
+  }
+
+  .progress {
+    width: 100%;
+    height: clamp(64px, 13dvh, 140px);
+  }
+
+  .stack {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stack .groupCard {
+    width: 100%;
+    max-width: 560px;
+  }
+}
+
+/* Phones held sideways are only ~320-430px tall: the header tightens and the task gets the rest. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px;
+  }
+
+  .title {
+    order: 0;
+    flex-basis: auto;
+    font-size: 22px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .learnerName {
+    max-width: 7rem;
+    font-size: 16px;
+  }
+
+  .promptRow {
+    margin-top: 4px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .speaker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .stage {
+    --card: clamp(48px, 21dvh, 90px);
+  }
+
+  .progress {
+    width: 17vw;
+  }
+
+  .doneCard {
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  .doneTitle {
+    font-size: 18px;
+  }
+
+  .doneScore {
+    font-size: 28px;
+  }
+}

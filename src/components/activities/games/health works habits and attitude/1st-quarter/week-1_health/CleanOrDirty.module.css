@@ -1,0 +1,434 @@
+/* Look of Clean or Dirty; the background path, picture paths and spoken lines stay in CleanOrDirty.data.ts. */
+
+/* Fixed over the whole viewport so the background reaches the edges; the image itself is set from ASSETS.background. */
+.screen {
+  --navy: #1e3a5f;
+  --yellow: #f5b942;
+  --green: #4fae73;
+  --brown: #8b5a2e;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 2vh 2vw;
+  overflow: hidden;
+  background-color: #fdf6e3;
+  /* Stretched rather than cropped, so the soft artwork shows whole. */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  color: var(--navy);
+  font-family: "Baloo 2", "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+.centered {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.board {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-width: 1180px;
+  overflow: hidden;
+}
+
+/* Shared by every button: a tap sinks it and the keyboard focus ring is easy to see. */
+.press {
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.08s;
+}
+
+.press:disabled {
+  cursor: default;
+}
+
+.press:not(:disabled):active {
+  transform: translateY(5px);
+}
+
+.press:focus-visible {
+  outline: 5px solid var(--navy);
+  outline-offset: 4px;
+}
+
+/* Pinned to the screen's own top-right corner, mirroring the name chip on the left. */
+.starsCorner {
+  position: absolute;
+  top: 1.6vh;
+  right: 2vw;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+/* Pinned to the screen's own top-left corner, outside the centered board. */
+.nameChip {
+  position: absolute;
+  top: 1.6vh;
+  left: 2vw;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 100%;
+  padding: 5px 24px 5px 5px;
+  border: 3px solid var(--navy);
+  border-radius: 999px;
+  background: #fff;
+  font-size: clamp(20px, 2.6vw, 30px);
+  font-weight: 800;
+}
+
+/* The learner's photo, or their first initial when they have none. */
+.avatar {
+  width: 64px;
+  height: 64px;
+  border: 3px solid var(--navy);
+  background: var(--yellow);
+  font-size: 32px;
+}
+
+.nameChipText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 3px solid var(--navy);
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 4px 0 rgba(30, 58, 95, 0.2);
+}
+
+.iconButtonLarge {
+  width: 64px;
+  height: 64px;
+}
+
+/* Stars: one per picture while playing, then the score on the finish screen. */
+.stars {
+  display: flex;
+  align-items: center;
+  gap: clamp(2px, 0.4vw, 5px);
+}
+
+.starsLarge {
+  gap: clamp(6px, 1.4vw, 18px);
+}
+
+.star {
+  width: clamp(20px, 2.8vw, 32px);
+  height: clamp(20px, 2.8vw, 32px);
+}
+
+.starLarge {
+  width: clamp(44px, 8vw, 92px);
+  height: clamp(44px, 8vw, 92px);
+}
+
+.starPath {
+  fill: #fff;
+  stroke: var(--navy);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.starPathFilled {
+  fill: var(--yellow);
+}
+
+.starAhead {
+  opacity: 0.45;
+}
+
+.starCurrent {
+  animation: bob 1.2s ease-in-out infinite;
+}
+
+.starEarned {
+  animation: pop 0.5s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+/* The activity's name, centered between the name chip and the stars. */
+.title {
+  margin: 0;
+  padding: 1.6vh 4vw 0;
+  text-align: center;
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 1.6vh 4vw 0;
+  text-align: center;
+  font-size: clamp(18px, 2.8vw, 34px);
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.questionClean {
+  color: #2f8f57;
+}
+
+.questionDirty {
+  color: var(--brown);
+}
+
+.pictureArea {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 1vh 0;
+}
+
+.pictureCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-width: 90%;
+  max-height: 400px;
+  aspect-ratio: 1 / 1;
+  padding: 1.2vh;
+  border: 5px solid var(--navy);
+  border-radius: 32px;
+  background: #fff;
+  box-shadow: 0 10px 0 rgba(30, 58, 95, 0.12);
+  animation: pop 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.picture {
+  flex: 1 1 0;
+  width: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+.pictureName {
+  font-size: clamp(18px, 2.6vw, 32px);
+  font-weight: 800;
+}
+
+/* The answer pill sits under the stars, so the picture and buttons stay uncovered. */
+.feedback {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border: 3px solid var(--navy);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 rgba(30, 58, 95, 0.25);
+  font-size: clamp(16px, 2.2vw, 26px);
+  font-weight: 900;
+  white-space: nowrap;
+  animation: pop 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.feedbackCorrect {
+  background: var(--green);
+  color: #fff;
+}
+
+.feedbackTry {
+  background: var(--yellow);
+}
+
+.bins {
+  display: flex;
+  flex: 0 0 clamp(120px, 22vh, 210px);
+  box-sizing: border-box;
+  gap: 8%;
+  padding: 1.6vh 9vw 2.6vh;
+}
+
+.bin {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+/* The picture fills its slot without stretching. */
+.binImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 0 rgba(30, 58, 95, 0.25));
+  pointer-events: none;
+}
+
+/* After an answer the right button zooms in and glows with a check, so a miss still teaches. */
+/* Each button slides to the middle of the pair: half its own width plus half the 8% gap, which is about 59% of its width. */
+.binClean {
+  --shift: 59%;
+}
+
+.binDirty {
+  --shift: -59%;
+}
+
+.binRight {
+  z-index: 2;
+  transform: translateX(var(--shift)) scale(1.18);
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.binRight .binImage {
+  animation: glow 0.9s ease-in-out 2;
+}
+
+.binMissed {
+  opacity: 0.4;
+  animation: wobble 0.5s ease-in-out;
+}
+
+.binDim {
+  opacity: 0.4;
+  transform: scale(0.94);
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.check {
+  position: absolute;
+  top: 4%;
+  right: 6%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border: 4px solid var(--navy);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--green);
+  font-size: 30px;
+  font-weight: 900;
+}
+
+/* Finish screen. */
+.done {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6vh;
+  padding: 2vh 4vw;
+  text-align: center;
+}
+
+.doneTitle {
+  font-size: clamp(30px, 5vw, 60px);
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.doneScore {
+  font-size: clamp(22px, 3.4vw, 40px);
+  font-weight: 800;
+}
+
+/* Loading and error screens. */
+.message {
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 800;
+}
+
+.loadingIcon {
+  font-size: 72px;
+  animation: bob 1.2s ease-in-out infinite;
+}
+
+.retryButton {
+  min-height: 64px;
+  padding: 0 40px;
+  border: 4px solid var(--navy);
+  border-radius: 999px;
+  background: var(--yellow);
+  box-shadow: 0 6px 0 rgba(30, 58, 95, 0.28);
+  color: var(--navy);
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 900;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.12);
+  }
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-2.5deg);
+  }
+  75% {
+    transform: rotate(2.5deg);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 6px 0 rgba(30, 58, 95, 0.25)) drop-shadow(0 0 0 rgba(245, 185, 66, 0));
+  }
+  50% {
+    filter: drop-shadow(0 6px 0 rgba(30, 58, 95, 0.25)) drop-shadow(0 0 18px rgba(245, 185, 66, 0.95));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen * {
+    animation: none !important;
+  }
+}

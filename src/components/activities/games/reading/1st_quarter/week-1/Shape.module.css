@@ -1,0 +1,134 @@
+/* Look of Match the Shapes; layout and spacing stay in Tailwind, artwork paths stay in Shape.data.ts. The canvas board's colors live in Shape.tsx, since Konva draws them. */
+
+/* Space-themed paper; the picture itself is set from ASSETS.background. */
+.screen {
+  background-color: #0b1a3a;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: "Kalam", "Comic Sans MS", cursive;
+  color: #22314f;
+}
+
+/* Banner and panel art are set from ASSETS; the text sits in their drawn blank areas. */
+.nameBanner {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+.instructionPanel {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.retryButton {
+  border: 3px solid #22314f;
+  background: #f2c94c;
+  color: #22314f;
+  box-shadow: 0 4px 0 rgba(34, 49, 79, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.retryButton:active {
+  transform: scale(0.96);
+}
+
+.toast {
+  border-width: 2px;
+  border-style: solid;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+.toastSuccess {
+  border-color: #2f9e8f;
+  background: #dcf3ee;
+  color: #1f6f65;
+}
+
+.toastError {
+  border-color: #b34a3c;
+  background: #fbe3e1;
+  color: #7a2017;
+}
+
+.stamp {
+  border: 4px solid white;
+  background: #2f9e8f;
+  color: white;
+  box-shadow: 0 0 0 3px #2f9e8f, 0 4px 0 rgba(34, 49, 79, 0.35);
+}
+
+.starsEarned {
+  border: 3px solid #22314f;
+  background: #fffdf6;
+  color: #22314f;
+  box-shadow: 3px 3px 0 rgba(34, 49, 79, 0.3);
+}
+
+/* Phones held sideways are only ~300px tall: tighter header and no instruction panel. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    padding: 6px 16px 8px;
+  }
+
+  .instructionPanel {
+    display: none;
+  }
+}
+
+/* Board sizes read by ShapeBoard in Shape.tsx; registered as lengths so getComputedStyle returns px, and 0px means "fill the space". */
+@property --shape-drop-zone {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --shape-card {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+/* Touch tablets held sideways get smaller sizes so the board breathes; a resized laptop window keeps the desktop Tailwind sizes. */
+@media (min-width: 768px) and (max-width: 1180px) and (orientation: landscape) and (hover: none) and (pointer: coarse) {
+  .screen {
+    --shape-title: clamp(60px, 7.5vw, 84px);
+    --shape-instruction: clamp(440px, 50vw, 540px);
+    /* The gaps between boxes scale with the drop zone, so the five-box row is about 620px wide at 1024px and 510px at 768px. */
+    --shape-drop-zone: clamp(84px, 9.5vw, 104px);
+    --shape-card: clamp(92px, 10.5vw, 112px);
+  }
+
+  .titleLetter {
+    width: var(--shape-title);
+    height: var(--shape-title);
+  }
+
+  .nameBanner {
+    width: clamp(240px, 28vw, 300px);
+  }
+
+  .nameText {
+    font-size: clamp(15px, 1.7vw, 19px);
+  }
+
+  .starBadge {
+    height: clamp(52px, 6.5vw, 72px);
+  }
+
+  .instructionPanel {
+    max-width: var(--shape-instruction);
+    margin-bottom: clamp(16px, 4vh, 40px);
+  }
+
+  .instructionText {
+    font-size: calc(var(--shape-instruction) * 0.032);
+  }
+
+  /* The board is no longer pulled up under the instruction panel. */
+  .boardArea {
+    margin-top: 0;
+  }
+}
