@@ -1,7 +1,7 @@
 import { ordinal } from "@/hooks/useSpeech";
 
 export const ASSETS = {
-  background: "/images/background-images/big-and-small-bg.webp",
+  background: "/images/activities/big-and-small/big-and-small-bg.webp",
 };
 
 export type Size = "big" | "small";

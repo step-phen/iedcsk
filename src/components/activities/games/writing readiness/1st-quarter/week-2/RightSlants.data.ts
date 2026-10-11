@@ -1,7 +1,7 @@
 import { ordinal } from "@/hooks/useSpeech";
 
 export const ASSETS = {
-  background: "/images/background-images/right-slants-bg.webp",
+  background: "/images/activities/right-slants/right-slants-bg.webp",
 };
 
 // Each slant is drawn on the tracing board from the shapes below, in 0..1 coordinates of the tracing area.

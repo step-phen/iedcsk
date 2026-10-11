@@ -4,7 +4,7 @@ import { ordinal } from "@/hooks/useSpeech";
 const FOLDER = "/images/activities/clean-or-dirty";
 
 export const ASSETS = {
-  background: "/images/background-images/clean-or-dirty-bg.jpg",
+  background: "/images/activities/clean-or-dirty/clean-or-dirty-bg.jpg",
 };
 
 export type Choice = "clean" | "dirty";

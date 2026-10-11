@@ -2,7 +2,7 @@
 const FOLDER = "/images/activities/number-coloring";
 
 export const ASSETS = {
-  background: "/images/background-images/number-coloring-bg.webp",
+  background: "/images/activities/number-coloring/number-coloring-bg.webp",
   starFilled: `${FOLDER}/star-with-fill.webp`,
   starEmpty: `${FOLDER}/star-without-fill.webp`,
 };

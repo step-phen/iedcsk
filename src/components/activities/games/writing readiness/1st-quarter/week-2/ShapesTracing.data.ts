@@ -1,7 +1,7 @@
 import { ordinal } from "@/hooks/useSpeech";
 
 export const ASSETS = {
-  background: "/images/background-images/shapes-tracing-bg.webp",
+  background: "/images/activities/shapes-tracing/shapes-tracing-bg.webp",
 };
 
 // Each shape is drawn in the middle square of the tracing board, in 0..1 coordinates of that square.

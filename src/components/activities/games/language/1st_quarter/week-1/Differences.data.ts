@@ -4,7 +4,7 @@ import { ordinal } from "@/hooks/useSpeech";
 const FOLDER = "/images/activities/differences";
 
 export const ASSETS = {
-  background: "/images/background-images/differences-bg.webp",
+  background: "/images/activities/differences/differences-bg.webp",
   title: `${FOLDER}/assets/title.webp`,
   nameBanner: `${FOLDER}/assets/name-banner.webp`,
   starFilled: `${FOLDER}/assets/star-with-fill.webp`,

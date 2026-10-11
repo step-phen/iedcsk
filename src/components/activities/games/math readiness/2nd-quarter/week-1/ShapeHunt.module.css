@@ -1,14 +1,14 @@
 /* Look of Shape Hunt; layout and spacing stay in Tailwind, the object library and spoken lines stay in ShapeHunt.data.ts. */
 
 .screen {
-  background: #eef6f0 url("/images/background-images/shape-hunt-bg.jpg") center / cover no-repeat;
+  background: #eef6f0 url("/images/activities/shape-hunt/shape-hunt-bg.jpg") center / cover no-repeat;
   color: #22314f;
   -webkit-tap-highlight-color: transparent;
 }
 
 @media (orientation: portrait) {
   .screen {
-    background-image: url("/images/background-images/shape-hunt-portrait-bg.jpg");
+    background-image: url("/images/activities/shape-hunt/shape-hunt-portrait-bg.jpg");
   }
 }
 

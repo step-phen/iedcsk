@@ -1,7 +1,7 @@
 import { ordinal } from "@/hooks/useSpeech";
 
 export const ASSETS = {
-  background: "/images/background-images/lines-bg.webp",
+  background: "/images/activities/lines/lines-bg.webp",
   title: "/images/activities/lines/lines-title-banner.webp",
 };
 

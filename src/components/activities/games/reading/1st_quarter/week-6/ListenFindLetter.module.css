@@ -2,14 +2,14 @@
 
 /* Beach art, bottom-anchored so the chests sit on the sand; upright screens get the tall version. */
 .screen {
-  background: #bfe8ff url("/images/background-images/listen-find-letter-bg.jpg") center bottom / cover no-repeat;
+  background: #bfe8ff url("/images/activities/listen-find-letter/listen-find-letter-bg.jpg") center bottom / cover no-repeat;
   font-family: "Kalam", "Comic Sans MS", cursive;
   color: #22314f;
 }
 
 @media (orientation: portrait) {
   .screen {
-    background-image: url("/images/background-images/listen-find-letter-portrait-bg.jpg");
+    background-image: url("/images/activities/listen-find-letter/listen-find-letter-portrait-bg.jpg");
   }
 }
 

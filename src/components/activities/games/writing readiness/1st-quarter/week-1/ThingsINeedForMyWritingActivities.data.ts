@@ -2,7 +2,7 @@
 const FOLDER = "/images/activities/things-i-need-for-my-writing-activities";
 
 export const ASSETS = {
-  background: "/images/background-images/things-i-need-for-my-writing-activities-bg.webp",
+  background: "/images/activities/things-i-need-for-my-writing-activities/things-i-need-for-my-writing-activities-bg.webp",
   title: `${FOLDER}/assets/title-banner.webp`,
   instructionPanel: `${FOLDER}/assets/instruction-panel.webp`,
   feedbackBar: `${FOLDER}/assets/feedback-bar.webp`,

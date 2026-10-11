@@ -1,7 +1,7 @@
 import { ordinal } from "@/hooks/useSpeech";
 
 export const ASSETS = {
-  background: "/images/background-images/color-hunt-bg.jpg",
+  background: "/images/activities/color-hunt/color-hunt-bg.jpg",
 };
 
 // Every color an object can have; the DB only says which one is the target of a round.

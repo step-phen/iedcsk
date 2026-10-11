@@ -2,14 +2,14 @@
 
 /* Garden art, bottom-anchored so the flowers stand on the grass; upright screens get the tall version. */
 .screen {
-  background: #cdeeff url("/images/background-images/beginning-vowel-match-bg.jpg") center bottom / cover no-repeat;
+  background: #cdeeff url("/images/activities/beginning-vowel-match/beginning-vowel-match-bg.jpg") center bottom / cover no-repeat;
   font-family: "Kalam", "Comic Sans MS", cursive;
   color: #22314f;
 }
 
 @media (orientation: portrait) {
   .screen {
-    background-image: url("/images/background-images/beginning-vowel-match-portrait-bg.jpg");
+    background-image: url("/images/activities/beginning-vowel-match/beginning-vowel-match-portrait-bg.jpg");
   }
 }
 

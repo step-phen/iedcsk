@@ -4,7 +4,7 @@ import { ordinal } from "@/hooks/useSpeech";
 const FOLDER = "/images/activities/number-recognition";
 
 export const ASSETS = {
-  background: "/images/background-images/number-recognition-bg.webp",
+  background: "/images/activities/number-recognition/number-recognition-bg.webp",
   title: `${FOLDER}/number-recognation-title-banner.webp`,
 };
 

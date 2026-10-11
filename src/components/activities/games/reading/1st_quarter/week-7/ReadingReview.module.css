@@ -2,14 +2,14 @@
 
 /* Park meadow art, bottom-anchored so the cards sit on the grass; upright screens get the tall version. */
 .screen {
-  background: #c8ecff url("/images/background-images/reading-review-bg.jpg") center bottom / cover no-repeat;
+  background: #c8ecff url("/images/activities/reading-review/reading-review-bg.jpg") center bottom / cover no-repeat;
   font-family: "Kalam", "Comic Sans MS", cursive;
   color: #22314f;
 }
 
 @media (orientation: portrait) {
   .screen {
-    background-image: url("/images/background-images/reading-review-portrait-bg.jpg");
+    background-image: url("/images/activities/reading-review/reading-review-portrait-bg.jpg");
   }
 }
 

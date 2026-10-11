@@ -4,7 +4,7 @@ import { ordinal } from "@/hooks/useSpeech";
 const FOLDER = "/images/activities/similar-and-different";
 
 export const ASSETS = {
-  background: "/images/background-images/similar-and-different-bg.webp",
+  background: "/images/activities/similar-and-different/similar-and-different-bg.webp",
   title: `${FOLDER}/background-image/game-title.webp`,
   instruction: `${FOLDER}/background-image/game-instruction.webp`,
   buttons: {

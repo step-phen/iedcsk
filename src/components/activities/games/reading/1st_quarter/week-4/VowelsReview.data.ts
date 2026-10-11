@@ -3,7 +3,7 @@
 const ITEMS = "/images/activities/vowel-review/items";
 
 export const ASSETS = {
-  background: "/images/background-images/vowel-review-bg.jpg",
+  background: "/images/activities/vowel-review/vowel-review-bg.jpg",
   basket: "/images/activities/vowel-review/train/basket.webp",
 };
 

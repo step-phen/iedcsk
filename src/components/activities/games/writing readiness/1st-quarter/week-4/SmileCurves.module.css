@@ -2,7 +2,7 @@
 
 /* A cheerful polka-dot playroom wall with a toy shelf along the bottom; upright screens get the tall version. */
 .screen {
-  background: #fbf3e6 url("/images/background-images/smile-curves-bg.jpg") center bottom / cover no-repeat;
+  background: #fbf3e6 url("/images/activities/smile-curves/smile-curves-bg.jpg") center bottom / cover no-repeat;
   font-family: "Kalam", "Comic Sans MS", cursive;
   color: #3b2a1a;
 }
@@ -24,7 +24,7 @@
 
 @media (orientation: portrait) {
   .screen {
-    background-image: url("/images/background-images/smile-curves-portrait-bg.jpg");
+    background-image: url("/images/activities/smile-curves/smile-curves-portrait-bg.jpg");
   }
 }
 

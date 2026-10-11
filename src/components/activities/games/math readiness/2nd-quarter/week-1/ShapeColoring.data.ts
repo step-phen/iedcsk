@@ -1,7 +1,7 @@
 // Spoken lines and crayon palette for Shape Coloring; artwork is drawn procedurally (see drawShapePath in ShapeColoring.tsx), no image assets to ship.
 
 export const ASSETS = {
-  background: "/images/background-images/number-coloring-bg.webp",
+  background: "/images/activities/number-coloring/number-coloring-bg.webp",
   starFilled: "/images/activities/number-coloring/star-with-fill.webp",
   starEmpty: "/images/activities/number-coloring/star-without-fill.webp",
 };

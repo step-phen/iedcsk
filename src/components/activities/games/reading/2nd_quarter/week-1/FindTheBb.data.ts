@@ -4,7 +4,7 @@ import type { SubmittedAnswer } from "@/types/activity";
 // Flower artwork lives in public/images/activities/find-the-bb/letter-flower/.
 // Empty decorative paths use the existing text/icon fallbacks.
 export const ASSETS = {
-  background: "/images/background-images/find-the-bb-bg.webp",
+  background: "/images/activities/find-the-bb/find-the-bb-bg.webp",
   titleBanner: "/images/activities/find-the-bb/UI-assets/find-the-bb-title-banner.webp",
   instructionBanner: "/images/activities/find-the-bb/UI-assets/find-the-bb-instruction-banner.webp",
   speakerButton: "/images/activities/find-the-bb/UI-assets/ind-the-bb-speaker-button.webp",

@@ -2,7 +2,7 @@
 
 /* A wooden school desk seen from above, with crayons and pencils round the edges; upright screens get the tall version. */
 .screen {
-  background: #e3b47a url("/images/background-images/writing-skills-review-1-bg.jpg") center / cover no-repeat;
+  background: #e3b47a url("/images/activities/writing-skills-review-1/writing-skills-review-1-bg.jpg") center / cover no-repeat;
   font-family: "Kalam", "Comic Sans MS", cursive;
   color: #22314f;
 }
@@ -24,7 +24,7 @@
 
 @media (orientation: portrait) {
   .screen {
-    background-image: url("/images/background-images/writing-skills-review-1-portrait-bg.jpg");
+    background-image: url("/images/activities/writing-skills-review-1/writing-skills-review-1-portrait-bg.jpg");
   }
 }
 

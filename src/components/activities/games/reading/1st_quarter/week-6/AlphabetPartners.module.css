@@ -2,14 +2,14 @@
 
 /* Lakeside art, bottom-anchored so the water stays under the pond; upright screens get the tall version. */
 .screen {
-  background: #bfe8ff url("/images/background-images/alphabet-partners-bg.jpg") center bottom / cover no-repeat;
+  background: #bfe8ff url("/images/activities/alphabet-partners/alphabet-partners-bg.jpg") center bottom / cover no-repeat;
   font-family: "Kalam", "Comic Sans MS", cursive;
   color: #22314f;
 }
 
 @media (orientation: portrait) {
   .screen {
-    background-image: url("/images/background-images/alphabet-partners-portrait-bg.jpg");
+    background-image: url("/images/activities/alphabet-partners/alphabet-partners-portrait-bg.jpg");
   }
 }
 

@@ -2,14 +2,14 @@
 
 /* Night sky art with the moon and hills, bottom-anchored so the hills stay under the cards; upright screens get the tall version. */
 .screen {
-  background: #1c2457 url("/images/background-images/reading-final-exam-bg.jpg") center bottom / cover no-repeat;
+  background: #1c2457 url("/images/activities/reading-final-exam/reading-final-exam-bg.jpg") center bottom / cover no-repeat;
   font-family: "Kalam", "Comic Sans MS", cursive;
   color: white;
 }
 
 @media (orientation: portrait) {
   .screen {
-    background-image: url("/images/background-images/reading-final-exam-portrait-bg.jpg");
+    background-image: url("/images/activities/reading-final-exam/reading-final-exam-portrait-bg.jpg");
   }
 }
 

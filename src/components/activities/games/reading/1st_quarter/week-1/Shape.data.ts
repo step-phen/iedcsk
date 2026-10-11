@@ -2,7 +2,7 @@
 const FOLDER = "/images/activities/shape";
 
 export const ASSETS = {
-  background: "/images/background-images/shape-bg.webp",
+  background: "/images/activities/shape/shape-bg.webp",
   nameBanner: `${FOLDER}/bg-img/name-banner.webp`,
   instructionPanel: `${FOLDER}/bg-img/instruction-panel.webp`,
   planets: [`${FOLDER}/bg-img/planet1.webp`, `${FOLDER}/bg-img/planet2.webp`, `${FOLDER}/bg-img/planet3.webp`],

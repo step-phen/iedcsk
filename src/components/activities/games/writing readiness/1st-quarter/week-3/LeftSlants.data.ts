@@ -1,5 +1,5 @@
 export const ASSETS = {
-  background: "/images/background-images/left-slant-bg.webp",
+  background: "/images/activities/left-slant/left-slant-bg.webp",
   titleBanner: "/images/activities/left-slant/title-bannner.webp",
 };
 
