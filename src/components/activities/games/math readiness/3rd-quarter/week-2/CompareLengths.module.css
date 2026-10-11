@@ -1,0 +1,147 @@
+/* Look of Compare Lengths; layout and spacing stay in Tailwind, the round checks and spoken lines stay in CompareLengths.data.ts. */
+
+.screen {
+  background: linear-gradient(#e0f2fe, #f0fdf4);
+  color: #22314f;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.badge {
+  border: 3px solid #22314f;
+  background: white;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #fde7c2;
+  color: #a35b00;
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.9);
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.12);
+}
+
+.iconButton {
+  border: 3px solid #22314f;
+  background: white;
+  color: #22314f;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.board {
+  background: white;
+  border: 4px solid #22314f;
+  box-shadow: 0 5px 0 rgba(34, 49, 79, 0.2);
+}
+
+/* The shared start line both things begin at — the whole point of the lesson. */
+.startLine {
+  border-left: 6px dashed #ef4444;
+}
+
+.startTag {
+  background: #ef4444;
+  color: white;
+}
+
+.lane {
+  background: repeating-linear-gradient(90deg, #f1f5f9 0 24px, #e2e8f0 24px 26px);
+  border: 4px solid transparent;
+  transition: transform 150ms ease-out;
+}
+
+.lane:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.laneWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: shake 0.4s ease-in-out;
+}
+
+.laneReveal {
+  border-color: #16a34a;
+  animation: revealZoom 2s ease-in-out, revealPulse 1.1s ease-in-out infinite;
+  z-index: 1;
+  transform-origin: left center;
+}
+
+.laneCorrect {
+  border-color: #16a34a;
+  background: #dcfce7;
+}
+
+/* The picked thing gives a happy little roll forward. */
+.itemCheer {
+  animation: cheer 0.7s ease-in-out 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(34, 49, 79, 0.3);
+}
+
+.resultStamp {
+  border: 4px solid white;
+  background: #2563eb;
+  color: white;
+  box-shadow: 0 0 0 3px #2563eb, 0 4px 0 rgba(34, 49, 79, 0.35);
+  transform: rotate(-6deg);
+}
+
+.result {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes cheer {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(10px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.55); }
+  50% { box-shadow: 0 0 0 10px rgba(22, 163, 74, 0); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes statusPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  65% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .laneWrong,
+  .laneReveal,
+  .itemCheer,
+  .result {
+    animation: none;
+  }
+}

@@ -346,6 +346,10 @@ export const gameRegistry: Record<
     () =>
       import("@/components/activities/games/math readiness/2nd-quarter/week-3/ContinueThePattern"),
   ),
+  "MR-Q2W3-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/2nd-quarter/week-3/PatternMaking"),
+  ),
   "MR-Q2W4-01": game(
     () =>
       import("@/components/activities/games/math readiness/2nd-quarter/week-4/SortByColor"),
@@ -353,6 +357,134 @@ export const gameRegistry: Record<
   "MR-Q2W4-02": game(
     () =>
       import("@/components/activities/games/math readiness/2nd-quarter/week-4/MathSkillsReview2"),
+  ),
+  "MR-Q2W5-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/2nd-quarter/week-5/SortByShape"),
+  ),
+  "MR-Q2W5-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/2nd-quarter/week-5/PatternDetective"),
+  ),
+  "MR-Q2W6-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/2nd-quarter/week-6/ChangeTheSortingRule"),
+  ),
+  "MR-Q2W6-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/2nd-quarter/week-6/ShapeAndPatternChallenge"),
+  ),
+  "MR-Q2W7-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/2nd-quarter/week-7/MathReadinessReview2"),
+  ),
+  "MR-Q2W7-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/2nd-quarter/week-7/MathReadinessFinalAssessment2"),
+  ),
+  "MR-Q3W1-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-1/BigOrSmall"),
+  ),
+  "MR-Q3W1-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-1/SizeSorting"),
+  ),
+  "MR-Q3W2-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-2/CompareLengths"),
+  ),
+  "MR-Q3W2-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-2/LongOrShort"),
+  ),
+  "MR-Q3W3-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-3/NearOrFar"),
+  ),
+  "MR-Q3W4-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-4/WhereIsIt"),
+  ),
+  "MR-Q3W4-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-4/MathSkillsReview3"),
+  ),
+  "MR-Q3W5-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-5/PutItInOut"),
+  ),
+  "MR-Q3W5-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-5/LengthLineUp"),
+  ),
+  "MR-Q3W6-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-6/CompareAndChoose"),
+  ),
+  "MR-Q3W6-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-6/PlaceItHere"),
+  ),
+  "MR-Q3W7-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-7/MathReadinessReview3"),
+  ),
+  "MR-Q3W7-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/3rd-quarter/week-7/MathReadinessFinalAssessment3"),
+  ),
+  "MR-Q4W1-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-1/CountAndAdd"),
+  ),
+  "MR-Q4W1-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-1/AdditionGame"),
+  ),
+  "MR-Q4W2-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-2/TakeAway"),
+  ),
+  "MR-Q4W2-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-2/SubtractionGame"),
+  ),
+  "MR-Q4W3-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-3/WhatComesNext"),
+  ),
+  "MR-Q4W4-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-4/MathGame"),
+  ),
+  "MR-Q4W4-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-4/MathSkillsReview4"),
+  ),
+  "MR-Q4W5-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-5/AddTheStory"),
+  ),
+  "MR-Q4W5-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-5/TakeAwayStory"),
+  ),
+  "MR-Q4W6-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-6/MissingNumberHunt"),
+  ),
+  "MR-Q4W6-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-6/JoinOrTakeAway"),
+  ),
+  "MR-Q4W7-01": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-7/MathReadinessReview4"),
+  ),
+  "MR-Q4W7-02": game(
+    () =>
+      import("@/components/activities/games/math readiness/4th-quarter/week-7/MathReadinessFinalAssessment4"),
   ),
 
   // MAPEH

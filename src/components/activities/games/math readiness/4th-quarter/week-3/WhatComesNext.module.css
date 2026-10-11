@@ -1,0 +1,167 @@
+/* Look of What Comes Next?, a sky railway; layout and spacing stay in Tailwind, the train cars and spoken lines stay in WhatComesNext.data.ts. */
+
+.screen {
+  background: linear-gradient(to bottom, #bfdbfe 0%, #e0f2fe 70%, #e0f2fe 100%);
+  color: #1e3a8a;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.title {
+  color: #fef9c3;
+  -webkit-text-stroke: 3px #1e3a8a;
+  paint-order: stroke fill;
+  text-shadow: 0 5px 0 rgba(30, 58, 138, 0.3);
+}
+
+.badge {
+  border: 3px solid #1e3a8a;
+  background: #fef9c3;
+  box-shadow: 0 3px 0 rgba(30, 58, 138, 0.25);
+}
+
+.avatar {
+  background: #bfdbfe;
+  color: #1e40af;
+}
+
+.instruction {
+  background: #fef9c3;
+  border: 3px solid #2563eb;
+  box-shadow: 0 3px 0 rgba(30, 58, 138, 0.2);
+  transition: background-color 200ms ease-out;
+}
+
+.instructionReveal {
+  background: #dcfce7;
+  border-color: #15803d;
+  color: #14532d;
+}
+
+.iconButton {
+  border: 3px solid #1e3a8a;
+  background: #fef9c3;
+  color: #1e3a8a;
+  box-shadow: 0 3px 0 rgba(30, 58, 138, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.stage {
+  animation: chugIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.engine {
+  filter: drop-shadow(0 3px 0 rgba(30, 58, 138, 0.25));
+}
+
+.car {
+  background: #fef9c3;
+  border: 4px solid #1e3a8a;
+  box-shadow: 0 4px 0 rgba(30, 58, 138, 0.3);
+}
+
+.carNext {
+  background: repeating-linear-gradient(45deg, #fef9c3 0 8px, #fde68a 8px 16px);
+  border-style: dashed;
+  color: #b45309;
+}
+
+.wheel {
+  background: #1e3a8a;
+  border: 2px solid #fef9c3;
+}
+
+.choiceCard {
+  background: #fef9c3;
+  border: 5px solid #1e3a8a;
+  box-shadow: 0 5px 0 rgba(30, 58, 138, 0.3);
+  transition: transform 150ms ease-out, scale 2s ease-in-out;
+}
+
+.choiceCard:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.choiceWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: shake 0.4s ease-in-out;
+}
+
+.choiceReveal {
+  border-color: #16a34a;
+  background: rgba(220, 252, 231, 0.95);
+  z-index: 2;
+  animation: revealZoom 2s ease-in-out, revealPulse 1.1s ease-in-out infinite;
+}
+
+.choiceCorrect {
+  border-color: #16a34a;
+  background: rgba(220, 252, 231, 0.95);
+  box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.35);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(30, 58, 138, 0.3);
+}
+
+.resultStamp {
+  border: 4px solid #facc15;
+  background: #1d4ed8;
+  color: #fef9c3;
+  box-shadow: 0 0 0 3px #1e3a8a, 0 5px 0 rgba(30, 58, 138, 0.35);
+  transform: rotate(-4deg);
+}
+
+.result {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes chugIn {
+  0% { transform: translateX(-30px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
+  50% { box-shadow: 0 0 0 14px rgba(22, 163, 74, 0); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes statusPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  65% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage,
+  .choiceWrong,
+  .choiceReveal,
+  .result {
+    animation: none;
+  }
+}

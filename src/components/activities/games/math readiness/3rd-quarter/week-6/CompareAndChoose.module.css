@@ -1,0 +1,185 @@
+/* Look of Compare and Choose, an under-the-sea scene; layout and spacing stay in Tailwind, the sea things and spoken lines stay in CompareAndChoose.data.ts. */
+
+.screen {
+  background: linear-gradient(#7dd3fc 0%, #0ea5e9 45%, #0369a1 100%);
+  color: #042f49;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.title {
+  color: white;
+  text-shadow: 0 3px 0 #075985;
+}
+
+.badge {
+  border: 3px solid #042f49;
+  background: #f0f9ff;
+  box-shadow: 0 3px 0 rgba(4, 47, 73, 0.3);
+}
+
+.avatar {
+  background: #bae6fd;
+  color: #075985;
+}
+
+.instruction {
+  background: #f0f9ff;
+  border: 3px solid #042f49;
+  box-shadow: 0 3px 0 rgba(4, 47, 73, 0.3);
+  transition: background-color 200ms ease-out;
+}
+
+.instructionReveal {
+  background: #dcfce7;
+  border-color: #15803d;
+  color: #14532d;
+}
+
+/* Tells the child whether this round compares size or length. */
+.chip {
+  background: #facc15;
+  border: 3px solid #042f49;
+  color: #042f49;
+  box-shadow: 0 3px 0 rgba(4, 47, 73, 0.3);
+}
+
+.iconButton {
+  border: 3px solid #042f49;
+  background: #f0f9ff;
+  color: #042f49;
+  box-shadow: 0 3px 0 rgba(4, 47, 73, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.bubble {
+  width: clamp(14px, 2.6vh, 24px);
+  height: clamp(14px, 2.6vh, 24px);
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1) 60%);
+  animation: rise 7s linear infinite;
+}
+
+/* One glass sea window per choice, with sand at its base so both things start on the same line. */
+.window {
+  background: linear-gradient(rgba(224, 242, 254, 0.92), rgba(186, 230, 253, 0.92));
+  border: 5px solid #042f49;
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.6), 0 6px 0 rgba(4, 47, 73, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.window:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.sand {
+  background: radial-gradient(circle at 20% 30%, #fcd34d 0 3px, transparent 4px), radial-gradient(circle at 70% 60%, #fcd34d 0 3px, transparent 4px), #fde68a;
+  border-top: 3px solid #f59e0b;
+}
+
+.creature {
+  filter: drop-shadow(0 4px 3px rgba(4, 47, 73, 0.35));
+}
+
+.buoy {
+  background: radial-gradient(circle at 35% 35%, #fca5a5, #dc2626 70%);
+  border: 3px solid #042f49;
+}
+
+.rope {
+  background: repeating-linear-gradient(160deg, #a16207 0 6px, #ca8a04 6px 12px);
+  border: 2px solid #713f12;
+}
+
+.windowWrong {
+  border-color: #dc2626;
+  background: linear-gradient(#fee2e2, #fecaca);
+  animation: shake 0.4s ease-in-out;
+}
+
+.windowReveal {
+  border-color: #16a34a;
+  z-index: 1;
+  animation: revealZoom 2s ease-in-out, revealPulse 1.1s ease-in-out infinite;
+}
+
+.windowCorrect {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.4), 0 6px 0 rgba(4, 47, 73, 0.35);
+}
+
+.wiggle {
+  animation: wiggle 0.5s ease-in-out 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(4, 47, 73, 0.3);
+}
+
+.resultStamp {
+  border: 4px solid white;
+  background: #f97316;
+  color: white;
+  box-shadow: 0 0 0 3px #042f49, 0 5px 0 rgba(4, 47, 73, 0.35);
+}
+
+.result {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes rise {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-105vh) translateX(18px); opacity: 0; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  30% { transform: rotate(-6deg) translateY(-6px); }
+  70% { transform: rotate(6deg) translateY(-6px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6), 0 6px 0 rgba(4, 47, 73, 0.35); }
+  50% { box-shadow: 0 0 0 14px rgba(22, 163, 74, 0), 0 6px 0 rgba(4, 47, 73, 0.35); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes statusPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  65% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble,
+  .windowWrong,
+  .windowReveal,
+  .wiggle,
+  .result {
+    animation: none;
+  }
+}

@@ -1,0 +1,227 @@
+/* Look of the Q3 Math Readiness Final Assessment, a night-sky space mission; layout and spacing stay in Tailwind, the space things and spoken lines stay in MathReadinessFinalAssessment3.data.ts. */
+
+.screen {
+  background: radial-gradient(ellipse at 70% 10%, #4c1d95 0%, transparent 55%), linear-gradient(#0b1033, #1e1b4b);
+  color: #f5f3ff;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.twinkle {
+  background: #fef9c3;
+  box-shadow: 0 0 6px 1px rgba(254, 249, 195, 0.8);
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+
+.title {
+  color: #fde047;
+  text-shadow: 0 0 14px rgba(253, 224, 71, 0.45), 0 3px 0 #312e81;
+}
+
+.badge {
+  border: 3px solid #a78bfa;
+  background: #1e1b4b;
+  color: #f5f3ff;
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+}
+
+.avatar {
+  background: #4c1d95;
+  color: #fde047;
+}
+
+.instruction {
+  background: #f5f3ff;
+  color: #1e1b4b;
+  border: 3px solid #a78bfa;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.45);
+  transition: background-color 200ms ease-out;
+}
+
+.instructionReveal {
+  background: #dcfce7;
+  border-color: #22c55e;
+  color: #14532d;
+}
+
+.iconButton {
+  border: 3px solid #a78bfa;
+  background: #f5f3ff;
+  color: #1e1b4b;
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Each task warps in from deep space. */
+.warp {
+  animation: warpIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* A round spaceship window for a choice. */
+.porthole {
+  background: radial-gradient(circle at 35% 30%, #312e81, #0b1033 75%);
+  border: 6px solid #cbd5e1;
+  box-shadow: inset 0 0 0 4px #64748b, 0 0 0 4px #475569, 0 6px 14px rgba(0, 0, 0, 0.5);
+  transition: transform 150ms ease-out;
+}
+
+.orbit {
+  background: rgba(49, 46, 129, 0.55);
+  border: 3px dashed rgba(167, 139, 250, 0.7);
+  transition: transform 150ms ease-out;
+}
+
+/* Both comets launch from the same glowing start line. */
+.launchLine {
+  border-left: 6px solid #fde047;
+  box-shadow: -4px 0 12px rgba(253, 224, 71, 0.4);
+}
+
+.cometTail {
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0), #38bdf8 60%, #e0f2fe);
+}
+
+.cometHead {
+  background: radial-gradient(circle at 40% 40%, #ffffff, #fde047 45%, #f97316);
+  box-shadow: 0 0 16px 4px rgba(253, 224, 71, 0.7);
+}
+
+.shelf {
+  background: linear-gradient(transparent 80%, #64748b 80%);
+  border: 3px solid #a78bfa;
+  box-shadow: inset 0 0 18px rgba(167, 139, 250, 0.25);
+}
+
+.gap {
+  border: 4px dashed #fde047;
+  color: #fde047;
+  background: rgba(253, 224, 71, 0.08);
+  animation: gapGlow 1.4s ease-in-out infinite;
+}
+
+.gapFilled {
+  border-style: solid;
+  animation: none;
+}
+
+.space {
+  background: radial-gradient(circle at 80% 20%, rgba(129, 140, 248, 0.35), transparent 50%), #0f0c33;
+  border: 4px solid #a78bfa;
+  box-shadow: 0 0 18px rgba(167, 139, 250, 0.3);
+}
+
+.ground {
+  background: radial-gradient(circle at 20% 30%, #64748b 0 8px, transparent 9px), radial-gradient(circle at 70% 60%, #64748b 0 6px, transparent 7px), #94a3b8;
+  border-top: 4px solid #cbd5e1;
+}
+
+.dome {
+  background: radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.45), rgba(186, 230, 253, 0.18) 45%, rgba(186, 230, 253, 0.08));
+  border: 5px solid #bae6fd;
+  border-bottom: none;
+  box-shadow: inset 0 0 18px rgba(186, 230, 253, 0.35);
+}
+
+.floater {
+  background: rgba(245, 243, 255, 0.12);
+  border: 4px solid transparent;
+  transition: transform 150ms ease-out;
+}
+
+.porthole:active:not(:disabled),
+.orbit:active:not(:disabled),
+.floater:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.choiceWrong {
+  border-color: #ef4444;
+  background: rgba(127, 29, 29, 0.85);
+  animation: shake 0.4s ease-in-out;
+}
+
+.choiceReveal {
+  border-color: #22c55e;
+  z-index: 2;
+  animation: revealZoom 2s ease-in-out, revealPulse 1.1s ease-in-out infinite;
+}
+
+.choiceCorrect {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.45), 0 0 18px rgba(34, 197, 94, 0.5);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.resultStamp {
+  border: 4px solid #fde047;
+  background: #7c3aed;
+  color: white;
+  box-shadow: 0 0 18px rgba(253, 224, 71, 0.55);
+}
+
+.result {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes warpIn {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes gapGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(253, 224, 71, 0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(253, 224, 71, 0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  50% { box-shadow: 0 0 0 16px rgba(34, 197, 94, 0); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes statusPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  65% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .twinkle,
+  .warp,
+  .gap,
+  .choiceWrong,
+  .choiceReveal,
+  .result {
+    animation: none;
+  }
+}

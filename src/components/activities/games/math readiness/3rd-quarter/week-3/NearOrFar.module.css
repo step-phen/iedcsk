@@ -1,0 +1,170 @@
+/* Look of Near or Far?; layout and spacing stay in Tailwind, the scene data and spoken lines stay in NearOrFar.data.ts. */
+
+.screen {
+  background: #e0f2fe;
+  color: #22314f;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.badge {
+  border: 3px solid #22314f;
+  background: white;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+}
+
+.avatar {
+  background: #fde7c2;
+  color: #a35b00;
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.9);
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.12);
+}
+
+.iconButton {
+  border: 3px solid #22314f;
+  background: white;
+  color: #22314f;
+  box-shadow: 0 3px 0 rgba(34, 49, 79, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A wide park: sky on top, grass along the bottom where everything stands. */
+.scene {
+  background: linear-gradient(#bae6fd 0%, #e0f2fe 55%, #86efac 55%, #4ade80 100%);
+  border: 4px solid #22314f;
+  box-shadow: 0 5px 0 rgba(34, 49, 79, 0.2);
+}
+
+.landmark {
+  filter: drop-shadow(0 4px 3px rgba(34, 49, 79, 0.3));
+}
+
+/* The pin and ring that mark the landmark as the thing to measure from. */
+.pin {
+  animation: pinBob 1.2s ease-in-out infinite;
+}
+
+.ring {
+  border: 4px dashed #f59e0b;
+  background: rgba(253, 230, 138, 0.35);
+}
+
+.object {
+  filter: drop-shadow(0 4px 3px rgba(34, 49, 79, 0.3));
+  transition: transform 150ms ease-out;
+}
+
+.object:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+.objectWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.objectHalo {
+  border: 4px solid #16a34a;
+  background: rgba(220, 252, 231, 0.7);
+}
+
+.objectHaloReveal {
+  animation: revealPulse 1.1s ease-in-out infinite;
+}
+
+/* The correct spot zooms in and back out while the halo pulses, so the child sees where it belongs. */
+.objectReveal {
+  z-index: 2;
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongHalo {
+  border: 4px solid #dc2626;
+  background: rgba(254, 226, 226, 0.75);
+}
+
+/* The dotted path from the landmark to the answer, short for near and long for far. */
+.path {
+  border-top: 5px dotted #22314f;
+  animation: drawPath 0.7s ease-out;
+  transform-origin: left center;
+}
+
+.pathFromRight {
+  transform-origin: right center;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(34, 49, 79, 0.3);
+}
+
+.resultStamp {
+  border: 4px solid white;
+  background: #059669;
+  color: white;
+  box-shadow: 0 0 0 3px #059669, 0 4px 0 rgba(34, 49, 79, 0.35);
+  transform: rotate(-6deg);
+}
+
+.result {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes pinBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes drawPath {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@keyframes shake {
+  0%, 100% { margin-left: 0; }
+  20% { margin-left: -8px; }
+  40% { margin-left: 8px; }
+  60% { margin-left: -5px; }
+  80% { margin-left: 5px; }
+}
+
+@keyframes revealPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.55); }
+  50% { box-shadow: 0 0 0 12px rgba(22, 163, 74, 0); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes statusPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  65% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin,
+  .path,
+  .objectWrong,
+  .objectReveal,
+  .objectHaloReveal,
+  .result {
+    animation: none;
+  }
+}

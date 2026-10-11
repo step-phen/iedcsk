@@ -1,0 +1,201 @@
+/* Look of Join or Take Away?, a classroom chalkboard; layout and spacing stay in Tailwind, the stories stay in JoinOrTakeAway.data.ts. */
+
+.screen {
+  background: linear-gradient(to bottom, #fef3c7 0%, #fde68a 100%);
+  color: #1c1917;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.title {
+  color: #fafaf9;
+  -webkit-text-stroke: 3px #1c1917;
+  paint-order: stroke fill;
+  text-shadow: 0 5px 0 rgba(28, 25, 23, 0.3);
+}
+
+.badge {
+  border: 3px solid #1c1917;
+  background: #fafaf9;
+  box-shadow: 0 3px 0 rgba(28, 25, 23, 0.25);
+}
+
+.avatar {
+  background: #e7e5e4;
+  color: #44403c;
+}
+
+.instruction {
+  background: #fafaf9;
+  border: 3px solid #57534e;
+  box-shadow: 0 3px 0 rgba(28, 25, 23, 0.2);
+  transition: background-color 200ms ease-out;
+}
+
+.instructionReveal {
+  background: #dcfce7;
+  border-color: #15803d;
+  color: #14532d;
+}
+
+.iconButton {
+  border: 3px solid #1c1917;
+  background: #fafaf9;
+  color: #1c1917;
+  box-shadow: 0 3px 0 rgba(28, 25, 23, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.stage {
+  animation: wipeIn 0.45s ease-out;
+}
+
+/* A slate chalkboard in a wooden frame with a chalk tray. */
+.board {
+  background: radial-gradient(ellipse at 30% 20%, #3f4f46 0%, #1f2a24 85%);
+  border: 10px solid #92400e;
+  box-shadow: inset 0 0 0 2px #b45309, 0 8px 0 #78350f;
+}
+
+.chalk {
+  color: #f5f5f4;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.8), 1px 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.equation {
+  color: #fde68a;
+  letter-spacing: 0.06em;
+}
+
+/* Chalk-drawn counters: a white ring, yellow when added, crossed out when taken away. */
+.counter {
+  border: 4px solid #f5f5f4;
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.6);
+}
+
+.counterAdded {
+  border-color: #fde047;
+  animation: chalkIn 0.5s ease-out both;
+}
+
+.counterCrossed {
+  opacity: 0.45;
+}
+
+.counterCrossed::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  background: linear-gradient(45deg, transparent 45%, #fb7185 45% 55%, transparent 55%), linear-gradient(-45deg, transparent 45%, #fb7185 45% 55%, transparent 55%);
+  animation: chalkIn 0.5s ease-out both;
+  animation-delay: inherit;
+}
+
+.choice {
+  border: 5px solid #1c1917;
+  box-shadow: 0 6px 0 rgba(28, 25, 23, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.choice:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.joinChoice {
+  background: #bbf7d0;
+}
+
+.awayChoice {
+  background: #fecdd3;
+}
+
+.choiceWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: shake 0.4s ease-in-out;
+}
+
+.choiceReveal {
+  border-color: #16a34a;
+  background: #dcfce7;
+  z-index: 2;
+  animation: revealZoom 2s ease-in-out, revealPulse 1.1s ease-in-out infinite;
+}
+
+.choiceCorrect {
+  border-color: #16a34a;
+  background: #dcfce7;
+  box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.4);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(28, 25, 23, 0.3);
+}
+
+.resultStamp {
+  border: 4px solid #facc15;
+  background: #1f2a24;
+  color: #fafaf9;
+  box-shadow: 0 0 0 3px #92400e, 0 5px 0 rgba(28, 25, 23, 0.35);
+  transform: rotate(-4deg);
+}
+
+.result {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes wipeIn {
+  0% { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes chalkIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
+  50% { box-shadow: 0 0 0 14px rgba(22, 163, 74, 0); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes statusPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  65% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage,
+  .counterAdded,
+  .counterCrossed::after,
+  .choiceWrong,
+  .choiceReveal,
+  .result {
+    animation: none;
+  }
+}

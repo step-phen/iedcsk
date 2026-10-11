@@ -1,0 +1,190 @@
+/* Look of the Q4 Math Readiness Final Assessment, a Moving Up Day stage in navy and gold; layout and spacing stay in Tailwind, school things and spoken lines stay in MathReadinessFinalAssessment4.data.ts. */
+
+.screen {
+  background: radial-gradient(circle at 15% 20%, rgba(250, 204, 21, 0.25) 0 3px, transparent 4px) 0 0 / 46px 46px, linear-gradient(to bottom, #1e3a8a 0%, #172554 100%);
+  color: #172554;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.title {
+  color: #fde68a;
+  -webkit-text-stroke: 3px #0f172a;
+  paint-order: stroke fill;
+  text-shadow: 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+.badge {
+  border: 3px solid #ca8a04;
+  background: #fffbeb;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #dbeafe;
+  color: #1e3a8a;
+}
+
+.instruction {
+  background: #fffbeb;
+  border: 3px solid #eab308;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+  transition: background-color 200ms ease-out;
+}
+
+.instructionReveal {
+  background: #dcfce7;
+  border-color: #15803d;
+  color: #14532d;
+}
+
+.iconButton {
+  border: 3px solid #ca8a04;
+  background: #fffbeb;
+  color: #172554;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.stage {
+  animation: rise 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* A school desk top. */
+.desk {
+  background: linear-gradient(to bottom, #fef3c7, #fde68a);
+  border: 5px solid #92400e;
+  box-shadow: 0 6px 0 #78350f;
+}
+
+.gone {
+  opacity: 0.35;
+}
+
+.goneMark {
+  color: #b91c1c;
+}
+
+.sign {
+  color: #fde68a;
+}
+
+/* A graduation cap seen from above: navy board with a gold tassel. */
+.cap {
+  background: #0f172a;
+  color: #fde68a;
+  border: 3px solid #facc15;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+.cap::after {
+  content: "";
+  position: absolute;
+  right: 12%;
+  top: 50%;
+  width: 4px;
+  height: 60%;
+  background: #facc15;
+  border-radius: 2px;
+}
+
+.capBlank {
+  background: repeating-linear-gradient(45deg, #1e3a8a 0 8px, #1d4ed8 8px 16px);
+  border-style: dashed;
+}
+
+/* A rolled diploma answer card. */
+.diploma {
+  background: #fffbeb;
+  border: 5px solid #ca8a04;
+  box-shadow: inset 0 -8px 0 #fde68a, 0 5px 0 rgba(0, 0, 0, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.diploma:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.choiceWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: shake 0.4s ease-in-out;
+}
+
+.choiceReveal {
+  border-color: #16a34a;
+  background: rgba(220, 252, 231, 0.97);
+  z-index: 2;
+  animation: revealZoom 2s ease-in-out, revealPulse 1.1s ease-in-out infinite;
+}
+
+.choiceCorrect {
+  border-color: #16a34a;
+  background: rgba(220, 252, 231, 0.97);
+  box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.45);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.resultStamp {
+  border: 4px solid #facc15;
+  background: #1e3a8a;
+  color: #fde68a;
+  box-shadow: 0 0 0 3px #0f172a, 0 5px 0 rgba(0, 0, 0, 0.4);
+  transform: rotate(-4deg);
+}
+
+.result {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes rise {
+  0% { transform: translateY(24px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7); }
+  50% { box-shadow: 0 0 0 14px rgba(22, 163, 74, 0); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes statusPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  65% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage,
+  .choiceWrong,
+  .choiceReveal,
+  .result {
+    animation: none;
+  }
+}

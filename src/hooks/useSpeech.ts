@@ -17,6 +17,9 @@ const POST_SPEECH_PAUSE_MS = 500;
 // still playing normally.
 const SPEECH_WATCHDOG_MS = 12000;
 
+// Matches the 2s revealZoom keyframes in the games' CSS, so the next question never cuts the correct-answer zoom short.
+export const REVEAL_MIN_MS = 2000;
+
 // Once a clip is really playing, the stall watchdog is replaced by this far longer one, so a long sentence is never cut off mid-speech.
 const PLAYING_WATCHDOG_MS = 90000;
 
@@ -54,9 +57,10 @@ export function useSpeech() {
   }, []);
 
   const speak = useCallback(
-    (text: string, onEnd?: () => void, opts?: { interrupt?: boolean; pauseMs?: number }) => {
+    (text: string, onEnd?: () => void, opts?: { interrupt?: boolean; pauseMs?: number; minMs?: number }) => {
       const start = () => {
         const myToken = ++tokenRef.current;
+        const startedAt = Date.now();
         busyRef.current = true;
 
         // One line ends once. A clip that 404s or won't decode fires the
@@ -80,6 +84,8 @@ export function useSpeech() {
           // queue — dropping lines that were legitimately waiting, including
           // the ones games advance the round from.
           // pauseMs shortens the gap for lines that belong together, like counting one number per line.
+          // minMs holds onEnd until an on-screen animation (the wrong-answer reveal) has fully played, even when the clip fails fast.
+          const pause = Math.max(opts?.pauseMs ?? POST_SPEECH_PAUSE_MS, (opts?.minMs ?? 0) - (Date.now() - startedAt));
           window.setTimeout(() => {
             // Re-checked, not just checked in finish(): stop() or a newer
             // line during the pause must cancel this onEnd too. Without it a
@@ -89,7 +95,7 @@ export function useSpeech() {
             busyRef.current = false;
             onEnd?.();
             runNext();
-          }, opts?.pauseMs ?? POST_SPEECH_PAUSE_MS);
+          }, pause);
         };
 
         apiFetch("/api/tts", {

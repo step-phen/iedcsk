@@ -48,10 +48,20 @@ export const GAME_INTRO_LINES = {
     "Let's solve a shape puzzle! Drag the piece into the outline where it fits.",
   "continue the pattern":
     "Let's continue the pattern! Look at the shapes, then tap what comes next.",
+  "pattern making":
+    "Let's build a pattern! Look at the shapes, then tap to build what comes next, one at a time.",
   "sort by color":
     "Let's sort by color! Drag each object into the basket with the same color.",
   "math skills review 2":
     "Let's review! Look at each task, then tap the picture that answers it.",
+  "sort by shape":
+    "Let's sort by shape! Drag every object into the group with its matching shape.",
+  "change the sorting rule":
+    "Let's sort things, then change the rule! Watch the banner — it tells you if we're sorting by color or by shape.",
+  "pattern detective":
+    "Let's be pattern detectives! Find the piece that is missing from the pattern.",
+  "shape and pattern challenge":
+    "Let's take the challenge! Tap the shape you hear, or finish the pattern.",
   "color hunt": "Let's play Color Hunt! Find the objects that match the color!",
   "color the picture":
     "Let's color the picture! Pick a color, then drag on the picture to paint it!",
@@ -132,6 +142,64 @@ export const GAME_INTRO_LINES = {
     "Let's grow a number flower! Find numbers, count pictures, match groups, and find more or fewer. Every right answer opens a bright petal.",
   "math readiness final assessment":
     "It's time for your math final! Listen carefully and answer all by yourself. Every right answer puts a gold block on your number tower.",
+  // Quarter 2's Math Readiness Review/Final Assessment share their activity name with the Q1 ones above, but cover shapes and patterns
+  // instead of numbers — reusing the Q1 line would describe the wrong game, so these get their own suffixed keys instead.
+  "math readiness review 2":
+    "Let's grow a garden! Match shapes, finish patterns, and sort by color. Every right answer blooms a flower.",
+  "math readiness final assessment 2":
+    "It's time for your math final! Listen carefully and answer all by yourself. Every right answer earns a trophy on your shelf.",
+  "big or small":
+    "Snack time! The elephant eats big snacks and the mouse eats small snacks. Listen, then tap the big or the small snack.",
+  "size sorting":
+    "Let's climb the stairs! Put the smallest one on the lowest step and the biggest one on the highest step.",
+  "compare lengths":
+    "Let's compare lengths! Both things start at the same red line. Look where they end, then tap the long or the short one.",
+  "long or short":
+    "Here is our measuring stick! Compare each thing with the stick, then drag it into the Longer box or the Shorter box.",
+  "near or far":
+    "Let's go to the park! Find the place with the pin, then tap the thing that is near it or far from it.",
+  "where is it":
+    "Let's play where is it! Look at the container, then tap something that is inside it or outside it.",
+  "math skills review 3":
+    "Let's play picture cards! Each card asks about big and small, long and short, near and far, or inside and outside. Tap the right picture.",
+  "put it in or out":
+    "Let's tidy up! Listen carefully, then drag each thing inside the container or outside it.",
+  "length line-up":
+    "Let's line up! Put the shortest one in lane one and the longest one in lane three.",
+  "compare and choose":
+    "Let's dive under the sea! Listen carefully. Is it asking how big, or how long? Then tap the right sea thing.",
+  "place it here":
+    "Welcome to the farm! Listen to where each animal goes, then drag it near, far, inside, or outside.",
+  "math readiness review 3":
+    "Welcome to the circus! Each act asks about big and small, long and short, order, near and far, or inside and outside. Tap the right picture.",
+  "math readiness final assessment 3":
+    "Time for your space mission! Listen carefully and answer each task all by yourself.",
+  "count and add":
+    "Let's visit the garden! Count both baskets together, then tap the number that shows the total.",
+  "addition game":
+    "Let's play the addition game! Put the red and yellow counters together on the ten frame, then tap how many in all.",
+  "take away":
+    "Let's visit the bakery! Take away the treats you're asked for, then tap how many are left.",
+  "subtraction game":
+    "Let's play the subtraction game! Take counters off the board and drop them in the cup, then tap how many are left.",
+  "what comes next?":
+    "All aboard the number train! Count the cars, then tap the number that comes next.",
+  "math game":
+    "Welcome to the toy shop! Count the toys or find the shape, then tap your answer.",
+  "math skills review 4":
+    "Let's visit the math stations! At each station, count, add, take away, find shapes, finish patterns, or compare groups.",
+  "add the story":
+    "Let's read a story together! Listen carefully, watch more friends join, then tap how many in all.",
+  "missing number hunt":
+    "Let's go on a jungle hunt! Help the monkey cross the river by finding the missing number stone.",
+  "join or take away?":
+    "Let's listen to stories! Decide if more are joining or some are taken away, then watch the counters show the answer.",
+  "math readiness review 4":
+    "Welcome to the fiesta! Add, take away, count, find shapes, and put numbers in order. Tap the right answer.",
+  "math readiness final assessment 4":
+    "Happy Moving Up Day! Listen carefully and answer each math task all by yourself.",
+  "take-away story":
+    "Welcome to the puppet show! Listen to the story, tap the ones that go away, then tap how many are left.",
   "math skills review 1":
     "All aboard the number train! Find numbers, count pictures, match groups, and find more or fewer. Every right answer puts a star on the train.",
   "vowel ee":

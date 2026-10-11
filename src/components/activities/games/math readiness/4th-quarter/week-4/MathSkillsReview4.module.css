@@ -1,0 +1,184 @@
+/* Look of Math Skills Review 4, playground math stations with signposts; layout and spacing stay in Tailwind, materials and spoken lines stay in MathSkillsReview4.data.ts. */
+
+.screen {
+  background: linear-gradient(to bottom, #fdf2f8 0%, #fce7f3 62%, #bbf7d0 62%, #86efac 100%);
+  color: #500724;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.title {
+  color: #fdf2f8;
+  -webkit-text-stroke: 3px #500724;
+  paint-order: stroke fill;
+  text-shadow: 0 5px 0 rgba(80, 7, 36, 0.3);
+}
+
+.badge {
+  border: 3px solid #500724;
+  background: #fffbeb;
+  box-shadow: 0 3px 0 rgba(80, 7, 36, 0.25);
+}
+
+.avatar {
+  background: #fce7f3;
+  color: #9d174d;
+}
+
+/* A wooden station sign. */
+.signpost {
+  background: #a16207;
+  color: #fef9c3;
+  border: 3px solid #500724;
+  box-shadow: 0 3px 0 rgba(80, 7, 36, 0.3);
+}
+
+.instruction {
+  background: #fffbeb;
+  border: 3px solid #db2777;
+  box-shadow: 0 3px 0 rgba(80, 7, 36, 0.2);
+  transition: background-color 200ms ease-out;
+}
+
+.instructionReveal {
+  background: #dcfce7;
+  border-color: #15803d;
+  color: #14532d;
+}
+
+.iconButton {
+  border: 3px solid #500724;
+  background: #fffbeb;
+  color: #500724;
+  box-shadow: 0 3px 0 rgba(80, 7, 36, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.stage {
+  animation: walkIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* A station table mat. */
+.mat {
+  background: #fffbeb;
+  border: 4px solid #500724;
+  box-shadow: inset 0 0 0 4px #f9a8d4, 0 5px 0 rgba(80, 7, 36, 0.3);
+}
+
+.felt {
+  filter: drop-shadow(0 3px 0 rgba(80, 7, 36, 0.35));
+}
+
+.gone {
+  opacity: 0.3;
+}
+
+.goneMark {
+  color: #be123c;
+}
+
+.sign {
+  color: #9d174d;
+}
+
+.mystery {
+  background: repeating-linear-gradient(45deg, #fdf2f8 0 8px, #fbcfe8 8px 16px);
+  border: 4px dashed #9d174d;
+  color: #9d174d;
+}
+
+/* A fair ticket style answer card. */
+.ticket {
+  background: #fffbeb;
+  border: 5px solid #500724;
+  box-shadow: 0 5px 0 rgba(80, 7, 36, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.ticket:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.choiceWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: shake 0.4s ease-in-out;
+}
+
+.choiceReveal {
+  border-color: #16a34a;
+  background: rgba(220, 252, 231, 0.95);
+  z-index: 2;
+  animation: revealZoom 2s ease-in-out, revealPulse 1.1s ease-in-out infinite;
+}
+
+.choiceCorrect {
+  border-color: #16a34a;
+  background: rgba(220, 252, 231, 0.95);
+  box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.35);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(80, 7, 36, 0.3);
+}
+
+.resultStamp {
+  border: 4px solid #facc15;
+  background: #be185d;
+  color: #fffbeb;
+  box-shadow: 0 0 0 3px #500724, 0 5px 0 rgba(80, 7, 36, 0.35);
+  transform: rotate(-4deg);
+}
+
+.result {
+  animation: statusPop 0.35s ease-out;
+}
+
+@keyframes walkIn {
+  0% { transform: translateX(50px) rotate(2deg); opacity: 0; }
+  100% { transform: translateX(0) rotate(0); opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
+  50% { box-shadow: 0 0 0 14px rgba(22, 163, 74, 0); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes statusPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  65% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage,
+  .choiceWrong,
+  .choiceReveal,
+  .result {
+    animation: none;
+  }
+}
