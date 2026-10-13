@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { serverApi } from "@/lib/server-api";
 import { PRACTICAL_RESULT_LABEL, type PracticalResultValue } from "@/constants/enums";
 import type { Section } from "@/types/db";
@@ -125,7 +126,7 @@ export default async function ClassScoresSection({
         ) : (
           <>
             <Summary record={record} />
-            <ScoresTable record={record} />
+            <ScoresTable record={record} sectionId={sectionId} />
             <Legend />
           </>
         )}
@@ -200,7 +201,7 @@ function Legend() {
 }
 
 /** Learners as rows, activities as columns grouped by week; `print` drops the scroll box for the printed copy. */
-function ScoresTable({ record, print = false }: { record: ClassroomRecord; print?: boolean }) {
+function ScoresTable({ record, sectionId, print = false }: { record: ClassroomRecord; sectionId?: number; print?: boolean }) {
   const weeks = [...new Set(record.columns.map((c) => c.week))];
   // A sticky cell paints its background over the collapsed borders, so the printed copy drops it.
   const stickyNum = print ? undefined : "sticky left-0 z-10";
@@ -258,7 +259,17 @@ function ScoresTable({ record, print = false }: { record: ClassroomRecord; print
               <tr key={row.learnerId} className={cn("border-t border-gray-200", stripe)}>
                 <td className={cn(stickyNum, "w-10 min-w-10 px-2 py-2 text-center text-gray-500 tabular-nums", stripe)}>{i + 1}</td>
                 <td className={cn(stickyCol, "whitespace-nowrap px-3 py-2 font-medium capitalize text-gray-900", stripe)}>
-                  {learnerName(row)}
+                  {/* On screen, a name opens that learner's progress report for the same quarter. */}
+                  {print || !sectionId ? (
+                    learnerName(row)
+                  ) : (
+                    <Link
+                      href={`/teacher/reports/progress-report?section=${sectionId}&learner=${row.learnerId}&quarter=${record.quarter}`}
+                      className="hover:text-sidebar hover:underline underline-offset-2"
+                    >
+                      {learnerName(row)}
+                    </Link>
+                  )}
                 </td>
                 {record.columns.map((c) => (
                   <td key={c.activityId} className="border-l border-gray-200 px-2 py-2 text-center">
