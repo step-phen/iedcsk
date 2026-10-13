@@ -334,6 +334,18 @@ export const gameRegistry: Record<
     () =>
       import("@/components/activities/games/language/1st_quarter/week-7/LanguageFinalAssessment"),
   ),
+  "LG-Q2W1-01": game(
+    () =>
+      import("@/components/activities/games/language/2nd_quarter/week-1/ListenAndFindUu"),
+  ),
+  "LG-Q2W1-02": game(
+    () =>
+      import("@/components/activities/games/language/2nd_quarter/week-1/ListenAndFindBbCc"),
+  ),
+  "LG-Q2W1-03": game(
+    () =>
+      import("@/components/activities/games/language/2nd_quarter/week-1/ListenAndFindDdFf"),
+  ),
 
   // writing readiness
   "WR-Q1W1-01": game(

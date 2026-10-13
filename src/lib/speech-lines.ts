@@ -268,6 +268,12 @@ export const GAME_INTRO_LINES = {
     "Let's name the letter Ii! Look at the letter, then tap the one that is the same.",
   "naming vowel oo":
     "Let's name the letter Oo! Look at the letter, then tap the one that is the same.",
+  "listen and find: uu":
+    "It's raining! Listen to the letter name, then tap the umbrella with big U or small u.",
+  "listen and find: bb, cc":
+    "Welcome to the butterfly garden! Listen to the letter name, then tap the butterfly with that letter.",
+  "listen and find: dd, ff":
+    "It's night time! Listen to the letter name, then catch the firefly with that letter.",
   "consonant bb":
     "Let's go to Bubble Bay! Listen to the picture names, then pop the bubble that begins with B.",
   "consonant cc":
