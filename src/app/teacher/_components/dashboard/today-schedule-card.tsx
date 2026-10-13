@@ -58,9 +58,6 @@ export default function TodayScheduleCard({
                 Module
               </th>
               <th scope="col" className="px-5 py-2.5 text-[13px] font-bold text-gray-700 uppercase tracking-[0.14em]">
-                Lesson
-              </th>
-              <th scope="col" className="px-5 py-2.5 text-[13px] font-bold text-gray-700 uppercase tracking-[0.14em]">
                 Activities
               </th>
             </tr>
@@ -86,9 +83,6 @@ export default function TodayScheduleCard({
                   <td className="px-5 py-3 font-semibold text-gray-800">
                     {lesson.module?.moduleName ?? "—"}
                   </td>
-                  <td className="px-5 py-3 text-gray-800">
-                    {lesson.lessonName}
-                  </td>
                   <td className="px-5 py-3">
                     {lesson.activities.length > 0 ? (
                       <div className="flex flex-wrap gap-1.5">
@@ -110,7 +104,7 @@ export default function TodayScheduleCard({
             ) : (
               <tr>
                 <td
-                  colSpan={4}
+                  colSpan={3}
                   className="px-5 py-12 text-center text-gray-500 text-sm"
                 >
                   {isSchoolDay
@@ -125,7 +119,7 @@ export default function TodayScheduleCard({
               previous section, so they're swapped for this. */}
           <tbody className="hidden group-has-data-pending:table-row-group">
             <tr>
-              <td colSpan={4} className="px-5 py-12 text-center text-gray-500 text-sm">
+              <td colSpan={3} className="px-5 py-12 text-center text-gray-500 text-sm">
                 Loading schedule…
               </td>
             </tr>
