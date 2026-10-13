@@ -1,0 +1,230 @@
+/* Look of Listen and Find: Uu; layout and spacing stay in Tailwind, the lines stay in ListenAndFindUu.data.ts. */
+
+/* A grey-blue rainy sky over a wet lawn. */
+.screen {
+  background: linear-gradient(180deg, #8fa8c8 0%, #b9cbe2 55%, #d7e4f2 100%);
+  color: #1e294a;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Slanted streaks that slide down forever; they pause and fade when a right umbrella opens. */
+.rain {
+  background-image: repeating-linear-gradient(
+    105deg,
+    transparent 0 22px,
+    rgba(255, 255, 255, 0.55) 22px 24px,
+    transparent 24px 46px
+  );
+  background-size: 120px 120px;
+  animation: rainFall 0.7s linear infinite;
+  opacity: 0.7;
+  transition: opacity 400ms ease-out;
+}
+
+.rainStopped {
+  animation-play-state: paused;
+  opacity: 0.15;
+}
+
+.ground {
+  background:
+    radial-gradient(ellipse 18% 30% at 22% 60%, rgba(150, 190, 230, 0.75) 0 98%, transparent 100%),
+    radial-gradient(ellipse 14% 24% at 74% 50%, rgba(150, 190, 230, 0.75) 0 98%, transparent 100%),
+    linear-gradient(180deg, #6fae5a 0%, #4f8f42 100%);
+  border-top: 4px solid #3f7a35;
+}
+
+.badge {
+  border: 3px solid #1e294a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(30, 41, 74, 0.25);
+}
+
+.avatar {
+  background: #ffe7a3;
+  color: #8a5a00;
+}
+
+.title {
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(30, 41, 74, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.92);
+  border: 3px solid #1e294a;
+  box-shadow: 0 3px 0 rgba(30, 41, 74, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #1e294a;
+  background: #ffc83d;
+  color: #1e294a;
+  box-shadow: 0 3px 0 rgba(30, 41, 74, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A puffy cloud drawn from three circles, with today's letter written on it. */
+.cloud {
+  width: clamp(150px, 30vw, 260px);
+  height: clamp(62px, 12vh, 104px);
+  padding-top: clamp(10px, 2.4vh, 22px);
+  border-radius: 999px;
+  background: #f4f7fb;
+  border: 4px solid #1e294a;
+  box-shadow: 0 6px 0 rgba(30, 41, 74, 0.2);
+  font-size: clamp(34px, 7vh, 62px);
+  color: #3b6fb6;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  background: #f4f7fb;
+  border: 4px solid #1e294a;
+}
+
+.cloud::before {
+  width: 46%;
+  aspect-ratio: 1;
+  left: 12%;
+  top: -42%;
+}
+
+.cloud::after {
+  width: 36%;
+  aspect-ratio: 1;
+  right: 14%;
+  top: -28%;
+}
+
+/* Four umbrellas share one row on tablets and two rows on narrow phones; each is 0.8 wide for 1 tall. */
+.row {
+  --u: clamp(78px, min(calc((100vw - 80px) / 4.3), 26dvh), 180px);
+}
+
+@media (max-width: 420px) and (orientation: portrait) {
+  .row {
+    --u: clamp(96px, 34vw, 140px);
+    max-width: calc(var(--u) * 2.6);
+  }
+}
+
+.umbrella {
+  width: var(--u);
+  height: calc(var(--u) * 1.25);
+  touch-action: manipulation;
+  animation: sway 3s ease-in-out var(--idle-delay, 0s) infinite;
+  transform-origin: 50% 90%;
+  transition: opacity 250ms ease-out;
+}
+
+.umbrella:focus-visible {
+  outline: 4px solid #3b6fb6;
+  outline-offset: 4px;
+}
+
+.letter {
+  font-size: calc(var(--u) * 0.36);
+  color: #1e294a;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.7);
+}
+
+.umbrellaRight {
+  animation: hop 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.umbrellaWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right umbrella after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.umbrellaReveal {
+  z-index: 2;
+  border-radius: 24px;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  background: rgba(220, 252, 231, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #ffc83d;
+  border: 4px solid #1e294a;
+  box-shadow: 0 5px 0 rgba(30, 41, 74, 0.25);
+}
+
+@keyframes rainFall {
+  from { background-position: 0 0; }
+  to { background-position: -32px 120px; }
+}
+
+@keyframes sway {
+  0%, 100% { rotate: -2deg; }
+  50% { rotate: 2deg; }
+}
+
+@keyframes hop {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 0 -18%; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rain,
+  .umbrella {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: the cloud shrinks so the umbrellas keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .cloud {
+    height: 48px;
+    width: 130px;
+    padding-top: 6px;
+    font-size: 30px;
+  }
+
+  .row {
+    --u: clamp(64px, 30dvh, 120px);
+  }
+}

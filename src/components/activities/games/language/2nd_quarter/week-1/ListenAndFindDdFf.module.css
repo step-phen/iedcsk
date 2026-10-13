@@ -1,0 +1,262 @@
+/* Look of Listen and Find: Dd, Ff; layout and spacing stay in Tailwind, the spots and lines stay in ListenAndFindDdFf.data.ts. */
+
+/* A deep blue summer night. */
+.screen {
+  background: linear-gradient(180deg, #141a46 0%, #23306b 55%, #31407e 100%);
+  color: #fdf7d6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Tiny twinkling stars painted as dots. */
+.stars {
+  background-image:
+    radial-gradient(circle at 12% 18%, #fff 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 30% 8%, #fff 0 1px, transparent 2px),
+    radial-gradient(circle at 52% 14%, #fff 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 74% 6%, #fff 0 1px, transparent 2px),
+    radial-gradient(circle at 92% 22%, #fff 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 6% 44%, #fff 0 1px, transparent 2px),
+    radial-gradient(circle at 96% 48%, #fff 0 1px, transparent 2px);
+  animation: twinkle 3s ease-in-out infinite alternate;
+}
+
+/* Dark grass blades along the bottom. */
+.grass {
+  background:
+    repeating-linear-gradient(100deg, transparent 0 14px, rgba(18, 48, 38, 0.9) 14px 18px, transparent 18px 30px) top / 100% 28px no-repeat,
+    linear-gradient(180deg, #1d4a3a 0%, #102c22 100%) 0 24px / 100% 100% no-repeat;
+}
+
+.badge {
+  border: 3px solid #fdf7d6;
+  background: #23306b;
+  color: #fdf7d6;
+  box-shadow: 0 0 12px rgba(253, 247, 214, 0.25);
+}
+
+.avatar {
+  background: #fdf7d6;
+  color: #23306b;
+}
+
+.title {
+  color: #fdf7d6;
+  text-shadow: 0 0 14px rgba(232, 255, 120, 0.55), 0 2px 0 #141a46;
+}
+
+.instruction {
+  background: rgba(20, 26, 70, 0.75);
+  border: 3px solid #e4ff78;
+  color: #fdf7d6;
+}
+
+.iconButton {
+  border: 3px solid #e4ff78;
+  background: #e4ff78;
+  color: #141a46;
+  box-shadow: 0 0 12px rgba(228, 255, 120, 0.45);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* A soft glowing moon with today's letters on it. */
+.moon {
+  background: radial-gradient(circle at 35% 35%, #fffbe6 0%, #f6e7a8 70%, #e9d27a 100%);
+  color: #23306b;
+  box-shadow: 0 0 24px 6px rgba(255, 244, 190, 0.35);
+  font-size: clamp(28px, 6vh, 52px);
+}
+
+.field {
+  --f: clamp(70px, min(19vw, 19dvh), 150px);
+}
+
+/* A glowing firefly; it drifts in place until it is tapped. */
+.firefly {
+  width: var(--f);
+  height: var(--f);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 40% 38%, #fbffd8 0%, #e4ff78 45%, #a8e04a 100%);
+  border: 4px solid #fdf7d6;
+  box-shadow: 0 0 22px 8px rgba(228, 255, 120, 0.55);
+  touch-action: manipulation;
+  animation: drift 4s ease-in-out var(--idle-delay, 0s) infinite;
+  transition:
+    left 800ms cubic-bezier(0.5, 0, 0.3, 1),
+    top 800ms cubic-bezier(0.5, 0, 0.3, 1),
+    opacity 250ms ease-out;
+}
+
+.firefly:focus-visible {
+  outline: 4px solid #fdf7d6;
+  outline-offset: 6px;
+}
+
+.wing {
+  position: absolute;
+  top: -18%;
+  width: 46%;
+  height: 40%;
+  border-radius: 50%;
+  background: rgba(220, 235, 255, 0.55);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  animation: buzz 0.18s linear infinite alternate;
+}
+
+.wingLeft {
+  left: 2%;
+  transform-origin: 100% 100%;
+  rotate: -24deg;
+}
+
+.wingRight {
+  right: 2%;
+  transform-origin: 0% 100%;
+  rotate: 24deg;
+}
+
+.letter {
+  font-size: calc(var(--f) * 0.5);
+  color: #23306b;
+}
+
+/* A right tap: the firefly flies down into the jar and fades into its glow. */
+.fireflyCaught {
+  animation: none;
+  opacity: 0;
+  transition:
+    left 800ms cubic-bezier(0.5, 0, 0.3, 1),
+    top 800ms cubic-bezier(0.5, 0, 0.3, 1),
+    opacity 400ms ease-in 600ms;
+}
+
+.fireflyWrong {
+  animation: shake 0.45s ease-in-out;
+  background: radial-gradient(circle at 40% 38%, #ffe2e2 0%, #fca5a5 60%, #ef4444 100%);
+  box-shadow: 0 0 18px 6px rgba(220, 38, 38, 0.55);
+}
+
+/* The right firefly after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.fireflyReveal {
+  z-index: 2;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 30px 12px rgba(74, 222, 128, 0.7);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+}
+
+/* A glass jar with a lid; caught fireflies sit inside as glowing dots. */
+.jar {
+  z-index: 1;
+  width: clamp(70px, 13vh, 120px);
+  height: clamp(84px, 16vh, 140px);
+  border: 4px solid rgba(220, 235, 255, 0.85);
+  border-top-width: 0;
+  border-radius: 18px 18px 26px 26px;
+  background: linear-gradient(90deg, rgba(220, 235, 255, 0.12), rgba(220, 235, 255, 0.28) 30%, rgba(220, 235, 255, 0.1));
+}
+
+.jar::before {
+  content: "";
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  top: -12px;
+  height: 14px;
+  border-radius: 6px;
+  background: #b88a4a;
+  border: 3px solid #6b4a20;
+}
+
+.jarLight {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #e4ff78;
+  box-shadow: 0 0 10px 4px rgba(228, 255, 120, 0.75);
+  animation: glow 1.4s ease-in-out infinite alternate;
+}
+
+.resultStamp {
+  background: #e4ff78;
+  color: #141a46;
+  box-shadow: 0 0 22px 6px rgba(228, 255, 120, 0.45);
+}
+
+@keyframes twinkle {
+  from { opacity: 0.55; }
+  to { opacity: 1; }
+}
+
+@keyframes drift {
+  0%, 100% { translate: 0 0; }
+  25% { translate: 6px -8px; }
+  50% { translate: -4px -12px; }
+  75% { translate: -7px -3px; }
+}
+
+@keyframes buzz {
+  from { scale: 1 1; }
+  to { scale: 1 0.6; }
+}
+
+@keyframes glow {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars,
+  .firefly,
+  .wing {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller moon and fireflies so the jar still fits. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .moon {
+    font-size: 24px;
+  }
+
+  .field {
+    --f: clamp(52px, 20dvh, 90px);
+  }
+
+  .jar {
+    width: 60px;
+    height: 70px;
+  }
+}
