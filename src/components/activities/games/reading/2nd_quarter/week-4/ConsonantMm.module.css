@@ -1,0 +1,240 @@
+/* Look of Consonant Mm (Mailbox Street); layout and spacing stay in Tailwind, the pictures and speech stay in ConsonantMm.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #bfe6ff 0%, #e6f5ff 65%, #f4f9ff 100%);
+  color: #1e325a;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Row of little house fronts behind the street. */
+.houses {
+  background:
+    linear-gradient(135deg, transparent 50%, #f2a65a 50%) 0 0 / 120px 40px repeat-x,
+    linear-gradient(225deg, transparent 50%, #f2a65a 50%) 60px 0 / 120px 40px repeat-x,
+    repeating-linear-gradient(90deg, #ffe3b8 0 110px, #ffd29a 110px 120px) 0 40px / 100% 100% no-repeat;
+  opacity: 0.7;
+}
+
+.street {
+  background: repeating-linear-gradient(90deg, #c9ced8 0 60px, #b9bfcb 60px 64px);
+  border-top: 6px solid #8d94a3;
+}
+
+.badge {
+  border: 3px solid #1e325a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(30, 50, 90, 0.25);
+}
+
+.avatar {
+  background: #dbeeff;
+  color: #1e5aa8;
+}
+
+.title {
+  color: #1e325a;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.9);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.94);
+  border: 3px solid #b8dcff;
+  box-shadow: 0 3px 0 rgba(30, 50, 90, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #1e325a;
+  background: white;
+  color: #1e325a;
+  box-shadow: 0 3px 0 rgba(30, 50, 90, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Postage stamp that holds the letter. */
+.stamp {
+  background: #ffffff;
+  color: #d6453d;
+  border: 6px dotted #d6453d;
+  box-shadow: 0 0 0 4px #ffffff, 0 5px 0 4px rgba(30, 50, 90, 0.25);
+  transform: rotate(-3deg);
+}
+
+.mail {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.mail:disabled {
+  cursor: default;
+}
+
+.envelope {
+  position: relative;
+  z-index: 0;
+  background: linear-gradient(160deg, transparent 49%, rgba(30, 50, 90, 0.18) 50%, transparent 51%) top / 100% 50% no-repeat,
+    linear-gradient(200deg, transparent 49%, rgba(30, 50, 90, 0.18) 50%, transparent 51%) top / 100% 50% no-repeat,
+    #fffaf0;
+  border: 4px solid #1e325a;
+  box-shadow: 0 6px 0 rgba(30, 50, 90, 0.2);
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.envelopeOut {
+  animation: slideOut 0.55s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.box {
+  z-index: 1;
+  border: 4px solid #1e325a;
+  border-radius: 46% 46% 10px 10px / 38% 38% 10px 10px;
+  box-shadow: inset 0 -10px 0 rgba(0, 0, 0, 0.14);
+}
+
+.box::before {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 34%;
+  height: 10%;
+  border-radius: 9999px;
+  background: #1e325a;
+}
+
+.boxBlue {
+  background: #3b8eea;
+}
+
+.boxRed {
+  background: #e8483f;
+}
+
+.boxGreen {
+  background: #3dbb6c;
+}
+
+.flag {
+  position: absolute;
+  right: -10%;
+  top: 46%;
+  width: 12%;
+  height: 50%;
+  background: #ffd23f;
+  border: 3px solid #1e325a;
+  border-radius: 3px;
+  transform-origin: bottom center;
+  transform: rotate(90deg);
+  transition: transform 350ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.flagUp {
+  transform: rotate(0deg);
+}
+
+.post {
+  background: #8a5a2e;
+  border: 3px solid #1e325a;
+  border-top: none;
+}
+
+.mailNaming .envelope {
+  border-color: #f2a900;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 28px 10px rgba(255, 210, 63, 0.8);
+}
+
+.mailWon .envelope {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+  animation: wiggle 0.6s ease-out;
+}
+
+.mailWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.mailWrong .envelope {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.mailReveal {
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.mailReveal .envelope {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(30, 50, 90, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(30, 50, 90, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes slideOut {
+  0% { transform: translateY(70%) scale(0.6); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-5deg); }
+  65% { transform: rotate(4deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .envelopeOut,
+  .mailWon .envelope,
+  .mailWrong,
+  .mailReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+
+  .flag {
+    transition: none;
+  }
+}

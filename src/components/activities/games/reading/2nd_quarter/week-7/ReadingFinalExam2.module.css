@@ -1,0 +1,249 @@
+/* Look of Reading Final Exam for Q2 (Bakery Cake); layout stays in Tailwind and ReadingReviewGame2.tsx, the task wording in readingReview2.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #fff0f3 0%, #fff8ee 60%, #ffe8ee 100%);
+  color: #4a2333;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Striped shop awning across the top. */
+.awning {
+  background: repeating-linear-gradient(90deg, #ff8fab 0 36px, #ffffff 36px 72px);
+  border-bottom: 4px solid #c9466e;
+  -webkit-mask: radial-gradient(circle 18px at 18px 100%, transparent 98%, #000 100%) 0 0 / 36px 100%;
+  mask: radial-gradient(circle 18px at 18px 100%, transparent 98%, #000 100%) 0 0 / 36px 100%;
+}
+
+.counter {
+  background: repeating-linear-gradient(90deg, #e9c49a 0 80px, #dcb385 80px 82px);
+  border-top: 6px solid #b98a5a;
+}
+
+.sprinkles {
+  background:
+    radial-gradient(ellipse 4px 2px at 12% 30%, #ff8fab 98%, transparent 100%),
+    radial-gradient(ellipse 4px 2px at 88% 40%, #7ec8e3 98%, transparent 100%),
+    radial-gradient(ellipse 4px 2px at 20% 70%, #ffd23f 98%, transparent 100%),
+    radial-gradient(ellipse 4px 2px at 78% 76%, #9b5de5 98%, transparent 100%);
+  opacity: 0.8;
+}
+
+.badge {
+  border: 3px solid #4a2333;
+  background: white;
+  box-shadow: 0 3px 0 rgba(74, 35, 51, 0.25);
+}
+
+.avatar {
+  background: #ffe3ea;
+  color: #c9466e;
+}
+
+.title {
+  color: #4a2333;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.9);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #ffc2d1;
+  box-shadow: 0 3px 0 rgba(74, 35, 51, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #4a2333;
+  background: white;
+  color: #4a2333;
+  box-shadow: 0 3px 0 rgba(74, 35, 51, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.sign {
+  background: #ff8fab;
+  color: #ffffff;
+  border: 4px solid #4a2333;
+  box-shadow: 0 5px 0 rgba(74, 35, 51, 0.3);
+  text-shadow: 0 3px 0 #c9466e;
+}
+
+.candle {
+  background: repeating-linear-gradient(135deg, #ffffff 0 4px, #7ec8e3 4px 8px);
+  border: 2px solid #4a2333;
+}
+
+.candleTodo {
+  opacity: 0.3;
+}
+
+.candleNew {
+  animation: pop 0.45s ease-out;
+}
+
+.flame {
+  background: radial-gradient(ellipse at 50% 70%, #fff3b0 0 30%, #ffb627 60%, #ff6b35 100%);
+  box-shadow: 0 0 8px 3px rgba(255, 182, 39, 0.7);
+  transform-origin: 50% 100%;
+  animation: flicker 0.9s ease-in-out infinite alternate;
+}
+
+/* Two-layer frosted cake under the candles. */
+.cake {
+  background:
+    radial-gradient(circle 6px at 10% 0, #ffffff 98%, transparent 100%) 0 0 / 22px 100%,
+    linear-gradient(180deg, #ffffff 0 30%, #f7a8c0 30%);
+  border: 3px solid #4a2333;
+}
+
+.plate {
+  background: #d9e2ec;
+  border: 2px solid #4a2333;
+}
+
+/* Cake-stand plate the task's letter or picture sits on. */
+.target {
+  background: radial-gradient(circle at 40% 35%, #ffffff 0 40%, #ffe3ea 100%);
+  border: 4px solid #4a2333;
+  box-shadow: 0 6px 0 rgba(74, 35, 51, 0.25), inset 0 0 0 6px #ffc2d1;
+  animation: popIn 0.45s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.speaker {
+  touch-action: manipulation;
+  background: #ff8fab;
+  color: #ffffff;
+  border: 4px solid #4a2333;
+}
+
+.speaker:disabled {
+  cursor: default;
+}
+
+.speakerOn {
+  animation: pulse 0.7s ease-in-out infinite;
+}
+
+/* Each answer is a frosted cookie. */
+.card {
+  touch-action: manipulation;
+  cursor: pointer;
+  background:
+    radial-gradient(ellipse 5px 2px at 22% 28%, #7ec8e3 98%, transparent 100%),
+    radial-gradient(ellipse 5px 2px at 76% 24%, #ffd23f 98%, transparent 100%),
+    radial-gradient(ellipse 5px 2px at 80% 76%, #9b5de5 98%, transparent 100%),
+    radial-gradient(ellipse 5px 2px at 20% 78%, #ff8fab 98%, transparent 100%),
+    radial-gradient(circle at 50% 50%, #fffaf3 0 68%, #e9b872 70%);
+  color: #4a2333;
+  border: 4px solid #4a2333;
+  border-radius: 50%;
+  box-shadow: 0 6px 0 rgba(74, 35, 51, 0.25);
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, background 200ms ease-out;
+}
+
+.card:disabled {
+  cursor: default;
+}
+
+.cardWon {
+  animation: hop 0.6s ease-out;
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+}
+
+.cardWrong {
+  animation: shake 0.4s ease-in-out;
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.cardReveal {
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(74, 35, 51, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(74, 35, 51, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes flicker {
+  0% { transform: scale(1, 1) rotate(-3deg); }
+  100% { transform: scale(0.9, 1.1) rotate(3deg); }
+}
+
+@keyframes pop {
+  0% { transform: scaleY(0.3); }
+  70% { transform: scaleY(1.2); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes hop {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-14px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flame,
+  .candleNew,
+  .target,
+  .speakerOn,
+  .cardWon,
+  .cardWrong,
+  .cardReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

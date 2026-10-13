@@ -1,0 +1,234 @@
+/* Look of Consonant Qq (Quilt Corner); layout and spacing stay in Tailwind, the pictures and speech stay in ConsonantQq.data.ts. */
+
+.screen {
+  background:
+    repeating-linear-gradient(0deg, rgba(214, 120, 140, 0.08) 0 22px, transparent 22px 44px),
+    repeating-linear-gradient(90deg, rgba(214, 120, 140, 0.08) 0 22px, transparent 22px 44px),
+    #fff4e8;
+  color: #5a2834;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Sewn edge around the whole screen. */
+.stitchFrame {
+  border: 3px dashed rgba(196, 84, 110, 0.45);
+}
+
+.yarn {
+  border: 4px solid rgba(90, 40, 52, 0.35);
+  opacity: 0.85;
+}
+
+.yarnPink {
+  background: repeating-linear-gradient(35deg, #f4a3b6 0 8px, #e9839b 8px 13px);
+}
+
+.yarnBlue {
+  background: repeating-linear-gradient(-30deg, #8fd0d4 0 8px, #6bb8bd 8px 13px);
+}
+
+.badge {
+  border: 3px solid #5a2834;
+  background: white;
+  box-shadow: 0 3px 0 rgba(90, 40, 52, 0.25);
+}
+
+.avatar {
+  background: #ffe0e7;
+  color: #b23a5a;
+}
+
+.title {
+  color: #5a2834;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.9);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #f2b8c6;
+  box-shadow: 0 3px 0 rgba(90, 40, 52, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #5a2834;
+  background: white;
+  color: #5a2834;
+  box-shadow: 0 3px 0 rgba(90, 40, 52, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Felt patch with white stitches that holds the letter. */
+.letterPatch {
+  background: #d9506f;
+  color: #ffffff;
+  outline: 3px dashed rgba(255, 255, 255, 0.85);
+  outline-offset: -9px;
+  box-shadow: 0 5px 0 #a8314f;
+  text-shadow: 0 2px 0 rgba(90, 20, 40, 0.35);
+  transform: rotate(-2deg);
+}
+
+/* Backing cloth the three patches are sewn onto. */
+.quiltRow {
+  background: #f7d9a8;
+  border: 4px solid #5a2834;
+  outline: 3px dashed #c98a3e;
+  outline-offset: -12px;
+  box-shadow: 0 7px 0 rgba(90, 40, 52, 0.22);
+}
+
+.patchButton {
+  touch-action: manipulation;
+  cursor: pointer;
+  perspective: 700px;
+}
+
+.patchButton:disabled {
+  cursor: default;
+}
+
+.patch {
+  transform-style: preserve-3d;
+  transition: transform 600ms cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.patchFlipped {
+  transform: rotateY(180deg);
+}
+
+.face {
+  backface-visibility: hidden;
+  border: 4px solid #5a2834;
+  box-shadow: 0 5px 0 rgba(90, 40, 52, 0.25);
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, background-color 200ms ease-out;
+}
+
+.back {
+  outline: 3px dashed rgba(255, 255, 255, 0.8);
+  outline-offset: -10px;
+}
+
+.backRose {
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.3) 0 10px, transparent 10px 20px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0 10px, transparent 10px 20px),
+    #e46f8c;
+}
+
+.backTeal {
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.55) 22%, transparent 24%) 0 0 / 22px 22px,
+    #4fb3b8;
+}
+
+.backMustard {
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.35) 0 7px, transparent 7px 16px),
+    #e9b33e;
+}
+
+.front {
+  transform: rotateY(180deg);
+  background: #fffaf2;
+  outline: 3px dashed #e8a0b2;
+  outline-offset: -10px;
+}
+
+.patchNaming .front {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 28px 10px rgba(255, 210, 63, 0.8);
+}
+
+.patchWon .front {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+}
+
+.patchWon {
+  animation: bounce 0.6s ease-out;
+}
+
+.patchWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.patchWrong .front {
+  border-color: #dc2626;
+  background-color: #fee2e2;
+}
+
+.patchReveal {
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.patchReveal .front {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(90, 40, 52, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(90, 40, 52, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  35% { transform: translateY(-14px); }
+  65% { transform: translateY(2px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .patchWon,
+  .patchWrong,
+  .patchReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+
+  .patch {
+    transition: none;
+  }
+}

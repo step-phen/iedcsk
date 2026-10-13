@@ -1,0 +1,206 @@
+/* Look of Consonant Pp (Parachute Drop); layout and spacing stay in Tailwind, the pictures and speech stay in ConsonantPp.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #ffd9b8 0%, #ffe9d6 45%, #e7dcff 100%);
+  color: #3b2a4d;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cloud {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  box-shadow: 18px -10px 0 4px rgba(255, 255, 255, 0.85), -16px -6px 0 0 rgba(255, 255, 255, 0.85);
+  animation: drift 22s linear infinite alternate;
+}
+
+.cloudSlow {
+  animation-duration: 30s;
+  animation-direction: alternate-reverse;
+}
+
+.hills {
+  background:
+    radial-gradient(ellipse 60% 120% at 20% 100%, #9fd486 0 60%, transparent 61%),
+    radial-gradient(ellipse 70% 140% at 80% 100%, #86c56d 0 60%, transparent 61%);
+}
+
+.badge {
+  border: 3px solid #3b2a4d;
+  background: white;
+  box-shadow: 0 3px 0 rgba(59, 42, 77, 0.25);
+}
+
+.avatar {
+  background: #ffe2d1;
+  color: #c4513f;
+}
+
+.title {
+  color: #3b2a4d;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.85);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.94);
+  border: 3px solid #ffc7a8;
+  box-shadow: 0 3px 0 rgba(59, 42, 77, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #3b2a4d;
+  background: white;
+  color: #3b2a4d;
+  box-shadow: 0 3px 0 rgba(59, 42, 77, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Hot-air-balloon-pink sign that holds the letter. */
+.sign {
+  background: #ff7b6b;
+  color: #ffffff;
+  border: 4px solid #3b2a4d;
+  box-shadow: 0 5px 0 rgba(59, 42, 77, 0.3);
+  text-shadow: 0 3px 0 #c4513f;
+}
+
+.chute {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.chute:disabled {
+  cursor: default;
+}
+
+.chuteDrop {
+  animation: floatDown 0.9s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.sway {
+  transform-origin: 50% 0;
+  animation: sway 3.2s ease-in-out infinite;
+}
+
+.crate {
+  background:
+    linear-gradient(90deg, transparent 46%, rgba(120, 72, 30, 0.35) 46% 54%, transparent 54%),
+    #fff6e8;
+  border: 4px solid #3b2a4d;
+  box-shadow: inset 0 0 0 5px #e7b77c;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, background 200ms ease-out;
+}
+
+.chuteNaming .crate {
+  border-color: #f2a900;
+  box-shadow: inset 0 0 0 5px #ffd23f, 0 0 0 5px #ffd23f, 0 0 28px 10px rgba(255, 210, 63, 0.8);
+}
+
+.chuteWon {
+  animation: hop 0.6s ease-out;
+}
+
+.chuteWon .crate {
+  border-color: #e0a100;
+  box-shadow: inset 0 0 0 5px #ffd23f, 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+}
+
+.chuteWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.chuteWrong .crate {
+  border-color: #dc2626;
+  background: #fee2e2;
+  box-shadow: inset 0 0 0 5px #fca5a5;
+}
+
+.chuteReveal {
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.chuteReveal .crate {
+  border-color: #16a34a;
+  box-shadow: inset 0 0 0 5px #bbf7d0, 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(59, 42, 77, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(59, 42, 77, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes floatDown {
+  0% { transform: translateY(-70vh) rotate(-8deg); opacity: 0; }
+  20% { opacity: 1; }
+  70% { transform: translateY(4%) rotate(4deg); }
+  100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(40px); }
+}
+
+@keyframes hop {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-16px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud,
+  .sway,
+  .chuteDrop,
+  .chuteWon,
+  .chuteWrong,
+  .chuteReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

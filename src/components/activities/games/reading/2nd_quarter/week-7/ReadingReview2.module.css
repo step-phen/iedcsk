@@ -1,0 +1,258 @@
+/* Look of Reading Review for Q2 (Caterpillar Garden); layout stays in Tailwind and ReadingReviewGame2.tsx, the task wording in readingReview2.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #e3f7d3 0%, #f2fbe9 55%, #d8f0bf 100%);
+  color: #23401c;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Big leaves with a centre vein framing the garden. */
+.bigLeaf {
+  background:
+    linear-gradient(0deg, transparent 48%, rgba(35, 64, 28, 0.35) 48% 52%, transparent 52%),
+    #8fd16a;
+  border-radius: 0 100% 0 100%;
+  border: 4px solid #5a9a3c;
+  opacity: 0.55;
+}
+
+.grass {
+  background:
+    conic-gradient(from 150deg at 50% 0, transparent 0 60deg, #6dbb4a 0) 0 0 / 22px 100%,
+    #6dbb4a;
+}
+
+.badge {
+  border: 3px solid #23401c;
+  background: white;
+  box-shadow: 0 3px 0 rgba(35, 64, 28, 0.25);
+}
+
+.avatar {
+  background: #e3f7d3;
+  color: #3f7a26;
+}
+
+.title {
+  color: #23401c;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.85);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #b8e29b;
+  box-shadow: 0 3px 0 rgba(35, 64, 28, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #23401c;
+  background: white;
+  color: #23401c;
+  box-shadow: 0 3px 0 rgba(35, 64, 28, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.sign {
+  background: #5cb85c;
+  color: #ffffff;
+  border: 4px solid #23401c;
+  box-shadow: 0 5px 0 rgba(35, 64, 28, 0.3);
+  text-shadow: 0 3px 0 #3d8b3d;
+}
+
+.segment {
+  border: 3px solid #23401c;
+  transition: background 300ms ease-out;
+}
+
+.segmentTodo {
+  background: #f1f8ea;
+  border-style: dashed;
+  border-color: #9dbb8a;
+}
+
+.segmentRight {
+  background: radial-gradient(circle at 35% 35%, #b9f08f 0 25%, #5cb85c 70%);
+}
+
+.segmentMissed {
+  background: radial-gradient(circle at 35% 35%, #e3c79b 0 25%, #b08a55 70%);
+}
+
+.segmentNew {
+  animation: grow 0.5s ease-out;
+}
+
+/* Caterpillar face with two eyes and little antennae. */
+.head {
+  background:
+    radial-gradient(circle at 34% 42%, #23401c 0 9%, transparent 10%),
+    radial-gradient(circle at 66% 42%, #23401c 0 9%, transparent 10%),
+    radial-gradient(ellipse 22% 10% at 50% 70%, #d94f70 0 90%, transparent 100%),
+    radial-gradient(circle at 40% 35%, #ffe066 0 30%, #f6c90e 75%);
+  border: 3px solid #23401c;
+  animation: nod 2.4s ease-in-out infinite;
+}
+
+.head::before,
+.head::after {
+  content: "";
+  position: absolute;
+  top: -38%;
+  width: 3px;
+  height: 45%;
+  background: #23401c;
+  border-radius: 2px;
+}
+
+.head::before {
+  left: 30%;
+  transform: rotate(-20deg);
+}
+
+.head::after {
+  right: 30%;
+  transform: rotate(20deg);
+}
+
+/* Round leaf the task's letter or picture sits on. */
+.target {
+  background: radial-gradient(circle at 40% 35%, #c9f2a8 0 30%, #8fd16a 100%);
+  border: 4px solid #23401c;
+  box-shadow: 0 6px 0 rgba(35, 64, 28, 0.25);
+  animation: popIn 0.45s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.speaker {
+  touch-action: manipulation;
+  background: white;
+  color: #23401c;
+  border: 4px solid #23401c;
+}
+
+.speaker:disabled {
+  cursor: default;
+}
+
+.speakerOn {
+  animation: pulse 0.7s ease-in-out infinite;
+}
+
+.card {
+  touch-action: manipulation;
+  cursor: pointer;
+  background: #fffdf5;
+  color: #23401c;
+  border: 4px solid #23401c;
+  box-shadow: 0 6px 0 rgba(35, 64, 28, 0.25), inset 0 0 0 5px #d8f0bf;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, background 200ms ease-out;
+}
+
+.card:disabled {
+  cursor: default;
+}
+
+.cardWon {
+  animation: hop 0.6s ease-out;
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+}
+
+.cardWrong {
+  animation: shake 0.4s ease-in-out;
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.cardReveal {
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(35, 64, 28, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(35, 64, 28, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes grow {
+  0% { transform: scale(0.3); }
+  70% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+@keyframes nod {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes hop {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-14px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segmentNew,
+  .head,
+  .target,
+  .speakerOn,
+  .cardWon,
+  .cardWrong,
+  .cardReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

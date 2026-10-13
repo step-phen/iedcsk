@@ -1,0 +1,194 @@
+/* Look of Blend and Match: Short i (Sound Beads); layout and spacing stay in Tailwind, the pictures and speech stay in BlendAndMatchShortI.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #fde8f3 0%, #f3e1fb 55%, #e6dcfa 100%);
+  color: #46205a;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Scattered craft-table sequins. */
+.dots {
+  background:
+    radial-gradient(circle, rgba(236, 72, 153, 0.18) 0 5px, transparent 6px) 0 0 / 70px 70px,
+    radial-gradient(circle, rgba(139, 92, 246, 0.16) 0 4px, transparent 5px) 35px 35px / 70px 70px;
+}
+
+.badge {
+  border: 3px solid #46205a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(70, 30, 90, 0.25);
+}
+
+.avatar {
+  background: #fbe2f1;
+  color: #a21c6b;
+}
+
+.title {
+  color: #46205a;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.9);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.94);
+  border: 3px solid #f5c6e2;
+  box-shadow: 0 3px 0 rgba(70, 30, 90, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #46205a;
+  background: white;
+  color: #46205a;
+  box-shadow: 0 3px 0 rgba(70, 30, 90, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.ribbon {
+  background: #ec4899;
+  color: white;
+  border: 4px solid #46205a;
+  box-shadow: 0 5px 0 rgba(70, 30, 90, 0.3);
+  text-shadow: 0 3px 0 #a21c6b;
+}
+
+.string {
+  background: repeating-linear-gradient(90deg, #b07a52 0 6px, #8f5d3b 6px 12px);
+}
+
+.beads {
+  transition: gap 600ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.beadsApart {
+  gap: clamp(28px, 8vw, 80px);
+}
+
+.beadsTogether {
+  gap: 2px;
+}
+
+.bead {
+  color: white;
+  border: 4px solid #46205a;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: inset -8px -10px 0 rgba(0, 0, 0, 0.14), inset 8px 8px 0 rgba(255, 255, 255, 0.3);
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.beadPink {
+  background: #ec4899;
+}
+
+.beadPurple {
+  background: #8b5cf6;
+}
+
+.beadTeal {
+  background: #14b8a6;
+}
+
+.beadLit {
+  transform: scale(1.18);
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 30px 10px rgba(255, 210, 63, 0.85), inset -8px -10px 0 rgba(0, 0, 0, 0.14);
+}
+
+/* Picture charm that hangs from the bracelet. */
+.charm {
+  background: #fffaf3;
+  border: 5px solid #46205a;
+  box-shadow: inset 0 0 0 5px #f9d3e8, 0 6px 0 rgba(70, 30, 90, 0.28);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.charm:disabled {
+  cursor: default;
+}
+
+.charmWon {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+  animation: swing 0.6s ease-out;
+}
+
+.charmWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: shake 0.4s ease-in-out;
+}
+
+.charmReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(70, 30, 90, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(70, 30, 90, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes swing {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-7deg); }
+  65% { transform: rotate(5deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beads,
+  .bead {
+    transition: none;
+  }
+
+  .charmWon,
+  .charmWrong,
+  .charmReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

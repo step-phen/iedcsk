@@ -1,0 +1,235 @@
+/* Look of Listen and Find the Sound (Drum Stage); layout and spacing stay in Tailwind, the sounds and speech stay in ListenFindSound.data.ts. */
+
+.screen {
+  background: radial-gradient(ellipse at 50% 0%, #4a2a7a 0%, #2a1650 55%, #1a0d33 100%);
+  color: #ffffff;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Two coloured spotlights sweeping over the stage. */
+.beam {
+  background: linear-gradient(180deg, rgba(255, 230, 120, 0.4), rgba(255, 230, 120, 0));
+  clip-path: polygon(42% 0, 58% 0, 100% 100%, 0 100%);
+  transform-origin: 50% 0;
+  animation: sweep 6s ease-in-out infinite alternate;
+}
+
+.beamRight {
+  background: linear-gradient(180deg, rgba(120, 220, 255, 0.35), rgba(120, 220, 255, 0));
+  animation-direction: alternate-reverse;
+}
+
+.floor {
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.18) 0 2px, transparent 2px 60px),
+    linear-gradient(180deg, #8a4b2a, #5e3019);
+  border-top: 5px solid #c77a45;
+}
+
+.badge {
+  border: 3px solid #1a0d33;
+  background: white;
+  color: #1a0d33;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #efe3ff;
+  color: #5b2fa3;
+}
+
+.title {
+  color: #ffffff;
+  text-shadow: 0 3px 0 #ff5d8f, 0 0 18px rgba(255, 93, 143, 0.6);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.95);
+  color: #2a1650;
+  border: 3px solid #ffb627;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.iconButton {
+  border: 3px solid #1a0d33;
+  background: white;
+  color: #1a0d33;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.sign {
+  background: #ffb627;
+  color: #2a1650;
+  border: 4px solid #1a0d33;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Big stage speaker; tap it to hear the sound again. */
+.speaker {
+  touch-action: manipulation;
+  background: linear-gradient(180deg, #3a3a48, #22222c);
+  border: 5px solid #0d0d14;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.45), inset 0 0 0 4px #4d4d5c;
+  transition: transform 150ms ease-out;
+}
+
+.speaker:disabled {
+  cursor: default;
+}
+
+.cone {
+  background: radial-gradient(circle, #1a1a22 0 18%, #6c6c7c 19% 26%, #2a2a34 27% 62%, #8a8a9a 63% 70%, #2a2a34 71%);
+  border: 3px solid #0d0d14;
+}
+
+.speakerOn {
+  animation: thump 0.35s ease-in-out infinite;
+}
+
+.wave {
+  border: 4px solid rgba(255, 182, 39, 0.9);
+  animation: ripple 1.2s ease-out infinite;
+}
+
+.waveLate {
+  animation-delay: 0.6s;
+}
+
+.drum {
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: filter 200ms ease-out;
+}
+
+.drum:disabled {
+  cursor: default;
+}
+
+.skin {
+  background: radial-gradient(ellipse at 50% 40%, #ffffff 0 55%, #f1ece0 100%);
+  color: #2a1650;
+  border: 5px solid #1a0d33;
+  box-shadow: 0 0 0 5px #d9d9e3;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, background 200ms ease-out;
+}
+
+/* Drum shell with criss-cross tension cords in the drum's colour. */
+.shell {
+  background:
+    repeating-linear-gradient(60deg, transparent 0 14px, rgba(255, 255, 255, 0.75) 14px 17px),
+    repeating-linear-gradient(-60deg, transparent 0 14px, rgba(255, 255, 255, 0.75) 14px 17px),
+    var(--drum);
+  border: 5px solid #1a0d33;
+  border-top: none;
+  box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.18);
+}
+
+.drumWon {
+  animation: bang 0.5s ease-out;
+}
+
+.drumWon .skin {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+}
+
+.drumWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.drumWrong .skin {
+  border-color: #dc2626;
+  background: #fee2e2;
+  box-shadow: 0 0 0 5px #fca5a5;
+}
+
+.drumReveal {
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.drumReveal .skin {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.7);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes sweep {
+  0% { transform: rotate(-14deg); }
+  100% { transform: rotate(14deg); }
+}
+
+@keyframes thump {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+@keyframes ripple {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes bang {
+  0%, 100% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(6px) scale(1.04, 0.94); }
+  60% { transform: translateY(-8px) scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam,
+  .speakerOn,
+  .wave,
+  .drumWon,
+  .drumWrong,
+  .drumReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

@@ -1,0 +1,197 @@
+/* Look of Consonant Ll (Lantern Lane); layout and spacing stay in Tailwind, the pictures and speech stay in ConsonantLl.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #141a4a 0%, #26306e 60%, #3b3f86 100%);
+  color: #fff7e0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.stars {
+  background:
+    radial-gradient(circle, rgba(255, 246, 200, 0.9) 0 1.5px, transparent 2.5px) 0 0 / 90px 70px,
+    radial-gradient(circle, rgba(255, 246, 200, 0.6) 0 1px, transparent 2px) 45px 35px / 90px 70px;
+}
+
+.rooftops {
+  background:
+    linear-gradient(135deg, transparent 50%, #0d1236 50%) 0 0 / 80px 40px repeat-x,
+    linear-gradient(180deg, transparent 40px, #0d1236 40px);
+}
+
+.badge {
+  border: 3px solid #141a4a;
+  background: white;
+  color: #141a4a;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.avatar {
+  background: #ffe9b0;
+  color: #8a5a00;
+}
+
+.title {
+  color: #fff7e0;
+  text-shadow: 0 3px 0 #141a4a, 0 0 14px rgba(255, 200, 90, 0.5);
+}
+
+.pill {
+  background: rgba(255, 251, 238, 0.95);
+  color: #141a4a;
+  border: 3px solid #ffd98a;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.iconButton {
+  border: 3px solid #141a4a;
+  background: white;
+  color: #141a4a;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Glowing shop sign that holds the letter. */
+.sign {
+  background: #ff7a59;
+  color: #fff7e0;
+  border: 4px solid #fff7e0;
+  box-shadow: 0 0 0 4px #141a4a, 0 0 26px 6px rgba(255, 122, 89, 0.6);
+  text-shadow: 0 3px 0 #b8432a;
+}
+
+/* Sagging string the lanterns hang from. */
+.garland {
+  border-bottom: 4px solid #e8d9b0;
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+}
+
+.cord {
+  background: #e8d9b0;
+}
+
+.lantern {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 22%, rgba(0, 0, 0, 0.18) 22% 24%),
+    #4a4f8c;
+  border: 4px solid #0d1236;
+  box-shadow: inset 0 8px 0 #2a2f68, inset 0 -8px 0 #2a2f68;
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: background 500ms ease-out, box-shadow 300ms ease-out;
+}
+
+.lantern:disabled {
+  cursor: default;
+}
+
+.lanternLit {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 22%, rgba(180, 60, 20, 0.18) 22% 24%),
+    radial-gradient(circle at 50% 55%, #fff6d8 0 45%, #ffc65c 80%, #ff9a3c 100%);
+  box-shadow: inset 0 8px 0 #c2452d, inset 0 -8px 0 #c2452d, 0 0 26px 6px rgba(255, 180, 80, 0.55);
+}
+
+.picture {
+  display: block;
+  animation: glowIn 0.6s ease-out both;
+}
+
+.tassel {
+  background: #ff7a59;
+  border-radius: 0 0 6px 6px;
+}
+
+.lanternNaming {
+  box-shadow: inset 0 8px 0 #c2452d, inset 0 -8px 0 #c2452d, 0 0 0 5px #ffd23f, 0 0 34px 12px rgba(255, 210, 63, 0.85);
+}
+
+.lanternWon {
+  box-shadow: inset 0 8px 0 #c2452d, inset 0 -8px 0 #c2452d, 0 0 0 5px #ffd23f, 0 0 38px 14px rgba(255, 210, 63, 0.95);
+  animation: swingCheer 0.7s ease-out;
+}
+
+.lanternWrong {
+  border-color: #dc2626;
+  background: radial-gradient(circle at 50% 55%, #fff 0 45%, #fecaca 100%);
+  box-shadow: 0 0 0 4px #dc2626;
+  animation: shake 0.4s ease-in-out;
+}
+
+.lanternReveal {
+  border-color: #16a34a;
+  box-shadow: inset 0 8px 0 #c2452d, inset 0 -8px 0 #c2452d, 0 0 0 5px #16a34a, 0 0 30px 12px rgba(22, 163, 74, 0.65);
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes glowIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes swingCheer {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-6deg); }
+  65% { transform: rotate(5deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .picture,
+  .lanternWon,
+  .lanternWrong,
+  .lanternReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+
+  .lantern {
+    transition: none;
+  }
+}

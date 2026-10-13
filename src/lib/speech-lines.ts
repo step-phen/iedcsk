@@ -268,4 +268,74 @@ export const GAME_INTRO_LINES = {
     "Let's name the letter Ii! Look at the letter, then tap the one that is the same.",
   "naming vowel oo":
     "Let's name the letter Oo! Look at the letter, then tap the one that is the same.",
+  "consonant bb":
+    "Let's go to Bubble Bay! Listen to the picture names, then pop the bubble that begins with B.",
+  "consonant cc":
+    "Let's visit the castle! Listen to the picture names, then tap the window that begins with C.",
+  "consonant dd":
+    "Let's dig like dinosaurs! Listen to the picture names, then tap the picture that begins with D.",
+  "consonant ff":
+    "Let's ride at the fair! Listen to the picture names, then tap the ride that begins with F.",
+  "consonant gg":
+    "Let's play with the gumball machine! Listen to the picture names, then tap the gumball that begins with G.",
+  "consonant hh":
+    "Let's visit the bee hive! Listen to the picture names, then tap the honeycomb that begins with H.",
+  "consonant jj":
+    "Let's open the toy boxes! Listen to the picture names, then tap the toy box that begins with J.",
+  "consonant kk":
+    "Let's cook in the kitchen! Listen to the picture names, then tap the pot that begins with K.",
+  "consonant ll":
+    "Let's light the lanterns! Listen to the picture names, then tap the lantern that begins with L.",
+  "consonant mm":
+    "Let's open the mailboxes! Listen to the picture names, then tap the mailbox that begins with M.",
+  "consonant nn":
+    "Let's look in the bird nests! Listen to the picture names, then tap the nest that begins with N.",
+  "consonant qq":
+    "Let's sew a quilt! Listen to the picture names, then tap the quilt patch that begins with Q.",
+  "consonant rr":
+    "Let's watch the rain clouds! Listen to the picture names, then tap the cloud that begins with R.",
+  "consonant ss":
+    "Let's walk on the seashore! Listen to the picture names, then tap the seashell that begins with S.",
+  "consonant tt":
+    "Let's go camping! Listen to the picture names, then tap the tent that begins with T.",
+  "consonant vv":
+    "Here comes the van parade! Listen to the picture names, then tap the van that begins with V.",
+  "consonant ww":
+    "Let's visit the wishing wells! Listen to the picture names, then tap the well that begins with W.",
+  "consonant sound review 1":
+    "All aboard the letter train! Listen to each picture name, then tap the letter it begins with.",
+  "consonant pp":
+    "Let's catch the parachutes! Listen to the picture names, then tap the parachute that begins with P.",
+  "consonant partners":
+    "It's laundry day! Look at the big letter sock, then tap the sock with its small letter partner.",
+  "listen and find the sound":
+    "Welcome to the drum stage! Listen to the sound, then tap the drum with the letter that makes it.",
+  "consonant picture sort":
+    "Let's load the trucks! Listen to each picture name, then drag it to the truck with its first letter.",
+  "sound detective":
+    "Let's be sound detectives! Listen closely to each picture name, then tap the clue card with its first letter.",
+  "first letter match":
+    "Let's build puzzles! Listen to each picture name, then drag it to the letter it begins with.",
+  "mixed sound hunt":
+    "Let's go on a sound hunt in the leaves! Listen to the sound, then tap the picture that begins with it.",
+  "reading review 2":
+    "Let's help the caterpillar grow! Listen to each question, then tap the right card. Every answer adds a new part to the caterpillar.",
+  "reading final exam 2":
+    "It's time for your reading final! Listen carefully and tap the right cookie. Every right answer lights a candle on the cake.",
+  "blend and match: short a":
+    "Let's play with fridge magnets! Listen to each sound, blend them into a word, then drag the word to its picture.",
+  "blend and match: short e":
+    "Let's visit the hen house! Listen to each sound as the eggs hatch, blend them into a word, then tap the picture that matches.",
+  "consonant and word review":
+    "Welcome to the balloon festival! Listen to each picture or word, then tap the balloon with the right answer.",
+  "blend and match: short i":
+    "Let's make sound beads! Listen to each sound, blend them into a word, then tap the picture that matches.",
+  "middle vowel match":
+    "Welcome to the sandwich shop! Listen to the word, then tap the sound that goes in the middle.",
+  "build the cvc word":
+    "Let's build words with toy blocks! Look at the picture, then tap the letters in order.",
+  "read and choose":
+    "Ahoy, little pirate! Read the word on the treasure map, then tap the treasure that matches it.",
+  "word sound detective":
+    "Let's be word detectives! Listen to the word, then find its first or last sound.",
 } as const;

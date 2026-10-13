@@ -108,6 +108,146 @@ export const gameRegistry: Record<
     () =>
       import("@/components/activities/games/reading/1st_quarter/week-7/ReadingFinalExam"),
   ),
+  "RD-Q2W1-01": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-1/ConsonantBb"),
+  ),
+  "RD-Q2W1-02": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-1/ConsonantCc"),
+  ),
+  "RD-Q2W1-03": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-1/ConsonantDd"),
+  ),
+  "RD-Q2W2-01": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-2/ConsonantFf"),
+  ),
+  "RD-Q2W2-02": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-2/ConsonantGg"),
+  ),
+  "RD-Q2W2-03": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-2/ConsonantHh"),
+  ),
+  "RD-Q2W3-01": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-3/ConsonantJj"),
+  ),
+  "RD-Q2W3-02": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-3/ConsonantKk"),
+  ),
+  "RD-Q2W3-03": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-3/ConsonantLl"),
+  ),
+  "RD-Q2W4-01": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-4/ConsonantMm"),
+  ),
+  "RD-Q2W4-02": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-4/ConsonantNn"),
+  ),
+  "RD-Q2W4-03": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-4/ConsonantSoundReview"),
+  ),
+  "RD-Q2W5-01": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-5/ConsonantPp"),
+  ),
+  "RD-Q2W5-02": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-5/ConsonantPartners"),
+  ),
+  "RD-Q2W5-03": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-5/ListenFindSound"),
+  ),
+  "RD-Q2W6-01": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-6/ConsonantPictureSort"),
+  ),
+  "RD-Q2W6-02": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-6/SoundDetective"),
+  ),
+  "RD-Q2W6-03": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-6/FirstLetterMatch"),
+  ),
+  "RD-Q2W7-01": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-7/MixedSoundHunt"),
+  ),
+  "RD-Q2W7-02": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-7/ReadingReview2"),
+  ),
+  "RD-Q2W7-03": game(
+    () =>
+      import("@/components/activities/games/reading/2nd_quarter/week-7/ReadingFinalExam2"),
+  ),
+  "RD-Q3W1-01": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-1/ConsonantQq"),
+  ),
+  "RD-Q3W1-02": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-1/ConsonantRr"),
+  ),
+  "RD-Q3W1-03": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-1/ConsonantSs"),
+  ),
+  "RD-Q3W2-01": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-2/ConsonantTt"),
+  ),
+  "RD-Q3W2-02": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-2/ConsonantVv"),
+  ),
+  "RD-Q3W2-03": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-2/ConsonantWw"),
+  ),
+  "RD-Q3W4-01": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-4/BlendAndMatchShortA"),
+  ),
+  "RD-Q3W4-02": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-4/BlendAndMatchShortE"),
+  ),
+  "RD-Q3W4-03": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-4/ConsonantAndWordReview"),
+  ),
+  "RD-Q3W5-01": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-5/BlendAndMatchShortI"),
+  ),
+  "RD-Q3W5-02": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-5/MiddleVowelMatch"),
+  ),
+  "RD-Q3W5-03": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-5/BuildTheCvcWord"),
+  ),
+  "RD-Q3W6-01": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-6/ReadAndChoose"),
+  ),
+  "RD-Q3W6-02": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-6/WordSoundDetective"),
+  ),
 
   // language
   "LG-Q1W1-01": game(

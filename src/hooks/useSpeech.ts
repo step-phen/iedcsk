@@ -57,7 +57,7 @@ export function useSpeech() {
   }, []);
 
   const speak = useCallback(
-    (text: string, onEnd?: () => void, opts?: { interrupt?: boolean; pauseMs?: number; minMs?: number }) => {
+    (text: string, onEnd?: () => void, opts?: { interrupt?: boolean; pauseMs?: number; minMs?: number; onStart?: () => void }) => {
       const start = () => {
         const myToken = ++tokenRef.current;
         const startedAt = Date.now();
@@ -72,10 +72,19 @@ export function useSpeech() {
         // skip a whole round.
         let ended = false;
 
+        // onStart lets a game show something the moment its words are heard; a clip that never plays still calls it, so nothing stays hidden.
+        let started = false;
+        const markStarted = () => {
+          if (started || tokenRef.current !== myToken) return;
+          started = true;
+          opts?.onStart?.();
+        };
+
         let watchdog = window.setTimeout(() => finish(), SPEECH_WATCHDOG_MS);
 
         const finish = () => {
           if (ended || tokenRef.current !== myToken) return;
+          markStarted();
           ended = true;
           window.clearTimeout(watchdog);
           // busy stays true across the pause. Clearing it here instead would
@@ -118,6 +127,7 @@ export function useSpeech() {
             audio.onerror = finish;
             // The short watchdog only guards a clip that never starts; one that is playing may run as long as it needs.
             audio.onplaying = () => {
+              markStarted();
               window.clearTimeout(watchdog);
               watchdog = window.setTimeout(() => finish(), PLAYING_WATCHDOG_MS);
             };

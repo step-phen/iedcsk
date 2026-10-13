@@ -1,0 +1,209 @@
+/* Look of First Letter Match (Jigsaw Table); layout and spacing stay in Tailwind, the pictures and speech stay in FirstLetterMatch.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #f3ecff 0%, #fdf4ff 50%, #fff0f5 100%);
+  color: #2e2a4a;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Wooden play table the puzzle sits on. */
+.tableTop {
+  background:
+    repeating-linear-gradient(90deg, rgba(120, 70, 30, 0.12) 0 2px, transparent 2px 90px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0 6px, transparent 6px 22px),
+    linear-gradient(180deg, #e7b98a, #d49e6a);
+  border: 5px solid #a8713f;
+  box-shadow: inset 0 4px 0 rgba(255, 255, 255, 0.3), 0 6px 0 rgba(46, 42, 74, 0.15);
+}
+
+/* Spare puzzle pieces lying around for decoration. */
+.loosePiece {
+  background: #ffd166;
+  border: 3px solid #2e2a4a;
+  border-radius: 8px;
+  box-shadow: 0 3px 0 rgba(46, 42, 74, 0.2);
+}
+
+.loosePieceAlt {
+  background: #cdb4db;
+}
+
+.badge {
+  border: 3px solid #2e2a4a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(46, 42, 74, 0.25);
+}
+
+.avatar {
+  background: #efe6ff;
+  color: #6c4ab6;
+}
+
+.title {
+  color: #2e2a4a;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.9);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #d7c6ff;
+  box-shadow: 0 3px 0 rgba(46, 42, 74, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #2e2a4a;
+  background: white;
+  color: #2e2a4a;
+  box-shadow: 0 3px 0 rgba(46, 42, 74, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.sign {
+  background: #6c4ab6;
+  color: #ffffff;
+  border: 4px solid #2e2a4a;
+  box-shadow: 0 5px 0 rgba(46, 42, 74, 0.3);
+}
+
+/* Picture piece with a round tab sticking out of its bottom edge. */
+.picture {
+  touch-action: none;
+  cursor: grab;
+  background: #fffaf0;
+  border: 4px solid #2e2a4a;
+  box-shadow: 0 6px 0 rgba(46, 42, 74, 0.25);
+}
+
+.picture::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -14%;
+  width: 30%;
+  height: 22%;
+  transform: translateX(-50%);
+  background: #fffaf0;
+  border: 4px solid #2e2a4a;
+  border-top: none;
+  border-radius: 0 0 999px 999px;
+}
+
+.pictureNaming {
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 28px 10px rgba(255, 210, 63, 0.8);
+}
+
+.pictureSnapped {
+  position: relative;
+  z-index: 2;
+  border-bottom-width: 0;
+  box-shadow: none;
+}
+
+.pictureSnapped::after {
+  display: none;
+}
+
+.letterPiece {
+  touch-action: manipulation;
+  cursor: pointer;
+  background: var(--piece);
+  color: #2e2a4a;
+  border: 4px solid #2e2a4a;
+  box-shadow: 0 6px 0 rgba(46, 42, 74, 0.25);
+  transition: box-shadow 200ms ease-out, background 200ms ease-out, border-color 200ms ease-out;
+}
+
+.letterPiece:disabled {
+  cursor: default;
+}
+
+/* The hole the picture's tab fits into. */
+.notch {
+  background: rgba(46, 42, 74, 0.28);
+  border: 4px solid #2e2a4a;
+  border-top: none;
+}
+
+.letterHover {
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 22px 8px rgba(255, 210, 63, 0.75);
+}
+
+.letterWon {
+  animation: snap 0.5s ease-out;
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+}
+
+.letterWrong {
+  animation: shake 0.4s ease-in-out;
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.letterReveal {
+  animation: revealZoom 2s ease-in-out;
+  z-index: 3;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(46, 42, 74, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(46, 42, 74, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes snap {
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(1.08); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letterWon,
+  .letterWrong,
+  .letterReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}
