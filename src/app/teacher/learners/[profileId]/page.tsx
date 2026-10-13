@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { cache } from "react";
 import { notFound } from "next/navigation";
@@ -7,7 +8,7 @@ import { serverApi } from "@/lib/server-api";
 import type { Guardian, LearnerAddress } from "@/types/db";
 import { calculateAge, calculateAgeYearsMonths, middleInitial } from "@/lib/learners";
 import { formatDatePH, formatWeekdayPH } from "@/lib/datetime";
-import { User, UserRound, TrendingUp, CalendarCheck, GraduationCap } from "lucide-react";
+import { User, UserRound, TrendingUp, CalendarCheck, GraduationCap, FileText } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import PageHeader from "@/app/teacher/_components/layout/page-header";
 import BackLink from "./_components/back-link";
@@ -28,6 +29,7 @@ type LearnerProfile = {
   photoUrl: string | null;
   gradeLevel: string | null;
   section: string | null;
+  sectionId: number | null;
   address: LearnerAddress | null;
   guardians: Guardian[];
   attendances: { date: string; status: "present" | "absent" | "late" | "excused"; recordedAt: string; reason: string | null }[];
@@ -45,15 +47,6 @@ const getLearnerProfile = cache(async (profileId: string): Promise<LearnerProfil
 });
 
 const ATTENDANCE_LABEL = { present: "Present", late: "Late", absent: "Absent", excused: "Excused" } as const;
-
-function ComingSoonTab({ title }: { title: string }) {
-  return (
-    <div className="flex flex-col items-center justify-center py-16 text-center">
-      <p className="text-sm font-semibold text-gray-800">{title} is coming soon.</p>
-      <p className="mt-1 text-xs text-gray-500">This tab will fill in once its data is recorded in the app.</p>
-    </div>
-  );
-}
 
 export async function generateMetadata({
   params,
@@ -156,7 +149,7 @@ export default async function LearnerProfilePage({
         </div>
 
         {/* Tab bar — sits directly on the page background, not inside a card. */}
-        <div className="px-1 py-1 mb-0">
+        <div className="flex items-center px-1 py-1 mb-0">
             <TabsList variant="line" className="min-w-0 overflow-x-auto scrollbar-hide">
               <TabsTrigger
                 value="profile"
@@ -179,14 +172,17 @@ export default async function LearnerProfilePage({
                 <TrendingUp size={14} />
                 Progress
               </TabsTrigger>
-              <TabsTrigger
-                value="grades"
-                className="flex items-center gap-1.5 px-3 md:px-3.5 py-2 text-[13px] font-semibold whitespace-nowrap text-gray-500 data-active:text-[#4a0e1c] after:bg-[#4a0e1c]"
-              >
-                <GraduationCap size={14} />
-                Grades
-              </TabsTrigger>
             </TabsList>
+            {/* Opens the Progress Report page, with this learner already picked. */}
+            {learner.sectionId && (
+              <Link
+                href={`/teacher/reports/progress-report?section=${learner.sectionId}&learner=${learner.learnerId}`}
+                className="flex items-center gap-1.5 px-3 md:px-3.5 py-2 text-[13px] font-semibold whitespace-nowrap text-gray-500 hover:text-[#4a0e1c]"
+              >
+                <FileText size={14} />
+                Progress Report
+              </Link>
+            )}
         </div>
 
         {/* Active panel — its own card, separate from the tab bar above. */}
@@ -243,9 +239,6 @@ export default async function LearnerProfilePage({
             />
           </TabsContent>
 
-          <TabsContent value="grades" className="animate-in fade-in-0 duration-300">
-            <ComingSoonTab title="Grades" />
-          </TabsContent>
         </div>
       </Tabs>
     </div>

@@ -14,6 +14,7 @@ import {
   GraduationCap,
   Table2,
   ClipboardList,
+  FileText,
   UserCog,
   Settings,
   LogOut,
@@ -81,6 +82,12 @@ const sections: { label: string; items: NavItem[] }[] = [
         label: "Class List",
         hint: "Print the list of learners",
         icon: ClipboardList,
+      },
+      {
+        href: "/teacher/reports/progress-report",
+        label: "Progress Report",
+        hint: "Per-learner quarterly report",
+        icon: FileText,
       },
       {
         href: "/teacher/reports/qualified-learners",
