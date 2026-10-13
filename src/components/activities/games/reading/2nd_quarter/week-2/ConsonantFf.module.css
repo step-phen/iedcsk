@@ -1,0 +1,211 @@
+/* Look of Consonant Ff (Ferris Wheel Fair); layout and spacing stay in Tailwind, the pictures and speech stay in ConsonantFf.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #8fd8ff 0%, #c8ecff 55%, #fff4d6 100%);
+  color: #17325a;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Spinning wheel behind the rides: a rim, a hub and spokes. */
+.wheel {
+  background:
+    radial-gradient(circle, #ffd23f 0 4%, #17325a 4% 5.2%, transparent 5.4% 46%, #f25c78 46% 49%, transparent 49.5%),
+    repeating-conic-gradient(from 0deg, rgba(23, 50, 90, 0.35) 0deg 1.4deg, transparent 1.4deg 30deg);
+  border: 10px solid rgba(255, 255, 255, 0.85);
+  opacity: 0.55;
+  animation: spin 40s linear infinite;
+}
+
+.tent {
+  background: repeating-linear-gradient(90deg, #f25c78 0 44px, #ffffff 44px 88px);
+  border-top: 6px solid #17325a;
+}
+
+.badge {
+  border: 3px solid #17325a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(23, 50, 90, 0.25);
+}
+
+.avatar {
+  background: #ffe1e8;
+  color: #c2334f;
+}
+
+.title {
+  color: #17325a;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.9);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.92);
+  border: 3px solid #ffd1dc;
+  box-shadow: 0 3px 0 rgba(23, 50, 90, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #17325a;
+  background: white;
+  color: #17325a;
+  box-shadow: 0 3px 0 rgba(23, 50, 90, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Fair ticket with notched ends that holds the letter. */
+.ticket {
+  background: #ffd23f;
+  color: #17325a;
+  border-top: 4px dashed #c2334f;
+  border-bottom: 4px dashed #c2334f;
+  mask: radial-gradient(circle at 0 50%, transparent 14px, #000 15px) left / 51% 100% no-repeat,
+    radial-gradient(circle at 100% 50%, transparent 14px, #000 15px) right / 51% 100% no-repeat;
+  filter: drop-shadow(0 4px 0 rgba(23, 50, 90, 0.3));
+}
+
+.rail {
+  background: linear-gradient(180deg, #8c96a8, #5d6779);
+  border: 3px solid #17325a;
+}
+
+.rod {
+  background: #17325a;
+  border-radius: 3px;
+}
+
+.swing {
+  transform-origin: top center;
+  animation: swingIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) both, sway 3.6s ease-in-out infinite;
+}
+
+.cabin {
+  border: 4px solid #17325a;
+  border-radius: 34% 34% 22px 22px / 26% 26% 22px 22px;
+  box-shadow: inset 0 -10px 0 rgba(0, 0, 0, 0.12), 0 6px 0 rgba(23, 50, 90, 0.3);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out;
+}
+
+.cabin:disabled {
+  cursor: default;
+}
+
+.cabinTeal {
+  background: #34c3b3;
+}
+
+.cabinPink {
+  background: #f25c78;
+}
+
+.cabinYellow {
+  background: #ffb52e;
+}
+
+.window {
+  background: #fffaf0;
+  border: 3px solid #17325a;
+}
+
+.cabinNaming {
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 28px 10px rgba(255, 210, 63, 0.8);
+}
+
+.cabinWon {
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+  animation: cheer 0.6s ease-out;
+}
+
+.cabinWrong {
+  border-color: #dc2626;
+  animation: shake 0.4s ease-in-out;
+}
+
+.cabinWrong .window {
+  background: #fee2e2;
+}
+
+.cabinReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(23, 50, 90, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(23, 50, 90, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes spin {
+  to { rotate: 360deg; }
+}
+
+@keyframes swingIn {
+  0% { transform: rotate(-70deg); opacity: 0; }
+  60% { transform: rotate(10deg); opacity: 1; }
+  100% { transform: rotate(0deg); opacity: 1; }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes cheer {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-12px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wheel,
+  .swing,
+  .cabinWon,
+  .cabinWrong,
+  .cabinReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

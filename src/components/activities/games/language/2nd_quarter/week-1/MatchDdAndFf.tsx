@@ -47,7 +47,6 @@ import styles from "./MatchDdAndFf.module.css";
    one fixed coordinate space; a ResizeObserver drives the Stage's
    pixel size and uniform scale, so hit-testing (knob centre vs.
    card rect) stays simple math regardless of the rendered size.
-   Same pattern as MatchTheDdSound.tsx.
    ============================================================ */
 const CARD_W = 260;
 const CARD_H = 150;

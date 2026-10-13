@@ -1,0 +1,236 @@
+/* Look of Consonant Jj (Jack-in-the-Box Toy Room); layout and spacing stay in Tailwind, the pictures and speech stay in ConsonantJj.data.ts. */
+
+.screen {
+  background: #d8f3ef;
+  color: #143c46;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wallpaper {
+  background: repeating-linear-gradient(90deg, #d8f3ef 0 46px, #c6ece6 46px 92px);
+}
+
+.floor {
+  background: repeating-linear-gradient(90deg, #d9a66b 0 120px, #cf9a5e 120px 124px);
+  border-top: 6px solid #a8743d;
+}
+
+.badge {
+  border: 3px solid #143c46;
+  background: white;
+  box-shadow: 0 3px 0 rgba(20, 60, 70, 0.25);
+}
+
+.avatar {
+  background: #ffe6b3;
+  color: #a35b00;
+}
+
+.title {
+  color: #143c46;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.9);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.92);
+  border: 3px solid #a7e3da;
+  box-shadow: 0 3px 0 rgba(20, 60, 70, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #143c46;
+  background: white;
+  color: #143c46;
+  box-shadow: 0 3px 0 rgba(20, 60, 70, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Wooden toy block that holds the letter. */
+.block {
+  background: #ffcf3f;
+  color: #143c46;
+  border: 4px solid #143c46;
+  box-shadow: inset -8px -8px 0 rgba(0, 0, 0, 0.1), 0 5px 0 rgba(20, 60, 70, 0.3);
+  transform: rotate(-4deg);
+}
+
+.jack {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.jack:disabled {
+  cursor: default;
+}
+
+.card {
+  background: #fffaf0;
+  border: 4px solid #143c46;
+  box-shadow: 0 6px 0 rgba(20, 60, 70, 0.2);
+  transform-origin: bottom center;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.cardPop {
+  animation: popUp 0.7s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.spring {
+  background: repeating-linear-gradient(180deg, #8c96a8 0 5px, #143c46 5px 8px);
+  border-radius: 4px;
+  transform-origin: bottom center;
+}
+
+.springOut {
+  animation: stretch 0.7s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.box {
+  border: 4px solid #143c46;
+  box-shadow: 0 6px 0 rgba(20, 60, 70, 0.25);
+}
+
+.boxRed {
+  background: repeating-linear-gradient(45deg, #ef4b55 0 18px, #f26a72 18px 36px);
+}
+
+.boxBlue {
+  background: repeating-linear-gradient(45deg, #3b8eea 0 18px, #5aa2ef 18px 36px);
+}
+
+.boxGreen {
+  background: repeating-linear-gradient(45deg, #3dbb6c 0 18px, #5cca86 18px 36px);
+}
+
+.lid {
+  position: absolute;
+  left: -6%;
+  right: -6%;
+  top: -14%;
+  height: 16%;
+  background: #ffcf3f;
+  border: 4px solid #143c46;
+  border-radius: 6px;
+  transform-origin: left center;
+  transition: transform 400ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.lidOpen {
+  transform: rotate(-115deg);
+}
+
+.crank {
+  background: #ffcf3f;
+  border: 3px solid #143c46;
+  border-radius: 0 9999px 9999px 0;
+}
+
+.jackNaming .card {
+  border-color: #f2a900;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 28px 10px rgba(255, 210, 63, 0.8);
+}
+
+.jackWon .card {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+  animation: boing 0.6s ease-out;
+}
+
+.jackWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.jackWrong .card {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.jackReveal {
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.jackReveal .card {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(20, 60, 70, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(20, 60, 70, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes popUp {
+  0% { transform: translateY(70%) scale(0.3); opacity: 0; }
+  70% { transform: translateY(-6%) scale(1.04); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes stretch {
+  0% { transform: scaleY(0); }
+  70% { transform: scaleY(1.2); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes boing {
+  0%, 100% { transform: scaleY(1); }
+  30% { transform: scaleY(0.9) translateY(6%); }
+  60% { transform: scaleY(1.06) translateY(-4%); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardPop,
+  .springOut,
+  .jackWon .card,
+  .jackWrong,
+  .jackReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+
+  .lid {
+    transition: none;
+  }
+}

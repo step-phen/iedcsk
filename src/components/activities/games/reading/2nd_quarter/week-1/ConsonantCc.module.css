@@ -1,0 +1,246 @@
+/* Look of Consonant Cc (Castle Windows); layout and spacing stay in Tailwind, the pictures and speech stay in ConsonantCc.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #3d2c74 0%, #7a4fa3 42%, #f2a072 82%, #ffd39a 100%);
+  color: #2a1b4d;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.skyStar {
+  background: #fff6c8;
+  box-shadow: 0 0 8px 2px rgba(255, 246, 200, 0.8);
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+
+.moon {
+  background: radial-gradient(circle at 35% 35%, #fffbe6, #ffe9a6);
+  box-shadow: 0 0 30px 8px rgba(255, 233, 166, 0.5);
+}
+
+.hill {
+  background: radial-gradient(120% 100% at 50% 100%, #5b8f4e 60%, transparent 61%);
+}
+
+.badge {
+  border: 3px solid #4b2f86;
+  background: white;
+  box-shadow: 0 3px 0 rgba(42, 27, 77, 0.3);
+}
+
+.avatar {
+  background: #ece3ff;
+  color: #4b2f86;
+}
+
+.title {
+  color: #fff8e6;
+  text-shadow: 0 3px 0 #4b2f86, 0 0 14px rgba(255, 214, 120, 0.6);
+}
+
+.pill {
+  background: rgba(255, 252, 244, 0.94);
+  border: 3px solid #e9d6ff;
+  box-shadow: 0 3px 0 rgba(42, 27, 77, 0.25);
+}
+
+.iconButton {
+  border: 3px solid #4b2f86;
+  background: white;
+  color: #4b2f86;
+  box-shadow: 0 3px 0 rgba(42, 27, 77, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.pole {
+  background: linear-gradient(90deg, #7a5230, #b07a47);
+  border-radius: 3px;
+}
+
+/* Pennant that carries the letter the child listens for. */
+.pennant {
+  background: #e8483f;
+  color: white;
+  clip-path: polygon(0 0, 100% 0, 82% 50%, 100% 100%, 0 100%);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+  transform-origin: left center;
+  animation: wave 2.6s ease-in-out infinite;
+}
+
+.battlement {
+  background: linear-gradient(90deg, #b9b3cc 0 60%, transparent 60%) 0 0 / clamp(30px, 6vw, 48px) 100% repeat-x;
+}
+
+.wall {
+  background:
+    linear-gradient(#a49cbc 3px, transparent 3px) 0 0 / 100% 28px,
+    linear-gradient(90deg, #a49cbc 3px, transparent 3px) 0 0 / 56px 56px,
+    linear-gradient(90deg, #a49cbc 3px, transparent 3px) 28px 28px / 56px 56px,
+    #c9c3dc;
+  box-shadow: 0 8px 0 rgba(42, 27, 77, 0.3);
+}
+
+.window {
+  border: 5px solid #6b4a2e;
+  border-radius: 50% 50% 10px 10px / 34% 34% 10px 10px;
+  background: radial-gradient(circle at 50% 70%, #fff3cf, #ffd98a 75%);
+  box-shadow: inset 0 0 0 4px #f5e6c8;
+  perspective: 600px;
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out;
+}
+
+.window:disabled {
+  cursor: default;
+}
+
+.picture {
+  position: relative;
+  z-index: 1;
+  animation: peek 0.45s ease-out;
+}
+
+.shutter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 50%;
+  background: repeating-linear-gradient(180deg, #8c5a33 0 14px, #7a4c2a 14px 17px);
+  border: 3px solid #5a3a20;
+  transition: transform 600ms cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+
+.shutterLeft {
+  left: 0;
+  border-radius: 100% 0 0 6px / 34% 0 0 6px;
+  transform-origin: left center;
+}
+
+.shutterRight {
+  right: 0;
+  border-radius: 0 100% 6px 0 / 0 34% 6px 0;
+  transform-origin: right center;
+}
+
+.shutterOpenLeft {
+  transform: rotateY(-115deg);
+}
+
+.shutterOpenRight {
+  transform: rotateY(115deg);
+}
+
+.windowNaming {
+  box-shadow: inset 0 0 0 4px #f5e6c8, 0 0 0 5px #ffd23f, 0 0 30px 10px rgba(255, 210, 63, 0.75);
+}
+
+.windowWon {
+  border-color: #e0a100;
+  box-shadow: inset 0 0 0 4px #fff3cf, 0 0 0 5px #ffd23f, 0 0 34px 12px rgba(255, 210, 63, 0.85);
+  animation: cheer 0.6s ease-out;
+}
+
+.windowWrong {
+  border-color: #dc2626;
+  background: radial-gradient(circle at 50% 70%, #fff, #fee2e2 75%);
+  animation: shake 0.4s ease-in-out;
+}
+
+.windowReveal {
+  border-color: #16a34a;
+  box-shadow: inset 0 0 0 4px #dcfce7, 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(42, 27, 77, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(42, 27, 77, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.resultBanner {
+  background: #e8483f;
+  color: white;
+  clip-path: polygon(0 0, 100% 0, 94% 50%, 100% 100%, 0 100%, 6% 50%);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes wave {
+  0%, 100% { transform: skewY(0deg); }
+  50% { transform: skewY(-4deg); }
+}
+
+@keyframes peek {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes cheer {
+  0% { transform: translateY(0); }
+  40% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skyStar,
+  .pennant,
+  .picture,
+  .windowWon,
+  .windowWrong,
+  .windowReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+
+  .shutter {
+    transition: none;
+  }
+}

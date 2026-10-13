@@ -1,0 +1,251 @@
+/* Look of Consonant and Word Review (Balloon Festival); layout and spacing stay in Tailwind, the pictures and speech stay in ConsonantAndWordReview.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #7cc8ff 0%, #b5e0ff 50%, #fde7c8 100%);
+  color: #1e325a;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.field {
+  background: linear-gradient(180deg, #9ed36a 0%, #7fbf4a 100%);
+  border-radius: 60% 60% 0 0 / 30% 30% 0 0;
+  border-top: 5px solid #6aa83a;
+}
+
+/* Small balloons drifting far away. */
+.farBalloon {
+  border-radius: 50% 50% 48% 48% / 55% 55% 45% 45%;
+  border: 3px solid rgba(30, 50, 90, 0.4);
+  opacity: 0.55;
+  animation: drift 9s ease-in-out infinite;
+}
+
+.badge {
+  border: 3px solid #1e325a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(30, 50, 90, 0.25);
+}
+
+.avatar {
+  background: #dbeeff;
+  color: #1e5aa8;
+}
+
+.title {
+  color: #1e325a;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.9);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #b8dcff;
+  box-shadow: 0 3px 0 rgba(30, 50, 90, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #1e325a;
+  background: white;
+  color: #1e325a;
+  box-shadow: 0 3px 0 rgba(30, 50, 90, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Festival banner that holds the picture or the printed word. */
+.banner {
+  background:
+    repeating-linear-gradient(90deg, #ff6b6b 0 18px, #ffd23f 18px 36px, #4fc3f7 36px 54px) top / 100% 10px no-repeat,
+    #ffffff;
+  color: #1e325a;
+  border: 4px solid #1e325a;
+  box-shadow: 0 6px 0 rgba(30, 50, 90, 0.25);
+  padding-top: 14px;
+}
+
+.bannerIn {
+  animation: tagIn 0.4s ease-out;
+}
+
+.label {
+  background: #1e325a;
+  color: #ffffff;
+}
+
+.letter {
+  color: #1e325a;
+  transition: color 150ms ease-out, transform 150ms ease-out;
+}
+
+.letterLit {
+  color: #e8483f;
+  transform: translateY(-8px) scale(1.15);
+}
+
+.bob {
+  animation: bob 3.2s ease-in-out infinite;
+}
+
+.balloonButton {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.balloonButton:disabled {
+  cursor: default;
+}
+
+.balloon {
+  border: 4px solid #1e325a;
+  border-radius: 50% 50% 48% 48% / 55% 55% 45% 45%;
+  box-shadow: inset -10px -12px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* Shiny highlight on each balloon. */
+.balloon::before {
+  content: "";
+  position: absolute;
+  left: 16%;
+  top: 12%;
+  width: 14%;
+  height: 20%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  rotate: 25deg;
+}
+
+.tintRed {
+  background-color: #ff6b6b;
+}
+
+.tintBlue {
+  background-color: #4fa8f7;
+}
+
+.tintYellow {
+  background-color: #ffd23f;
+}
+
+.tintPurple {
+  background-color: #b28cf0;
+}
+
+.tintGreen {
+  background-color: #63cf8a;
+}
+
+.face {
+  background: #ffffff;
+  border: 3px solid #1e325a;
+  color: #1e325a;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, background-color 200ms ease-out;
+}
+
+.string {
+  background: #1e325a;
+}
+
+.basket {
+  background: repeating-linear-gradient(90deg, #c98d4e 0 6px, #a96f35 6px 9px);
+  border: 3px solid #1e325a;
+}
+
+.balloonWon {
+  animation: liftOff 0.7s ease-out;
+}
+
+.balloonWon .face {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+}
+
+.balloonWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.balloonWrong .face {
+  border-color: #dc2626;
+  background-color: #fee2e2;
+}
+
+.balloonReveal {
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.balloonReveal .face {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(30, 50, 90, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(30, 50, 90, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes drift {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 14px -18px; }
+}
+
+@keyframes bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -8px; }
+}
+
+@keyframes liftOff {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-22px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .farBalloon,
+  .bannerIn,
+  .bob,
+  .balloonWon,
+  .balloonWrong,
+  .balloonReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

@@ -1,0 +1,229 @@
+/* Look of Consonant Gg (Gumball Machine); layout and spacing stay in Tailwind, the pictures and speech stay in ConsonantGg.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #ffe3f1 0%, #ffd0e6 60%, #ffc1dc 100%);
+  color: #5a1440;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dots {
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.7) 0 7px, transparent 8px) 0 0 / 70px 70px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.45) 0 5px, transparent 6px) 35px 35px / 70px 70px;
+}
+
+.badge {
+  border: 3px solid #5a1440;
+  background: white;
+  box-shadow: 0 3px 0 rgba(90, 20, 64, 0.25);
+}
+
+.avatar {
+  background: #ffe3f1;
+  color: #b0296e;
+}
+
+.title {
+  color: #5a1440;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.9);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.92);
+  border: 3px solid #ffb3d6;
+  box-shadow: 0 3px 0 rgba(90, 20, 64, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #5a1440;
+  background: white;
+  color: #5a1440;
+  box-shadow: 0 3px 0 rgba(90, 20, 64, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Glass globe full of gumballs. */
+.globe {
+  border: 5px solid #5a1440;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.95) 0 8%, transparent 9%),
+    radial-gradient(circle at 30% 60%, #ff5a5a 0 9%, transparent 10%),
+    radial-gradient(circle at 52% 72%, #3fb6ff 0 9%, transparent 10%),
+    radial-gradient(circle at 72% 58%, #ffd23f 0 9%, transparent 10%),
+    radial-gradient(circle at 48% 45%, #7ad35a 0 9%, transparent 10%),
+    radial-gradient(circle at 68% 34%, #b06bff 0 8%, transparent 9%),
+    radial-gradient(circle at 38% 84%, #ff9a2e 0 8%, transparent 9%),
+    radial-gradient(circle at 66% 84%, #ff6fb5 0 8%, transparent 9%),
+    rgba(230, 246, 255, 0.85);
+}
+
+.base {
+  background: #e8344e;
+  color: white;
+  border: 4px solid #5a1440;
+  text-shadow: 0 3px 0 #8a1a2e;
+  position: relative;
+  z-index: 1;
+}
+
+.chute {
+  background: #8a1a2e;
+  border: 4px solid #5a1440;
+  border-top: none;
+}
+
+.machine {
+  transform-origin: bottom center;
+}
+
+.machineShake {
+  animation: rattle 0.45s ease-in-out;
+}
+
+.tray {
+  background: rgba(255, 255, 255, 0.6);
+  border: 4px solid #e8344e;
+  box-shadow: inset 0 -8px 0 rgba(232, 52, 78, 0.15);
+}
+
+/* Two-tone capsule: clear top half, colored bottom half. */
+.capsule {
+  border: 4px solid #5a1440;
+  box-shadow: 0 6px 0 rgba(90, 20, 64, 0.25);
+  touch-action: manipulation;
+  cursor: pointer;
+  animation: dropIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) both;
+  transition: box-shadow 200ms ease-out;
+}
+
+.capsule::after {
+  content: "";
+  position: absolute;
+  inset: 8% 14% auto auto;
+  width: 16%;
+  height: 16%;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 2;
+}
+
+.capsule:disabled {
+  cursor: default;
+}
+
+.capsuleGreen {
+  background: linear-gradient(180deg, #f2fbff 0 50%, #7ad35a 50% 100%);
+}
+
+.capsuleBlue {
+  background: linear-gradient(180deg, #f2fbff 0 50%, #3fb6ff 50% 100%);
+}
+
+.capsuleOrange {
+  background: linear-gradient(180deg, #f2fbff 0 50%, #ff9a2e 50% 100%);
+}
+
+.capsuleNaming {
+  box-shadow: 0 0 0 6px #ffd23f, 0 0 28px 10px rgba(255, 210, 63, 0.85);
+}
+
+.capsuleWon {
+  box-shadow: 0 0 0 6px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+  animation: cheer 0.6s ease-out;
+}
+
+.capsuleWrong {
+  border-color: #dc2626;
+  background: linear-gradient(180deg, #fff 0 50%, #fecaca 50% 100%);
+  animation: shake 0.4s ease-in-out;
+}
+
+.capsuleReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 6px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(90, 20, 64, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(90, 20, 64, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.resultGumball {
+  background: #e8344e;
+  color: white;
+  border: 5px solid #5a1440;
+  text-shadow: 0 3px 0 #8a1a2e;
+  box-shadow: 0 6px 0 rgba(90, 20, 64, 0.3);
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes rattle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-4deg); }
+  75% { transform: rotate(4deg); }
+}
+
+@keyframes dropIn {
+  0% { transform: translateY(-38vh) rotate(-200deg) scale(0.5); opacity: 0; }
+  70% { transform: translateY(0) rotate(10deg) scale(1); opacity: 1; }
+  100% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+}
+
+@keyframes cheer {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-14px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .machineShake,
+  .capsule,
+  .capsuleWon,
+  .capsuleWrong,
+  .capsuleReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

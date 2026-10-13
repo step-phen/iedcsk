@@ -1,0 +1,229 @@
+/* Look of Consonant Vv (Van Parade); layout and spacing stay in Tailwind, the pictures and speech stay in ConsonantVv.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #ffd9e8 0%, #ffeef4 55%, #fff8fb 100%);
+  color: #3b1f4f;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Flat skyline behind the road. */
+.city {
+  background:
+    linear-gradient(#e7b8d6, #e7b8d6) 4% 100% / 9% 70% no-repeat,
+    linear-gradient(#d9a3c9, #d9a3c9) 14% 100% / 7% 95% no-repeat,
+    linear-gradient(#e7b8d6, #e7b8d6) 24% 100% / 11% 55% no-repeat,
+    linear-gradient(#d9a3c9, #d9a3c9) 40% 100% / 8% 85% no-repeat,
+    linear-gradient(#e7b8d6, #e7b8d6) 52% 100% / 12% 60% no-repeat,
+    linear-gradient(#d9a3c9, #d9a3c9) 66% 100% / 7% 100% no-repeat,
+    linear-gradient(#e7b8d6, #e7b8d6) 80% 100% / 10% 72% no-repeat,
+    linear-gradient(#d9a3c9, #d9a3c9) 96% 100% / 9% 88% no-repeat;
+  opacity: 0.75;
+}
+
+.road {
+  background:
+    repeating-linear-gradient(90deg, #ffd23f 0 46px, transparent 46px 86px) 0 50% / 100% 6px no-repeat,
+    #5b5f6e;
+  border-top: 7px solid #9aa0b0;
+}
+
+.badge {
+  border: 3px solid #3b1f4f;
+  background: white;
+  box-shadow: 0 3px 0 rgba(59, 31, 79, 0.25);
+}
+
+.avatar {
+  background: #f6e3ff;
+  color: #7b3fb0;
+}
+
+.title {
+  color: #3b1f4f;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.9);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #f2b8d6;
+  box-shadow: 0 3px 0 rgba(59, 31, 79, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #3b1f4f;
+  background: white;
+  color: #3b1f4f;
+  box-shadow: 0 3px 0 rgba(59, 31, 79, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Yellow road sign that holds the letter. */
+.letterRoadSign {
+  background: #ffd23f;
+  color: #3b1f4f;
+  border: 5px solid #3b1f4f;
+  box-shadow: 0 0 0 4px #ffd23f, 0 6px 0 4px rgba(59, 31, 79, 0.25);
+}
+
+.vanButton {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.vanButton:disabled {
+  cursor: default;
+}
+
+.vanIn {
+  animation: driveIn 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.body {
+  border: 4px solid #3b1f4f;
+  border-radius: 14% 34% 10% 10% / 18% 44% 10% 10%;
+  box-shadow: inset 0 -12px 0 rgba(0, 0, 0, 0.14);
+}
+
+.tintRed {
+  background: #ef5a6f;
+}
+
+.tintYellow {
+  background: #f9b934;
+}
+
+.tintPurple {
+  background: #9b6be0;
+}
+
+.cab {
+  background: linear-gradient(135deg, #e6f6ff 40%, #bfe4fa 40%);
+  border: 4px solid #3b1f4f;
+  border-radius: 10% 60% 10% 10%;
+}
+
+.window {
+  background: #ffffff;
+  border: 4px solid #3b1f4f;
+  border-radius: 12px;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, background-color 200ms ease-out;
+}
+
+.wheel {
+  border: 4px solid #3b1f4f;
+  border-radius: 9999px;
+  background: repeating-conic-gradient(#2a2d38 0 30deg, #3e4252 30deg 60deg);
+  box-shadow: inset 0 0 0 7px #2a2d38;
+}
+
+.vanIn .wheel {
+  animation: spin 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.vanNaming .window {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 28px 10px rgba(255, 210, 63, 0.8);
+}
+
+.vanWon .window {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+}
+
+.vanButton.vanWon {
+  animation: honk 0.6s ease-out;
+}
+
+.vanButton.vanWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.vanWrong .window {
+  border-color: #dc2626;
+  background-color: #fee2e2;
+}
+
+.vanButton.vanReveal {
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.vanReveal .window {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(59, 31, 79, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(59, 31, 79, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes driveIn {
+  0% { transform: translateX(110vw); }
+  80% { transform: translateX(-10px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(720deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes honk {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30% { transform: translateY(-12px) rotate(-3deg); }
+  60% { transform: translateY(0) rotate(2deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vanIn,
+  .vanIn .wheel,
+  .vanButton.vanWon,
+  .vanButton.vanWrong,
+  .vanButton.vanReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

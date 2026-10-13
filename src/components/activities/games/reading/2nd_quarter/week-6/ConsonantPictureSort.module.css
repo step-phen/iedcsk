@@ -1,0 +1,209 @@
+/* Look of Consonant Picture Sort (Construction Yard); layout and spacing stay in Tailwind, the pictures and speech stay in ConsonantPictureSort.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #cdeefd 0%, #e8f7ff 60%, #fff3d6 100%);
+  color: #332614;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ground {
+  background:
+    radial-gradient(circle at 15% 40%, rgba(120, 80, 40, 0.25) 0 3px, transparent 4px) 0 0 / 46px 34px,
+    radial-gradient(circle at 70% 70%, rgba(120, 80, 40, 0.2) 0 2px, transparent 3px) 0 0 / 38px 28px,
+    linear-gradient(180deg, #d9a96a, #c08a4a);
+  border-top: 5px solid #a8723a;
+}
+
+.badge {
+  border: 3px solid #332614;
+  background: white;
+  box-shadow: 0 3px 0 rgba(51, 38, 20, 0.25);
+}
+
+.avatar {
+  background: #fff1c2;
+  color: #b07a00;
+}
+
+.title {
+  color: #332614;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.85);
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.94);
+  border: 3px solid #ffd23f;
+  box-shadow: 0 3px 0 rgba(51, 38, 20, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #332614;
+  background: white;
+  color: #332614;
+  box-shadow: 0 3px 0 rgba(51, 38, 20, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.sign {
+  background: #ffd23f;
+  color: #332614;
+  border: 4px solid #332614;
+  box-shadow: 0 5px 0 rgba(51, 38, 20, 0.3);
+}
+
+.cable {
+  background: #4a4a4a;
+}
+
+.hook {
+  border: 4px solid #4a4a4a;
+  border-top: none;
+}
+
+.crate {
+  touch-action: none;
+  cursor: grab;
+  background:
+    linear-gradient(45deg, transparent 47%, rgba(140, 90, 40, 0.3) 47% 53%, transparent 53%),
+    #fff3dc;
+  border: 4px solid #332614;
+  box-shadow: inset 0 0 0 6px #e3b06a, 0 6px 0 rgba(51, 38, 20, 0.25);
+}
+
+.crateNaming {
+  box-shadow: inset 0 0 0 6px #ffd23f, 0 0 0 5px #ffd23f, 0 0 28px 10px rgba(255, 210, 63, 0.8);
+}
+
+.truck {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.truck:disabled {
+  cursor: default;
+}
+
+/* Hazard-striped dump bed that carries the letter. */
+.bed {
+  background: #ffd23f;
+  color: #332614;
+  border: 4px solid #332614;
+  border-radius: 6px 6px 10px 10px;
+  clip-path: polygon(0 0, 100% 0, 94% 100%, 6% 100%);
+  box-shadow: inset 0 -10px 0 rgba(0, 0, 0, 0.12);
+  transition: background 200ms ease-out;
+}
+
+.cab {
+  background: var(--cab);
+  border: 4px solid #332614;
+}
+
+.window {
+  background: #d8f1ff;
+  border: 3px solid #332614;
+}
+
+.chassis {
+  background: #4a4a4a;
+  border: 3px solid #332614;
+}
+
+.wheel {
+  background: radial-gradient(circle, #c9c9c9 0 22%, #2d2d2d 24%);
+  border: 3px solid #1a1a1a;
+}
+
+.truckHover .bed {
+  background: #fff1a8;
+  filter: drop-shadow(0 0 10px rgba(255, 210, 63, 0.9));
+}
+
+.truckWon {
+  animation: honk 0.6s ease-out;
+}
+
+.truckWon .bed {
+  filter: drop-shadow(0 0 6px #ffd23f) drop-shadow(0 0 16px rgba(255, 210, 63, 0.9));
+}
+
+.truckWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.truckWrong .bed {
+  background: #fee2e2;
+  filter: drop-shadow(0 0 4px #dc2626) drop-shadow(0 0 12px rgba(220, 38, 38, 0.7));
+}
+
+.truckReveal {
+  animation: revealZoom 2s ease-in-out;
+  z-index: 4;
+}
+
+.truckReveal .bed {
+  background: #dcfce7;
+  filter: drop-shadow(0 0 4px #16a34a) drop-shadow(0 0 16px rgba(22, 163, 74, 0.8));
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(51, 38, 20, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(51, 38, 20, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes honk {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-12px) rotate(-2deg); }
+  60% { transform: translateY(0) rotate(1deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .truckWon,
+  .truckWrong,
+  .truckReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}
