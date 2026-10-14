@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { calculateAge, formatName, hasMiddleName } from "@/lib/learners";
+import { calculateAge, formatName, gradeLevels, hasMiddleName } from "@/lib/learners";
 import { formatDatePH } from "@/lib/datetime";
 import type { Gender } from "@/constants/enums";
 
@@ -100,7 +100,7 @@ export default function LearnerListReport({
   const cells = rows.map((l, i) => (status ? [...toCells(l, i), status] : toCells(l, i)));
   const males = rows.filter((l) => l.gender === "Male").length;
   const summary = `Male: ${males}    Female: ${rows.length - males}    Total: ${rows.length}`;
-  const sectionLabel = (section === "all" ? sections : [section]).map((s) => `Kinder 1 - ${s}`).join(", ") || "—";
+  const sectionLabel = (section === "all" ? sections : [section]).map((s) => `${gradeLevels[0]} - ${s}`).join(", ") || "—";
   const today = formatDatePH(new Date());
 
   async function downloadPdf() {

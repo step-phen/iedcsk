@@ -14,7 +14,7 @@ export default function PrintRecord({
   details,
   children,
 }: {
-  /** Lines under the title, e.g. "Section: Kinder 1 - Joy". */
+  /** Lines under the title, e.g. "Section: Kindergarten - Joy". */
   details: string[];
   children: React.ReactNode;
 }) {
