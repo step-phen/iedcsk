@@ -14,7 +14,7 @@ export default function LoginPage() {
       <header className="relative z-10 bg-sidebar shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3),0_4px_6px_-2px_rgba(0,0,0,0.2)]">
         <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-2 px-4 py-3 text-center sm:flex-row sm:items-center sm:gap-4 sm:px-7 sm:py-3.5 sm:text-left">
           <Image
-            src="/images/logo/logo.webp"
+            src="/images/logo/spc-logo.webp"
             alt="SPC Logo"
             width={56}
             height={56}
@@ -55,7 +55,7 @@ export default function LoginPage() {
 
       {/* Footer */}
       <footer className="relative z-10 bg-[#1a1a1a] py-3 text-center text-xs text-gray-400">
-        © 2026 Southern De Oro Philippines College. All rights reserved.
+        © 2026 Southern de oro Philippines College. All rights reserved.
         Capstone Project.
       </footer>
     </div>
