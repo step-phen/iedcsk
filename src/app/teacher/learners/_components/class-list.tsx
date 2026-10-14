@@ -2,7 +2,7 @@
 
 import { useState, useEffect, use, Suspense } from "react";
 import Link from "next/link";
-import { Users, AlertCircle, UserPlus, type LucideIcon } from "lucide-react";
+import { Users, AlertCircle, UserPlus, ChevronLeft, ChevronRight, type LucideIcon } from "lucide-react";
 import type { LearnerListItem } from "@/types/learner";
 import type { Gender } from "@/constants/enums";
 import { matchesLearnerSearch } from "@/lib/learners";
@@ -21,6 +21,9 @@ const sectionKey = (l: LearnerListItem) => `${l.gradeLevel} - ${l.section}`;
 const VIEW_KEY = "learners-view";
 
 type View = "list" | "cards";
+
+// Divides evenly into the 1/2/3/4-column card grid.
+const PAGE_SIZE = 24;
 
 interface ClassListProps {
   learnersPromise: Promise<LearnerListItem[]>;
@@ -59,6 +62,8 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
   const [genderFilter, setGenderFilter] = useState<Gender | "ALL">("ALL");
   const [sectionFilter, setSectionFilter] = useState("ALL");
   const [view, setView] = useState<View>("list");
+  // Held here, outside the per-view subtree, so List and Cards share one page.
+  const [page, setPage] = useState(1);
 
   // Read after mount, so the server render and the first client render agree.
   useEffect(() => {
@@ -83,17 +88,36 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
   const shown = inScope.filter((l) => genderFilter === "ALL" || l.gender === genderFilter);
   const boys = inScope.filter((l) => l.gender === "Male").length;
 
+  // Pagination runs on the filtered list. When it shrinks past the stored page (a learner gone
+  // after a refresh), the stored page follows to the last valid one; the clamp keeps this render
+  // from ever showing an empty page in between.
+  const pageCount = Math.max(1, Math.ceil(shown.length / PAGE_SIZE));
+  if (page > pageCount) setPage(pageCount);
+  const currentPage = Math.min(page, pageCount);
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageLearners = shown.slice(start, start + PAGE_SIZE);
+
   return (
     <div className="flex flex-1 flex-col gap-3">
       {/* A floating translucent bar that stays under the header while the roster scrolls beneath it. */}
       <div className="material-bar sticky top-[4.25rem] z-20 flex flex-wrap items-center gap-3 rounded-xl px-4 py-3 md:px-5">
-        <LearnerSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        {/* Every filter change starts over at page 1. */}
+        <LearnerSearch
+          searchQuery={searchQuery}
+          setSearchQuery={(q) => {
+            setSearchQuery(q);
+            setPage(1);
+          }}
+        />
         <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
           Section
           <select
             name="section-filter"
             value={sectionFilter}
-            onChange={(e) => setSectionFilter(e.target.value)}
+            onChange={(e) => {
+              setSectionFilter(e.target.value);
+              setPage(1);
+            }}
             className={SELECT_CLASS}
           >
             <option value="ALL">All sections</option>
@@ -112,7 +136,10 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
             { value: "Female", label: `Girls ${inScope.length - boys}` },
           ]}
           value={genderFilter}
-          onChange={(v) => setGenderFilter(v as Gender | "ALL")}
+          onChange={(v) => {
+            setGenderFilter(v as Gender | "ALL");
+            setPage(1);
+          }}
         />
         <div className="ml-auto">
           <Segmented
@@ -127,36 +154,94 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
         </div>
       </div>
 
-      {/* Keyed by view, so switching List and Cards cross-fades instead of jumping. */}
-      <div key={view} className="flex-1 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm animate-in fade-in duration-200 motion-reduce:animate-none">
-        {learners.length === 0 ? (
-          <EmptyState icon={Users} title="No Learners Yet" message="Add your first learner to get started." />
-        ) : shown.length === 0 ? (
-          <EmptyState
-            icon={AlertCircle}
-            tone="amber"
-            title="No matches found"
-            message={
-              searchQuery ? (
-                <>
-                  No learner named <strong className="text-gray-700">&quot;{searchQuery}&quot;</strong>.
-                </>
-              ) : (
-                "No learners match the selected filters."
-              )
-            }
-          />
-        ) : view === "list" ? (
-          <LearnerTable learners={shown} />
-        ) : (
-          <div className="grid grid-cols-1 gap-3 bg-gray-50/60 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {shown.map((learner) => (
-              <LearnerCard key={learner.learnerId} learner={learner} />
-            ))}
-          </div>
-        )}
+      {/* overflow-clip rounds the corners without becoming a scroll box, so the footer can stick
+          to the bottom of the page's scroll area while the roster scrolls past it. */}
+      <div className="flex flex-1 flex-col overflow-clip rounded-xl border border-gray-200 bg-white shadow-sm">
+        {/* Keyed by view, so switching List and Cards cross-fades instead of jumping. */}
+        <div key={view} className="flex-1 animate-in fade-in duration-200 motion-reduce:animate-none">
+          {learners.length === 0 ? (
+            <EmptyState icon={Users} title="No Learners Yet" message="Add your first learner to get started." />
+          ) : shown.length === 0 ? (
+            <EmptyState
+              icon={AlertCircle}
+              tone="amber"
+              title="No matches found"
+              message={
+                searchQuery ? (
+                  <>
+                    No learner named <strong className="text-gray-700">&quot;{searchQuery}&quot;</strong>.
+                  </>
+                ) : (
+                  "No learners match the selected filters."
+                )
+              }
+            />
+          ) : view === "list" ? (
+            <LearnerTable learners={pageLearners} startIndex={start} />
+          ) : (
+            <div className="grid grid-cols-1 gap-3 bg-gray-50/60 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {pageLearners.map((learner) => (
+                <LearnerCard key={learner.learnerId} learner={learner} />
+              ))}
+            </div>
+          )}
+        </div>
+        <Pagination
+          start={start}
+          shownOnPage={pageLearners.length}
+          total={shown.length}
+          page={currentPage}
+          pageCount={pageCount}
+          onPageChange={setPage}
+        />
       </div>
     </div>
+  );
+}
+
+const PAGE_BUTTON_CLASS =
+  "inline-flex h-7 cursor-pointer items-center gap-1 rounded-lg border border-stone-300 bg-white px-2.5 text-xs font-semibold text-gray-700 shadow-xs outline-none transition-colors duration-100 hover:bg-stone-100 focus-visible:ring-2 focus-visible:ring-sidebar/30 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-white";
+
+/** One footer for both views; always shown, so the count reads the same on a one-page or empty list. */
+function Pagination({
+  start,
+  shownOnPage,
+  total,
+  page,
+  pageCount,
+  onPageChange,
+}: {
+  start: number;
+  shownOnPage: number;
+  total: number;
+  page: number;
+  pageCount: number;
+  onPageChange: (page: number) => void;
+}) {
+  return (
+    <nav
+      aria-label="Learner pages"
+      className="sticky bottom-0 z-10 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-gray-200 bg-gray-50 px-4 py-2.5 text-xs text-gray-600"
+    >
+      <p aria-live="polite" className="tabular-nums">
+        {total === 0
+          ? "Showing 0 learners"
+          : `Showing ${start + 1}–${start + shownOnPage} of ${total} ${total === 1 ? "learner" : "learners"}`}
+      </p>
+      <div className="flex items-center gap-2">
+        <button type="button" onClick={() => onPageChange(page - 1)} disabled={page <= 1} className={PAGE_BUTTON_CLASS}>
+          <ChevronLeft size={14} aria-hidden="true" />
+          Previous
+        </button>
+        <span className="whitespace-nowrap font-semibold text-gray-700 tabular-nums">
+          Page {page} of {pageCount}
+        </span>
+        <button type="button" onClick={() => onPageChange(page + 1)} disabled={page >= pageCount} className={PAGE_BUTTON_CLASS}>
+          Next
+          <ChevronRight size={14} aria-hidden="true" />
+        </button>
+      </div>
+    </nav>
   );
 }
 
