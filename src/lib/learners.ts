@@ -176,7 +176,7 @@ export function getBirthdateRange(today: Date = todayDatePH()): { min: string; m
 
 /** Only grade level the app offers — no Kinder 2 yet. Shared by the learner
  *  and section forms so neither offers a grade level the other doesn't. */
-export const gradeLevels = ["Kinder 1"] as const;
+export const gradeLevels = ["Kindergarten"] as const;
 
 /** Suffix dropdown options, shared between the add and edit forms. */
 export const extensionNames = ["Jr.", "Sr.", "II", "III", "IV", "V"] as const;
