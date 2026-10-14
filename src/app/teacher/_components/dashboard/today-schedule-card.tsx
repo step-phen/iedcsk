@@ -46,61 +46,69 @@ export default function TodayScheduleCard({
       {/* Fixed height so the card's size doesn't depend on how many lessons
           are scheduled today — a light day and a packed day render the same
           height, with extra rows scrolling inside instead of growing the
-          card. */}
-      <div className="h-[17.5rem] overflow-y-auto">
+          card. On narrow screens a too-wide table scrolls sideways here
+          rather than being clipped by the card. */}
+      <div className="h-[17.5rem] overflow-auto scrollbar-hide">
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-gray-50 text-left sticky top-0 z-10">
-              <th scope="col" className="px-5 py-2.5 text-[13px] font-bold text-gray-700 uppercase tracking-[0.14em]">
+              <th scope="col" className="px-3 sm:px-5 py-2.5 text-[13px] font-bold text-gray-700 uppercase tracking-[0.14em]">
                 Time
               </th>
-              <th scope="col" className="px-5 py-2.5 text-[13px] font-bold text-gray-700 uppercase tracking-[0.14em]">
+              <th scope="col" className="px-3 sm:px-5 py-2.5 text-[13px] font-bold text-gray-700 uppercase tracking-[0.14em]">
                 Module
               </th>
-              <th scope="col" className="px-5 py-2.5 text-[13px] font-bold text-gray-700 uppercase tracking-[0.14em]">
+              {/* Below sm, three columns don't fit a phone; activities move
+                  under the module name instead of scrolling out of view. */}
+              <th scope="col" className="hidden sm:table-cell px-5 py-2.5 text-[13px] font-bold text-gray-700 uppercase tracking-[0.14em]">
                 Activities
               </th>
             </tr>
           </thead>
           <tbody className="group-has-data-pending:hidden">
             {lessons.length > 0 ? (
-              lessons.map((lesson, i) => (
-                <tr
-                  key={lesson.lessonId}
-                  className={`border-t border-gray-100 ${i % 2 === 0 ? "bg-white" : "bg-gray-50/40"}`}
-                >
-                  <td className="px-5 py-3 text-gray-800 whitespace-nowrap">
-                    {lesson.module && moduleTimes.get(lesson.module.moduleId) ? (
-                      <>
-                        {moduleTimes.get(lesson.module.moduleId)!.start}
-                        {" – "}
-                        {moduleTimes.get(lesson.module.moduleId)!.end}
-                      </>
-                    ) : (
-                      "—"
-                    )}
-                  </td>
-                  <td className="px-5 py-3 font-semibold text-gray-800">
-                    {lesson.module?.moduleName ?? "—"}
-                  </td>
-                  <td className="px-5 py-3">
-                    {lesson.activities.length > 0 ? (
-                      <div className="flex flex-wrap gap-1.5">
-                        {lesson.activities.map((activity) => (
-                          <span
-                            key={activity.activityId}
-                            className="inline-block text-sm font-semibold px-2 py-0.5 rounded-full bg-[#5b0610]/10 text-[#5b0610] whitespace-nowrap"
-                          >
-                            {activity.activityName}
-                          </span>
-                        ))}
-                      </div>
-                    ) : (
-                      <span className="text-gray-500">No activity yet</span>
-                    )}
-                  </td>
-                </tr>
-              ))
+              lessons.map((lesson, i) => {
+                const time = lesson.module && moduleTimes.get(lesson.module.moduleId);
+                const activities =
+                  lesson.activities.length > 0 ? (
+                    <div className="flex flex-wrap gap-1.5">
+                      {lesson.activities.map((activity) => (
+                        <span
+                          key={activity.activityId}
+                          className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full bg-[#5b0610]/10 text-[#5b0610] sm:whitespace-nowrap"
+                        >
+                          {activity.activityName}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-xs text-gray-500 font-normal">No activity yet</span>
+                  );
+
+                return (
+                  <tr
+                    key={lesson.lessonId}
+                    className={`border-t border-gray-100 align-top sm:align-middle ${i % 2 === 0 ? "bg-white" : "bg-gray-50/40"}`}
+                  >
+                    {/* Wraps between start and end on a phone, one line from sm. */}
+                    <td className="px-3 sm:px-5 py-3 text-gray-800 sm:whitespace-nowrap">
+                      {time ? (
+                        <>
+                          <span className="whitespace-nowrap">{time.start} –</span>{" "}
+                          <span className="whitespace-nowrap">{time.end}</span>
+                        </>
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                    <td className="px-3 sm:px-5 py-3 sm:min-w-36 text-xs leading-snug font-semibold text-gray-800">
+                      {lesson.module?.moduleName ?? "—"}
+                      <div className="mt-2 sm:hidden">{activities}</div>
+                    </td>
+                    <td className="hidden sm:table-cell px-5 py-3">{activities}</td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
                 <td

@@ -155,6 +155,8 @@ export default async function TeacherDashboard({
     week: number;
     moduleId: number;
     moduleName: string;
+    moduleCode: string;
+    domainName: string | null;
     activities: { activityId: number; activityName: string }[];
   };
   type TodaysModuleTime = { moduleId: number; startTime: string; endTime: string };
@@ -190,7 +192,14 @@ export default async function TeacherDashboard({
       lessonName: lesson.lessonName,
       quarterName: currentQuarter?.quarterName ?? "",
       week: lesson.week,
-      module: { moduleId: lesson.moduleId, moduleName: lesson.moduleName },
+      // MAPEH is one module over three domains; its domain tells the rows apart.
+      module: {
+        moduleId: lesson.moduleId,
+        moduleName:
+          lesson.moduleCode === "mapeh" && lesson.domainName
+            ? `${lesson.moduleName} - ${lesson.domainName}`
+            : lesson.moduleName,
+      },
       activities: lesson.activities.map((activity) => ({
         activityId: activity.activityId,
         activityName: activity.activityName,
@@ -386,7 +395,9 @@ export default async function TeacherDashboard({
 
         {/* ─── Row 2: Today's Schedule | Class Schedule (stacked below xl) ─── */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
-          <div className={CARD_ENTRANCE} style={{ animationDelay: "120ms" }}>
+          {/* min-w-0: lets the card's table scroll inside it instead of
+              widening the grid column past the screen. */}
+          <div className={`min-w-0 ${CARD_ENTRANCE}`} style={{ animationDelay: "120ms" }}>
             <TodayScheduleCard
               todayName={todayName}
               quarterName={currentQuarter?.quarterName ?? "No quarter set"}
