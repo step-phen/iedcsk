@@ -42,6 +42,12 @@ function load(): Promise<void> {
   return request;
 }
 
+/** Refetch after changing the active year or quarter so the header shows both. */
+export function reloadActiveSchoolYear(): Promise<void> {
+  request = null;
+  return load();
+}
+
 export function useActiveSchoolYear(): SchoolYear | null | undefined {
   const year = useSyncExternalStore(
     subscribe,

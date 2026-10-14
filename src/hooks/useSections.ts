@@ -25,10 +25,16 @@ function fetchSections(): Promise<Section[]> {
   return sectionsRequest;
 }
 
-/** Drop the cached list — call after creating a section so the next open
- *  (or an already-open form) shows it without a full page reload. */
+/** Drop the cached list — call after the active school year changes so the next
+ *  open (or an already-open form) shows its sections without a full page reload. */
 export function invalidateSections(): void {
   sectionsRequest = null;
+}
+
+/** "Kindergarten - Joy — Morning"; a section from before the fixed choices has no session. */
+export function sectionLabel(s: Section): string {
+  const session = s.session === "morning" ? " — Morning" : s.session === "afternoon" ? " — Afternoon" : "";
+  return `${s.gradeLevel} - ${s.sectionName}${session}`;
 }
 
 export interface UseSectionsResult {

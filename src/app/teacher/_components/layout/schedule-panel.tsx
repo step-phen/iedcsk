@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
-import { useSections } from "@/hooks/useSections";
+import { sectionLabel, useSections } from "@/hooks/useSections";
 import { apiFetch } from "@/lib/api";
 
 type ScheduleRow = {
@@ -127,7 +127,7 @@ export default function SchedulePanel() {
             >
               {sections.map((s) => (
                 <option key={s.sectionId} value={s.sectionId}>
-                  {s.sectionName}
+                  {sectionLabel(s)}
                 </option>
               ))}
             </select>

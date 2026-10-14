@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CalendarRange } from "lucide-react";
+import { CalendarRange, CircleCheck } from "lucide-react";
 import { ModalShell } from "@/components/ui/modal-shell";
 import { toast } from "react-hot-toast";
 import {
@@ -15,7 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { displaySchoolYear } from "@/hooks/useActiveSchoolYear";
+import { displaySchoolYear, reloadActiveSchoolYear } from "@/hooks/useActiveSchoolYear";
 import {
   SchoolYearField,
   StatusBadge,
@@ -51,14 +51,15 @@ export default function QuartersButton() {
         headerId="quarters-modal-title"
         maxWidth="max-w-3xl"
       >
-        <QuartersPanel />
+        <QuartersPanel onActivated={() => setOpen(false)} />
       </ModalShell>
     </>
   );
 }
 
 // Quarters always belong to one school year; the selector only picks which year's four are shown.
-function QuartersPanel() {
+/** onActivated: called once a quarter is activated and the header/dashboard data is refreshed. */
+function QuartersPanel({ onActivated }: { onActivated: () => void }) {
   const router = useRouter();
   const [years, setYears] = useState<SchoolYear[]>([]);
   const [loading, setLoading] = useState(true);
@@ -72,6 +73,8 @@ function QuartersPanel() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [confirming, setConfirming] = useState<Quarter | null>(null);
   const [activating, setActivating] = useState(false);
+  // Why the last activation failed; shown in the dialog, which stays open so the teacher can retry.
+  const [activateError, setActivateError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -151,6 +154,7 @@ function QuartersPanel() {
 
   const activate = async (quarter: Quarter) => {
     setActivating(true);
+    setActivateError(null);
     try {
       const res = await apiFetch(
         `/api/school-years/${quarter.schoolYearId}/quarters/${quarter.quarterNumber}/activate`,
@@ -158,21 +162,24 @@ function QuartersPanel() {
       );
       if (res.status === 422) {
         const { errors } = (await res.json()) as { errors: Record<string, string[]> };
-        toast.error(errors.quarter?.[0] ?? "Could not change the active quarter.", { position: "top-center" });
+        setActivateError(errors.quarter?.[0] ?? "Could not change the active quarter.");
         return;
       }
       if (!res.ok) throw new Error(`PATCH activate failed: ${res.status}`);
       // The previous quarter's new status (completed or upcoming) is decided server-side, so reload the list.
       void loadQuarters(quarter.schoolYearId);
+      // Awaited so the header already shows the new quarter when the modal closes.
+      await reloadActiveSchoolYear();
       toast.success(`${quarter.name} is now the active quarter.`, { position: "top-center" });
       // The dashboard's progress card and today's schedule read the active quarter.
       router.refresh();
+      setConfirming(null);
+      onActivated();
     } catch (error) {
       console.error("[QuartersPanel]", error);
-      toast.error("Could not change the active quarter. Please try again.", { position: "top-center" });
+      setActivateError("Could not change the active quarter. Please try again.");
     } finally {
       setActivating(false);
-      setConfirming(null);
     }
   };
   const currentQuarter = quarters?.find((q) => q.status === "active");
@@ -254,7 +261,7 @@ function QuartersPanel() {
                           )}
                         </span>
                       </div>
-                      <fieldset className="space-y-2">
+                      <fieldset className="grid grid-cols-2 gap-3">
                         <legend className="sr-only">{name} dates</legend>
                         <SchoolYearField
                           field={`q${i}-startDate`}
@@ -278,10 +285,15 @@ function QuartersPanel() {
                       {quarter && quarter.status !== "active" && selected.status === "active" && (
                         <button
                           type="button"
-                          onClick={() => setConfirming(quarter)}
+                          onClick={() => {
+                            setActivateError(null);
+                            setConfirming(quarter);
+                          }}
                           aria-label={`Set ${name} as active`}
-                          className="cursor-pointer rounded text-xs font-semibold text-[#5b0610] hover:underline outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
+                          // Same outline style as the dashboard's Quarters button.
+                          className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-xs font-semibold text-sidebar shadow-xs outline-none transition-all hover:border-sidebar hover:bg-sidebar/5 active:scale-95 focus-visible:ring-2 focus-visible:ring-sidebar/40"
                         >
+                          <CircleCheck size={14} aria-hidden="true" />
                           Set as Active
                         </button>
                       )}
@@ -316,6 +328,11 @@ function QuartersPanel() {
               {currentQuarter && ` This will replace ${currentQuarter.name} as the current active quarter.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
+          {activateError && (
+            <p role="alert" className="text-sm text-red-500">
+              {activateError}
+            </p>
+          )}
           <AlertDialogFooter>
             <AlertDialogCancel disabled={activating}>Cancel</AlertDialogCancel>
             <AlertDialogAction disabled={activating} onClick={() => confirming && activate(confirming)}>

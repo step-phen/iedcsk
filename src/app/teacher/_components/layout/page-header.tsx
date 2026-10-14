@@ -108,7 +108,11 @@ export default function PageHeader({
           <div className="hidden shrink-0 items-center gap-1.5 px-2.5 py-1 md:flex">
             <GraduationCap className="size-[18px] shrink-0 text-gray-700" />
             <span className="whitespace-nowrap text-[13px] font-semibold text-gray-700">
-              {schoolYear === undefined ? "" : schoolYear ? displaySchoolYear(schoolYear.name) : "No Active School Year"}
+              {schoolYear === undefined
+                ? ""
+                : schoolYear
+                  ? `${displaySchoolYear(schoolYear.name)}${schoolYear.activeQuarter ? ` · ${schoolYear.activeQuarter}` : ""}`
+                  : "No Active School Year"}
             </span>
           </div>
         )}
