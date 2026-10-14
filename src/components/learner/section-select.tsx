@@ -13,8 +13,8 @@ interface SectionSelectProps {
 }
 
 /**
- * The Section dropdown, backed by the `sections` table (teacher-defined, via
- * the dashboard's Create Section button). Submits the section name as plain
+ * The Section dropdown, backed by the `sections` table (Joy and/or Faith, set
+ * up when the school year was activated). Submits the section name as plain
  * text — `enrollments.section` stays a free-text column, this just gives the
  * teacher a consistent list to pick from instead of retyping it each time.
  *
@@ -64,7 +64,7 @@ export default function SectionSelect({
             : loading
               ? "Loading sections…"
               : options.length === 0
-                ? "No sections yet — create one from the dashboard"
+                ? "No sections for this school year"
                 : "Select"}
         </option>
         {options.map((s) => (

@@ -179,10 +179,14 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
           ) : view === "list" ? (
             <LearnerTable learners={pageLearners} startIndex={start} />
           ) : (
-            <div className="grid grid-cols-1 gap-3 bg-gray-50/60 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {pageLearners.map((learner) => (
-                <LearnerCard key={learner.learnerId} learner={learner} />
-              ))}
+            // Columns follow the roster's own width, not the viewport, so the sidebar (expanded or
+            // collapsed) is accounted for; each step keeps cards at least ~19rem wide.
+            <div className="@container bg-gray-50/60 p-4">
+              <div className="grid grid-cols-1 gap-3 @2xl:grid-cols-2 @5xl:grid-cols-3 @7xl:grid-cols-4">
+                {pageLearners.map((learner) => (
+                  <LearnerCard key={learner.learnerId} learner={learner} />
+                ))}
+              </div>
             </div>
           )}
         </div>

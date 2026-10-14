@@ -245,6 +245,8 @@ export default async function TeacherDashboard({
     },
     {
       label: "Today's Activity",
+      // Keeps the dashboard's section so the classroom opens on the same class.
+      href: selectedSectionId ? `/teacher/classroom?section=${selectedSectionId}` : "/teacher/classroom",
       value:
         activeSession?.activeActivityName ??
         activeSession?.activeModuleName ??

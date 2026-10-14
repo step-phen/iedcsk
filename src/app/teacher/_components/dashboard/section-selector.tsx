@@ -3,6 +3,7 @@
 import { useEffect, useOptimistic, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { Section } from "@/types/db";
+import { sectionLabel } from "@/hooks/useSections";
 // Bordered white box, same look as the Learners header's outlined "Classroom"
 // button (class-list.tsx), at h-8 text-xs to line up with Add Learners.
 export const SELECT_CLASS =
@@ -88,7 +89,7 @@ export default function SectionSelector({
         >
           {sections.map((s) => (
             <option key={s.sectionId} value={s.sectionId}>
-              {s.gradeLevel} - {s.sectionName}
+              {sectionLabel(s)}
             </option>
           ))}
         </select>

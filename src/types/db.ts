@@ -49,12 +49,17 @@ export interface Province {
   provinceName: string;
 }
 
-/** A teacher-defined section option (see `sections` table) — the Add Learner
- *  form's Section dropdown is populated from these, filtered by grade level. */
+/** The only sections a school year can have, picked when it is activated. */
+export type SectionChoice = "Joy" | "Faith";
+
+/** A row of the `sections` table — the Add Learner form's Section dropdown is
+ *  populated from these, filtered by grade level. session is null only for a
+ *  section from before the fixed Joy (morning) / Faith (afternoon) choices. */
 export interface Section {
   sectionId: number;
   gradeLevel: string;
   sectionName: string;
+  session: "morning" | "afternoon" | null;
 }
 
 /** A row of the institution-wide `school_years` table. name is UNIQUE and
@@ -66,6 +71,10 @@ export interface SchoolYear {
   startDate: string | null;
   endDate: string | null;
   status: "upcoming" | "active" | "completed";
+  /** Sections already set up for this year; empty until it is first activated. */
+  sections: SectionChoice[];
+  /** Name of the year's active quarter ("1st Quarter"); only sent by GET /api/school-years/active. */
+  activeQuarter?: string | null;
 }
 
 /** A row of `quarters`: one of Quarter 1-4 of a school year. name is generated

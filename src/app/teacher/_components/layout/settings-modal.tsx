@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState, type InputHTMLAttributes } from "react";
+import { useActionState, useEffect, useState, type InputHTMLAttributes } from "react";
 import { useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
 import { ArrowRightLeft, CalendarClock, CalendarDays, KeyRound, Layers, Plus, type LucideIcon } from "lucide-react";
@@ -16,52 +16,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { displaySchoolYear, setActiveSchoolYear } from "@/hooks/useActiveSchoolYear";
+import { displaySchoolYear, reloadActiveSchoolYear, useActiveSchoolYear } from "@/hooks/useActiveSchoolYear";
 import ChangePasswordForm from "@/app/teacher/_components/layout/change-password-form";
 import SchedulePanel from "@/app/teacher/_components/layout/schedule-panel";
 import HandoverPanel from "@/app/teacher/_components/layout/handover-panel";
 import { cn } from "@/lib/utils";
-import { invalidateSections, useSections } from "@/hooks/useSections";
+import { invalidateSections, sectionLabel, useSections } from "@/hooks/useSections";
 import { apiFetch } from "@/lib/api";
-import { gradeLevels } from "@/lib/learners";
-import type { SchoolYear, Section } from "@/types/db";
+import type { SchoolYear, SectionChoice } from "@/types/db";
 
-// Only grade level the app offers right now — see gradeLevels in lib/learners.
-const GRADE_LEVEL = gradeLevels[0];
-
-type CreateSectionState = {
-  success: boolean;
-  section?: Section;
-  error: string | null;
-  fieldErrors: { sectionName?: string; gradeLevel?: string };
-};
-
-const initialState: CreateSectionState = { success: false, error: null, fieldErrors: {} };
-
-async function createSection(_prev: CreateSectionState, formData: FormData): Promise<CreateSectionState> {
-  try {
-    const res = await apiFetch("/api/sections", {
-      method: "POST",
-      body: JSON.stringify({
-        gradeLevel: formData.get("gradeLevel"),
-        session: formData.get("session"),
-        sectionName: String(formData.get("sectionName") ?? "").trim(),
-      }),
-    });
-    if (res.ok) return { success: true, section: (await res.json()) as Section, error: null, fieldErrors: {} };
-    if (res.status === 422) {
-      const { errors } = (await res.json()) as { errors: Record<string, string[]> };
-      return {
-        success: false,
-        error: null,
-        fieldErrors: { sectionName: errors.sectionName?.[0], gradeLevel: errors.gradeLevel?.[0] },
-      };
-    }
-    return { success: false, error: "Could not create the section. Please try again.", fieldErrors: {} };
-  } catch {
-    return { success: false, error: "Could not reach the server. Please try again.", fieldErrors: {} };
-  }
-}
+// The only sections a school year can have; each starts with its session's default timetable.
+const SECTION_CHOICES: { name: SectionChoice; label: string }[] = [
+  { name: "Joy", label: "Kindergarten - Joy — Morning" },
+  { name: "Faith", label: "Kindergarten - Faith — Afternoon" },
+];
 
 type SaveSchoolYearState = {
   success: boolean;
@@ -159,7 +127,7 @@ export default function SettingsModal({ open, onClose }: { open: boolean; onClos
         <div className="min-w-0 flex-1 p-5">
           {tab === "sections" && <SectionsPanel />}
           {tab === "schedule" && <SchedulePanel />}
-          {tab === "schoolYear" && <SchoolYearPanel />}
+          {tab === "schoolYear" && <SchoolYearPanel onActivated={onClose} />}
           {tab === "password" && <ChangePasswordForm />}
           {tab === "handover" && <HandoverPanel />}
         </div>
@@ -168,87 +136,38 @@ export default function SettingsModal({ open, onClose }: { open: boolean; onClos
   );
 }
 
+// Read-only: a school year's sections are picked once, when it is activated (School Year tab).
 function SectionsPanel() {
-  const router = useRouter();
-  const formRef = useRef<HTMLFormElement>(null);
   const { sections, loading, failed } = useSections(true);
-  // Sections created while the modal is open; useSections only fetches once per mount.
-  const [added, setAdded] = useState<Section[]>([]);
-  const [state, formAction] = useActionState(createSection, initialState);
-
-  // useActionState returns a new state object per submit, so each success runs this once.
-  useEffect(() => {
-    if (!state.success || !state.section) return;
-    const section = state.section;
-    toast.success("Section created!", { position: "top-center" });
-    formRef.current?.reset();
-    invalidateSections();
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setAdded((prev) => [...prev, section]);
-    router.refresh();
-  }, [state, router]);
-
-  const all = [...sections, ...added.filter((a) => !sections.some((s) => s.sectionId === a.sectionId))];
-  const error = state.fieldErrors.sectionName ?? state.error;
+  const activeYear = useActiveSchoolYear();
 
   return (
     <div className="space-y-4">
       <div>
         <h3 className="text-base font-bold text-stone-900">Sections</h3>
-        <p className="text-xs text-stone-500 mt-0.5">Your sections for the current school year.</p>
+        <p className="text-xs text-stone-500 mt-0.5">
+          Sections for the current school year. They are chosen when the school year is activated and can&apos;t be
+          added or changed during the year.
+        </p>
       </div>
-
-      <form ref={formRef} action={formAction} className="space-y-1.5">
-        <input type="hidden" name="gradeLevel" value={GRADE_LEVEL} />
-        <label htmlFor="settings-sectionName" className="block text-xs font-bold text-gray-700">
-          New section ({GRADE_LEVEL})
-        </label>
-        <div className="flex gap-2">
-          <input
-            id="settings-sectionName"
-            name="sectionName"
-            placeholder="e.g. Joy"
-            required
-            aria-invalid={!!error}
-            aria-describedby={error ? "settings-sectionName-error" : undefined}
-            className={cn(
-              "h-9.5 min-w-0 flex-1 rounded-lg border bg-white px-3 text-sm text-gray-900 outline-none focus:border-[#5b0610] focus:ring-2 focus:ring-[#5b0610]/10",
-              error ? "border-red-400" : "border-gray-300",
-            )}
-          />
-          {/* Picks the default timetable the section is created with. */}
-          <select
-            name="session"
-            aria-label="Session"
-            defaultValue="morning"
-            className="h-9.5 shrink-0 cursor-pointer rounded-lg border border-gray-300 bg-white px-2 text-sm text-gray-900 outline-none focus:border-[#5b0610] focus:ring-2 focus:ring-[#5b0610]/10"
-          >
-            <option value="morning">Morning</option>
-            <option value="afternoon">Afternoon</option>
-          </select>
-          <AddButton />
-        </div>
-        {error && (
-          <p id="settings-sectionName-error" className="text-xs text-red-500">
-            {error}
-          </p>
-        )}
-      </form>
 
       <div className="overflow-hidden rounded-lg border border-gray-200">
         {failed ? (
           <p className="px-4 py-6 text-center text-sm text-red-500">Could not load sections. Please try again.</p>
         ) : loading ? (
           <p className="px-4 py-6 text-center text-sm text-gray-500">Loading sections…</p>
-        ) : all.length === 0 ? (
-          <p className="px-4 py-6 text-center text-sm text-gray-500">No sections yet. Add your first one above.</p>
+        ) : sections.length === 0 ? (
+          <p className="px-4 py-6 text-center text-sm text-gray-500">
+            {activeYear === null
+              ? "Activate a school year to set up its sections."
+              : "No sections were set up for this school year."}
+          </p>
         ) : (
           <ul className="divide-y divide-gray-100">
-            {all.map((s) => (
+            {sections.map((s) => (
               <li key={s.sectionId} className="flex items-center gap-3 px-4 py-2.5 text-sm">
                 <Layers size={16} aria-hidden="true" className="shrink-0 text-[#5b0610]" />
-                <span className="font-semibold text-gray-900">{s.sectionName}</span>
-                <span className="ml-auto text-xs text-gray-500">{s.gradeLevel}</span>
+                <span className="font-semibold text-gray-900">{sectionLabel(s)}</span>
               </li>
             ))}
           </ul>
@@ -258,7 +177,8 @@ function SectionsPanel() {
   );
 }
 
-function SchoolYearPanel() {
+/** onActivated: called once a year is activated and the header/dashboard data is refreshed. */
+function SchoolYearPanel({ onActivated }: { onActivated: () => void }) {
   const [years, setYears] = useState<SchoolYear[]>([]);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
@@ -267,6 +187,10 @@ function SchoolYearPanel() {
   // The year waiting on the Set as Active confirmation.
   const [confirming, setConfirming] = useState<SchoolYear | null>(null);
   const [activating, setActivating] = useState(false);
+  // Why the last activation failed; shown in the dialog, which stays open so the teacher can retry.
+  const [activateError, setActivateError] = useState<string | null>(null);
+  // Sections to set up for a year that has none yet; reset each time the dialog opens.
+  const [picks, setPicks] = useState<SectionChoice[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -295,37 +219,45 @@ function SchoolYearPanel() {
       ),
     );
     // Renaming the active year changes what the header shows.
-    if (saved.status === "active") setActiveSchoolYear(saved);
+    if (saved.status === "active") void reloadActiveSchoolYear();
     setEditing(null);
   };
 
   const activate = async (year: SchoolYear) => {
     setActivating(true);
+    setActivateError(null);
     try {
-      const res = await apiFetch(`/api/school-years/${year.schoolYearId}/activate`, { method: "PATCH" });
+      // A year's sections are set once: only a year without any sends the picks.
+      const res = await apiFetch(`/api/school-years/${year.schoolYearId}/activate`, {
+        method: "PATCH",
+        ...(year.sections.length === 0 && { body: JSON.stringify({ sections: picks }) }),
+      });
       // e.g. the year has no start/end dates yet; the server says why.
       if (res.status === 422) {
         const { errors } = (await res.json()) as { errors: Record<string, string[]> };
-        toast.error(Object.values(errors)[0]?.[0] ?? "Could not change the active school year.", { position: "top-center" });
+        setActivateError(Object.values(errors)[0]?.[0] ?? "Could not change the active school year.");
         return;
       }
       if (!res.ok) throw new Error(`PATCH activate failed: ${res.status}`);
       // Sections and everything keyed off them belong to the active year now. Dropped before the
       // store update so an open Add Learner form, which remounts its section list on it, refetches.
       invalidateSections();
-      setActiveSchoolYear((await res.json()) as SchoolYear);
+      // Awaited so the header already shows the new year when the modal closes.
+      await reloadActiveSchoolYear();
       // The previous year's new status (completed or upcoming) is decided server-side, so reload the list.
       fetchSchoolYears()
         .then(setYears)
         .catch(() => setFailed(true));
       toast.success(`${displaySchoolYear(year.name)} is now the active school year.`, { position: "top-center" });
+      // The dashboard is server-rendered: refetches its sections and falls back to the new year's first one.
       router.refresh();
+      setConfirming(null);
+      onActivated();
     } catch (error) {
       console.error("[SchoolYearPanel]", error);
-      toast.error("Could not change the active school year. Please try again.", { position: "top-center" });
+      setActivateError("Could not change the active school year. Please try again.");
     } finally {
       setActivating(false);
-      setConfirming(null);
     }
   };
 
@@ -333,7 +265,11 @@ function SchoolYearPanel() {
   const setActiveButton = (year: SchoolYear) => (
     <button
       type="button"
-      onClick={() => setConfirming(year)}
+      onClick={() => {
+        setPicks(SECTION_CHOICES.map((c) => c.name));
+        setActivateError(null);
+        setConfirming(year);
+      }}
       className="cursor-pointer rounded text-xs font-semibold text-[#5b0610] hover:underline outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
     >
       Set as Active
@@ -416,9 +352,60 @@ function SchoolYearPanel() {
               {current && ` This will replace ${displaySchoolYear(current.name)} as the current active school year.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
+          {confirming && confirming.sections.length > 0 ? (
+            <div className="space-y-1.5 text-sm">
+              <p className="font-semibold text-gray-900">Sections</p>
+              <ul className="space-y-1">
+                {SECTION_CHOICES.filter((c) => confirming.sections.includes(c.name)).map((c) => (
+                  <li key={c.name} className="flex items-center gap-2 text-gray-700">
+                    <Layers size={14} aria-hidden="true" className="shrink-0 text-[#5b0610]" />
+                    {c.label}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-xs text-gray-500">
+                This school year&apos;s sections are already set up. Activating keeps them and their learners,
+                schedules and records unchanged.
+              </p>
+            </div>
+          ) : (
+            confirming && (
+              <fieldset className="space-y-1.5 text-sm">
+                <legend className="font-semibold text-gray-900">Sections for this school year</legend>
+                {SECTION_CHOICES.map((c) => (
+                  <label key={c.name} className="flex cursor-pointer items-center gap-2 text-gray-700">
+                    <input
+                      type="checkbox"
+                      checked={picks.includes(c.name)}
+                      disabled={activating}
+                      onChange={(e) =>
+                        setPicks((prev) =>
+                          e.target.checked ? SECTION_CHOICES.map((x) => x.name).filter((n) => n === c.name || prev.includes(n)) : prev.filter((n) => n !== c.name),
+                        )
+                      }
+                      className="size-4 cursor-pointer accent-[#5b0610]"
+                    />
+                    {c.label}
+                  </label>
+                ))}
+                <p className="text-xs text-gray-500">
+                  These sections are created when you activate. Sections can&apos;t be added later in the school year.
+                </p>
+                {picks.length === 0 && <p className="text-xs text-red-500">Choose Joy, Faith, or both.</p>}
+              </fieldset>
+            )
+          )}
+          {activateError && (
+            <p role="alert" className="text-sm text-red-500">
+              {activateError}
+            </p>
+          )}
           <AlertDialogFooter>
             <AlertDialogCancel disabled={activating}>Cancel</AlertDialogCancel>
-            <AlertDialogAction disabled={activating} onClick={() => confirming && activate(confirming)}>
+            <AlertDialogAction
+              disabled={activating || (!!confirming && confirming.sections.length === 0 && picks.length === 0)}
+              onClick={() => confirming && activate(confirming)}
+            >
               {activating ? "Setting..." : "Set as Active"}
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -568,18 +555,3 @@ function SaveSchoolYearButton({ isEdit, createLabel = "Create School Year" }: { 
 
 export const addButtonClass =
   "inline-flex h-9.5 shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-sidebar px-3.5 text-xs font-semibold text-white shadow-md transition-all hover:bg-[#7e1422] active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40";
-
-function AddButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      type="submit"
-      disabled={pending}
-      className={addButtonClass}
-    >
-      <Plus size={16} className="text-amber-300" />
-      {pending ? "Adding..." : "Add Section"}
-    </button>
-  );
-}

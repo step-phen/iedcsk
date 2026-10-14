@@ -27,21 +27,30 @@ export function LearnerPhoto({ learner, size }: { learner: LearnerListItem; size
 
 /** The whole card opens the learner's profile. */
 export default function LearnerCard({ learner }: { learner: LearnerListItem }) {
+  const age = calculateAge(learner.birthdate);
   return (
     <Link
       href={`/teacher/learners/${learner.learnerId}`}
-      className="group flex items-center gap-3 overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow-sm outline-none transition-[border-color,transform] duration-100 ease-out hover:border-sidebar/40 active:scale-[0.98] motion-reduce:active:scale-100 focus-visible:ring-2 focus-visible:ring-sidebar focus-visible:ring-offset-2"
+      className="group flex items-start gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm outline-none transition-[border-color,transform] duration-100 ease-out hover:border-sidebar/40 active:scale-[0.98] motion-reduce:active:scale-100 focus-visible:ring-2 focus-visible:ring-sidebar focus-visible:ring-offset-2"
     >
       <LearnerPhoto learner={learner} size="lg" />
-      <span className="min-w-0 flex-1">
-        <span className="block truncate text-base font-semibold text-gray-900 group-hover:text-sidebar">{displayName(learner)}</span>
+      {/* Every detail wraps instead of clipping; the card grows to fit. */}
+      <span className="min-w-0 flex-1 space-y-0.5 break-words">
+        <span className="block text-base font-semibold leading-snug text-gray-900 group-hover:text-sidebar">{displayName(learner)}</span>
         <span className="block text-[11px] font-bold tracking-wide text-sidebar tabular-nums">LRN: {learner.lrn ?? "—"}</span>
-        <span className="block truncate text-xs text-gray-500">
-          {learner.gradeLevel && learner.section && `${learner.gradeLevel} - ${learner.section} • `}
-          {learner.gender}, {calculateAge(learner.birthdate)} yrs old
+        <span className="block text-xs text-gray-700">
+          <span className="font-semibold text-gray-500">Section:</span>{" "}
+          {learner.gradeLevel && learner.section ? `${learner.gradeLevel} - ${learner.section}` : "—"}
+        </span>
+        <span className="block text-xs text-gray-500">
+          {learner.gender} • {age} {age === 1 ? "year" : "years"} old
         </span>
       </span>
-      <ChevronRight size={18} aria-hidden="true" className="shrink-0 text-gray-300 group-hover:text-sidebar" />
+      {/* Spelled out: a bare chevron doesn't tell every teacher the card opens the profile. */}
+      <span className="flex shrink-0 items-center gap-0.5 self-center text-xs font-semibold text-gray-500 group-hover:text-sidebar">
+        View Profile
+        <ChevronRight size={16} aria-hidden="true" />
+      </span>
     </Link>
   );
 }
