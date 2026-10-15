@@ -244,8 +244,8 @@ export default function UpdateLessonsModal({
   onLessonChanged,
   readOnly = false,
 }: UpdateLessonsModalProps) {
-  const [uploadingId, setUploadingId] = useState<number | null>(null);
-  const [progress, setProgress] = useState(0);
+  // lessonId => upload percent, one entry per video still uploading, so several lessons can upload at once.
+  const [uploads, setUploads] = useState<Record<number, number>>({});
   // The lesson waiting on the Remove Video confirmation.
   const [removing, setRemoving] = useState<WeekLesson | null>(null);
   const [removePending, setRemovePending] = useState(false);
@@ -283,7 +283,7 @@ export default function UpdateLessonsModal({
       toast.error(problem, { position: "top-center" });
       return;
     }
-    setUploadingId(lessonId);
+    const setProgress = (percent: number) => setUploads((u) => ({ ...u, [lessonId]: percent }));
     setProgress(0);
     try {
       onLessonChanged(lessonId, {
@@ -295,7 +295,11 @@ export default function UpdateLessonsModal({
         position: "top-center",
       });
     } finally {
-      setUploadingId(null);
+      setUploads((u) => {
+        const rest = { ...u };
+        delete rest[lessonId];
+        return rest;
+      });
     }
   }
 
@@ -375,7 +379,7 @@ export default function UpdateLessonsModal({
                         <button
                           type="button"
                           onClick={() => setRemoving(lesson)}
-                          disabled={uploadingId !== null || !!lockReason(lesson.hasRecords)}
+                          disabled={!!lockReason(lesson.hasRecords)}
                           aria-label={`Remove video of ${lesson.lessonName}`}
                           title={lockReason(lesson.hasRecords) ?? "Remove video"}
                           className="inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-red-400/40"
@@ -383,25 +387,25 @@ export default function UpdateLessonsModal({
                           <Trash2 size={15} />
                         </button>
                       </span>
-                    ) : uploadingId === lesson.id ? (
+                    ) : lesson.id in uploads ? (
                       <div className="ml-auto flex w-40 shrink-0 flex-col gap-1">
                         <span className="inline-flex items-center justify-between gap-1.5 text-xs font-semibold text-stone-500">
                           <span className="inline-flex items-center gap-1.5">
                             <Loader2 size={14} className="animate-spin" />
                             {/* At 100% the file is sent and the server is still saving it. */}
-                            {progress < 100 ? "Uploading..." : "Saving..."}
+                            {uploads[lesson.id] < 100 ? "Uploading..." : "Saving..."}
                           </span>
-                          <span className="tabular-nums text-sidebar">{progress}%</span>
+                          <span className="tabular-nums text-sidebar">{uploads[lesson.id]}%</span>
                         </span>
                         <div
                           role="progressbar"
                           aria-label={`Uploading video for ${lesson.lessonName}`}
                           aria-valuemin={0}
                           aria-valuemax={100}
-                          aria-valuenow={progress}
+                          aria-valuenow={uploads[lesson.id]}
                           className="h-1.5 w-full overflow-hidden rounded-full bg-stone-200"
                         >
-                          <div className="h-full rounded-full bg-sidebar transition-[width] duration-200" style={{ width: `${progress}%` }} />
+                          <div className="h-full rounded-full bg-sidebar transition-[width] duration-200" style={{ width: `${uploads[lesson.id]}%` }} />
                         </div>
                       </div>
                     ) : (
@@ -415,7 +419,7 @@ export default function UpdateLessonsModal({
                           type="file"
                           accept={VIDEO_ACCEPT}
                           className="sr-only"
-                          disabled={uploadingId !== null || !!lockReason(lesson.hasRecords)}
+                          disabled={!!lockReason(lesson.hasRecords)}
                           onChange={(e) => {
                             handleVideoPicked(lesson.id, e.target.files?.[0]);
                             e.target.value = "";

@@ -361,7 +361,10 @@ function LessonGroups({
               </div>
               {/* One description for the topic, not repeated per day — entries share the same text. */}
               {topic.entries.find((e) => e.description)?.description && (
-                <p className="mt-1 text-xs text-stone-600 leading-relaxed line-clamp-2">
+                <p
+                  title={topic.entries.find((e) => e.description)?.description ?? undefined}
+                  className="mt-1 text-[11px] text-stone-500 leading-snug line-clamp-1"
+                >
                   {topic.entries.find((e) => e.description)?.description}
                 </p>
               )}
