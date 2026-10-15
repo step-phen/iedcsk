@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ModalShell } from "@/components/ui/modal-shell";
 import { apiFetch } from "@/lib/api";
 import { middleInitial } from "@/lib/learners";
-import { cn } from "@/lib/utils";
+import { cn, CONTENT_HAS_RECORDS_HINT } from "@/lib/utils";
 import SectionSelector, { SELECT_CLASS } from "@/app/teacher/_components/dashboard/section-selector";
 import Segmented from "@/app/teacher/_components/shared/segmented";
 import type { Section } from "@/types/db";
@@ -23,7 +23,8 @@ export type SectionChecklist = {
     domainId: number;
     domainName: string;
     items: ChecklistItem[];
-    activities: { activityId: number; name: string; quarter: number }[];
+    /** hasRecords: learners already played it, so a skill can't be linked to it (API rule). */
+    activities: { activityId: number; name: string; quarter: number; hasRecords: boolean }[];
   }[];
   learners: { enrollmentId: number; learnerId: number; firstName: string; middleName: string | null; lastName: string }[];
   ratings: { enrollmentId: number; itemId: number; quarter: number; rating: Rating; remarks: string | null }[];
@@ -33,7 +34,8 @@ export type SectionChecklist = {
 
 type ActivityResult = { score: number; maxScore: number } | { rating: PracticalResultValue | null };
 
-type ChecklistItem = { itemId: number; item: string; quarter: number; activityId: number | null; activityName: string | null };
+/** hasRecords: rated, or linked to a game with records (API rule); viewable, never changed again. */
+type ChecklistItem = { itemId: number; item: string; quarter: number; activityId: number | null; activityName: string | null; hasRecords: boolean };
 
 export const RATING_BADGE: Record<Rating, { label: string; className: string }> = {
   achieved: { label: "Achieved", className: "bg-emerald-100 text-emerald-700 border-emerald-200" },
@@ -296,7 +298,9 @@ export default function ChecklistTable({
                 <button
                   type="button"
                   onClick={() => setItemForm(item)}
-                  className="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 text-xs font-semibold text-gray-700 outline-none transition-colors hover:border-sidebar hover:text-sidebar focus-visible:ring-2 focus-visible:ring-sidebar/30"
+                  disabled={item.hasRecords}
+                  title={item.hasRecords ? CONTENT_HAS_RECORDS_HINT : undefined}
+                  className="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 text-xs font-semibold text-gray-700 outline-none transition-colors hover:border-sidebar hover:text-sidebar focus-visible:ring-2 focus-visible:ring-sidebar/30 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-gray-300 disabled:hover:text-gray-700"
                 >
                   <Pencil size={13} aria-hidden="true" />
                   Edit skill
@@ -559,6 +563,12 @@ function ItemModal({
       }
       if (res.status === 422) {
         const { errors } = (await res.json()) as { errors: Record<string, string[]> };
+        if (errors.protected) {
+          // Rated or played since the page loaded: refetch so its Edit locks too.
+          toast.error(errors.protected[0], { position: "top-center" });
+          onSaved();
+          return;
+        }
         setErrors({
           item: errors.item?.[0],
           activityId: errors.activityId?.[0],
@@ -610,8 +620,10 @@ function ItemModal({
           <select id="ci-activity" name="activityId" defaultValue={item?.activityId ?? ""} aria-invalid={!!errors.activityId} className={inp(errors.activityId)}>
             <option value="">None</option>
             {activities.map((a) => (
-              <option key={a.activityId} value={a.activityId}>
+              // Its past results would become this skill's evidence, so the API refuses the link.
+              <option key={a.activityId} value={a.activityId} disabled={a.hasRecords && a.activityId !== item?.activityId}>
                 {a.name}
+                {a.hasRecords ? " (has records)" : ""}
               </option>
             ))}
           </select>

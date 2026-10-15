@@ -7,7 +7,12 @@ import Segmented from "@/app/teacher/_components/shared/segmented";
 
 const QUARTERS = [1, 2, 3, 4];
 
-/** Section, module and quarter pickers; the URL holds the choice so the server re-renders the table. */
+const VIEWS = [
+  { value: "all", label: "All Weeks" },
+  { value: "week", label: "By Week" },
+];
+
+/** Section, module, quarter and view pickers; the URL holds the choice so the server re-renders the table. */
 export default function RecordFilters({
   sections,
   sectionId,
@@ -16,6 +21,8 @@ export default function RecordFilters({
   domains,
   domainId,
   quarter,
+  view,
+  week,
 }: {
   sections: Section[];
   sectionId: number | null;
@@ -24,13 +31,22 @@ export default function RecordFilters({
   domains: { id: number; name: string }[];
   domainId: number | null;
   quarter: number;
+  view: "all" | "week";
+  week: number | null;
 }) {
   const router = useRouter();
-  const go = (nextModule: number | null, nextDomain: number | null, nextQuarter: number) =>
-    router.push(
-      `/teacher/reports/classroom-record?section=${sectionId}&module=${nextModule ?? ""}&domain=${nextDomain ?? ""}&quarter=${nextQuarter}`,
-      { scroll: false },
-    );
+  // The week rides along on every change; the server keeps it if the new quarter has it, else picks the first week.
+  const go = (next: { module?: number | null; domain?: number | null; quarter?: number; view?: string }) => {
+    const params = new URLSearchParams({
+      section: String(sectionId),
+      module: String((next.module !== undefined ? next.module : moduleId) ?? ""),
+      domain: String((next.domain !== undefined ? next.domain : domainId) ?? ""),
+      quarter: String(next.quarter ?? quarter),
+    });
+    if ((next.view ?? view) === "week") params.set("view", "week");
+    if (week !== null) params.set("week", String(week));
+    router.push(`/teacher/reports/classroom-record?${params}`, { scroll: false });
+  };
 
   return (
     <div className="flex flex-wrap items-center gap-4">
@@ -41,7 +57,7 @@ export default function RecordFilters({
             Module
             <select
               value={moduleId ?? ""}
-              onChange={(e) => go(Number(e.target.value), null, quarter)}
+              onChange={(e) => go({ module: Number(e.target.value), domain: null })}
               disabled={modules.length === 0}
               className={SELECT_CLASS}
             >
@@ -55,11 +71,7 @@ export default function RecordFilters({
           {domains.length > 1 && (
             <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
               Domain
-              <select
-                value={domainId ?? ""}
-                onChange={(e) => go(moduleId, Number(e.target.value), quarter)}
-                className={SELECT_CLASS}
-              >
+              <select value={domainId ?? ""} onChange={(e) => go({ domain: Number(e.target.value) })} className={SELECT_CLASS}>
                 {domains.map((d) => (
                   <option key={d.id} value={d.id}>
                     {d.name}
@@ -72,8 +84,9 @@ export default function RecordFilters({
             label="Quarter"
             options={QUARTERS.map((q) => ({ value: String(q), label: `Q${q}`, ariaLabel: `Quarter ${q}` }))}
             value={String(quarter)}
-            onChange={(q) => go(moduleId, domainId, Number(q))}
+            onChange={(q) => go({ quarter: Number(q) })}
           />
+          <Segmented label="View" options={VIEWS} value={view} onChange={(v) => go({ view: v })} />
         </>
       )}
     </div>

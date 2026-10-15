@@ -62,6 +62,16 @@ export function useActiveSchoolYear(): SchoolYear | null | undefined {
   return year;
 }
 
+/**
+ * The API's message when a save was refused because its quarter is now active (e.g. activated
+ * while the form was open). Refetches the year so the page locks to match.
+ */
+export function quarterLockedError(errors: Record<string, string[]>): string | undefined {
+  const message = errors.quarter?.[0];
+  if (message) void reloadActiveSchoolYear();
+  return message;
+}
+
 /** True once loading failed, so a form can say so instead of guessing a year. */
 export function useActiveSchoolYearFailed(): boolean {
   return useSyncExternalStore(subscribe, () => failed, () => false);

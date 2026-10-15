@@ -6,6 +6,7 @@ import {
   ArrowRight,
   ArrowLeft,
   BookOpen,
+  Check,
   Layers,
   ClipboardList,
   AlertTriangle,
@@ -15,6 +16,8 @@ import {
   PenLine,
   Palette,
   Hash,
+  Lock,
+  LockOpen,
   Plus,
   Pencil,
   Video,
@@ -23,9 +26,11 @@ import {
 import PageHeader from "@/app/teacher/_components/layout/page-header";
 import { PageLoader } from "@/components/ui/page-loader";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { moduleSlug, quarterSlug } from "@/lib/utils";
+import { moduleSlug, quarterSlug, QUARTER_LOCKED_HINT } from "@/lib/utils";
+import { useActiveSchoolYear } from "@/hooks/useActiveSchoolYear";
 import { apiFetch } from "@/lib/api";
 import { useSections } from "@/hooks/useSections";
+import { useShell } from "@/app/teacher/_components/layout/shell-context";
 import { SELECT_CLASS, STORAGE_KEY as SECTION_STORAGE_KEY } from "@/app/teacher/_components/dashboard/section-selector";
 import WeekLessonsModal from "./week-lessons-modal";
 import AddLessonForm, { lessonDay, type CreatedLesson } from "./add-lesson-form";
@@ -44,7 +49,12 @@ type Lesson = {
   week: number;
   dayOfWeek: number | null;
   activityCount: number;
+  /** Used in a class or by a learner (API rule): viewable, never changed again. */
+  hasRecords: boolean;
+  /** The selected section's progress on this lesson's card (computed by the API); null without a section. */
+  completion?: LessonCompletion | null;
 };
+type LessonCompletion = { status: "done" | "in_progress" | null; completed: number; total: number };
 type Module = {
   id: number;
   moduleName: string;
@@ -160,6 +170,33 @@ function groupByTopic(weekLessons: Lesson[], days: string[]): LessonTopic[] {
   return topics;
 }
 
+/** Done: the teacher finished teaching every activity of the card. The count is learners who finished all of them. */
+function CompletionBadge({ completion }: { completion: LessonCompletion }) {
+  const done = completion.status === "done";
+  return (
+    <span
+      title={
+        done
+          ? "You finished teaching this lesson and all its activities. The count shows how many learners finished every activity."
+          : "You've started this lesson, but not every activity has been taught yet."
+      }
+      className="shrink-0 inline-flex items-center gap-1.5"
+    >
+      <span
+        className={`inline-flex items-center gap-1 text-[11px] font-semibold px-1.5 py-0.5 rounded border ${
+          done ? "text-emerald-700 bg-emerald-50 border-emerald-200" : "text-amber-700 bg-amber-50 border-amber-200"
+        }`}
+      >
+        {done && <Check size={12} aria-hidden="true" />}
+        {done ? "Done" : "In Progress"}
+      </span>
+      <span className="text-[11px] text-stone-500 tabular-nums">
+        {completion.completed}/{completion.total} learners completed
+      </span>
+    </span>
+  );
+}
+
 function LessonGroups({
   lessons,
   days,
@@ -169,6 +206,7 @@ function LessonGroups({
   onDomainChange,
   onOpen,
   onUpdate,
+  readOnly,
 }: {
   lessons: Lesson[];
   days: string[];
@@ -176,8 +214,9 @@ function LessonGroups({
   domains: { id: number; name: string }[];
   selectedDomainId: string;
   onDomainChange: (id: string) => void;
-  onOpen: (week: number, lessonIds?: number[]) => void;
+  onOpen: (week: number, lessonIds?: number[], adding?: boolean) => void;
   onUpdate: (week: number) => void;
+  readOnly: boolean;
 }) {
   const [page, setPage] = useState(0);
   const { byWeek } = groupByWeek(lessons);
@@ -189,7 +228,7 @@ function LessonGroups({
         <p className="text-sm text-stone-600 italic">
           No lessons for this quarter yet.
           <br />
-          Use Add Lesson to create one.
+          {readOnly ? "It's active for classes, so lessons can't be added now." : "Use Add Lesson to create one."}
         </p>
       </div>
     );
@@ -236,7 +275,7 @@ function LessonGroups({
                   </option>
                 ))}
               </select>
-              <span className="w-px h-5 bg-stone-200 mx-1" />
+              {(weekEntries.length > 1 || !readOnly) && <span className="w-px h-5 bg-stone-200 mx-1" />}
             </>
           )}
           {weekEntries.length > 1 && (
@@ -260,17 +299,31 @@ function LessonGroups({
               >
                 <ArrowRight size={15} />
               </button>
-              <span className="w-px h-5 bg-stone-200 mx-1" />
+              {!readOnly && <span className="w-px h-5 bg-stone-200 mx-1" />}
             </>
           )}
-          <button
-            onClick={() => onUpdate(week)}
-            aria-label={`Update lessons for week ${week}`}
-            title="Update Lessons"
-            className={iconButton}
-          >
-            <Pencil size={15} />
-          </button>
+          {/* Hidden while the quarter is active for classes: its lessons and activities can't be changed then. */}
+          {!readOnly && (
+            <>
+              <button
+                onClick={() => onUpdate(week)}
+                aria-label={`Update lessons for week ${week}`}
+                title="Update Lessons"
+                className={iconButton}
+              >
+                <Pencil size={15} />
+              </button>
+              <button
+                type="button"
+                onClick={() => onOpen(week, weekLessons.map((l) => l.id), true)}
+                aria-label={`Add a practical activity to week ${week}`}
+                className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-sidebar px-3 py-1.5 text-xs font-semibold text-white shadow-sm outline-none transition-colors hover:bg-[#7e1422] focus-visible:ring-2 focus-visible:ring-sidebar/40"
+              >
+                <Plus size={14} aria-hidden="true" />
+                Practical Activity
+              </button>
+            </>
+          )}
         </div>
       </div>
 
@@ -278,6 +331,8 @@ function LessonGroups({
       <div className="min-h-0 p-3 flex flex-col gap-3">
         {topics.map((topic) => {
           const topicActivityCount = topic.entries.reduce((sum, e) => sum + e.activityCount, 0);
+          // The API gives every row of a card the same value.
+          const completion = topic.entries.find((e) => e.completion)?.completion;
           return (
             <article
               key={topic.entries[0].id}
@@ -292,11 +347,13 @@ function LessonGroups({
               }}
               className="group border border-stone-200 rounded-xl px-4 py-4 bg-white hover:border-sidebar/30 hover:shadow-md transition-all duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
             >
-              <div className="flex items-center justify-between gap-2">
-                <h5 className="text-sm font-bold text-stone-900 line-clamp-1 group-hover:text-sidebar transition-colors">
+              {/* The full title wraps; the badge and counts move to the next line when it needs the width. */}
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                <h5 className="min-w-0 break-words text-sm font-bold text-stone-900 group-hover:text-sidebar transition-colors">
                   {topic.lessonName}
                 </h5>
-                <span className="shrink-0 inline-flex items-center gap-1.5 text-[11px] font-medium text-stone-600">
+                {completion?.status && <CompletionBadge completion={completion} />}
+                <span className="ml-auto shrink-0 inline-flex items-center gap-1.5 text-[11px] font-medium text-stone-600">
                   <ClipboardList size={13} className="text-stone-400" />
                   {topicActivityCount}{" "}
                   {topicActivityCount === 1 ? "Activity" : "Activities"} Planned
@@ -369,6 +426,20 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
   const activeQuarterLabel =
     quarters.find((q) => q.quarterId === Number(activeQuarter))?.quarterName || "";
   const activeQuarterId = Number(activeQuarter);
+
+  // The year's active quarter is open for classes and read-only; the others are being prepared.
+  // Sections only come from the active year, so this is the selected section's active quarter.
+  // Locked until the year loads (fail closed); the API checks the same rule again on every save.
+  const schoolYear = useActiveSchoolYear();
+  const classQuarter = schoolYear?.activeQuarterNumber ?? null;
+  const canEdit = (quarterId: number) => schoolYear !== undefined && quarterId !== classQuarter;
+  const lockedReason = schoolYear === undefined ? "Checking which quarter is active…" : QUARTER_LOCKED_HINT;
+  const quarterTip = (quarterId: number) =>
+    quarterId === classQuarter
+      ? "Active quarter: open for classes. Its lessons and practical activities can't be edited while it's active."
+      : schoolYear !== undefined && classQuarter === null
+        ? "Locked: no quarter is active, so no class can start. You can add and edit this quarter's lessons and practical activities."
+        : "Locked: classes can't start in this quarter. You can add and edit its lessons and practical activities.";
   const [selectedDomainId, setSelectedDomainId] = useState("");
   // Clamp rather than reset via effect: a domain picked on a previous module
   // falls back to the new module's first domain instead of filtering it to nothing.
@@ -395,50 +466,92 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
     sections[0];
   const selectedSectionId = selectedSection ? String(selectedSection.sectionId) : null;
 
-  // Lessons are shared, but scheduleDays is the selected section's timetable, so the board
-  // reloads per section. Waits for the section list so it never asks for a guessed section;
-  // with no section at all it loads the curriculum without any schedule. Aborting the
-  // previous request means only the last selected section's response is ever applied.
+  // Lessons are shared, but scheduleDays and completion are the selected section's, so the board
+  // reloads per section. Every fetch, the normal one and the silent refresh, goes through here:
+  // only the newest request's response is applied, so an older one (another section's, or an
+  // earlier refresh of the same section) never overwrites newer data. Aborting only saves work.
+  const requestSeq = useRef(0);
+  // A normal load is in flight: a silent refresh waits rather than superseding it.
+  const loadingBoard = useRef(false);
+  const loadBoard = useCallback(
+    (silent: boolean) => {
+      const seq = ++requestSeq.current;
+      const controller = new AbortController();
+      if (!silent) {
+        loadingBoard.current = true;
+        setStatus("loading");
+      }
+      apiFetch(selectedSectionId ? `/api/modules?section=${selectedSectionId}` : "/api/modules", {
+        signal: controller.signal,
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+          return res.json();
+        })
+        .then((data: Module[]) => {
+          if (seq !== requestSeq.current) return;
+          loadingBoard.current = false;
+          const ordered = sortModules(data);
+          setModules(ordered);
+          // Switching sections keeps the module being viewed; the first load uses ?module=.
+          let resolvedModuleId: number | null = null;
+          setSelectedModuleId((current) => {
+            if (ordered.some((m) => m.id === current)) return (resolvedModuleId = current);
+            const slug = initialModuleSlug.current;
+            const fromUrl = slug ? ordered.find((m) => moduleSlug(m.moduleName) === slug) : undefined;
+            return (resolvedModuleId = fromUrl?.id ?? ordered[0]?.id ?? null);
+          });
+          // Same for the domain, scoped to whichever module that resolved to; the first load uses ?domain=.
+          setSelectedDomainId((current) => {
+            if (current) return current;
+            const domains = ordered.find((m) => m.id === resolvedModuleId)?.domains ?? [];
+            const slug = initialDomainSlug.current;
+            const fromUrl = slug ? domains.find((d) => moduleSlug(d.name) === slug) : undefined;
+            return fromUrl ? String(fromUrl.id) : current;
+          });
+          setStatus("ready");
+        })
+        .catch((error) => {
+          if (controller.signal.aborted || seq !== requestSeq.current) return;
+          loadingBoard.current = false;
+          console.error(error);
+          // A failed silent refresh keeps the board that is already showing.
+          if (!silent) setStatus("error");
+        });
+      return () => controller.abort();
+    },
+    [selectedSectionId],
+  );
+
+  // Waits for the section list so it never asks for a guessed section; with no section at all
+  // it loads the curriculum without any schedule or completion.
   useEffect(() => {
     if (sectionsLoading) return;
-    const controller = new AbortController();
     /* eslint-disable-next-line react-hooks/set-state-in-effect -- the board is hidden until this section's data arrives */
-    setStatus("loading");
-    apiFetch(selectedSectionId ? `/api/modules?section=${selectedSectionId}` : "/api/modules", {
-      signal: controller.signal,
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-        return res.json();
-      })
-      .then((data: Module[]) => {
-        const ordered = sortModules(data);
-        setModules(ordered);
-        // Switching sections keeps the module being viewed; the first load uses ?module=.
-        let resolvedModuleId: number | null = null;
-        setSelectedModuleId((current) => {
-          if (ordered.some((m) => m.id === current)) return (resolvedModuleId = current);
-          const slug = initialModuleSlug.current;
-          const fromUrl = slug ? ordered.find((m) => moduleSlug(m.moduleName) === slug) : undefined;
-          return (resolvedModuleId = fromUrl?.id ?? ordered[0]?.id ?? null);
-        });
-        // Same for the domain, scoped to whichever module that resolved to; the first load uses ?domain=.
-        setSelectedDomainId((current) => {
-          if (current) return current;
-          const domains = ordered.find((m) => m.id === resolvedModuleId)?.domains ?? [];
-          const slug = initialDomainSlug.current;
-          const fromUrl = slug ? domains.find((d) => moduleSlug(d.name) === slug) : undefined;
-          return fromUrl ? String(fromUrl.id) : current;
-        });
-        setStatus("ready");
-      })
-      .catch((error) => {
-        if (controller.signal.aborted) return;
-        console.error(error);
-        setStatus("error");
-      });
-    return () => controller.abort();
-  }, [sectionsLoading, selectedSectionId, reloadKey]);
+    return loadBoard(false);
+  }, [sectionsLoading, loadBoard, reloadKey]);
+
+  // Re-reads completion without the loading screen when learner work may have changed.
+  const refreshBoard = useCallback(() => {
+    if (!sectionsLoading && !loadingBoard.current) loadBoard(true);
+  }, [sectionsLoading, loadBoard]);
+  // A learner finished a digital game or a practical demonstration (the shell's polled bell).
+  const newestFinish = useShell()?.notifications.items[0]?.id;
+  useEffect(() => {
+    if (newestFinish !== undefined) refreshBoard();
+  }, [newestFinish, refreshBoard]);
+  // Back from another window, e.g. after rating a practical in the classroom window.
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === "visible") refreshBoard();
+    };
+    window.addEventListener("focus", refreshBoard);
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      window.removeEventListener("focus", refreshBoard);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [refreshBoard]);
 
   // Mirror the current selection into the URL so it can be restored when the
   // teacher comes back from a lesson (and so a refresh or bookmark keeps the
@@ -499,6 +612,8 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
     quarter: number;
     week: number;
     lessonIds?: number[];
+    /** Opened by the board's "+ Practical Activity": straight to the new-activity form. */
+    adding?: boolean;
   } | null>(null);
   const [addingLesson, setAddingLesson] = useState(false);
   const [addingModule, setAddingModule] = useState(false);
@@ -514,13 +629,23 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
   };
   const [updatingWeek, setUpdatingWeek] = useState<number | null>(null);
 
-  const handleLessonChanged = (lessonId: number, changes: Partial<Lesson>) =>
+  const handleLessonChanged = (lessonId: number, changes: Partial<Lesson>) => {
+    // A title decides which lessons merge into one card, so a rename can change the card's
+    // required activities: its week's badges blank out until the API recomputes them.
+    const renamed = "lessonName" in changes ? modules.flatMap((m) => m.lessons).find((l) => l.id === lessonId) : undefined;
+    const sameWeek = (l: Lesson) =>
+      renamed !== undefined && l.domainId === renamed.domainId && l.quarterId === renamed.quarterId && l.week === renamed.week;
     setModules((prev) =>
       prev.map((m) => ({
         ...m,
-        lessons: m.lessons.map((l) => (l.id === lessonId ? { ...l, ...changes } : l)),
+        lessons: m.lessons.map((l) => {
+          const next = l.id === lessonId ? { ...l, ...changes } : l;
+          return sameWeek(l) ? { ...next, completion: null } : next;
+        }),
       })),
     );
+    if (renamed) refreshBoard();
+  };
 
   const handleLessonCreated = useCallback((lesson: CreatedLesson) => {
     setModules((prev) =>
@@ -531,7 +656,8 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
           : m,
       ),
     );
-  }, []);
+    refreshBoard();
+  }, [refreshBoard]);
 
   return (
     // No overflow-hidden on this root: it would clip PageHeader's full-bleed
@@ -581,7 +707,9 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
           {activeModule && (
             <button
               onClick={() => setAddingLesson(true)}
-              className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-white bg-sidebar hover:bg-[#7e1422] rounded-lg shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
+              disabled={!canEdit(activeQuarterId)}
+              title={canEdit(activeQuarterId) ? undefined : lockedReason}
+              className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-white bg-sidebar hover:bg-[#7e1422] rounded-lg shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:bg-sidebar disabled:hover:shadow-md"
             >
               <Plus size={16} className="text-amber-300" />
               Add Lesson
@@ -597,16 +725,22 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
         className="flex-1 min-h-0 flex flex-col overflow-hidden"
       >
         <TabsList variant="line" className="overflow-hidden shrink-0">
-          {quarters.map((quarter) => (
-            <TabsTrigger
-              key={quarter.quarterId}
-              value={String(quarter.quarterId)}
-              className="flex items-center gap-2 px-3 py-1.5 text-sm font-bold whitespace-nowrap text-gray-800 data-active:text-sidebar after:bg-sidebar"
-            >
-              <BookOpen size={14} />
-              <span>{quarter.quarterName}</span>
-            </TabsTrigger>
-          ))}
+          {quarters.map((quarter) => {
+            const open = quarter.quarterId === classQuarter;
+            const Icon = open ? LockOpen : Lock;
+            return (
+              <TabsTrigger
+                key={quarter.quarterId}
+                value={String(quarter.quarterId)}
+                title={quarterTip(quarter.quarterId)}
+                className="flex items-center gap-2 px-3 py-1.5 text-sm font-bold whitespace-nowrap text-gray-800 data-active:text-sidebar after:bg-sidebar"
+              >
+                <Icon size={14} aria-hidden="true" />
+                <span>{quarter.quarterName}</span>
+                <span className="sr-only">{open ? "(active, open for classes)" : "(locked for classes)"}</span>
+              </TabsTrigger>
+            );
+          })}
         </TabsList>
 
         {/* Master-Detail Layout */}
@@ -759,13 +893,15 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
                     selectedDomainId={effectiveDomainId}
                     onDomainChange={handleDomainChange}
                     onUpdate={setUpdatingWeek}
-                    onOpen={(week, lessonIds) =>
+                    readOnly={!canEdit(activeQuarterId)}
+                    onOpen={(week, lessonIds, adding) =>
                       setOpenWeek({
                         moduleId: activeModule.id,
                         moduleName: activeModule.moduleName,
                         quarter: activeQuarterId,
                         week,
                         lessonIds,
+                        adding,
                       })
                     }
                   />
@@ -805,6 +941,7 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
             (l) => l.quarterId === activeQuarterId && l.week === updatingWeek && l.domainId === Number(effectiveDomainId),
           )}
           onLessonChanged={handleLessonChanged}
+          readOnly={!canEdit(activeQuarterId)}
         />
       )}
       {openWeek && (
@@ -816,14 +953,18 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
           quarter={openWeek.quarter}
           week={openWeek.week}
           lessonIds={openWeek.lessonIds}
-          onActivityCountChange={(lessonId, delta) =>
+          adding={openWeek.adding}
+          readOnly={!canEdit(openWeek.quarter)}
+          onActivityCountChange={(lessonId, delta) => {
             setModules((prev) =>
               prev.map((m) => ({
                 ...m,
                 lessons: m.lessons.map((l) => (l.id === lessonId ? { ...l, activityCount: l.activityCount + delta } : l)),
               })),
-            )
-          }
+            );
+            // A new or removed activity changes what the card requires.
+            refreshBoard();
+          }}
         />
       )}
     </div>

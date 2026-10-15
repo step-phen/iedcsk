@@ -88,7 +88,7 @@ export default function TodayScheduleCard({
                 return (
                   <tr
                     key={lesson.lessonId}
-                    className={`border-t border-gray-100 align-top sm:align-middle ${i % 2 === 0 ? "bg-white" : "bg-gray-50/40"}`}
+                    className={`border-t border-gray-300 align-top sm:align-middle ${i % 2 === 0 ? "bg-white" : "bg-gray-50/40"}`}
                   >
                     {/* Wraps between start and end on a phone, one line from sm. */}
                     <td className="px-3 sm:px-5 py-3 text-gray-800 sm:whitespace-nowrap">

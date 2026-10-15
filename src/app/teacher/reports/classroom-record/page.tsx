@@ -6,8 +6,8 @@ import EmptyReportSection from "./_components/empty-report-section";
 import ClassScoresSection from "./_components/class-scores-section";
 
 interface ClassroomRecordPageProps {
-  /** ?section=, ?module= and ?quarter= pick what the Class Scores table shows. */
-  searchParams: Promise<{ tab?: string; section?: string; module?: string; domain?: string; quarter?: string }>;
+  /** ?section=, ?module=, ?quarter=, ?view= and ?week= pick what the Class Scores table shows. */
+  searchParams: Promise<{ tab?: string; section?: string; module?: string; domain?: string; quarter?: string; view?: string; week?: string }>;
 }
 
 const BASE = "/teacher/reports/classroom-record";
@@ -42,7 +42,7 @@ export async function generateMetadata({ searchParams }: ClassroomRecordPageProp
 }
 
 export default async function ClassroomRecordPage({ searchParams }: ClassroomRecordPageProps) {
-  const { tab, section, module, domain, quarter } = await searchParams;
+  const { tab, section, module, domain, quarter, view, week } = await searchParams;
   const activeTab = toTab(tab);
   const me = await requireTeacher();
 
@@ -72,7 +72,15 @@ export default async function ClassroomRecordPage({ searchParams }: ClassroomRec
             message="Learners who need more support appear here once they complete activities."
           />
         ) : (
-          <ClassScoresSection section={section} module={module} domain={domain} quarter={quarter} teacherName={me.teacherName} />
+          <ClassScoresSection
+            section={section}
+            module={module}
+            domain={domain}
+            quarter={quarter}
+            view={view}
+            week={week}
+            teacherName={me.teacherName}
+          />
         )}
       </ReportTabs>
     </div>

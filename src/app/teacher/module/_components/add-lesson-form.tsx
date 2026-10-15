@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { ModalShell } from "@/components/ui/modal-shell";
 import { apiFetch } from "@/lib/api";
+import { quarterLockedError } from "@/hooks/useActiveSchoolYear";
 import { VIDEO_ACCEPT, videoError } from "@/lib/validations/lessonSchema";
 
 const inp = (err?: string) =>
@@ -29,6 +30,10 @@ export type CreatedLesson = {
   week: number;
   dayOfWeek: number | null;
   activityCount: number;
+  /** Always false for a new lesson. */
+  hasRecords: boolean;
+  /** Not in the create response; the board's next refresh fills it in. */
+  completion?: null;
 };
 
 type FieldErrors = { moduleDomainId?: string; title?: string; description?: string; week?: string; day?: string; video?: string };
@@ -86,7 +91,7 @@ export default function AddLessonForm({
           day: errors.day?.[0],
           video: errors.video?.[0],
         });
-        setFormError(errors.quarter?.[0] ?? null);
+        setFormError(quarterLockedError(errors) ?? null);
       } else {
         setFormError("Could not add the lesson. Please try again.");
       }

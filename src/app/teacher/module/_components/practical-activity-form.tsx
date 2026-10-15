@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { toast } from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { apiUpload } from "@/lib/api";
+import { quarterLockedError } from "@/hooks/useActiveSchoolYear";
 import { VIDEO_ACCEPT, videoError } from "@/lib/validations/lessonSchema";
 
 const inp = (err?: string) =>
@@ -18,6 +19,8 @@ export type WeekActivity = {
   instructions?: string;
   teacherGuidelines?: string;
   demoVideoUrl?: string | null;
+  /** Used in a class or by a learner (API rule): viewable, never changed again. */
+  hasRecords: boolean;
 };
 
 type FieldErrors = { lesson?: string; name?: string; description?: string; instructions?: string; teacherGuidelines?: string; video?: string };
@@ -28,12 +31,15 @@ export default function PracticalActivityForm({
   editing,
   onCancel,
   onSaved,
+  onProtected,
 }: {
   lessons: { lessonId: number; lessonName: string }[];
   /** The activity being edited and its lesson; left out to add a new one. */
   editing?: { lessonId: number; activity: WeekActivity };
   onCancel: () => void;
   onSaved: (lessonId: number, activity: WeekActivity) => void;
+  /** The API refused the edit because the activity now has records. */
+  onProtected?: () => void;
 }) {
   const [pending, setPending] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -74,6 +80,8 @@ export default function PracticalActivityForm({
           teacherGuidelines: errors.teacherGuidelines?.[0],
           video: errors.video?.[0],
         });
+        if (errors.protected) onProtected?.();
+        setFormError(quarterLockedError(errors) ?? errors.protected?.[0] ?? null);
       } else {
         setFormError(`Could not ${editing ? "save" : "add"} the activity. Please try again.`);
       }

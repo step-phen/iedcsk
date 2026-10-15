@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ModalShell } from "@/components/ui/modal-shell";
 import { toast } from "react-hot-toast";
-import { ClipboardList, Loader2, Pencil, Plus, Trash2 } from "lucide-react";
+import { ClipboardList, Loader2, Lock, Pencil, Trash2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,6 +16,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { apiFetch } from "@/lib/api";
+import { CONTENT_HAS_RECORDS_HINT, QUARTER_LOCKED_HINT } from "@/lib/utils";
+import { quarterLockedError } from "@/hooks/useActiveSchoolYear";
 import PracticalActivityForm, { type WeekActivity } from "./practical-activity-form";
 import { lessonDay } from "./add-lesson-form";
 
@@ -31,7 +33,7 @@ type WeekLessonData = {
 type LessonActivity = { lessonId: number; activity: WeekActivity };
 
 const CARD_BUTTON =
-  "inline-flex h-7 cursor-pointer items-center gap-1 rounded-lg border px-2 text-[11px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-sidebar/30";
+  "inline-flex h-7 cursor-pointer items-center gap-1 rounded-lg border px-2 text-[11px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-sidebar/30 disabled:cursor-not-allowed disabled:opacity-50";
 
 const FORMAT_LABEL = { digital: "Digital", practical: "Practical" } as const;
 
@@ -58,6 +60,10 @@ interface WeekLessonsModalProps {
   lessonIds?: number[];
   /** Runs after an activity is added (+1) or deleted (-1), so the board's activity count can follow. */
   onActivityCountChange?: (lessonId: number, delta: number) => void;
+  /** The quarter is active for classes: activities can be viewed but not added, edited or deleted. */
+  readOnly?: boolean;
+  /** Opened from the board's "+ Practical Activity": shows only the new-activity form, and closes when it's done. */
+  adding?: boolean;
 }
 
 /** Flat activities grid for the week — no per-lesson grouping, the "Open"
@@ -71,6 +77,8 @@ export default function WeekLessonsModal({
   week,
   lessonIds,
   onActivityCountChange,
+  readOnly = false,
+  adding = false,
 }: WeekLessonsModalProps) {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -80,9 +88,15 @@ export default function WeekLessonsModal({
     l.activities.map((activity) => ({ lessonId: l.lessonId, activity, day: lessonDay(l.dayOfWeek) })),
   );
   // The form takes the modal's body while open, instead of stacking a second modal: "new" adds, an activity edits.
-  const [form, setForm] = useState<"new" | LessonActivity | null>(null);
+  const [form, setForm] = useState<"new" | LessonActivity | null>(adding ? "new" : null);
   const [deleting, setDeleting] = useState<LessonActivity | null>(null);
   const [deletePending, setDeletePending] = useState(false);
+
+  // Same order as the API: the active quarter's reason first, then records.
+  const lockFor = (activity: WeekActivity) => (readOnly ? QUARTER_LOCKED_HINT : activity.hasRecords ? CONTENT_HAS_RECORDS_HINT : null);
+  // The API refused a change because the activity now has records: lock its card to match.
+  const markProtected = (activityId: number) =>
+    setLessons((prev) => prev.map((l) => ({ ...l, activities: l.activities.map((a) => (a.id === activityId ? { ...a, hasRecords: true } : a)) })));
 
   async function deleteActivity({ lessonId, activity }: LessonActivity) {
     setDeletePending(true);
@@ -90,7 +104,8 @@ export default function WeekLessonsModal({
       const res = await apiFetch(`/api/practical-activities/${activity.id}`, { method: "DELETE" });
       if (res.status === 422) {
         const { errors } = (await res.json()) as { errors: Record<string, string[]> };
-        throw new Error(Object.values(errors)[0]?.[0]);
+        if (errors.protected) markProtected(activity.id);
+        throw new Error(quarterLockedError(errors) ?? Object.values(errors)[0]?.[0]);
       }
       if (!res.ok) throw new Error();
       setLessons((prev) => prev.map((l) => (l.lessonId === lessonId ? { ...l, activities: l.activities.filter((a) => a.id !== activity.id) } : l)));
@@ -135,20 +150,22 @@ export default function WeekLessonsModal({
     <ModalShell
       open={open}
       onClose={onClose}
-      title={lessonIds?.length ? (visibleLessons[0]?.lessonName ?? moduleName) : `${moduleName} — Week ${week}`}
+      title={adding ? `${moduleName} — Week ${week}` : lessonIds?.length ? (visibleLessons[0]?.lessonName ?? moduleName) : `${moduleName} — Week ${week}`}
       headerId="week-lessons-title"
       // The form needs less room than the activity grid.
       maxWidth={form ? "max-w-lg" : "max-w-3xl"}
       panelClassName="max-h-[85vh] flex flex-col"
     >
       <div className="flex-1 overflow-y-auto scrollbar-hide p-5">
-        {form ? (
+        {/* The new-activity form waits for the week's lessons, so its lesson picker is never empty. */}
+        {form && !(form === "new" && loading) ? (
           <PracticalActivityForm
             // Keyed so switching between activities starts the form fresh.
             key={form === "new" ? "new" : form.activity.id}
             lessons={visibleLessons}
             editing={form === "new" ? undefined : form}
-            onCancel={() => setForm(null)}
+            onCancel={() => (adding ? onClose() : setForm(null))}
+            onProtected={() => form !== "new" && markProtected(form.activity.id)}
             onSaved={(lessonId, saved) => {
               setLessons((prev) =>
                 prev.map((l) =>
@@ -160,26 +177,18 @@ export default function WeekLessonsModal({
                 ),
               );
               if (form === "new") onActivityCountChange?.(lessonId, 1);
-              setForm(null);
+              if (adding) onClose();
+              else setForm(null);
             }}
           />
         ) : (
         <>
           {!loading && (
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-              <p className="text-xs text-stone-500">
-                {visibleLessons.length === 0 ? "Add a lesson for this week first, then add activities to it." : "Games and practical activities for this lesson."}
-              </p>
-              <button
-                type="button"
-                onClick={() => setForm("new")}
-                disabled={visibleLessons.length === 0}
-                className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-sidebar px-3 py-2 text-xs font-semibold text-white shadow-sm outline-none transition-colors hover:bg-[#7e1422] focus-visible:ring-2 focus-visible:ring-sidebar/40 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <Plus size={14} aria-hidden="true" />
-                Practical Activity
-              </button>
-            </div>
+            <p className="mb-4 text-xs text-stone-500">
+              {visibleLessons.length === 0
+                ? "Add a lesson for this week first, then add activities to it."
+                : "Games and practical activities for this lesson. Add a practical activity from the week's + Practical Activity button."}
+            </p>
           )}
           {loading ? (
             <div className="flex items-center justify-center py-16 text-stone-400">
@@ -218,11 +227,19 @@ export default function WeekLessonsModal({
                     </p>
                   )}
                   {/* Only the teacher's own practical activities can be changed; digital games come with the system. */}
+                  {activity.format === "practical" && lockFor(activity) === CONTENT_HAS_RECORDS_HINT && (
+                    <p className="mt-auto flex items-start gap-1 text-[11px] leading-snug text-stone-500">
+                      <Lock size={11} aria-hidden="true" className="mt-0.5 shrink-0" />
+                      {CONTENT_HAS_RECORDS_HINT}
+                    </p>
+                  )}
                   {activity.format === "practical" && (
                     <div className="mt-auto flex gap-1.5 pt-1">
                       <button
                         type="button"
                         onClick={() => setForm({ lessonId, activity })}
+                        disabled={!!lockFor(activity)}
+                        title={lockFor(activity) ?? undefined}
                         className={`${CARD_BUTTON} border-stone-300 bg-white text-stone-700 hover:border-sidebar hover:text-sidebar`}
                       >
                         <Pencil size={12} aria-hidden="true" />
@@ -231,6 +248,8 @@ export default function WeekLessonsModal({
                       <button
                         type="button"
                         onClick={() => setDeleting({ lessonId, activity })}
+                        disabled={!!lockFor(activity)}
+                        title={lockFor(activity) ?? undefined}
                         className={`${CARD_BUTTON} border-red-200 bg-white text-red-600 hover:bg-red-50`}
                       >
                         <Trash2 size={12} aria-hidden="true" />

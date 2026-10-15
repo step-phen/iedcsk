@@ -34,6 +34,13 @@ export function moduleSlug(moduleName: string): string {
     .replace(/[^a-z0-9-]/g, "")
 }
 
+/** On the edit controls of the active quarter: its lessons are in use by classes, so they're view-only. */
+export const QUARTER_LOCKED_HINT =
+  "This quarter is active for classes, so its lessons and practical activities can't be changed. Activate another quarter to edit them."
+
+/** On edit controls of content used in a class or by a learner: it stays as it was, whichever quarter is active. */
+export const CONTENT_HAS_RECORDS_HINT = "This content has classroom or learner records and can no longer be changed."
+
 /** Quarter name -> URL slug ("1st Quarter" -> "1st-quarter"). */
 export function quarterSlug(quarterName: string): string {
   return quarterName.toLowerCase().replace(/\s+/g, "-")
