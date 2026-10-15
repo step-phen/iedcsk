@@ -1,0 +1,192 @@
+/* Look of Family and Pet Match; layout and spacing stay in Tailwind, the lines stay in FamilyAndPetMatch.data.ts. */
+
+/* A cozy living room: soft yellow wallpaper with little dots. */
+.screen {
+  background:
+    radial-gradient(circle, rgba(214, 160, 90, 0.18) 0 3px, transparent 3.5px) 0 0 / 34px 34px,
+    linear-gradient(180deg, #fff3cf 0%, #ffe9b0 100%);
+  color: #5d4037;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Wooden panels along the bottom of the wall. */
+.wainscot {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 90px, rgba(93, 64, 55, 0.25) 90px 94px),
+    linear-gradient(180deg, #d7a86e 0%, #b9854c 100%);
+  border-top: 8px solid #8d6e63;
+}
+
+/* A plump teal sofa: back, seat and two arms from layered gradients. */
+.sofa {
+  background:
+    radial-gradient(ellipse 9% 60% at 6% 70%, #2f8f8a 0 96%, transparent 100%),
+    radial-gradient(ellipse 9% 60% at 94% 70%, #2f8f8a 0 96%, transparent 100%),
+    linear-gradient(180deg, transparent 0 40%, #3aa69f 40% 100%),
+    radial-gradient(ellipse 46% 60% at 50% 45%, #44b8b0 0 96%, transparent 100%);
+  border-radius: 30px 30px 14px 14px;
+  filter: drop-shadow(0 6px 0 rgba(93, 64, 55, 0.25));
+}
+
+.badge {
+  border: 3px solid #5d4037;
+  background: white;
+  box-shadow: 0 3px 0 rgba(93, 64, 55, 0.25);
+}
+
+.avatar {
+  background: #ffd9c2;
+  color: #a1502a;
+}
+
+.title {
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(93, 64, 55, 0.2);
+}
+
+.instruction {
+  background: #fffaf0;
+  border: 3px solid #5d4037;
+  box-shadow: 0 3px 0 rgba(93, 64, 55, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #5d4037;
+  background: #ff9e7a;
+  color: #5d4037;
+  box-shadow: 0 3px 0 rgba(93, 64, 55, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.wall {
+  --f: clamp(92px, min(calc((100vw - 90px) / 3.3), 30dvh), 220px);
+}
+
+.nail {
+  background: radial-gradient(circle at 35% 35%, #d7ccc8, #6d4c41);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.string {
+  width: 2px;
+  background: #6d4c41;
+}
+
+.frame {
+  width: var(--f);
+  height: calc(var(--f) * 1.18);
+  padding: calc(var(--f) * 0.08);
+  background: var(--frame);
+  border: 3px solid #4e342e;
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.25), 0 6px 0 rgba(93, 64, 55, 0.3);
+  touch-action: manipulation;
+  transform-origin: 50% -20%;
+  animation: hang 4s ease-in-out var(--idle-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.frame:focus-visible {
+  outline: 4px solid #ff9e7a;
+  outline-offset: 4px;
+}
+
+.mat {
+  background: var(--mat);
+  border: 2px solid rgba(78, 52, 46, 0.4);
+}
+
+.portrait {
+  font-size: calc(var(--f) * 0.58);
+}
+
+.frameRight {
+  animation: swing 0.8s ease-in-out;
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.heart {
+  animation: floatUp 1.2s ease-out forwards;
+}
+
+.frameWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right frame after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.frameReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #ff9e7a;
+  color: white;
+  border: 4px solid #5d4037;
+  box-shadow: 0 5px 0 rgba(93, 64, 55, 0.3);
+}
+
+@keyframes hang {
+  0%, 100% { rotate: -1.5deg; }
+  50% { rotate: 1.5deg; }
+}
+
+@keyframes swing {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: 6deg; }
+  60% { rotate: -4deg; }
+}
+
+@keyframes floatUp {
+  from { translate: 0 0; opacity: 1; }
+  to { translate: 0 -60px; opacity: 0; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller frames so the header keeps its room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .wall {
+    --f: clamp(64px, 30dvh, 130px);
+  }
+}

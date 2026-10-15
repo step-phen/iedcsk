@@ -216,6 +216,18 @@ export const gameRegistry: Record<
     () =>
       import("@/components/activities/games/reading/3rd_quarter/week-2/ConsonantWw"),
   ),
+  "RD-Q3W3-01": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-3/ConsonantXx"),
+  ),
+  "RD-Q3W3-02": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-3/ConsonantYy"),
+  ),
+  "RD-Q3W3-03": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-3/ConsonantZz"),
+  ),
   "RD-Q3W4-01": game(
     () =>
       import("@/components/activities/games/reading/3rd_quarter/week-4/BlendAndMatchShortA"),
@@ -247,6 +259,42 @@ export const gameRegistry: Record<
   "RD-Q3W6-02": game(
     () =>
       import("@/components/activities/games/reading/3rd_quarter/week-6/WordSoundDetective"),
+  ),
+  "RD-Q3W7-01": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-7/CvcPictureHunt"),
+  ),
+  "RD-Q3W7-02": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-7/ReadingReview3"),
+  ),
+  "RD-Q3W7-03": game(
+    () =>
+      import("@/components/activities/games/reading/3rd_quarter/week-7/ReadingFinalExam3"),
+  ),
+  "RD-Q4W1-01": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-1/BlendAndMatchShortO"),
+  ),
+  "RD-Q4W1-02": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-1/BlendAndMatchShortU"),
+  ),
+  "RD-Q4W1-03": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-1/ReadAndMatch"),
+  ),
+  "RD-Q4W2-01": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-2/StoryPictureMatch"),
+  ),
+  "RD-Q4W2-02": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-2/RhymePartners"),
+  ),
+  "RD-Q4W2-03": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-2/BookPartsHunt"),
   ),
 
   // language
@@ -346,6 +394,54 @@ export const gameRegistry: Record<
     () =>
       import("@/components/activities/games/language/2nd_quarter/week-1/ListenAndFindDdFf"),
   ),
+  "LG-Q2W2-01": game(
+    () =>
+      import("@/components/activities/games/language/2nd_quarter/week-2/ListenAndFindGgHh"),
+  ),
+  "LG-Q2W2-02": game(
+    () =>
+      import("@/components/activities/games/language/2nd_quarter/week-2/ListenAndFindJjKk"),
+  ),
+  "LG-Q2W2-03": game(
+    () =>
+      import("@/components/activities/games/language/2nd_quarter/week-2/ListenAndFindLlMm"),
+  ),
+  "LG-Q2W3-01": game(
+    () =>
+      import("@/components/activities/games/language/2nd_quarter/week-3/ListenAndFindNnPp"),
+  ),
+  "LG-Q2W3-02": game(
+    () =>
+      import("@/components/activities/games/language/2nd_quarter/week-3/ListenAndFindQqRr"),
+  ),
+  "LG-Q2W3-03": game(
+    () =>
+      import("@/components/activities/games/language/2nd_quarter/week-3/ListenAndFindSsTt"),
+  ),
+  "LG-Q3W1-01": game(
+    () =>
+      import("@/components/activities/games/language/3rd_quarter/week-1/ListenAndMatchSyllablesA"),
+  ),
+  "LG-Q3W1-02": game(
+    () =>
+      import("@/components/activities/games/language/3rd_quarter/week-1/ListenAndMatchSyllablesO"),
+  ),
+  "LG-Q3W1-03": game(
+    () =>
+      import("@/components/activities/games/language/3rd_quarter/week-1/ListenAndMatchSyllablesE"),
+  ),
+  "LG-Q4W1-01": game(
+    () =>
+      import("@/components/activities/games/language/4th_quarter/week-1/MiddleSoundFinder"),
+  ),
+  "LG-Q4W1-02": game(
+    () =>
+      import("@/components/activities/games/language/4th_quarter/week-1/DescribeTheObject"),
+  ),
+  "LG-Q4W1-03": game(
+    () =>
+      import("@/components/activities/games/language/4th_quarter/week-1/FamilyAndPetMatch"),
+  ),
 
   // writing readiness
   "WR-Q1W1-01": game(
@@ -427,6 +523,42 @@ export const gameRegistry: Record<
   "WR-Q1W7-03": game(
     () =>
       import("@/components/activities/games/writing readiness/1st-quarter/week-7/WritingReadinessFinalAssessment"),
+  ),
+  "WR-Q2W1-01": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-1/MeetTheCapitalLetters"),
+  ),
+  "WR-Q2W1-02": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-1/LetterTTrails"),
+  ),
+  "WR-Q2W1-03": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-1/LetterLTrails"),
+  ),
+  "WR-Q3W1-01": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-1/LetterDTrails"),
+  ),
+  "WR-Q3W1-02": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-1/LetterOTrails"),
+  ),
+  "WR-Q3W1-03": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-1/LetterPTrails"),
+  ),
+  "WR-Q4W1-01": game(
+    () =>
+      import("@/components/activities/games/writing readiness/4th-quarter/week-1/LowercaseGTrails"),
+  ),
+  "WR-Q4W1-02": game(
+    () =>
+      import("@/components/activities/games/writing readiness/4th-quarter/week-1/LowercasePTrails"),
+  ),
+  "WR-Q4W1-03": game(
+    () =>
+      import("@/components/activities/games/writing readiness/4th-quarter/week-1/LowercaseJTrails"),
   ),
 
   // math readiness

@@ -1,0 +1,209 @@
+/* Look of Listen and Match Syllables: a; layout and spacing stay in Tailwind, the lines stay in ListenAndMatchSyllablesA.data.ts. */
+
+/* A warm afternoon orchard: soft peach sky fading into the meadow. */
+.screen {
+  background: linear-gradient(180deg, #fff1d6 0%, #ffe2b8 60%, #f7d79a 100%);
+  color: #4a2a12;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The apple tree's leafy crown, drawn from overlapping green blobs. */
+.canopy {
+  background:
+    radial-gradient(circle at 12% 70%, #6cbf4a 0 18%, transparent 18.5%),
+    radial-gradient(circle at 30% 45%, #7ccc56 0 22%, transparent 22.5%),
+    radial-gradient(circle at 52% 60%, #5fae40 0 24%, transparent 24.5%),
+    radial-gradient(circle at 72% 42%, #7ccc56 0 22%, transparent 22.5%),
+    radial-gradient(circle at 90% 68%, #6cbf4a 0 18%, transparent 18.5%),
+    radial-gradient(ellipse 60% 55% at 50% 30%, #5fae40 0 98%, transparent 100%);
+  filter: drop-shadow(0 6px 0 rgba(47, 93, 47, 0.25));
+}
+
+.grass {
+  background:
+    radial-gradient(circle at 10% 0, #8fd16a 0 12%, transparent 12.5%),
+    radial-gradient(circle at 35% 0, #8fd16a 0 10%, transparent 10.5%),
+    radial-gradient(circle at 70% 0, #8fd16a 0 14%, transparent 14.5%),
+    linear-gradient(180deg, #8fd16a 0%, #5fa843 100%);
+}
+
+.badge {
+  border: 3px solid #4a2a12;
+  background: white;
+  box-shadow: 0 3px 0 rgba(74, 42, 18, 0.25);
+}
+
+.avatar {
+  background: #ffd9a8;
+  color: #8a4b12;
+}
+
+.title {
+  color: #fff8ea;
+  text-shadow: 0 2px 0 #2f5d2f, 0 4px 0 rgba(47, 93, 47, 0.4);
+}
+
+.instruction {
+  background: #fff8ea;
+  border: 3px solid #4a2a12;
+  box-shadow: 0 3px 0 rgba(74, 42, 18, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #4a2a12;
+  background: #ffb347;
+  color: #4a2a12;
+  box-shadow: 0 3px 0 rgba(74, 42, 18, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A brown branch the three apples hang from. */
+.branch {
+  --a: clamp(84px, min(calc((100vw - 90px) / 3.4), 26dvh), 190px);
+  border-top: clamp(10px, 1.6vh, 16px) solid #8a5228;
+  border-radius: 999px 999px 0 0;
+}
+
+.apple {
+  width: var(--a);
+  height: calc(var(--a) * 1.08);
+  touch-action: manipulation;
+  transform-origin: 50% 0;
+  animation: dangle 3.2s ease-in-out var(--idle-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.apple:focus-visible {
+  outline: 4px solid #ffb347;
+  outline-offset: 4px;
+}
+
+.syllable {
+  font-size: calc(var(--a) * 0.36);
+  color: white;
+  -webkit-text-stroke: 2px #7a1f1a;
+  paint-order: stroke fill;
+  letter-spacing: 0.02em;
+}
+
+/* Today's vowel is always sunny yellow, so the child sees every syllable ends in a. */
+.vowel {
+  color: #ffe066;
+}
+
+.appleDrop {
+  animation: drop 1s cubic-bezier(0.55, 0, 0.85, 0.4) forwards;
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.appleWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right apple after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.appleReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  background: rgba(220, 252, 231, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+/* A woven basket made from crossed stripes. */
+.basket {
+  width: clamp(130px, 30vw, 240px);
+  height: clamp(58px, 11vh, 100px);
+  border: 4px solid #6b3e1f;
+  border-radius: 12px 12px 40% 40%;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 14px, rgba(107, 62, 31, 0.35) 14px 17px),
+    repeating-linear-gradient(0deg, #d99a52 0 10px, #c4823c 10px 20px);
+  box-shadow: 0 6px 0 rgba(74, 42, 18, 0.25);
+}
+
+.basketRim {
+  background: #b5722f;
+  border: 3px solid #6b3e1f;
+  transform: translateY(-50%);
+}
+
+.basketCatch {
+  animation: bounce 0.5s ease-out 0.8s;
+}
+
+.resultStamp {
+  background: #e8463c;
+  color: white;
+  border: 4px solid #7a1f1a;
+  box-shadow: 0 5px 0 rgba(122, 31, 26, 0.3);
+}
+
+@keyframes dangle {
+  0%, 100% { rotate: -3deg; }
+  50% { rotate: 3deg; }
+}
+
+@keyframes drop {
+  0% { translate: 0 0; rotate: 0deg; }
+  25% { translate: 0 -6%; }
+  100% { translate: 0 120%; rotate: 12deg; opacity: 0.2; }
+}
+
+@keyframes bounce {
+  0%, 100% { scale: 1 1; }
+  40% { scale: 1.08 0.9; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apple {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: the basket shrinks so the apples keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .branch {
+    --a: clamp(64px, 30dvh, 120px);
+  }
+
+  .basket {
+    height: 40px;
+    width: 120px;
+  }
+}

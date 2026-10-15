@@ -1,0 +1,163 @@
+/* Look of Letter L Trails: a lily pond with a dot-paper leaf to trace on; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #d9f3ff 0%, #b8e6f5 45%, #8fd3e6 100%);
+  color: #103a5c;
+}
+
+/* The pond water the lily pads float on, with soft ripples. */
+.pond {
+  background:
+    radial-gradient(40% 18% at 25% 40%, rgba(255, 255, 255, 0.35) 0 30%, transparent 31%),
+    radial-gradient(35% 14% at 78% 70%, rgba(255, 255, 255, 0.3) 0 30%, transparent 31%),
+    linear-gradient(180deg, #5bbbd6 0%, #3a9cc0 100%);
+  border-top-left-radius: 50% 40px;
+  border-top-right-radius: 50% 40px;
+}
+
+.badge {
+  background: #f4fcff;
+  border: 3px solid #1e4f7a;
+  box-shadow: 0 3px 0 rgba(16, 58, 92, 0.25);
+}
+
+.avatar {
+  background: #d5f0dc;
+}
+
+.title {
+  color: #1e4f7a;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(30, 79, 122, 0.3);
+}
+
+.instruction {
+  background: #f4fcff;
+  border: 3px solid #1e4f7a;
+  color: #103a5c;
+}
+
+.iconButton {
+  background: #7a3fd1;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(74, 34, 140, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* Dot paper cut like a leaf: two round corners, two pointed ones; scale (not transform) so the wobble and the zoom never fight. */
+.leaf {
+  background: #f6fffb;
+  border: 6px solid #1e4f7a;
+  border-radius: 30% 8% 30% 8%;
+  box-shadow: 0 8px 0 rgba(16, 58, 92, 0.3);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.leafWrong {
+  border-color: #dc2626;
+  animation: wobble 0.5s ease-in-out;
+}
+
+.leafModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.25), 0 0 32px 8px rgba(34, 179, 94, 0.45);
+}
+
+.leafZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.leafRight {
+  border-color: #7a3fd1;
+  animation: splash 0.55s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* A lily pad with its little notch. */
+.pad {
+  background:
+    conic-gradient(from 20deg, transparent 0 18deg, #4caf50 18deg 360deg);
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.15), 0 4px 0 rgba(16, 58, 92, 0.25);
+}
+
+.padNext {
+  outline: 4px dashed #ffffff;
+  outline-offset: 4px;
+  animation: bob 1.6s ease-in-out infinite;
+}
+
+.hop {
+  animation: hopIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hopMissed {
+  opacity: 0.45;
+  filter: grayscale(0.7);
+}
+
+.resultStamp {
+  background: #7a3fd1;
+  color: white;
+  border: 4px solid white;
+  box-shadow: 0 5px 0 rgba(74, 34, 140, 0.4);
+  rotate: 3deg;
+}
+
+@keyframes wobble {
+  0%, 100% { rotate: 0deg; }
+  20% { rotate: -4deg; }
+  40% { rotate: 4deg; }
+  60% { rotate: -2.5deg; }
+  80% { rotate: 2.5deg; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes splash {
+  0%, 100% { scale: 1; }
+  35% { scale: 0.96; }
+  65% { scale: 1.04; }
+}
+
+@keyframes bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -5px; }
+}
+
+@keyframes hopIn {
+  0% { translate: 0 -60px; scale: 0.6; }
+  60% { translate: 0 6px; scale: 1.15; }
+  100% { translate: 0 0; scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leafWrong,
+  .leafRight,
+  .padNext,
+  .hop {
+    animation: none;
+  }
+}

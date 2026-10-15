@@ -1,0 +1,204 @@
+/* Look of Story Picture Match (Comic Strip); layout and spacing stay in Tailwind, the pictures and speech stay in StoryPictureMatch.data.ts. */
+
+.screen {
+  background: #ffe24a;
+  color: #111111;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Comic-book halftone dots. */
+.halftone {
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.22) 0 3px, transparent 3.5px) 0 0 / 18px 18px;
+}
+
+.badge {
+  border: 3px solid #111111;
+  background: white;
+  box-shadow: 4px 4px 0 #111111;
+}
+
+.avatar {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.title {
+  color: #ef4444;
+  -webkit-text-stroke: 2px #111111;
+  paint-order: stroke fill;
+  text-shadow: 4px 4px 0 #111111;
+}
+
+.pill {
+  background: white;
+  border: 3px solid #111111;
+  box-shadow: 4px 4px 0 #111111;
+}
+
+.iconButton {
+  border: 3px solid #111111;
+  background: #60a5fa;
+  color: #111111;
+  box-shadow: 3px 3px 0 #111111;
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: translate(2px, 2px);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #ef4444;
+  color: white;
+  border: 4px solid #111111;
+  box-shadow: 6px 6px 0 #111111;
+  text-shadow: 3px 3px 0 #111111;
+}
+
+.panel {
+  background: white;
+  border: 3px solid #111111;
+  box-shadow: 3px 3px 0 #111111;
+  color: #9ca3af;
+  transition: transform 200ms ease-out;
+}
+
+.panelCurrent {
+  background: #dbeafe;
+  color: #1d4ed8;
+  transform: translateY(-4px);
+  box-shadow: 3px 7px 0 #111111;
+}
+
+.panelDone {
+  animation: panelIn 0.35s ease-out;
+}
+
+/* Comic caption box with a speech-bubble tail. */
+.caption {
+  background: white;
+  border: 4px solid #111111;
+  box-shadow: 6px 6px 0 #111111;
+  animation: panelIn 0.35s ease-out;
+}
+
+.caption::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  bottom: -22px;
+  border-width: 22px 18px 0 0;
+  border-style: solid;
+  border-color: #111111 transparent transparent transparent;
+}
+
+.frame {
+  background: white;
+  border: 4px solid #111111;
+  box-shadow: 5px 5px 0 #111111;
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.frame:disabled {
+  cursor: default;
+}
+
+.frameWon {
+  background: #fef9c3;
+  box-shadow: 0 0 0 5px #facc15, 5px 5px 0 5px #111111;
+  animation: pop 0.5s ease-out;
+}
+
+.frameWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: shake 0.4s ease-in-out;
+}
+
+.frameReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.burst {
+  background: #ef4444;
+  color: white;
+  border: 3px solid #111111;
+  clip-path: polygon(0 20%, 14% 0, 30% 14%, 50% 0, 66% 14%, 86% 0, 100% 24%, 92% 50%, 100% 78%, 82% 100%, 62% 86%, 44% 100%, 26% 86%, 8% 100%, 0 76%, 8% 50%);
+  padding-inline: 14px;
+  rotate: -10deg;
+  animation: pop 0.4s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid #111111;
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid #111111;
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes panelIn {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.12) rotate(-2deg); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    transition: none;
+  }
+
+  .panelDone,
+  .caption,
+  .frameWon,
+  .frameWrong,
+  .frameReveal,
+  .burst,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

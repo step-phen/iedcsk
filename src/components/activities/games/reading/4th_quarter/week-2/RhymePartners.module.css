@@ -1,0 +1,239 @@
+/* Look of Rhyme Partners (Laundry Day); layout and spacing stay in Tailwind, the pictures and speech stay in RhymePartners.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #d5f3ea 0%, #e8faf4 60%, #fdfbf3 100%);
+  color: #14534a;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Laundry-room wall tiles. */
+.tiles {
+  background:
+    linear-gradient(90deg, rgba(20, 83, 74, 0.06) 2px, transparent 2px) 0 0 / 64px 64px,
+    linear-gradient(0deg, rgba(20, 83, 74, 0.06) 2px, transparent 2px) 0 0 / 64px 64px;
+}
+
+.badge {
+  border: 3px solid #14534a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(20, 83, 74, 0.25);
+}
+
+.avatar {
+  background: #ccf2e6;
+  color: #14534a;
+}
+
+.title {
+  color: #14534a;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.9);
+}
+
+.pill {
+  background: white;
+  border: 3px solid #5eead4;
+  box-shadow: 0 3px 0 rgba(20, 83, 74, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #14534a;
+  background: white;
+  color: #14534a;
+  box-shadow: 0 3px 0 rgba(20, 83, 74, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #14b8a6;
+  color: white;
+  border: 4px solid #14534a;
+  box-shadow: 0 5px 0 rgba(20, 83, 74, 0.3);
+  text-shadow: 0 3px 0 #0f766e;
+}
+
+.rope {
+  background: repeating-linear-gradient(110deg, #b08968 0 6px, #e6ccb2 6px 10px);
+}
+
+.peg {
+  background: #f59e0b;
+  border: 2px solid #92400e;
+}
+
+.sock {
+  filter: drop-shadow(0 4px 0 rgba(20, 83, 74, 0.22));
+  transition: transform 200ms ease-out;
+}
+
+.sock svg path,
+.sock svg rect {
+  stroke: #14534a;
+  stroke-width: 4;
+  stroke-linejoin: round;
+}
+
+.sockBody {
+  fill: var(--sock);
+}
+
+.sockCuff,
+.sockHeel {
+  fill: var(--trim);
+}
+
+.sockTeal {
+  --sock: #5eead4;
+  --trim: #0d9488;
+}
+
+.sockPink {
+  --sock: #fbcfe8;
+  --trim: #ec4899;
+}
+
+.sockBlue {
+  --sock: #bfdbfe;
+  --trim: #3b82f6;
+}
+
+.sockYellow {
+  --sock: #fef08a;
+  --trim: #eab308;
+}
+
+.hanging {
+  transform-origin: 40% 0;
+  animation: sway 3s ease-in-out infinite;
+}
+
+.sockHeard {
+  transform: scale(1.1) rotate(-6deg);
+  filter: drop-shadow(0 0 14px rgba(250, 204, 21, 0.95));
+}
+
+.ghost {
+  border: 4px dashed rgba(20, 83, 74, 0.45);
+  background: rgba(255, 255, 255, 0.6);
+  color: rgba(20, 83, 74, 0.5);
+}
+
+.pinned {
+  transform-origin: 40% 0;
+  animation: pinIn 0.5s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+
+.pinnedReveal {
+  filter: drop-shadow(0 0 12px rgba(22, 163, 74, 0.8));
+}
+
+/* Wicker laundry basket. */
+.basket {
+  background:
+    repeating-linear-gradient(0deg, rgba(120, 72, 30, 0.25) 0 3px, transparent 3px 14px),
+    repeating-linear-gradient(90deg, #e0b679 0 16px, #d4a463 16px 32px);
+  border: 4px solid #8a5a2b;
+  box-shadow: 0 6px 0 rgba(20, 83, 74, 0.2);
+}
+
+.sockButton {
+  background: transparent;
+  border: 4px solid transparent;
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: border-color 200ms ease-out, box-shadow 200ms ease-out, opacity 300ms ease-out;
+}
+
+.sockButton:disabled {
+  cursor: default;
+}
+
+.sockGone {
+  opacity: 0.25;
+}
+
+.sockWrong {
+  border-color: #dc2626;
+  background: rgba(254, 226, 226, 0.85);
+  animation: shake 0.4s ease-in-out;
+}
+
+.sockReveal {
+  border-color: #16a34a;
+  background: rgba(220, 252, 231, 0.9);
+  box-shadow: 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(20, 83, 74, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(20, 83, 74, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes sway {
+  0%, 100% { rotate: -3deg; }
+  50% { rotate: 3deg; }
+}
+
+@keyframes pinIn {
+  0% { transform: translateY(40px) scale(0.6); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sock,
+  .sockButton {
+    transition: none;
+  }
+
+  .hanging,
+  .pinned,
+  .sockWrong,
+  .sockReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

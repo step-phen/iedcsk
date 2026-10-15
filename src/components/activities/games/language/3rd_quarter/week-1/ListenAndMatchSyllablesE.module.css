@@ -1,0 +1,198 @@
+/* Look of Listen and Match Syllables: e; layout and spacing stay in Tailwind, the lines stay in ListenAndMatchSyllablesE.data.ts. */
+
+/* A cozy post office: lilac striped wallpaper over a wooden counter. */
+.screen {
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 28px, transparent 28px 56px),
+    linear-gradient(180deg, #cdb8f0 0%, #dccbf6 100%);
+  color: #3d2c5c;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.counter {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 26px, rgba(90, 52, 24, 0.18) 26px 28px),
+    linear-gradient(180deg, #c98a52 0%, #a8693a 100%);
+  border-top: 10px solid #8a5228;
+  box-shadow: 0 -4px 0 rgba(61, 44, 92, 0.15);
+}
+
+.badge {
+  border: 3px solid #3d2c5c;
+  background: white;
+  box-shadow: 0 3px 0 rgba(61, 44, 92, 0.25);
+}
+
+.avatar {
+  background: #f3e8ff;
+  color: #6b3fa0;
+}
+
+.title {
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(61, 44, 92, 0.2);
+}
+
+.instruction {
+  background: #fffaf0;
+  border: 3px solid #3d2c5c;
+  box-shadow: 0 3px 0 rgba(61, 44, 92, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #3d2c5c;
+  background: #ff7eb6;
+  color: #3d2c5c;
+  box-shadow: 0 3px 0 rgba(61, 44, 92, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A round-topped red mailbox standing on its post. */
+.mailbox {
+  width: clamp(90px, 18vw, 150px);
+  height: clamp(80px, 16vh, 140px);
+  background: linear-gradient(90deg, #e63946 0%, #ff5a67 45%, #d62839 100%);
+  border: 4px solid #3d2c5c;
+  border-radius: 50% 50% 12px 12px / 40% 40% 12px 12px;
+  box-shadow: 0 6px 0 rgba(61, 44, 92, 0.25);
+}
+
+.slot {
+  background: #3d2c5c;
+}
+
+.flag {
+  background: #ffd23f;
+  border: 3px solid #3d2c5c;
+  border-radius: 3px;
+  transform-origin: 50% 100%;
+}
+
+.mailboxGulp {
+  animation: gulp 0.5s ease-out 0.7s;
+}
+
+.mailboxGulp .flag {
+  animation: flagUp 0.5s ease-out 0.8s forwards;
+}
+
+.pile {
+  --e: clamp(110px, min(calc((100vw - 80px) / 3.2), 34dvh), 230px);
+}
+
+.envelope {
+  width: var(--e);
+  height: calc(var(--e) * 0.69);
+  touch-action: manipulation;
+  rotate: var(--tilt, 0deg);
+  transition: opacity 250ms ease-out;
+}
+
+.envelope:focus-visible {
+  outline: 4px solid #ff7eb6;
+  outline-offset: 4px;
+}
+
+.syllable {
+  font-size: calc(var(--e) * 0.3);
+  color: #3d2c5c;
+}
+
+/* Today's vowel is always pink, so the child sees every syllable ends in e. */
+.vowel {
+  color: #e0559a;
+}
+
+/* The right envelope lifts up and slides into the mailbox slot above. */
+.envelopeSend {
+  animation: send 1s cubic-bezier(0.5, 0, 0.75, 0) forwards;
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.envelopeWrong {
+  animation: wiggle 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right envelope after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.envelopeReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  background: rgba(220, 252, 231, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #e63946;
+  color: white;
+  border: 4px solid #3d2c5c;
+  box-shadow: 0 5px 0 rgba(61, 44, 92, 0.3);
+}
+
+@keyframes gulp {
+  0%, 100% { scale: 1 1; }
+  40% { scale: 1.08 0.92; }
+}
+
+@keyframes flagUp {
+  to { rotate: -90deg; }
+}
+
+@keyframes send {
+  0% { translate: 0 0; scale: 1; }
+  25% { translate: 0 8%; }
+  100% { translate: 0 -160%; scale: 0.35; opacity: 0; }
+}
+
+@keyframes wiggle {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .envelopeSend {
+    animation-duration: 0.01s;
+  }
+}
+
+/* Phones held sideways: a smaller mailbox so the envelopes keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .mailbox {
+    width: 70px;
+    height: 56px;
+  }
+
+  .pile {
+    --e: clamp(80px, 38dvh, 150px);
+  }
+}

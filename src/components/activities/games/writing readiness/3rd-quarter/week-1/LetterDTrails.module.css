@@ -1,0 +1,165 @@
+/* Look of Letter D Trails: a sunny desert dig site with a stone tablet to trace on; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #9ad8f0 0%, #cdeaf2 45%, #f3dfae 100%);
+  color: #4a3826;
+}
+
+.dunes {
+  background:
+    radial-gradient(90% 100% at 15% 100%, #e7c27c 0 58%, transparent 59%),
+    radial-gradient(80% 90% at 80% 100%, #dcb36a 0 58%, transparent 59%);
+}
+
+.badge {
+  background: #fffaf0;
+  border: 3px solid #7d6a52;
+  box-shadow: 0 3px 0 rgba(92, 68, 40, 0.25);
+}
+
+.avatar {
+  background: #f3e4c4;
+}
+
+.title {
+  color: #5c4428;
+  text-shadow: 0 2px 0 #fff8e8, 0 4px 0 rgba(125, 106, 82, 0.35);
+}
+
+.instruction {
+  background: #fffaf0;
+  border: 3px solid #7d6a52;
+  color: #4a3826;
+}
+
+.iconButton {
+  background: #2457a6;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(20, 50, 100, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A smooth pale stone slab with uneven corners; scale (not transform) so the shake and the zoom never fight. */
+.stone {
+  background: radial-gradient(ellipse at 35% 25%, #fbf8f2 0%, #efe8dc 70%, #e4dacb 100%);
+  border: 7px solid #8f7c63;
+  box-shadow: inset 0 -8px 0 rgba(125, 106, 82, 0.15), 0 8px 0 rgba(92, 68, 40, 0.35);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.stoneWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.stoneModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.25), 0 0 32px 8px rgba(34, 179, 94, 0.45);
+}
+
+.stoneZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.stoneRight {
+  border-color: #2457a6;
+  animation: thud 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* The dig pit: open air above, a sand mound hiding the picture below. */
+.dig {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%);
+  border-bottom: 6px solid #b08a4e;
+}
+
+.find {
+  translate: 0 75%;
+  transition: translate 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.findUp {
+  translate: 0 0;
+  animation: wiggle 0.6s ease-in-out 0.5s;
+}
+
+.mound {
+  background: radial-gradient(120% 100% at 50% 100%, #e2b867 0 55%, #d3a554 56% 70%, transparent 71%);
+  transition: translate 700ms ease-out;
+}
+
+.moundDug {
+  translate: 0 45%;
+}
+
+.word {
+  background: #fffaf0;
+  border: 3px solid #2457a6;
+  color: #4a3826;
+}
+
+.wordD {
+  color: #2457a6;
+}
+
+.resultStamp {
+  background: #2457a6;
+  color: white;
+  border: 4px solid white;
+  box-shadow: 0 5px 0 rgba(20, 50, 100, 0.4);
+  rotate: -2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes thud {
+  0%, 100% { scale: 1; }
+  30% { scale: 0.97; }
+  60% { scale: 1.03; }
+}
+
+@keyframes wiggle {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: -10deg; }
+  75% { rotate: 10deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stoneWrong,
+  .stoneRight,
+  .findUp {
+    animation: none;
+  }
+}

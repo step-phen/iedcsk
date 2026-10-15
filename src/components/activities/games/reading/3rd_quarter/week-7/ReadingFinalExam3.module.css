@@ -1,0 +1,252 @@
+/* Look of Reading Final Exam (Lantern Night); layout and spacing stay in Tailwind, the pictures and task wording stay in readingReview3.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #1c2457 0%, #3b2d6e 55%, #6b3d78 100%);
+  color: #fff3dc;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.stars {
+  background:
+    radial-gradient(circle, #fff7d1 1.5px, transparent 2.5px) 0 0 / 90px 70px,
+    radial-gradient(circle, rgba(255, 247, 209, 0.6) 1px, transparent 2px) 40px 30px / 130px 90px;
+  mask-image: linear-gradient(180deg, black, transparent 75%);
+}
+
+.moon {
+  background: radial-gradient(circle at 35% 40%, #fffbe6, #ffe8a3 70%);
+  box-shadow: 0 0 40px 12px rgba(255, 232, 163, 0.35);
+}
+
+/* Row of dark house roofs along the bottom. */
+.rooftops {
+  background:
+    linear-gradient(135deg, transparent 50%, #241a45 50%) 0 0 / 60px 40px repeat-x,
+    linear-gradient(225deg, transparent 50%, #241a45 50%) 0 0 / 60px 40px repeat-x,
+    linear-gradient(#241a45, #241a45) 0 40px / 100% 100% no-repeat;
+}
+
+.badge {
+  border: 3px solid #1c2457;
+  background: #fff3dc;
+  color: #1c2457;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #ffe2a8;
+  color: #6b3d78;
+}
+
+.title {
+  color: #ffd27a;
+  text-shadow: 0 3px 0 #1c2457, 0 0 16px rgba(255, 190, 90, 0.45);
+}
+
+.pill {
+  background: #fff3dc;
+  color: #1c2457;
+  border: 3px solid #ff9f43;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.iconButton {
+  border: 3px solid #1c2457;
+  background: #fff3dc;
+  color: #1c2457;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Big glowing lantern-red result sign. */
+.sign {
+  background: #e8483f;
+  color: #fff3dc;
+  border: 4px solid #1c2457;
+  box-shadow: 0 0 24px 8px rgba(255, 120, 70, 0.45);
+  text-shadow: 0 2px 0 rgba(90, 10, 10, 0.45);
+}
+
+/* Drooping string the lanterns hang from. */
+.string {
+  border-top: 3px solid #ffd27a;
+  border-radius: 50% 50% 0 0 / 14px 14px 0 0;
+}
+
+.lantern {
+  border: 2px solid #1c2457;
+  background: repeating-linear-gradient(180deg, transparent 0 4px, rgba(0, 0, 0, 0.18) 4px 5px), #6b6480;
+}
+
+.lanternLit {
+  background: repeating-linear-gradient(180deg, transparent 0 4px, rgba(120, 20, 0, 0.25) 4px 5px), #ff7a45;
+  box-shadow: 0 0 10px 4px rgba(255, 150, 70, 0.75);
+}
+
+.lanternDark {
+  background: repeating-linear-gradient(180deg, transparent 0 4px, rgba(0, 0, 0, 0.25) 4px 5px), #4a4560;
+}
+
+.lanternTodo {
+  opacity: 0.3;
+}
+
+.lanternNew {
+  animation: swing 0.8s ease-out;
+  transform-origin: 50% 0;
+}
+
+/* Paper lantern window that holds the picture, word or speaker. */
+.target {
+  background: #fff3dc;
+  color: #1c2457;
+  border: 4px solid #1c2457;
+  box-shadow: 0 0 0 6px #ff9f43, 0 0 30px 10px rgba(255, 159, 67, 0.35);
+  animation: glowIn 0.5s ease-out;
+}
+
+.speaker {
+  background: #ff7a45;
+  color: #ffffff;
+  border: 4px solid #1c2457;
+  cursor: pointer;
+}
+
+.speaker:disabled {
+  cursor: default;
+}
+
+.speakerOn {
+  animation: flicker 0.8s ease-in-out infinite;
+}
+
+.tile {
+  background: #ffffff;
+  border: 3px solid #1c2457;
+  color: #1c2457;
+}
+
+.tileBlank {
+  background: #ffe8c2;
+  border-style: dashed;
+}
+
+.tileFilled {
+  background: #dcfce7;
+  border-color: #16a34a;
+  color: #166534;
+  animation: glowIn 0.45s ease-out;
+}
+
+.card {
+  background: #fff3dc;
+  border: 4px solid #1c2457;
+  color: #1c2457;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.4);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: transform 150ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.card:disabled {
+  cursor: default;
+}
+
+.card:not(:disabled):active {
+  transform: translateY(3px);
+}
+
+.cardWon {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 34px 14px rgba(255, 210, 63, 0.85);
+  animation: swing 0.7s ease-out;
+}
+
+.cardWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: shake 0.4s ease-in-out;
+}
+
+.cardReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.75);
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes swing {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-8deg); }
+  65% { transform: rotate(5deg); }
+}
+
+@keyframes glowIn {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes flicker {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 122, 69, 0.6); }
+  50% { box-shadow: 0 0 22px 8px rgba(255, 122, 69, 0.75); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lanternNew,
+  .target,
+  .speakerOn,
+  .tileFilled,
+  .cardWon,
+  .cardWrong,
+  .cardReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}
