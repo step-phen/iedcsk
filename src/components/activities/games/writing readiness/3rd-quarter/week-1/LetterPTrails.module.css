@@ -1,0 +1,155 @@
+/* Look of Letter P Trails: a painter's studio with the P traced on an easel canvas; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #f3ecff 0%, #e6dbfb 70%, #d9caf5 100%);
+  color: #3b2560;
+}
+
+/* Paint splats on the studio wall. */
+.splats {
+  background:
+    radial-gradient(5% 7% at 8% 22%, #ffb3c7 0 70%, transparent 72%),
+    radial-gradient(4% 5% at 90% 30%, #9be3c9 0 70%, transparent 72%),
+    radial-gradient(6% 7% at 85% 72%, #ffd98a 0 70%, transparent 72%),
+    radial-gradient(4% 6% at 12% 70%, #a9cdfc 0 70%, transparent 72%);
+}
+
+.floor {
+  background: repeating-linear-gradient(90deg, #c9a37a 0 60px, #bd966c 60px 120px);
+  border-top: 4px solid #a8804f;
+}
+
+.badge {
+  background: #fdfbff;
+  border: 3px solid #6a4a9c;
+  box-shadow: 0 3px 0 rgba(74, 42, 110, 0.25);
+}
+
+.avatar {
+  background: #eadffc;
+}
+
+.title {
+  color: #4a2a7a;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(106, 74, 156, 0.35);
+}
+
+.instruction {
+  background: #fdfbff;
+  border: 3px solid #6a4a9c;
+  color: #3b2560;
+}
+
+.iconButton {
+  background: #e23d6d;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(140, 30, 70, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* White canvas in a wooden frame; scale (not transform) so the shake and the zoom never fight. */
+.canvas {
+  background: #fffefb;
+  border: 10px solid #a8672f;
+  box-shadow: inset 0 0 0 3px #e9d8c2, 0 8px 0 rgba(74, 42, 110, 0.3);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.canvasWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.canvasModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.25), 0 0 32px 8px rgba(34, 179, 94, 0.45);
+}
+
+.canvasZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.canvasRight {
+  animation: bump 0.5s ease-out;
+}
+
+/* Two easel legs splayed under the canvas. */
+.legs {
+  background:
+    linear-gradient(70deg, transparent 0 46%, #a8672f 46% 52%, transparent 52% 100%) left / 50% 100% no-repeat,
+    linear-gradient(-70deg, transparent 0 46%, #a8672f 46% 52%, transparent 52% 100%) right / 50% 100% no-repeat;
+}
+
+.sticker {
+  background: white;
+  border: 4px solid #6a4a9c;
+  color: #3b2560;
+  box-shadow: 0 4px 0 rgba(74, 42, 110, 0.3);
+  rotate: 8deg;
+  animation: stamp 0.55s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.wordP {
+  color: #e23d6d;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+.resultStamp {
+  background: #e23d6d;
+  color: white;
+  border: 4px solid white;
+  box-shadow: 0 5px 0 rgba(140, 30, 70, 0.4);
+  rotate: -3deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.04; }
+}
+
+@keyframes stamp {
+  0% { scale: 2.2; opacity: 0; }
+  100% { scale: 1; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .canvasWrong,
+  .canvasRight,
+  .sticker {
+    animation: none;
+  }
+}

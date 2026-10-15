@@ -1,0 +1,193 @@
+/* Look of Listen and Find: Jj, Kk; layout and spacing stay in Tailwind, the lines stay in ListenAndFindJjKk.data.ts. */
+
+/* A breezy afternoon sky over a green hill. */
+.screen {
+  background: linear-gradient(180deg, #4dabf7 0%, #91d0ff 55%, #d0ebff 100%);
+  color: #1c2a6b;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Three soft clouds that drift slowly with the wind. */
+.clouds {
+  background:
+    radial-gradient(ellipse 9% 22% at 14% 30%, rgba(255, 255, 255, 0.9) 0 96%, transparent 100%),
+    radial-gradient(ellipse 7% 18% at 19% 24%, rgba(255, 255, 255, 0.9) 0 96%, transparent 100%),
+    radial-gradient(ellipse 10% 24% at 62% 70%, rgba(255, 255, 255, 0.85) 0 96%, transparent 100%),
+    radial-gradient(ellipse 7% 18% at 67% 62%, rgba(255, 255, 255, 0.85) 0 96%, transparent 100%),
+    radial-gradient(ellipse 8% 20% at 88% 20%, rgba(255, 255, 255, 0.8) 0 96%, transparent 100%);
+  animation: drift 18s ease-in-out infinite alternate;
+}
+
+.hill {
+  background: linear-gradient(180deg, #8ce99a 0%, #51cf66 100%);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  border-top: 5px solid #40c057;
+}
+
+.badge {
+  border: 3px solid #1c2a6b;
+  background: white;
+  box-shadow: 0 3px 0 rgba(28, 42, 107, 0.25);
+}
+
+.avatar {
+  background: #fff3bf;
+  color: #8a5a00;
+}
+
+.title {
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(28, 42, 107, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.94);
+  border: 3px solid #1c2a6b;
+  box-shadow: 0 3px 0 rgba(28, 42, 107, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #1c2a6b;
+  background: #ffd43b;
+  color: #1c2a6b;
+  box-shadow: 0 3px 0 rgba(28, 42, 107, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Two rows of kites on phones, one row on tablets; each kite is 1 wide for 1.5 tall. */
+.sky {
+  --k: clamp(78px, min(calc((100vw - 90px) / 2.6), 16dvh), 150px);
+}
+
+@media (min-width: 640px) {
+  .sky {
+    --k: clamp(90px, min(calc((100vw - 200px) / 4.4), 30dvh), 190px);
+  }
+}
+
+.kite {
+  width: var(--k);
+  height: calc(var(--k) * 1.5);
+  touch-action: manipulation;
+  transform-origin: 50% 70%;
+  animation: flutter 2.8s ease-in-out var(--idle-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.kite:focus-visible {
+  outline: 4px solid #ffd43b;
+  outline-offset: 4px;
+}
+
+.letter {
+  font-size: calc(var(--k) * 0.42);
+  color: white;
+  -webkit-text-stroke: 2px #1c2a6b;
+  paint-order: stroke fill;
+}
+
+/* The right kite catches the wind and soars away. */
+.kiteSoar {
+  z-index: 2;
+  animation: soar 1.3s cubic-bezier(0.5, 0, 0.75, 0) forwards;
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.kiteWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right kite after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.kiteReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  background: rgba(220, 252, 231, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.sign {
+  background: linear-gradient(180deg, #e8b57a 0%, #c98a4b 100%);
+  border: 4px solid #6e3f1c;
+  box-shadow: 0 4px 0 rgba(110, 63, 28, 0.35);
+  color: #fff8e6;
+  font-size: clamp(28px, 5.5vh, 50px);
+  -webkit-text-stroke: 1.5px #6e3f1c;
+  paint-order: stroke fill;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #845ef7;
+  color: white;
+  border: 4px solid #1c2a6b;
+  box-shadow: 0 5px 0 rgba(28, 42, 107, 0.3);
+}
+
+@keyframes drift {
+  from { translate: -3% 0; }
+  to { translate: 3% 0; }
+}
+
+@keyframes flutter {
+  0%, 100% { rotate: -6deg; translate: 0 0; }
+  50% { rotate: 6deg; translate: 0 -4%; }
+}
+
+@keyframes soar {
+  0% { translate: 0 0; rotate: 0deg; }
+  20% { translate: 0 6%; }
+  100% { translate: 30% -140vh; rotate: 20deg; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clouds,
+  .kite {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: one row of smaller kites so the header keeps its room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .sky {
+    --k: clamp(56px, 26dvh, 110px);
+  }
+
+  .sign {
+    font-size: 24px;
+  }
+}

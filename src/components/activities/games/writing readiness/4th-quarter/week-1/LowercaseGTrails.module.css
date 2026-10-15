@@ -1,0 +1,164 @@
+/* Look of Letter g Trails: a candy shop with a gumball machine; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #ffe3ef 0%, #ffd0e3 60%, #ffbcd6 100%);
+  color: #5a1636;
+}
+
+/* Candy-stripe wallpaper. */
+.candy {
+  background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0 22px, transparent 22px 44px);
+}
+
+.badge {
+  background: #fff7fb;
+  border: 3px solid #b8336a;
+  box-shadow: 0 3px 0 rgba(122, 24, 60, 0.25);
+}
+
+.avatar {
+  background: #ffd9e8;
+}
+
+.title {
+  color: #8f1f4f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(184, 51, 106, 0.35);
+}
+
+.instruction {
+  background: #fff7fb;
+  border: 3px solid #b8336a;
+  color: #5a1636;
+}
+
+.iconButton {
+  background: #6b2fb8;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(60, 20, 110, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A clear glass panel in a candy-red frame; scale (not transform) so the shake and the zoom never fight. */
+.glass {
+  background: linear-gradient(160deg, #ffffff 0%, #fdf5f9 60%, #f8e9f1 100%);
+  border: 8px solid #e23a66;
+  box-shadow: inset 6px 6px 0 rgba(255, 255, 255, 0.9), 0 8px 0 rgba(122, 24, 60, 0.3);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.glassWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.glassModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.25), 0 0 32px 8px rgba(34, 179, 94, 0.45);
+}
+
+.glassZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.glassRight {
+  border-color: #6b2fb8;
+  animation: bump 0.5s ease-out;
+}
+
+/* The machine: a glass globe of tiny gumballs on a red stand. */
+.globe {
+  background:
+    radial-gradient(circle at 30% 40%, #ff6b8b 0 7%, transparent 7.5%),
+    radial-gradient(circle at 55% 30%, #ffd166 0 7%, transparent 7.5%),
+    radial-gradient(circle at 70% 55%, #6bd4ff 0 7%, transparent 7.5%),
+    radial-gradient(circle at 40% 65%, #8be28b 0 7%, transparent 7.5%),
+    radial-gradient(circle at 62% 75%, #c79bff 0 7%, transparent 7.5%),
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.95) 0 9%, transparent 10%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(240, 220, 235, 0.9) 100%);
+  border: 6px solid #e23a66;
+}
+
+.base {
+  background: linear-gradient(180deg, #e23a66 0%, #b8264f 100%);
+  margin-top: -6px;
+  box-shadow: 0 5px 0 rgba(122, 24, 60, 0.3);
+}
+
+.gumball {
+  translate: -50% 0;
+  background: radial-gradient(circle at 32% 28%, #fff6c2 0 12%, #ffd23f 13% 100%);
+  border: 4px solid white;
+  box-shadow: 0 5px 0 rgba(122, 24, 60, 0.3);
+  animation: rollOut 0.8s cubic-bezier(0.2, 1.3, 0.4, 1);
+}
+
+.word {
+  background: #fff7fb;
+  border: 3px solid #6b2fb8;
+  color: #5a1636;
+}
+
+.wordG {
+  color: #6b2fb8;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+.resultStamp {
+  background: #6b2fb8;
+  color: white;
+  border: 4px solid white;
+  box-shadow: 0 5px 0 rgba(60, 20, 110, 0.4);
+  rotate: -3deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.04; }
+}
+
+@keyframes rollOut {
+  0% { translate: -50% -140%; rotate: -200deg; scale: 0.4; }
+  100% { translate: -50% 0; rotate: 0deg; scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glassWrong,
+  .glassRight,
+  .gumball {
+    animation: none;
+  }
+}

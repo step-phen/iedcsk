@@ -124,6 +124,24 @@ export const GAME_INTRO_LINES = {
     "Let's review everything on the chalkboard! Tap the right picture, trace the lines, and copy the shapes. Every right answer earns a chalk star.",
   "writing readiness final assessment":
     "It's time for your writing final! Tap, trace, and copy all by yourself. Every right answer stamps your writing passport.",
+  "meet the capital letters":
+    "Look up in the sky! A little plane writes capital letters with its smoke. Watch each line and curve, then tap the letter it made.",
+  "letter t trails":
+    "Let's meet capital T! Watch the pencil, then trace each T to uncover a hidden picture.",
+  "letter l trails":
+    "Let's visit the lily pond! Watch the pencil, then trace each capital L so a friend can hop onto a lily pad.",
+  "letter d trails":
+    "Let's dig in the sand! Watch the pencil, then trace each capital D to dig up a hidden picture.",
+  "letter o trails":
+    "Let's dive under the sea! Watch the pencil, then trace each capital O around the porthole to see who swims in.",
+  "letter p trails":
+    "Let's paint in the art studio! Watch the pencil, then trace each capital P on the canvas to earn a sticker.",
+  "small letter g trails":
+    "Let's visit the candy shop! Watch the pencil, then trace each small g to get a gumball from the machine.",
+  "small letter p trails":
+    "Let's go to the movies! Watch the pencil, then trace each small p on the big screen to print a ticket.",
+  "small letter j trails":
+    "Let's swing into the jungle! Watch the pencil, then trace each small j, and don't forget the dot!",
   "count the objects":
     "Let's count! Tap each picture to count it into the jar, one by one. Then tap the number that shows how many.",
   "match number to objects":
@@ -274,6 +292,30 @@ export const GAME_INTRO_LINES = {
     "Welcome to the butterfly garden! Listen to the letter name, then tap the butterfly with that letter.",
   "listen and find: dd, ff":
     "It's night time! Listen to the letter name, then catch the firefly with that letter.",
+  "listen and find: gg, hh":
+    "Welcome to the candy shop! Listen to the letter name, then tap the gumball with that letter.",
+  "listen and find: jj, kk":
+    "It's a windy day! Listen to the letter name, then tap the kite with that letter.",
+  "listen and find: ll, mm":
+    "Welcome to the bakery! Listen to the letter name, then tap the cupcake with that letter.",
+  "listen and find: nn, pp":
+    "Welcome to the art room! Listen to the letter name, then tap the paint pot with that letter.",
+  "listen and find: qq, rr":
+    "Welcome to the robot workshop! Listen to the letter name, then tap the robot with that letter.",
+  "listen and find: ss, tt":
+    "All aboard! Listen to the letter name, then tap the train car with that letter.",
+  "listen and match syllables: a":
+    "Welcome to the apple tree! Listen to the sound, then pick the apple that says it.",
+  "listen and match syllables: o":
+    "Welcome to the harbor! Listen to the sound, then tap the boat that says it.",
+  "listen and match syllables: e":
+    "Welcome to the post office! Listen to the sound, then mail the envelope that says it.",
+  "middle sound finder":
+    "The caterpillar lost its middle! Listen to the word, then tap the leaf with the middle sound.",
+  "describe the object":
+    "Welcome to show and tell! Look at the object, listen to each sentence, then tap the one that tells about it.",
+  "family and pet match":
+    "Welcome to our living room! Listen to who is described, then tap that picture on the wall.",
   "consonant bb":
     "Let's go to Bubble Bay! Listen to the picture names, then pop the bubble that begins with B.",
   "consonant cc":
@@ -308,6 +350,12 @@ export const GAME_INTRO_LINES = {
     "Here comes the van parade! Listen to the picture names, then tap the van that begins with V.",
   "consonant ww":
     "Let's visit the wishing wells! Listen to the picture names, then tap the well that begins with W.",
+  "consonant xx":
+    "Let's open the toy boxes! Listen to the picture names, then tap the toy whose name ends with X.",
+  "consonant yy":
+    "Welcome to the yo-yo show! Listen to the picture names, then tap the yo-yo that begins with Y.",
+  "consonant zz":
+    "Let's unzip the zebra bags! Listen to the picture names, then tap the bag that begins with Z.",
   "consonant sound review 1":
     "All aboard the letter train! Listen to each picture name, then tap the letter it begins with.",
   "consonant pp":
@@ -328,6 +376,12 @@ export const GAME_INTRO_LINES = {
     "Let's help the caterpillar grow! Listen to each question, then tap the right card. Every answer adds a new part to the caterpillar.",
   "reading final exam 2":
     "It's time for your reading final! Listen carefully and tap the right cookie. Every right answer lights a candle on the cake.",
+  "cvc picture hunt":
+    "Let's go on a jungle hunt! Read the word on the sign, then find its picture hiding in the bushes.",
+  "reading review 3":
+    "Let's dive down to the coral reef! Listen to each task, then tap your answer to find a pearl.",
+  "reading final exam 3":
+    "Let's light up the lanterns! Listen carefully to each task, then tap your answer.",
   "blend and match: short a":
     "Let's play with fridge magnets! Listen to each sound, blend them into a word, then drag the word to its picture.",
   "blend and match: short e":
@@ -344,4 +398,16 @@ export const GAME_INTRO_LINES = {
     "Ahoy, little pirate! Read the word on the treasure map, then tap the treasure that matches it.",
   "word sound detective":
     "Let's be word detectives! Listen to the word, then find its first or last sound.",
+  "blend and match: short o":
+    "All aboard the sound train! Listen to each sound, blend them into a word, then tap the ticket that matches.",
+  "blend and match: short u":
+    "Let's fly to the stars! Listen to each sound, blend them into a word, then tap the planet that matches.",
+  "read and match":
+    "You've got mail! Read the words on each letter, then tap the postcard that shows it.",
+  "story picture match":
+    "Let's read a comic story about Dan! Read each part, then tap the picture that shows what happens.",
+  "rhyme partners":
+    "It's laundry day! Listen to the words, then find the sock that rhymes to make a pair.",
+  "book parts hunt":
+    "Welcome to the class library! Listen, then tap the front cover, the title, or the pages of each book.",
 } as const;

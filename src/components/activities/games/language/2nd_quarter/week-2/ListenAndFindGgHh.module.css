@@ -1,0 +1,206 @@
+/* Look of Listen and Find: Gg, Hh; layout and spacing stay in Tailwind, the lines stay in ListenAndFindGgHh.data.ts. */
+
+/* A candy shop: bubblegum-pink wall with soft candy stripes. */
+.screen {
+  background:
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0 22px, transparent 22px 44px),
+    linear-gradient(180deg, #ffc2dd 0%, #ffd9e8 100%);
+  color: #5a183c;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.counter {
+  background: linear-gradient(180deg, #a5d8ff 0%, #74c0fc 100%);
+  border-top: 8px solid #4dabf7;
+}
+
+.badge {
+  border: 3px solid #5a183c;
+  background: white;
+  box-shadow: 0 3px 0 rgba(90, 24, 60, 0.25);
+}
+
+.avatar {
+  background: #ffe066;
+  color: #8a4b00;
+}
+
+.title {
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(90, 24, 60, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.94);
+  border: 3px solid #5a183c;
+  box-shadow: 0 3px 0 rgba(90, 24, 60, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #5a183c;
+  background: #ffe066;
+  color: #5a183c;
+  box-shadow: 0 3px 0 rgba(90, 24, 60, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* One size knob for the whole machine. */
+.machine {
+  --g: clamp(220px, min(78vw, 46dvh), 420px);
+}
+
+.cap {
+  width: calc(var(--g) * 0.22);
+  height: calc(var(--g) * 0.08);
+  margin-bottom: calc(var(--g) * -0.02);
+  background: #e03131;
+  border: 4px solid #5a183c;
+}
+
+.globe {
+  width: var(--g);
+  height: var(--g);
+  padding: calc(var(--g) * 0.1);
+  gap: calc(var(--g) * 0.02);
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85) 0 7%, rgba(255, 255, 255, 0.35) 8% 22%, rgba(220, 240, 255, 0.45) 23% 100%);
+  border: 5px solid #5a183c;
+  box-shadow: inset 0 -12px 0 rgba(90, 24, 60, 0.08);
+}
+
+.gumball {
+  width: calc(var(--g) * 0.36);
+  height: calc(var(--g) * 0.36);
+  background: radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.75) 0 10%, transparent 11%), var(--ball);
+  border: 4px solid #5a183c;
+  box-shadow: inset -6px -8px 0 rgba(0, 0, 0, 0.12);
+  touch-action: manipulation;
+  animation: jiggle 3s ease-in-out var(--idle-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.gumball:focus-visible {
+  outline: 4px solid #e03131;
+  outline-offset: 4px;
+}
+
+.letter {
+  font-size: calc(var(--g) * 0.2);
+  color: white;
+  -webkit-text-stroke: 2px #5a183c;
+  paint-order: stroke fill;
+}
+
+/* The right gumball drops through the globe and out of the chute. */
+.gumballOut {
+  z-index: 2;
+  animation: dropOut 1.1s cubic-bezier(0.55, 0, 0.85, 0.35) forwards;
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.gumballWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right gumball after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.gumballReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.stand {
+  width: calc(var(--g) * 0.62);
+  height: calc(var(--g) * 0.36);
+  margin-top: calc(var(--g) * -0.04);
+  background: linear-gradient(90deg, #e03131 0%, #ff6b6b 45%, #c92a2a 100%);
+  border: 5px solid #5a183c;
+}
+
+.standClunk {
+  animation: clunk 0.35s ease-out 0.5s;
+}
+
+.sign {
+  background: #fff9db;
+  border: 3px solid #5a183c;
+  font-size: calc(var(--g) * 0.09);
+  color: #c2255c;
+}
+
+.chute {
+  width: 34%;
+  height: 22%;
+  background: #5a183c;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #ff5d8f;
+  color: white;
+  border: 4px solid #5a183c;
+  box-shadow: 0 5px 0 rgba(90, 24, 60, 0.3);
+}
+
+@keyframes jiggle {
+  0%, 100% { rotate: -5deg; }
+  50% { rotate: 5deg; }
+}
+
+@keyframes dropOut {
+  0% { translate: 0 0; scale: 1; }
+  20% { translate: 0 -8%; }
+  100% { translate: 0 170%; scale: 0.6; opacity: 0; }
+}
+
+@keyframes clunk {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 4px; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gumball {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller machine so the header keeps its room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .machine {
+    --g: clamp(150px, 48dvh, 240px);
+  }
+}

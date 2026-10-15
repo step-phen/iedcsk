@@ -1,0 +1,280 @@
+/* Look of Reading Review (Coral Reef); layout and spacing stay in Tailwind, the pictures and task wording stay in readingReview3.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #6fd3e8 0%, #2fa3c7 50%, #1b6f9e 100%);
+  color: #0b3550;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Sunlight slanting down through the water. */
+.rays {
+  background: repeating-linear-gradient(105deg, rgba(255, 255, 255, 0.13) 0 40px, transparent 40px 110px);
+  mask-image: linear-gradient(180deg, black, transparent 70%);
+}
+
+.bubble {
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8) 0 18%, rgba(255, 255, 255, 0.1) 20%);
+  animation: rise 6s ease-in infinite;
+}
+
+/* Branching coral drawn from rounded stalks. */
+.coral {
+  --c: #ff8a5c;
+  background:
+    linear-gradient(var(--c), var(--c)) 45% 100% / 22% 100% no-repeat,
+    linear-gradient(var(--c), var(--c)) 10% 40% / 20% 45% no-repeat,
+    linear-gradient(var(--c), var(--c)) 85% 30% / 20% 50% no-repeat,
+    linear-gradient(var(--c), var(--c)) 20% 62% / 60% 12% no-repeat;
+  border-radius: 40% 40% 0 0;
+}
+
+.coralPink {
+  --c: #f06292;
+}
+
+.sand {
+  background:
+    radial-gradient(circle, rgba(160, 120, 60, 0.35) 2px, transparent 3px) 0 0 / 22px 16px,
+    #f2d79b;
+  border-top: 5px solid #d9b56b;
+  border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+}
+
+.badge {
+  border: 3px solid #0b3550;
+  background: #f0fbff;
+  box-shadow: 0 3px 0 rgba(11, 53, 80, 0.3);
+}
+
+.avatar {
+  background: #d6f3fb;
+  color: #1b6f9e;
+}
+
+.title {
+  color: #ffffff;
+  text-shadow: 0 3px 0 #0b3550;
+}
+
+.pill {
+  background: #f0fbff;
+  border: 3px solid #ffb38a;
+  box-shadow: 0 3px 0 rgba(11, 53, 80, 0.25);
+}
+
+.iconButton {
+  border: 3px solid #0b3550;
+  background: #f0fbff;
+  color: #0b3550;
+  box-shadow: 0 3px 0 rgba(11, 53, 80, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Starfish-orange result sign. */
+.sign {
+  background: #ff8a5c;
+  color: #ffffff;
+  border: 4px solid #0b3550;
+  text-shadow: 0 2px 0 rgba(120, 40, 10, 0.4);
+}
+
+.clam {
+  border: 3px solid #0b3550;
+  border-radius: 50% 50% 14% 14% / 70% 70% 30% 30%;
+  background: repeating-linear-gradient(90deg, #f6c6d8 0 4px, #eaa7c0 4px 6px);
+}
+
+.clamPearl::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 45%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffffff, #dfe7f1 70%);
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.9);
+}
+
+.clamShut {
+  background: repeating-linear-gradient(90deg, #a98395 0 4px, #8f6b7c 4px 6px);
+  height: 55%;
+}
+
+.clamTodo {
+  opacity: 0.35;
+}
+
+.clamNew {
+  animation: pop 0.45s ease-out;
+}
+
+/* Bubble window that holds the picture, word or speaker. */
+.target {
+  background: rgba(240, 251, 255, 0.95);
+  border: 4px solid #0b3550;
+  box-shadow: inset 0 -8px 0 rgba(47, 163, 199, 0.18), 0 6px 0 rgba(11, 53, 80, 0.3);
+  animation: floatIn 0.45s ease-out;
+}
+
+.speaker {
+  background: #2fa3c7;
+  color: #ffffff;
+  border: 4px solid #0b3550;
+  cursor: pointer;
+  transition: transform 150ms ease-out;
+}
+
+.speaker:disabled {
+  cursor: default;
+}
+
+.speakerOn {
+  animation: pulse 0.9s ease-in-out infinite;
+}
+
+.tile {
+  background: #fff4e8;
+  border: 3px solid #0b3550;
+  color: #0b3550;
+}
+
+.tileBlank {
+  background: rgba(255, 255, 255, 0.4);
+  border-style: dashed;
+}
+
+.tileFilled {
+  background: #dcfce7;
+  border-color: #16a34a;
+  color: #166534;
+  animation: pop 0.45s ease-out;
+}
+
+.card {
+  background: #fff4e8;
+  border: 4px solid #0b3550;
+  color: #0b3550;
+  box-shadow: 0 6px 0 rgba(11, 53, 80, 0.35);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: transform 150ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.card:disabled {
+  cursor: default;
+}
+
+.card:not(:disabled):active {
+  transform: translateY(3px);
+}
+
+.cardWon {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #ffd23f, 0 0 32px 12px rgba(255, 210, 63, 0.9);
+  animation: bob 0.7s ease-out;
+}
+
+.cardWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: shake 0.4s ease-in-out;
+}
+
+.cardReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.7);
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(11, 53, 80, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(11, 53, 80, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes rise {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateY(-60vh); opacity: 0; }
+}
+
+@keyframes floatIn {
+  0% { transform: translateY(14px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes pop {
+  0% { transform: scale(0.5); }
+  70% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-14%); }
+  70% { transform: translateY(3%); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble,
+  .clamNew,
+  .target,
+  .speakerOn,
+  .tileFilled,
+  .cardWon,
+  .cardWrong,
+  .cardReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

@@ -1,0 +1,194 @@
+/* Look of Listen and Find: Nn, Pp; layout and spacing stay in Tailwind, the lines stay in ListenAndFindNnPp.data.ts. */
+
+/* An art room: bright white wall over a wooden floor. */
+.screen {
+  background: linear-gradient(180deg, #f8f9fa 0%, #f1f3f5 100%);
+  color: #343a40;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Old paint drops left on the wall from earlier lessons. */
+.splatters {
+  background:
+    radial-gradient(circle at 8% 22%, rgba(255, 107, 107, 0.35) 0 2.2%, transparent 2.4%),
+    radial-gradient(circle at 12% 28%, rgba(255, 107, 107, 0.3) 0 1%, transparent 1.2%),
+    radial-gradient(circle at 90% 30%, rgba(77, 171, 247, 0.35) 0 2.6%, transparent 2.8%),
+    radial-gradient(circle at 86% 36%, rgba(77, 171, 247, 0.3) 0 1.1%, transparent 1.3%),
+    radial-gradient(circle at 18% 70%, rgba(255, 212, 59, 0.45) 0 2%, transparent 2.2%),
+    radial-gradient(circle at 80% 68%, rgba(151, 117, 250, 0.35) 0 2.4%, transparent 2.6%);
+}
+
+.floor {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 70px, rgba(110, 63, 28, 0.25) 70px 73px),
+    linear-gradient(180deg, #e3b98a 0%, #c99560 100%);
+  border-top: 6px solid #a0623a;
+}
+
+.badge {
+  border: 3px solid #343a40;
+  background: white;
+  box-shadow: 0 3px 0 rgba(52, 58, 64, 0.25);
+}
+
+.avatar {
+  background: #ffec99;
+  color: #8a5a00;
+}
+
+.title {
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(52, 58, 64, 0.15);
+}
+
+.instruction {
+  background: white;
+  border: 3px solid #343a40;
+  box-shadow: 0 3px 0 rgba(52, 58, 64, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #343a40;
+  background: #ffd43b;
+  color: #343a40;
+  box-shadow: 0 3px 0 rgba(52, 58, 64, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A canvas on an easel, with rainbow-painted letters. */
+.sign {
+  background: #fffdf5;
+  border: 5px solid #a0623a;
+  box-shadow: 0 6px 0 rgba(110, 63, 28, 0.3);
+  font-size: clamp(28px, 5.5vh, 50px);
+  background-clip: padding-box;
+}
+
+.sign > span:first-child {
+  color: #e03131;
+}
+
+.sign > span:last-child {
+  color: #1971c2;
+}
+
+/* Two rows of pots on phones, one row on tablets; each pot is 1 wide for 1.08 tall. */
+.row {
+  --p: clamp(84px, min(calc((100vw - 90px) / 2.6), 19dvh), 150px);
+}
+
+@media (min-width: 640px) {
+  .row {
+    --p: clamp(90px, min(calc((100vw - 200px) / 4.4), 30dvh), 190px);
+  }
+}
+
+.pot {
+  width: var(--p);
+  height: calc(var(--p) * 1.08);
+  touch-action: manipulation;
+  transition: opacity 250ms ease-out;
+}
+
+.pot:focus-visible {
+  outline: 4px solid #ffd43b;
+  outline-offset: 4px;
+}
+
+.letter {
+  font-size: calc(var(--p) * 0.3);
+  color: #343a40;
+}
+
+/* The right pot hops and its paint splashes out behind it. */
+.potRight {
+  animation: hop 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.splat {
+  z-index: -1;
+  background:
+    radial-gradient(circle at 20% 30%, var(--paint) 0 12%, transparent 13%),
+    radial-gradient(circle at 82% 26%, var(--paint) 0 10%, transparent 11%),
+    radial-gradient(circle at 78% 82%, var(--paint) 0 9%, transparent 10%),
+    radial-gradient(circle at 16% 78%, var(--paint) 0 8%, transparent 9%),
+    radial-gradient(circle, var(--paint) 0 38%, transparent 40%);
+  opacity: 0.75;
+  animation: splash 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.potWrong {
+  animation: tip 0.5s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right pot after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.potReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  background: rgba(220, 252, 231, 0.6);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #9775fa;
+  color: white;
+  border: 4px solid #343a40;
+  box-shadow: 0 5px 0 rgba(52, 58, 64, 0.3);
+}
+
+@keyframes hop {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 0 -16%; }
+}
+
+@keyframes splash {
+  from { scale: 0.2; opacity: 0; }
+  to { scale: 1; opacity: 0.75; }
+}
+
+@keyframes tip {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: -10deg; }
+  50% { rotate: 8deg; }
+  75% { rotate: -4deg; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+/* Phones held sideways: one row of smaller pots so the header keeps its room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .row {
+    --p: clamp(56px, 30dvh, 120px);
+  }
+
+  .sign {
+    font-size: 24px;
+  }
+}

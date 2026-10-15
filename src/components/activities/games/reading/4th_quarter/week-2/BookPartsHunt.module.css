@@ -1,0 +1,189 @@
+/* Look of Book Parts Hunt (Class Library); layout and spacing stay in Tailwind, the books and speech stay in BookPartsHunt.data.ts. */
+
+.screen {
+  background: #f6e7cf;
+  color: #4a2c14;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Bookshelf wall: wooden boards with rows of colored spines. */
+.shelves {
+  background:
+    repeating-linear-gradient(180deg, transparent 0 96px, #9a6634 96px 110px),
+    repeating-linear-gradient(90deg, #e9a3a3 0 18px, #9cc9e8 18px 34px, #f5d27a 34px 54px, #a7d7a0 54px 70px, #c7b4e8 70px 88px, transparent 88px 100px);
+  opacity: 0.35;
+}
+
+.table {
+  background: linear-gradient(180deg, #b7793f 0 10px, #a0662f 10px);
+  box-shadow: 0 -4px 0 rgba(74, 44, 20, 0.25);
+}
+
+.badge {
+  border: 3px solid #4a2c14;
+  background: white;
+  box-shadow: 0 3px 0 rgba(74, 44, 20, 0.25);
+}
+
+.avatar {
+  background: #fdecc8;
+  color: #9a3412;
+}
+
+.title {
+  color: #4a2c14;
+  text-shadow: 0 3px 0 rgba(255, 255, 255, 0.85);
+}
+
+.pill {
+  background: #fffaf0;
+  border: 3px solid #c2853f;
+  box-shadow: 0 3px 0 rgba(74, 44, 20, 0.15);
+}
+
+.iconButton {
+  border: 3px solid #4a2c14;
+  background: white;
+  color: #4a2c14;
+  box-shadow: 0 3px 0 rgba(74, 44, 20, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #b45309;
+  color: white;
+  border: 4px solid #4a2c14;
+  box-shadow: 0 5px 0 rgba(74, 44, 20, 0.3);
+  text-shadow: 0 3px 0 #78350f;
+}
+
+.book {
+  filter: drop-shadow(0 10px 0 rgba(74, 44, 20, 0.25));
+  animation: bookIn 0.45s cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+
+.book button {
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out, outline-color 200ms ease-out;
+}
+
+.book button:disabled {
+  cursor: default;
+}
+
+/* Fore-edge of the page block, seen past the cover. */
+.pages {
+  background: repeating-linear-gradient(90deg, #fffdf6 0 5px, #e8dcc4 5px 7px);
+  border: 4px solid #4a2c14;
+}
+
+.cover {
+  background: var(--cover);
+  border: 4px solid #4a2c14;
+  box-shadow: inset -10px -10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.spine {
+  background: rgba(0, 0, 0, 0.22);
+  border-right: 3px solid rgba(0, 0, 0, 0.25);
+}
+
+.label {
+  background: #fffaf0;
+  color: #4a2c14;
+  border: 4px solid #4a2c14;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.zoneWon {
+  outline: 6px solid #facc15;
+  box-shadow: 0 0 30px 10px rgba(250, 204, 21, 0.85);
+  animation: wiggle 0.5s ease-out;
+  z-index: 2;
+}
+
+.zoneWrong {
+  outline: 6px solid #dc2626;
+  box-shadow: 0 0 22px 6px rgba(220, 38, 38, 0.55);
+  animation: shake 0.4s ease-in-out;
+}
+
+.zoneReveal {
+  outline: 6px solid #16a34a;
+  box-shadow: 0 0 30px 12px rgba(22, 163, 74, 0.65);
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(74, 44, 20, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(74, 44, 20, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes bookIn {
+  0% { transform: translateY(30px) rotate(-4deg); opacity: 0; }
+  100% { transform: translateY(0) rotate(0); opacity: 1; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-3deg); }
+  65% { transform: rotate(2deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book button {
+    transition: none;
+  }
+
+  .book,
+  .zoneWon,
+  .zoneWrong,
+  .zoneReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

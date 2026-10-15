@@ -1,0 +1,171 @@
+/* Look of Listen and Match Syllables: o; layout and spacing stay in Tailwind, the lines stay in ListenAndMatchSyllablesO.data.ts. */
+
+/* A bright harbor morning: clear sky over deep blue water. */
+.screen {
+  background: linear-gradient(180deg, #7fd3f7 0%, #b8e8fb 55%, #e3f6fd 100%);
+  color: #1d3557;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sun {
+  background: radial-gradient(circle, #fff6b0 0 45%, #ffd23f 70%);
+  box-shadow: 0 0 40px 14px rgba(255, 210, 63, 0.55);
+}
+
+.sea {
+  background: linear-gradient(180deg, #2a9fd6 0%, #1b74b3 60%, #145a8f 100%);
+}
+
+/* A scalloped wave edge that drifts sideways forever. */
+.waves {
+  background: radial-gradient(circle at 50% 100%, #2a9fd6 0 62%, transparent 64%) 0 0 / clamp(36px, 6vh, 60px) 100% repeat-x;
+  animation: drift 4s linear infinite;
+}
+
+.badge {
+  border: 3px solid #1d3557;
+  background: white;
+  box-shadow: 0 3px 0 rgba(29, 53, 87, 0.25);
+}
+
+.avatar {
+  background: #bfe9ff;
+  color: #145a8f;
+}
+
+.title {
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(29, 53, 87, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.94);
+  border: 3px solid #1d3557;
+  box-shadow: 0 3px 0 rgba(29, 53, 87, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #1d3557;
+  background: #ffd23f;
+  color: #1d3557;
+  box-shadow: 0 3px 0 rgba(29, 53, 87, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.fleet {
+  --b: clamp(90px, min(calc((100vw - 80px) / 3.3), 30dvh), 210px);
+}
+
+.boat {
+  width: var(--b);
+  height: calc(var(--b) * 1.08);
+  touch-action: manipulation;
+  transform-origin: 50% 95%;
+  animation: bob 2.6s ease-in-out var(--idle-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.boat:focus-visible {
+  outline: 4px solid #ffd23f;
+  outline-offset: 4px;
+}
+
+/* The syllable is painted on the big sail. */
+.syllable {
+  font-size: calc(var(--b) * 0.24);
+  color: #1d3557;
+}
+
+/* Today's vowel is always ocean blue, so the child sees every syllable ends in o. */
+.vowel {
+  color: #1b8ad6;
+}
+
+.boatSail {
+  animation: sailAway 1.3s cubic-bezier(0.5, 0, 0.75, 0) forwards;
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.boatWrong {
+  animation: rock 0.5s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right boat after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.boatReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  background: rgba(220, 252, 231, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #e76f51;
+  color: white;
+  border: 4px solid #1d3557;
+  box-shadow: 0 5px 0 rgba(29, 53, 87, 0.3);
+}
+
+@keyframes drift {
+  from { background-position-x: 0; }
+  to { background-position-x: clamp(36px, 6vh, 60px); }
+}
+
+@keyframes bob {
+  0%, 100% { translate: 0 0; rotate: -2deg; }
+  50% { translate: 0 -5%; rotate: 2deg; }
+}
+
+@keyframes sailAway {
+  0% { translate: 0 0; }
+  20% { translate: -4% -4%; }
+  100% { translate: 110vw -4%; }
+}
+
+@keyframes rock {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: -9deg; }
+  50% { rotate: 8deg; }
+  75% { rotate: -4deg; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waves,
+  .boat {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller boats so the header keeps its room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .fleet {
+    --b: clamp(64px, 34dvh, 130px);
+  }
+}

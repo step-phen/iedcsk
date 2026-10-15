@@ -1,0 +1,190 @@
+/* Look of Listen and Find: Qq, Rr; layout and spacing stay in Tailwind, the lines stay in ListenAndFindQqRr.data.ts. */
+
+/* A robot workshop: deep teal metal walls. */
+.screen {
+  background: linear-gradient(180deg, #0c4a5a 0%, #116173 60%, #157a8c 100%);
+  color: #e6fcf5;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Riveted wall panels drawn as a faint grid with bolt dots. */
+.panels {
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.18) 0 3px, transparent 3.5px) 10px 10px / 120px 90px,
+    linear-gradient(90deg, rgba(0, 0, 0, 0.18) 0 3px, transparent 3px) 0 0 / 120px 90px,
+    linear-gradient(0deg, rgba(0, 0, 0, 0.18) 0 3px, transparent 3px) 0 0 / 120px 90px;
+}
+
+/* The conveyor belt the robots stand on, its stripes sliding along. */
+.belt {
+  background: repeating-linear-gradient(90deg, #343a40 0 26px, #495057 26px 52px);
+  border-top: 8px solid #868e96;
+  animation: beltRun 1.6s linear infinite;
+}
+
+.badge {
+  border: 3px solid #082834;
+  background: white;
+  color: #082834;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.avatar {
+  background: #c3fae8;
+  color: #087f5b;
+}
+
+.title {
+  color: #ffffff;
+  text-shadow: 0 3px 0 #082834;
+}
+
+.instruction {
+  background: #e6fcf5;
+  color: #082834;
+  border: 3px solid #082834;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.iconButton {
+  border: 3px solid #082834;
+  background: #ffd43b;
+  color: #082834;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A glowing green screen for today's letters. */
+.sign {
+  background: #0b3d2e;
+  border: 5px solid #adb5bd;
+  color: #69f0ae;
+  text-shadow: 0 0 10px rgba(105, 240, 174, 0.8);
+  font-size: clamp(28px, 5.5vh, 50px);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Two rows of robots on phones, one row on tablets; each robot is 1 wide for 1.25 tall. */
+.row {
+  --r: clamp(78px, min(calc((100vw - 90px) / 2.6), 17dvh), 140px);
+}
+
+@media (min-width: 640px) {
+  .row {
+    --r: clamp(84px, min(calc((100vw - 200px) / 4.4), 26dvh), 170px);
+  }
+}
+
+.robot {
+  width: var(--r);
+  height: calc(var(--r) * 1.25);
+  touch-action: manipulation;
+  transform-origin: 50% 100%;
+  animation: idleBob 2.4s ease-in-out var(--idle-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.robot:focus-visible {
+  outline: 4px solid #ffd43b;
+  outline-offset: 4px;
+}
+
+/* The letter lights up on the robot's chest screen. */
+.letter {
+  font-size: calc(var(--r) * 0.3);
+  color: #69f0ae;
+  text-shadow: 0 0 8px rgba(105, 240, 174, 0.9);
+}
+
+.robotRight {
+  animation: dance 0.5s ease-in-out 3;
+  filter: drop-shadow(0 0 12px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.robotWrong {
+  animation: buzz 0.45s linear;
+  filter: drop-shadow(0 0 8px #ff6b6b);
+}
+
+/* The right robot after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.robotReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 26px 10px rgba(74, 222, 128, 0.6);
+  background: rgba(220, 252, 231, 0.25);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #ffd43b;
+  color: #082834;
+  border: 4px solid #082834;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
+}
+
+@keyframes beltRun {
+  from { background-position-x: 0; }
+  to { background-position-x: 52px; }
+}
+
+@keyframes idleBob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -3%; }
+}
+
+@keyframes dance {
+  0%, 100% { rotate: 0deg; translate: 0 0; }
+  25% { rotate: -8deg; translate: 0 -6%; }
+  75% { rotate: 8deg; translate: 0 -6%; }
+}
+
+@keyframes buzz {
+  0%, 100% { translate: 0 0; }
+  10%, 50%, 90% { translate: -4px 0; }
+  30%, 70% { translate: 4px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .belt,
+  .robot {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: one row of smaller robots so the header keeps its room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .row {
+    --r: clamp(52px, 26dvh, 110px);
+  }
+
+  .sign {
+    font-size: 24px;
+  }
+}

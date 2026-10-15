@@ -1,0 +1,242 @@
+/* Look of Consonant Yy (Yo-yo Show); layout and spacing stay in Tailwind, the pictures and speech stay in ConsonantYy.data.ts. */
+
+.screen {
+  background: radial-gradient(ellipse at 50% 20%, #5b3a9e 0%, #3a2370 55%, #24164a 100%);
+  color: #fff7d6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Soft yellow cone of light from the top of the stage. */
+.spotlight {
+  background: linear-gradient(180deg, rgba(255, 224, 102, 0.28), rgba(255, 224, 102, 0.06) 75%, transparent);
+  clip-path: polygon(42% 0, 58% 0, 88% 100%, 12% 100%);
+}
+
+/* Gathered red velvet curtain. */
+.curtain {
+  background: repeating-linear-gradient(90deg, #b3243c 0 14px, #8c1a2e 14px 22px, #c93a52 22px 28px);
+  border-right: 5px solid #f4c430;
+  box-shadow: 6px 0 14px rgba(0, 0, 0, 0.35);
+}
+
+.stage {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 90px, rgba(0, 0, 0, 0.18) 90px 93px),
+    linear-gradient(180deg, #d08a3e, #a5642a);
+  border-top: 6px solid #f4c430;
+}
+
+.badge {
+  border: 3px solid #24164a;
+  background: #fff7d6;
+  color: #24164a;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #ffe680;
+  color: #5b3a9e;
+}
+
+.title {
+  color: #ffe066;
+  text-shadow: 0 3px 0 #24164a, 0 0 18px rgba(255, 224, 102, 0.45);
+}
+
+.pill {
+  background: #fff7d6;
+  color: #24164a;
+  border: 3px solid #f4c430;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.iconButton {
+  border: 3px solid #24164a;
+  background: #fff7d6;
+  color: #24164a;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Theater marquee sign ringed with blinking light bulbs. */
+.marquee {
+  background-color: #f4c430;
+  background-image: radial-gradient(circle, #fffbe8 3px, transparent 4px);
+  background-size: 18px 18px;
+  background-position: -9px -9px;
+  color: #3a2370;
+  border: 4px solid #24164a;
+  box-shadow:
+    0 0 0 6px #e8a317,
+    0 0 0 10px #24164a,
+    0 0 22px 10px rgba(255, 224, 102, 0.4);
+  animation: bulbs 1.2s steps(2) infinite;
+}
+
+.bar {
+  background: linear-gradient(180deg, #e5e7eb, #9ca3af);
+  border: 3px solid #24164a;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+.yoyoButton {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.yoyoButton:disabled {
+  cursor: default;
+}
+
+.string {
+  background: #fff7d6;
+  transition: height 700ms cubic-bezier(0.34, 1.25, 0.64, 1);
+}
+
+.yoyo {
+  z-index: 1;
+  transition: top 700ms cubic-bezier(0.34, 1.25, 0.64, 1), box-shadow 200ms ease-out;
+}
+
+.tintRed {
+  background-color: #ef4444;
+}
+
+.tintBlue {
+  background-color: #3b82f6;
+}
+
+.tintGreen {
+  background-color: #22c55e;
+}
+
+/* Grooved outer disc; it spins while the picture in the hub stays upright. */
+.ring {
+  border: 4px solid #24164a;
+  background-image: repeating-conic-gradient(rgba(255, 255, 255, 0.35) 0 12deg, transparent 12deg 45deg);
+  box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.spinning {
+  animation: spin 0.9s linear infinite;
+}
+
+.hub {
+  background: #fffdf3;
+  border: 4px solid #24164a;
+  transition: background-color 200ms ease-out, border-color 200ms ease-out;
+}
+
+.yoyoNaming .yoyo {
+  box-shadow: 0 0 0 5px #ffe066, 0 0 30px 12px rgba(255, 224, 102, 0.8);
+}
+
+.yoyoWon .yoyo {
+  box-shadow: 0 0 0 5px #ffe066, 0 0 34px 14px rgba(255, 224, 102, 0.9);
+  animation: bob 0.8s ease-in-out;
+}
+
+.yoyoWon .ring {
+  animation: spin 0.8s linear;
+}
+
+.yoyoWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.yoyoWrong .hub {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.yoyoReveal {
+  z-index: 2;
+}
+
+.yoyoReveal .yoyo {
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.7);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.yoyoReveal .hub {
+  border-color: #16a34a;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes bulbs {
+  0% { background-position: -9px -9px; }
+  100% { background-position: 0 0; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  35% { transform: translateY(-38%); }
+  70% { transform: translateY(6%); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee,
+  .spinning,
+  .yoyoWon .yoyo,
+  .yoyoWon .ring,
+  .yoyoWrong,
+  .yoyoReveal .yoyo,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+
+  .string,
+  .yoyo {
+    transition: none;
+  }
+}
