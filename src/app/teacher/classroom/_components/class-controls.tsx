@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { apiFetch } from "@/lib/api";
+import { useActiveSchoolYear } from "@/hooks/useActiveSchoolYear";
 import { Play, Square, Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import MarqueeText from "@/components/ui/marquee-text";
@@ -98,6 +99,9 @@ export default function ClassControls({
   onChanged,
 }: ClassControlsProps) {
   const [isPending, startTransition] = useTransition();
+  // Classes only run in the active quarter; with none active, nothing can start (the API enforces it too).
+  const schoolYear = useActiveSchoolYear();
+  const noActiveQuarter = schoolYear !== undefined && (schoolYear?.activeQuarterNumber ?? null) === null;
   const [showModal, setShowModal] = useState(false);
   const [showEndModal, setShowEndModal] = useState(false);
   const [showConfirmStart, setShowConfirmStart] = useState(false);
@@ -177,9 +181,16 @@ export default function ClassControls({
       ) : (
         <StartClassButton
           onClick={() => setShowModal(true)}
-          disabled={isPending || dayEnded || !attendanceTaken}
+          disabled={isPending || dayEnded || !attendanceTaken || noActiveQuarter}
           isPending={isPending}
           dayEnded={dayEnded}
+          reason={
+            dayEnded
+              ? "Only one class session per day. Start a new class tomorrow."
+              : noActiveQuarter
+                ? "No quarter is active. Activate a quarter to start classes."
+                : undefined
+          }
         />
       )}
 

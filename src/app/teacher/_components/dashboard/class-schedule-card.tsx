@@ -40,7 +40,7 @@ export default function ClassScheduleCard({
           timetable never shows under the new one. */}
       <div className="h-[17.5rem] overflow-y-auto group-has-data-pending:hidden">
         {hasSlots ? (
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y divide-gray-300">
             {WEEKDAYS.map((day) => {
               const isToday = day === todayName;
               const slots = slotsByDay[day] ?? [];
@@ -48,7 +48,7 @@ export default function ClassScheduleCard({
                 <section
                   key={day}
                   aria-label={day}
-                  className={cn("flex gap-3 px-4 py-1", isToday && "bg-[#5b0610]/[0.04]")}
+                  className={cn("flex gap-3 px-4 py-1", isToday && "bg-[#5b0610]/20 shadow-[inset_4px_0_0_#5b0610]")}
                 >
                   <h3
                     className={cn(
@@ -68,7 +68,7 @@ export default function ClassScheduleCard({
                       {slots.map((slot) => (
                         <li
                           key={`${slot.moduleName}-${slot.startTime}`}
-                          className="rounded-lg border border-gray-100 bg-white px-2.5 py-0.5"
+                          className="rounded-lg border border-gray-300 bg-white px-2.5 py-0.5"
                         >
                           <p className="text-sm font-semibold text-gray-900">{slot.moduleName}</p>
                           <p className="text-xs text-gray-600 whitespace-nowrap">

@@ -75,6 +75,8 @@ export interface SchoolYear {
   sections: SectionChoice[];
   /** Name of the year's active quarter ("1st Quarter"); only sent by GET /api/school-years/active. */
   activeQuarter?: string | null;
+  /** Number (1-4) of that quarter, the one open for classes; only sent by GET /api/school-years/active. */
+  activeQuarterNumber?: number | null;
 }
 
 /** A row of `quarters`: one of Quarter 1-4 of a school year. name is generated

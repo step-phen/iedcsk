@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { toast } from "react-hot-toast";
-import { Loader2, Pencil, Trash2, Upload, Video } from "lucide-react";
+import { Loader2, Lock, Pencil, Trash2, Upload, Video } from "lucide-react";
 import { ModalShell } from "@/components/ui/modal-shell";
 import {
   AlertDialog,
@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { apiFetch, apiUpload } from "@/lib/api";
 import { VIDEO_ACCEPT, videoError } from "@/lib/validations/lessonSchema";
+import { CONTENT_HAS_RECORDS_HINT, QUARTER_LOCKED_HINT } from "@/lib/utils";
+import { quarterLockedError } from "@/hooks/useActiveSchoolYear";
 import { lessonDay } from "./add-lesson-form";
 
 type WeekLesson = {
@@ -24,15 +26,22 @@ type WeekLesson = {
   description: string | null;
   videoUrl: string | null;
   dayOfWeek: number | null;
+  hasRecords: boolean;
 };
 
-async function uploadLessonVideo(lessonId: number, file: File, onProgress: (percent: number) => void): Promise<string> {
+async function uploadLessonVideo(
+  lessonId: number,
+  file: File,
+  onProgress: (percent: number) => void,
+  onProtected: () => void,
+): Promise<string> {
   const body = new FormData();
   body.set("video", file);
   const res = await apiUpload(`/api/lessons/${lessonId}/video`, body, onProgress);
   if (res.status === 422) {
     const { errors } = (await res.json()) as { errors: Record<string, string[]> };
-    throw new Error(errors.video?.[0] ?? "The video could not be added.");
+    if (errors.protected) onProtected();
+    throw new Error(errors.video?.[0] ?? quarterLockedError(errors) ?? errors.protected?.[0] ?? "The video could not be added.");
   }
   if (!res.ok) throw new Error("The video could not be added. Please try again.");
   return ((await res.json()) as { videoUrl: string }).videoUrl;
@@ -46,21 +55,28 @@ interface UpdateLessonsModalProps {
   days: string[];
   lessons: WeekLesson[];
   onLessonChanged: (lessonId: number, changes: Partial<WeekLesson>) => void;
+  /** The quarter is active for classes: lessons and videos can be viewed but not changed. */
+  readOnly?: boolean;
 }
 
 /** One description shared by a topic's day-rows (Tue/Thu are the same lesson), saved to each underlying row. */
 function DescriptionEditor({
   lessons,
   onSaved,
+  locked,
+  onProtected,
 }: {
   lessons: WeekLesson[];
   onSaved: (lessonId: number, description: string | null) => void;
+  /** Why it can't be edited (active quarter or records), or null. */
+  locked: string | null;
+  onProtected: () => void;
 }) {
   const shared = lessons[0]?.description ?? "";
   const [draft, setDraft] = useState(shared);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const changed = draft.trim() !== shared;
+  const changed = !locked && draft.trim() !== shared;
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -74,7 +90,8 @@ function DescriptionEditor({
       if (failed) {
         if (failed.status === 422) {
           const { errors } = (await failed.json()) as { errors: Record<string, string[]> };
-          setError(errors.description?.[0] ?? "The description could not be saved.");
+          if (errors.protected) onProtected();
+          setError(errors.description?.[0] ?? quarterLockedError(errors) ?? errors.protected?.[0] ?? "The description could not be saved.");
         } else {
           setError("The description could not be saved. Please try again.");
         }
@@ -102,7 +119,9 @@ function DescriptionEditor({
         onChange={(e) => setDraft(e.target.value)}
         rows={2}
         maxLength={2000}
-        placeholder="Add a description learners will see with this lesson"
+        readOnly={!!locked}
+        title={locked ?? undefined}
+        placeholder={locked ? "No description" : "Add a description learners will see with this lesson"}
         aria-invalid={!!error}
         className={`w-full resize-none rounded-lg border bg-white px-3 py-2 text-xs leading-relaxed text-stone-700 outline-none transition-colors focus:border-sidebar focus:ring-2 focus:ring-sidebar/10 ${error ? "border-red-400" : "border-stone-200"}`}
       />
@@ -136,15 +155,20 @@ function DescriptionEditor({
 function LessonNameEditor({
   lessons,
   onSaved,
+  locked,
+  onProtected,
 }: {
   lessons: WeekLesson[];
   onSaved: (lessonId: number, lessonName: string) => void;
+  /** Why it can't be edited (active quarter or records), or null. */
+  locked: string | null;
+  onProtected: () => void;
 }) {
   const shared = lessons[0]?.lessonName ?? "";
   const [draft, setDraft] = useState(shared);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const changed = draft.trim() !== shared && draft.trim() !== "";
+  const changed = !locked && draft.trim() !== shared && draft.trim() !== "";
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -158,7 +182,8 @@ function LessonNameEditor({
       if (failed) {
         if (failed.status === 422) {
           const { errors } = (await failed.json()) as { errors: Record<string, string[]> };
-          setError(errors.title?.[0] ?? "The lesson name could not be saved.");
+          if (errors.protected) onProtected();
+          setError(errors.title?.[0] ?? quarterLockedError(errors) ?? errors.protected?.[0] ?? "The lesson name could not be saved.");
         } else {
           setError("The lesson name could not be saved. Please try again.");
         }
@@ -186,10 +211,14 @@ function LessonNameEditor({
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           maxLength={150}
+          readOnly={!!locked}
+          title={locked ?? undefined}
           aria-invalid={!!error}
           className={`w-full rounded-lg border bg-transparent py-1 pl-2 pr-7 text-sm font-bold text-stone-900 outline-none transition-colors focus:bg-white focus:border-sidebar focus:ring-2 focus:ring-sidebar/10 ${error ? "border-red-400" : "border-transparent hover:border-stone-300"}`}
         />
-        <Pencil size={12} className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-300" aria-hidden />
+        {!locked && (
+          <Pencil size={12} className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-300" aria-hidden />
+        )}
       </div>
       {changed && (
         <button
@@ -213,6 +242,7 @@ export default function UpdateLessonsModal({
   days,
   lessons,
   onLessonChanged,
+  readOnly = false,
 }: UpdateLessonsModalProps) {
   const [uploadingId, setUploadingId] = useState<number | null>(null);
   const [progress, setProgress] = useState(0);
@@ -224,6 +254,15 @@ export default function UpdateLessonsModal({
     setRemovePending(true);
     try {
       const res = await apiFetch(`/api/lessons/${lesson.id}/video`, { method: "DELETE" });
+      if (res.status === 422) {
+        const { errors } = (await res.json()) as { errors: Record<string, string[]> };
+        if (errors.protected) onLessonChanged(lesson.id, { hasRecords: true });
+        const locked = quarterLockedError(errors) ?? errors.protected?.[0];
+        if (locked) {
+          toast.error(locked, { position: "top-center" });
+          return;
+        }
+      }
       if (!res.ok) throw new Error(`DELETE video failed: ${res.status}`);
       // Back to no video, so the lesson shows Add Video for the replacement.
       onLessonChanged(lesson.id, { videoUrl: null });
@@ -247,7 +286,9 @@ export default function UpdateLessonsModal({
     setUploadingId(lessonId);
     setProgress(0);
     try {
-      onLessonChanged(lessonId, { videoUrl: await uploadLessonVideo(lessonId, file, setProgress) });
+      onLessonChanged(lessonId, {
+        videoUrl: await uploadLessonVideo(lessonId, file, setProgress, () => onLessonChanged(lessonId, { hasRecords: true })),
+      });
       toast.success("Video added!", { position: "top-center" });
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "The video could not be added.", {
@@ -257,6 +298,9 @@ export default function UpdateLessonsModal({
       setUploadingId(null);
     }
   }
+
+  // Same order as the API: the active quarter's reason first, then records.
+  const lockReason = (hasRecords: boolean) => (readOnly ? QUARTER_LOCKED_HINT : hasRecords ? CONTENT_HAS_RECORDS_HINT : null);
 
   // Grouped by topic (same lesson name = same topic taught on different days), in the order lessons already arrive.
   const labeled = lessons.map((lesson, i) => ({ ...lesson, day: lessonDay(lesson.dayOfWeek, days[i]) ?? "" }));
@@ -271,8 +315,12 @@ export default function UpdateLessonsModal({
     <ModalShell
       open
       onClose={onClose}
-      title={`Update ${moduleName} — Week ${week}`}
-      subtitle="Edit descriptions, or add, remove and replace lesson videos."
+      title={readOnly ? `${moduleName} — Week ${week}` : `Update ${moduleName} — Week ${week}`}
+      subtitle={
+        readOnly
+          ? "View only: this quarter is active for classes. Activate another quarter to edit its lessons."
+          : "Edit descriptions, or add, remove and replace lesson videos."
+      }
       headerId="update-lessons-title"
       maxWidth="max-w-xl"
       headerPadding="px-5 py-3"
@@ -281,15 +329,29 @@ export default function UpdateLessonsModal({
     >
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4">
         <div className="space-y-5">
-          {topics.map((topic) => (
+          {topics.map((topic) => {
+            // Name and description are shared by the topic's day-rows, so one row with records locks both.
+            const topicLock = lockReason(topic.entries.some((e) => e.hasRecords));
+            const markProtected = () => topic.entries.forEach((e) => onLessonChanged(e.id, { hasRecords: true }));
+            return (
             <section key={topic.entries[0].id} className="rounded-xl border border-stone-200 bg-stone-50/70 p-3.5">
               <LessonNameEditor
                 lessons={topic.entries}
                 onSaved={(lessonId, lessonName) => onLessonChanged(lessonId, { lessonName })}
+                locked={topicLock}
+                onProtected={markProtected}
               />
+              {topicLock === CONTENT_HAS_RECORDS_HINT && (
+                <p className="mt-1 flex items-center gap-1.5 text-[11px] font-medium text-stone-500">
+                  <Lock size={12} aria-hidden="true" className="shrink-0" />
+                  {CONTENT_HAS_RECORDS_HINT}
+                </p>
+              )}
               <DescriptionEditor
                 lessons={topic.entries}
                 onSaved={(lessonId, description) => onLessonChanged(lessonId, { description })}
+                locked={topicLock}
+                onProtected={markProtected}
               />
               <div className="mt-3 space-y-2">
                 {topic.entries.map((lesson) => (
@@ -313,9 +375,9 @@ export default function UpdateLessonsModal({
                         <button
                           type="button"
                           onClick={() => setRemoving(lesson)}
-                          disabled={uploadingId !== null}
+                          disabled={uploadingId !== null || !!lockReason(lesson.hasRecords)}
                           aria-label={`Remove video of ${lesson.lessonName}`}
-                          title="Remove video"
+                          title={lockReason(lesson.hasRecords) ?? "Remove video"}
                           className="inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-red-400/40"
                         >
                           <Trash2 size={15} />
@@ -343,14 +405,17 @@ export default function UpdateLessonsModal({
                         </div>
                       </div>
                     ) : (
-                      <label className="ml-auto inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-sidebar/30 bg-white px-3 py-1 text-xs font-semibold text-sidebar hover:bg-sidebar/10 focus-within:ring-2 focus-within:ring-sidebar/40">
+                      <label
+                        title={lockReason(lesson.hasRecords) ?? undefined}
+                        className={`ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-sidebar/30 bg-white px-3 py-1 text-xs font-semibold text-sidebar focus-within:ring-2 focus-within:ring-sidebar/40 ${lockReason(lesson.hasRecords) ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-sidebar/10"}`}
+                      >
                         <Upload size={13} />
                         Add Video
                         <input
                           type="file"
                           accept={VIDEO_ACCEPT}
                           className="sr-only"
-                          disabled={uploadingId !== null}
+                          disabled={uploadingId !== null || !!lockReason(lesson.hasRecords)}
                           onChange={(e) => {
                             handleVideoPicked(lesson.id, e.target.files?.[0]);
                             e.target.value = "";
@@ -362,7 +427,8 @@ export default function UpdateLessonsModal({
                 ))}
               </div>
             </section>
-          ))}
+            );
+          })}
         </div>
       </div>
 
