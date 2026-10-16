@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { serverApi } from "@/lib/server-api";
 import LoginForm from "./_components/LoginForm";
 import Image from "next/image";
 
@@ -7,7 +9,11 @@ export const metadata: Metadata = {
   description: "Southern De Oro Philippines College - Teacher Access Login",
 };
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  // A live Laravel session skips the form; an unreachable API falls through so the form can report it.
+  const res = await serverApi("/api/me").catch(() => null);
+  if (res?.ok) redirect("/teacher");
+
   return (
     <div className="relative flex min-h-screen flex-col font-poppins">
       {/* Header */}
