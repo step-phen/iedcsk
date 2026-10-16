@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { ClipboardCheck } from "lucide-react";
+import { ClipboardCheck, FileText } from "lucide-react";
 import type { ActiveSession, LearnerListItem } from "@/types/learner";
 import { PRACTICAL_RESULT_LABEL } from "@/constants/enums";
 import { displayName, getInitials, getAvatarColor } from "@/lib/learners";
@@ -10,6 +10,8 @@ import { RESULT_CLASS, percentOf, scoreBand } from "@/lib/score-band";
 import { cn } from "@/lib/utils";
 import PracticalScoreModal from "@/app/teacher/_components/shared/practical-score-modal";
 import ActivityOverviewModal from "@/app/teacher/_components/shared/activity-overview-modal";
+import ExcuseSlipModal from "@/app/teacher/learners/[profileId]/_components/excuse-slip-modal";
+import { formatDatePH, todayDatePH } from "@/lib/datetime";
 import { LIVE_STATUS_LABEL, type LiveStatus } from "./live-status";
 
 const STATUS_CHIP: Record<LiveStatus, string> = {
@@ -37,14 +39,18 @@ const PILL = "inline-block rounded-full px-2 py-0.5 text-xs font-semibold whites
 export default function ClassroomLearnerCard({
   learner,
   status,
+  excused,
   session,
   sectionId,
   onRated,
 }: {
   learner: LearnerListItem;
   status: LiveStatus;
+  /** Absent today, with an excuse slip already logged. */
+  excused: boolean;
   session: ActiveSession | null;
   sectionId: number;
+  /** Reloads the classroom after a rating or an excuse slip. */
   onRated: () => void;
 }) {
   const { missingActivities, completedActivities, activePracticalActivity } = learner;
@@ -55,6 +61,9 @@ export default function ClassroomLearnerCard({
     : undefined;
 
   const [scoreOpen, setScoreOpen] = useState(false);
+  // Bumped on each open so the slip form starts empty.
+  const [slipKey, setSlipKey] = useState(0);
+  const [slipOpen, setSlipOpen] = useState(false);
   // The kind outlives the open flag, so the title doesn't flip while the modal closes.
   const [overviewKind, setOverviewKind] = useState<"Done" | "Missed">("Done");
   const [overviewOpen, setOverviewOpen] = useState(false);
@@ -64,12 +73,12 @@ export default function ClassroomLearnerCard({
   };
 
   return (
-    <div className={cn("overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm", status === "absent" && "opacity-60")}>
-      <div className="h-1 w-full bg-sidebar" />
+    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+      <div className={cn("h-1 w-full bg-sidebar", status === "absent" && "opacity-60")} />
 
       <div className="space-y-3 p-4">
-        {/* Photo on the left; name and the status chips stack beside it. */}
-        <div className="flex items-center gap-3">
+        {/* Photo on the left; name and the status chips stack beside it. Dimmed when away, but the slip button stays crisp. */}
+        <div className={cn("flex items-center gap-3", status === "absent" && "opacity-60")}>
           <div
             className={cn(
               "flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl text-sm font-semibold",
@@ -88,7 +97,7 @@ export default function ClassroomLearnerCard({
             <div className="flex flex-wrap items-center gap-1.5">
               <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs font-semibold", STATUS_CHIP[status])}>
                 {status === "playing" && <span aria-hidden="true" className="size-1.5 rounded-full bg-sky-500 motion-safe:animate-pulse" />}
-                {LIVE_STATUS_LABEL[status]}
+                {excused ? "Excused" : LIVE_STATUS_LABEL[status]}
               </span>
               {/* The result on the current activity: a colored score, or the practical rating once given. */}
               {current?.score !== undefined && current.activityScore !== undefined && (
@@ -114,6 +123,20 @@ export default function ClassroomLearnerCard({
           >
             <ClipboardCheck size={15} aria-hidden="true" />
             Rate now
+          </button>
+        )}
+
+        {status === "absent" && !excused && (
+          <button
+            type="button"
+            onClick={() => {
+              setSlipKey((k) => k + 1);
+              setSlipOpen(true);
+            }}
+            className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-gray-300 bg-white py-2 text-sm font-semibold text-gray-700 outline-none transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-sidebar focus-visible:ring-offset-2"
+          >
+            <FileText size={15} aria-hidden="true" />
+            Log Excuse Slip
           </button>
         )}
 
@@ -148,6 +171,24 @@ export default function ClassroomLearnerCard({
           sectionId={sectionId}
           onSaved={onRated}
           initialRemarks={activePracticalActivity.remarks}
+        />
+      )}
+
+      {status === "absent" && !excused && (
+        <ExcuseSlipModal
+          key={slipKey}
+          open={slipOpen}
+          onClose={() => setSlipOpen(false)}
+          learnerId={learner.learnerId}
+          learnerName={fullName}
+          // The classroom only ever excuses today's absence; older ones are on the learner's profile.
+          absentDays={[
+            {
+              isoDate: todayDatePH().toISOString().slice(0, 10),
+              label: formatDatePH(new Date(), { weekday: "short", month: "short", day: "numeric", year: "numeric" }),
+            },
+          ]}
+          onSaved={onRated}
         />
       )}
 

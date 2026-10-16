@@ -15,8 +15,9 @@ export const LIVE_STATUS_LABEL: Record<LiveStatus, string> = {
 };
 
 // One rule for the sort, the filter chips and the card, so they never disagree.
-export function liveStatus(learner: LearnerListItem, attendance: AttendanceStatus | undefined): LiveStatus {
-  if (attendance === "ABSENT") return "absent";
+// An excused day is still a day away from class, so it sorts and filters with Absent.
+export function liveStatus(learner: LearnerListItem, attendance: AttendanceStatus | "EXCUSED" | undefined): LiveStatus {
+  if (attendance === "ABSENT" || attendance === "EXCUSED") return "absent";
   const practical = learner.activePracticalActivity;
   // Only a learner who finished the current demonstration can be rated; it resets when the activity switches.
   if (practical && practical.ratingStatus === "NOT_RATED" && learner.participantStatus === "Finished") return "rate";
