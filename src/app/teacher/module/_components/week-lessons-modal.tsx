@@ -16,7 +16,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { apiFetch } from "@/lib/api";
-import { CONTENT_HAS_RECORDS_HINT, QUARTER_LOCKED_HINT } from "@/lib/utils";
+import { CONTENT_HAS_RECORDS_HINT } from "@/lib/utils";
 import { quarterLockedError } from "@/hooks/useActiveSchoolYear";
 import PracticalActivityForm, { type WeekActivity } from "./practical-activity-form";
 import { lessonDay } from "./add-lesson-form";
@@ -60,8 +60,8 @@ interface WeekLessonsModalProps {
   lessonIds?: number[];
   /** Runs after an activity is added (+1) or deleted (-1), so the board's activity count can follow. */
   onActivityCountChange?: (lessonId: number, delta: number) => void;
-  /** The quarter is active for classes: activities can be viewed but not added, edited or deleted. */
-  readOnly?: boolean;
+  /** Why the quarter is view-only (active or completed): activities can be viewed but not added, edited or deleted. */
+  quarterLock?: string | null;
   /** Opened from the board's "+ Practical Activity": shows only the new-activity form, and closes when it's done. */
   adding?: boolean;
 }
@@ -77,7 +77,7 @@ export default function WeekLessonsModal({
   week,
   lessonIds,
   onActivityCountChange,
-  readOnly = false,
+  quarterLock = null,
   adding = false,
 }: WeekLessonsModalProps) {
   const [mounted, setMounted] = useState(false);
@@ -92,8 +92,8 @@ export default function WeekLessonsModal({
   const [deleting, setDeleting] = useState<LessonActivity | null>(null);
   const [deletePending, setDeletePending] = useState(false);
 
-  // Same order as the API: the active quarter's reason first, then records.
-  const lockFor = (activity: WeekActivity) => (readOnly ? QUARTER_LOCKED_HINT : activity.hasRecords ? CONTENT_HAS_RECORDS_HINT : null);
+  // Same order as the API: the quarter's reason first, then records.
+  const lockFor = (activity: WeekActivity) => quarterLock ?? (activity.hasRecords ? CONTENT_HAS_RECORDS_HINT : null);
   // The API refused a change because the activity now has records: lock its card to match.
   const markProtected = (activityId: number) =>
     setLessons((prev) => prev.map((l) => ({ ...l, activities: l.activities.map((a) => (a.id === activityId ? { ...a, hasRecords: true } : a)) })));

@@ -26,7 +26,7 @@ import {
 import PageHeader from "@/app/teacher/_components/layout/page-header";
 import { PageLoader } from "@/components/ui/page-loader";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { moduleSlug, quarterSlug, QUARTER_LOCKED_HINT } from "@/lib/utils";
+import { moduleSlug, quarterSlug, QUARTER_COMPLETED_HINT, QUARTER_LOCKED_HINT, QUARTER_NOT_SET_HINT } from "@/lib/utils";
 import { useActiveSchoolYear } from "@/hooks/useActiveSchoolYear";
 import { apiFetch } from "@/lib/api";
 import { useSections } from "@/hooks/useSections";
@@ -206,7 +206,7 @@ function LessonGroups({
   onDomainChange,
   onOpen,
   onUpdate,
-  readOnly,
+  quarterLock,
 }: {
   lessons: Lesson[];
   days: string[];
@@ -216,8 +216,10 @@ function LessonGroups({
   onDomainChange: (id: string) => void;
   onOpen: (week: number, lessonIds?: number[], adding?: boolean) => void;
   onUpdate: (week: number) => void;
-  readOnly: boolean;
+  /** Why the quarter is view-only (active or completed); null while it's being prepared. */
+  quarterLock: string | null;
 }) {
+  const readOnly = !!quarterLock;
   const [page, setPage] = useState(0);
   const { byWeek } = groupByWeek(lessons);
 
@@ -228,7 +230,7 @@ function LessonGroups({
         <p className="text-sm text-stone-600 italic">
           No lessons for this quarter yet.
           <br />
-          {readOnly ? "It's active for classes, so lessons can't be added now." : "Use Add Lesson to create one."}
+          {quarterLock ?? "Use Add Lesson to create one."}
         </p>
       </div>
     );
@@ -430,19 +432,40 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
     quarters.find((q) => q.quarterId === Number(activeQuarter))?.quarterName || "";
   const activeQuarterId = Number(activeQuarter);
 
-  // The year's active quarter is open for classes and read-only; the others are being prepared.
-  // Sections only come from the active year, so this is the selected section's active quarter.
-  // Locked until the year loads (fail closed); the API checks the same rule again on every save.
+  // Only the active year's upcoming quarters are being prepared. The active quarter is open for
+  // classes and completed ones are over, so both are read-only, and so is a quarter the year hasn't
+  // set up (or every quarter when no year is active). Sections only come from the active year, so
+  // these are the selected section's quarters. Locked until the year loads (fail closed); the API
+  // checks the same rule again on every save.
   const schoolYear = useActiveSchoolYear();
   const classQuarter = schoolYear?.activeQuarterNumber ?? null;
-  const canEdit = (quarterId: number) => schoolYear !== undefined && quarterId !== classQuarter;
-  const lockedReason = schoolYear === undefined ? "Checking which quarter is active…" : QUARTER_LOCKED_HINT;
+  const quarterStatus = (quarterId: number) => schoolYear?.quarterStatuses?.[quarterId];
+  const quarterLock = (quarterId: number) =>
+    schoolYear === undefined
+      ? "Checking which quarter is active…"
+      : quarterId === classQuarter
+        ? QUARTER_LOCKED_HINT
+        : quarterStatus(quarterId) === "upcoming"
+          ? null
+          : quarterStatus(quarterId) === "completed"
+            ? QUARTER_COMPLETED_HINT
+            : QUARTER_NOT_SET_HINT;
   const quarterTip = (quarterId: number) =>
     quarterId === classQuarter
-      ? "Active quarter: open for classes. Its lessons and practical activities can't be edited while it's active."
-      : schoolYear !== undefined && classQuarter === null
-        ? "Locked: no quarter is active, so no class can start. You can add and edit this quarter's lessons and practical activities."
-        : "Locked: classes can't start in this quarter. You can add and edit its lessons and practical activities.";
+      ? "Active quarter: open for classes. Its lessons and practical activities are view-only."
+      : quarterStatus(quarterId) === "completed"
+        ? "Completed: this quarter has ended. Its lessons and practical activities are view-only."
+        : quarterStatus(quarterId) === "upcoming"
+          ? `Upcoming: ${classQuarter === null ? "no quarter is active, so no class can start. " : ""}You can add and edit this quarter's unused lessons and practical activities.`
+          : (quarterLock(quarterId) ?? "");
+  const quarterState = (quarterId: number) =>
+    quarterId === classQuarter
+      ? "(active, view only)"
+      : quarterStatus(quarterId) === "completed"
+        ? "(completed, view only)"
+        : quarterStatus(quarterId) === "upcoming"
+          ? "(upcoming, editable)"
+          : "(not set up, view only)";
   const [selectedDomainId, setSelectedDomainId] = useState("");
   // Clamp rather than reset via effect: a domain picked on a previous module
   // falls back to the new module's first domain instead of filtering it to nothing.
@@ -710,8 +733,8 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
           {activeModule && (
             <button
               onClick={() => setAddingLesson(true)}
-              disabled={!canEdit(activeQuarterId)}
-              title={canEdit(activeQuarterId) ? undefined : lockedReason}
+              disabled={!!quarterLock(activeQuarterId)}
+              title={quarterLock(activeQuarterId) ?? undefined}
               className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-white bg-sidebar hover:bg-[#7e1422] rounded-lg shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:bg-sidebar disabled:hover:shadow-md"
             >
               <Plus size={16} className="text-amber-300" />
@@ -729,8 +752,7 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
       >
         <TabsList variant="line" className="overflow-hidden shrink-0">
           {quarters.map((quarter) => {
-            const open = quarter.quarterId === classQuarter;
-            const Icon = open ? LockOpen : Lock;
+            const Icon = quarterLock(quarter.quarterId) ? Lock : LockOpen;
             return (
               <TabsTrigger
                 key={quarter.quarterId}
@@ -738,9 +760,14 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
                 title={quarterTip(quarter.quarterId)}
                 className="flex items-center gap-2 px-3 py-1.5 text-sm font-bold whitespace-nowrap text-gray-800 data-active:text-sidebar after:bg-sidebar"
               >
-                <Icon size={14} aria-hidden="true" />
+                <Icon
+                  size={14}
+                  aria-hidden="true"
+                  // Selected tab: gold lock body (the icon's <rect>) inside the black outline; the shackle stays unfilled.
+                  className={`text-black ${quarter.quarterId === activeQuarterId ? "[&_rect]:fill-sidebar-primary" : ""}`}
+                />
                 <span>{quarter.quarterName}</span>
-                <span className="sr-only">{open ? "(active, open for classes)" : "(locked for classes)"}</span>
+                <span className="sr-only">{quarterState(quarter.quarterId)}</span>
               </TabsTrigger>
             );
           })}
@@ -896,7 +923,7 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
                     selectedDomainId={effectiveDomainId}
                     onDomainChange={handleDomainChange}
                     onUpdate={setUpdatingWeek}
-                    readOnly={!canEdit(activeQuarterId)}
+                    quarterLock={quarterLock(activeQuarterId)}
                     onOpen={(week, lessonIds, adding) =>
                       setOpenWeek({
                         moduleId: activeModule.id,
@@ -944,7 +971,7 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
             (l) => l.quarterId === activeQuarterId && l.week === updatingWeek && l.domainId === Number(effectiveDomainId),
           )}
           onLessonChanged={handleLessonChanged}
-          readOnly={!canEdit(activeQuarterId)}
+          quarterLock={quarterLock(activeQuarterId)}
         />
       )}
       {openWeek && (
@@ -957,7 +984,7 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
           week={openWeek.week}
           lessonIds={openWeek.lessonIds}
           adding={openWeek.adding}
-          readOnly={!canEdit(openWeek.quarter)}
+          quarterLock={quarterLock(openWeek.quarter)}
           onActivityCountChange={(lessonId, delta) => {
             setModules((prev) =>
               prev.map((m) => ({

@@ -81,6 +81,8 @@ export interface SchoolYear {
   activeQuarter?: string | null;
   /** Number (1-4) of that quarter, the one open for classes; only sent by GET /api/school-years/active. */
   activeQuarterNumber?: number | null;
+  /** Quarter number (1-4) => status, configured quarters only; only sent by GET /api/school-years/active. */
+  quarterStatuses?: Partial<Record<number, Quarter["status"]>>;
 }
 
 /** A row of `quarters`: one of Quarter 1-4 of a school year. name is generated

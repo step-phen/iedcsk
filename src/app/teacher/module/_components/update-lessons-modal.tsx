@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { apiFetch, apiUpload } from "@/lib/api";
 import { VIDEO_ACCEPT, videoError } from "@/lib/validations/lessonSchema";
-import { CONTENT_HAS_RECORDS_HINT, QUARTER_LOCKED_HINT } from "@/lib/utils";
+import { CONTENT_HAS_RECORDS_HINT } from "@/lib/utils";
 import { quarterLockedError } from "@/hooks/useActiveSchoolYear";
 import { lessonDay } from "./add-lesson-form";
 
@@ -55,8 +55,8 @@ interface UpdateLessonsModalProps {
   days: string[];
   lessons: WeekLesson[];
   onLessonChanged: (lessonId: number, changes: Partial<WeekLesson>) => void;
-  /** The quarter is active for classes: lessons and videos can be viewed but not changed. */
-  readOnly?: boolean;
+  /** Why the quarter is view-only (active or completed): lessons and videos can be viewed but not changed. */
+  quarterLock?: string | null;
 }
 
 /** One description shared by a topic's day-rows (Tue/Thu are the same lesson), saved to each underlying row. */
@@ -242,8 +242,9 @@ export default function UpdateLessonsModal({
   days,
   lessons,
   onLessonChanged,
-  readOnly = false,
+  quarterLock = null,
 }: UpdateLessonsModalProps) {
+  const readOnly = !!quarterLock;
   // lessonId => upload percent, one entry per video still uploading, so several lessons can upload at once.
   const [uploads, setUploads] = useState<Record<number, number>>({});
   // The lesson waiting on the Remove Video confirmation.
@@ -303,8 +304,8 @@ export default function UpdateLessonsModal({
     }
   }
 
-  // Same order as the API: the active quarter's reason first, then records.
-  const lockReason = (hasRecords: boolean) => (readOnly ? QUARTER_LOCKED_HINT : hasRecords ? CONTENT_HAS_RECORDS_HINT : null);
+  // Same order as the API: the quarter's reason first, then records.
+  const lockReason = (hasRecords: boolean) => quarterLock ?? (hasRecords ? CONTENT_HAS_RECORDS_HINT : null);
 
   // Grouped by topic (same lesson name = same topic taught on different days), in the order lessons already arrive.
   const labeled = lessons.map((lesson, i) => ({ ...lesson, day: lessonDay(lesson.dayOfWeek, days[i]) ?? "" }));
@@ -321,9 +322,7 @@ export default function UpdateLessonsModal({
       onClose={onClose}
       title={readOnly ? `${moduleName} — Week ${week}` : `Update ${moduleName} — Week ${week}`}
       subtitle={
-        readOnly
-          ? "View only: this quarter is active for classes. Activate another quarter to edit its lessons."
-          : "Edit descriptions, or add, remove and replace lesson videos."
+        quarterLock ?? "Edit descriptions, or add, remove and replace lesson videos."
       }
       headerId="update-lessons-title"
       maxWidth="max-w-xl"
