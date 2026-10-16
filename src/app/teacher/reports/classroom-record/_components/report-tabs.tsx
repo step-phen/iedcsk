@@ -1,19 +1,18 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Table2, Sparkles, TrendingUp } from "lucide-react";
+import { Table2, Sparkles } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 /** Kept byte-identical to the Modules page's quarter-tab triggers. */
 const TRIGGER_CLASS =
   "flex items-center gap-2 px-3 py-1.5 text-sm font-bold whitespace-nowrap text-gray-800 data-active:text-sidebar after:bg-sidebar";
 
-export type ReportTab = "record" | "strengths" | "developing";
+export type ReportTab = "record" | "strengths";
 
 const TABS = [
   { value: "record", label: "Classroom Record", icon: Table2 },
   { value: "strengths", label: "Strengths & Weaknesses", icon: Sparkles },
-  { value: "developing", label: "Developing Learners", icon: TrendingUp },
 ] as const;
 
 /**

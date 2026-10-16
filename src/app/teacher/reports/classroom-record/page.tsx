@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import PageHeader from "@/app/teacher/_components/layout/page-header";
 import { requireTeacher } from "@/lib/auth";
 import ReportTabs, { type ReportTab } from "./_components/report-tabs";
-import EmptyReportSection from "./_components/empty-report-section";
 import ClassScoresSection from "./_components/class-scores-section";
+import StrengthsSection from "./_components/strengths-section";
 
 interface ClassroomRecordPageProps {
   /** ?section=, ?module=, ?quarter=, ?view= and ?week= pick what the Class Scores table shows. */
@@ -15,7 +15,6 @@ const BASE = "/teacher/reports/classroom-record";
 const HREFS: Record<ReportTab, string> = {
   record: BASE,
   strengths: `${BASE}?tab=strengths`,
-  developing: `${BASE}?tab=developing`,
 };
 
 const METADATA: Record<ReportTab, Metadata> = {
@@ -25,16 +24,12 @@ const METADATA: Record<ReportTab, Metadata> = {
   },
   strengths: {
     title: "IEDCSK | Strengths & Weaknesses",
-    description: "Per-learner Mastery Index across every curriculum module, relative to each learner's own average.",
-  },
-  developing: {
-    title: "IEDCSK | Developing Learners",
-    description: "Progress reports for learners needing further assistance.",
+    description: "Each learner's strengths, areas needing support, and areas not yet assessed, with the evidence behind each.",
   },
 };
 
 function toTab(tab: string | undefined): ReportTab {
-  return tab === "strengths" || tab === "developing" ? tab : "record";
+  return tab === "strengths" ? tab : "record";
 }
 
 export async function generateMetadata({ searchParams }: ClassroomRecordPageProps): Promise<Metadata> {
@@ -60,17 +55,7 @@ export default async function ClassroomRecordPage({ searchParams }: ClassroomRec
 
       <ReportTabs active={activeTab} hrefs={HREFS}>
         {activeTab === "strengths" ? (
-          <EmptyReportSection
-            title="How Each Learner Is Doing by Subject"
-            heading="No strengths to show yet"
-            message="Each learner's strengths appear here once they complete activities."
-          />
-        ) : activeTab === "developing" ? (
-          <EmptyReportSection
-            title="Learners Needing Further Assistance"
-            heading="No developing learners yet"
-            message="Learners who need more support appear here once they complete activities."
-          />
+          <StrengthsSection section={section} quarter={quarter} />
         ) : (
           <ClassScoresSection
             section={section}

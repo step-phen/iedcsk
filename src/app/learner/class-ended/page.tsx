@@ -198,11 +198,12 @@ function ClassEndedContent() {
             <p className="text-gray-600 text-base font-medium max-w-sm mx-auto leading-relaxed">
               Ask your teacher how you did today!
             </p>
+            <p className="animate-pulse text-sm font-semibold text-gray-400">Waiting for rating...</p>
           </div>
         )}
 
-        {/* A finished activity, digital or practical, goes back to the picker; only "today's class has ended" has nowhere to go. */}
-        {(hasScore || activityIdParam) && (
+        {/* A finished activity goes back to the picker once it has a badge: a digital score, or a practical one the teacher has rated. */}
+        {badge && (
           <button
             type="button"
             onClick={() => router.push("/learner")}
