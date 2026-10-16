@@ -1,0 +1,171 @@
+/* Look of What Is Happening?; layout and spacing stay in Tailwind, the actions and lines stay in WhatIsHappening.data.ts. */
+
+/* A stadium at dusk: deep blue stands under floodlights, a striped green pitch below. */
+.screen {
+  background: linear-gradient(180deg, #1c3d6e 0%, #2f5d9a 55%, #3b6fb5 70%);
+  color: #f1f3f5;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lights {
+  background:
+    radial-gradient(ellipse 14% 30% at 12% 0, rgba(255, 249, 219, 0.55), transparent 70%),
+    radial-gradient(ellipse 14% 30% at 88% 0, rgba(255, 249, 219, 0.55), transparent 70%),
+    repeating-linear-gradient(90deg, transparent 0 16px, rgba(255, 255, 255, 0.06) 16px 18px);
+}
+
+.field {
+  background: repeating-linear-gradient(90deg, #2f9e44 0 60px, #37b24d 60px 120px);
+  border-top: 6px solid white;
+}
+
+.badge {
+  border: 3px solid #f1f3f5;
+  background: #1c3d6e;
+  color: #f1f3f5;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #ffd43b;
+  color: #1c3d6e;
+}
+
+.title {
+  color: #ffd43b;
+  text-shadow: 0 3px 0 #0b2447, 0 6px 10px rgba(0, 0, 0, 0.4);
+}
+
+.instruction {
+  background: #f1f3f5;
+  color: #0b2447;
+  border: 3px solid #ffd43b;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.iconButton {
+  border: 3px solid #f1f3f5;
+  background: #ffd43b;
+  color: #0b2447;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Each scoreboard: a thick colored frame ringed with little bulbs around a dark screen. */
+.board {
+  --b: clamp(96px, min(29vw, 26dvh), 210px);
+  width: var(--b);
+  height: calc(var(--b) * 0.86);
+  background:
+    radial-gradient(circle, #fff3bf 0 2.5px, transparent 3px) 0 0 / 14px 14px,
+    #212529;
+  border: 6px solid;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.4);
+  touch-action: manipulation;
+  transition: opacity 250ms ease-out;
+}
+
+.board:focus-visible {
+  outline: 4px solid #ffd43b;
+  outline-offset: 4px;
+}
+
+.screenGlass {
+  background: radial-gradient(ellipse at 50% 40%, #d0ebff 0%, #a5d8ff 70%, #74c0fc 100%);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.35);
+}
+
+.action {
+  font-size: calc(var(--b) * 0.48);
+  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.3));
+}
+
+.pole {
+  width: 10px;
+  height: clamp(16px, 5dvh, 46px);
+  background: linear-gradient(90deg, #868e96, #dee2e6, #868e96);
+}
+
+.boardRight {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 18px 6px rgba(74, 222, 128, 0.7);
+  animation: flash 0.3s steps(2, start) 4;
+}
+
+.boardWrong {
+  box-shadow: 0 0 0 4px #dc2626, 0 6px 0 rgba(0, 0, 0, 0.4);
+  animation: shake 0.45s ease-in-out;
+}
+
+/* The right screen after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.boardReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.resultStamp {
+  background: #ffd43b;
+  color: #0b2447;
+  border: 4px solid #f1f3f5;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* The winning screen's bulbs blink on and off. */
+@keyframes flash {
+  to { filter: brightness(1.35); }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boardRight,
+  .boardWrong {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller screens and shorter poles so all three fit. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .board {
+    --b: clamp(70px, 40dvh, 140px);
+  }
+
+  .pole {
+    height: 10px;
+  }
+}

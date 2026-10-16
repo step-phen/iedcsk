@@ -27,12 +27,15 @@ export default function ExcuseSlipModal({
   learnerId,
   learnerName,
   absentDays,
+  onSaved,
 }: {
   open: boolean;
   onClose: () => void;
   learnerId: number;
   learnerName: string;
   absentDays: AbsentDay[];
+  /** For pages that load on the client (the classroom), which router.refresh() doesn't reach. */
+  onSaved?: () => void;
 }) {
   const router = useRouter();
   const [date, setDate] = useState(absentDays[0]?.isoDate ?? "");
@@ -49,6 +52,7 @@ export default function ExcuseSlipModal({
       if (res.ok) {
         toast.success("Excuse slip logged.");
         onClose();
+        onSaved?.();
         router.refresh();
       } else if (res.status === 422) {
         const { errors: found } = (await res.json()) as { errors: Record<string, string[]> };

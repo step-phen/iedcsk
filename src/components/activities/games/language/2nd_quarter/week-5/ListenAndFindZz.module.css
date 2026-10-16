@@ -1,0 +1,192 @@
+/* Look of Listen and Find: Zz; layout and spacing stay in Tailwind, the lines stay in ListenAndFindZz.data.ts. */
+
+/* A race day: bright sky over the grass beside the track. */
+.screen {
+  background: linear-gradient(180deg, #74c0fc 0%, #d0ebff 40%, #b2f2bb 40%, #8ce99a 100%);
+  color: #212529;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Bunting flags along the top edge. */
+.stands {
+  background:
+    conic-gradient(from 135deg at 50% 0%, #fa5252 0 90deg, transparent 90deg) 0 0 / 48px 100%,
+    conic-gradient(from 135deg at 50% 0%, #ffd43b 0 90deg, transparent 90deg) 24px 0 / 48px 100%;
+}
+
+.badge {
+  border: 3px solid #212529;
+  background: white;
+  box-shadow: 0 3px 0 rgba(33, 37, 41, 0.25);
+}
+
+.avatar {
+  background: #ffd43b;
+  color: #862e9c;
+}
+
+.title {
+  color: #212529;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(33, 37, 41, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #212529;
+  box-shadow: 0 3px 0 rgba(33, 37, 41, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #212529;
+  background: #fa5252;
+  color: white;
+  box-shadow: 0 3px 0 rgba(33, 37, 41, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A checkered-flag sign. */
+.sign {
+  background: white;
+  border: 4px solid #212529;
+  color: #212529;
+  font-size: clamp(26px, 5vh, 46px);
+  box-shadow: 0 6px 0 rgba(33, 37, 41, 0.3);
+}
+
+/* Four grey lanes split by dashed white lines; each car is 1.8 wide for 1 tall. */
+.track {
+  --h: clamp(46px, min(11dvh, calc((100vw - 90px) / 3.4)), 96px);
+  background: #495057;
+  border: 4px solid #212529;
+  padding: 0 4%;
+  box-shadow: 0 6px 0 rgba(33, 37, 41, 0.3);
+}
+
+.lane {
+  height: calc(var(--h) * 1.18);
+}
+
+.lane + .lane {
+  border-top: 4px dashed rgba(255, 255, 255, 0.75);
+}
+
+.laneNumber {
+  width: calc(var(--h) * 0.5);
+  height: calc(var(--h) * 0.5);
+  font-size: calc(var(--h) * 0.3);
+  background: white;
+  color: #212529;
+  border: 3px solid #212529;
+}
+
+.car {
+  width: calc(var(--h) * 1.8);
+  height: var(--h);
+  touch-action: manipulation;
+  animation: idle 0.35s ease-in-out infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.car:focus-visible {
+  outline: 4px solid #ffd43b;
+  outline-offset: 4px;
+}
+
+.letter {
+  font-size: calc(var(--h) * 0.42);
+  color: #212529;
+}
+
+/* The right car zooms down its lane and rolls back to the start. */
+.carRight {
+  animation: zoom 1.4s cubic-bezier(0.6, 0, 0.3, 1);
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.carWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right car after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.carReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  background: rgba(220, 252, 231, 0.35);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #fa5252;
+  color: white;
+  border: 4px solid #212529;
+  box-shadow: 0 5px 0 rgba(33, 37, 41, 0.3);
+}
+
+/* A tiny engine rumble while the cars wait at the start line. */
+@keyframes idle {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -1px; }
+}
+
+@keyframes zoom {
+  0% { translate: 0 0; }
+  45% { translate: 55vw 0; opacity: 1; }
+  46% { translate: 55vw 0; opacity: 0; }
+  54% { translate: -20vw 0; opacity: 0; }
+  55% { translate: -20vw 0; opacity: 1; }
+  100% { translate: 0 0; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .car {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: slimmer lanes so all four fit. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .track {
+    --h: clamp(34px, 12dvh, 60px);
+  }
+
+  .sign {
+    font-size: 22px;
+  }
+}

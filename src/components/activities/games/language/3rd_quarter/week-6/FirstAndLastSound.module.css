@@ -1,0 +1,247 @@
+/* Look of First and Last Sound (Bus Stop); layout and spacing stay in Tailwind, the words and lines stay in FirstAndLastSound.data.ts. */
+
+/* A sunny town street: soft orange sky over a gray road with a dashed center line. */
+.screen {
+  background: linear-gradient(180deg, #ffe8cc 0%, #fff4e6 70%);
+  color: #343a40;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.road {
+  background:
+    linear-gradient(90deg, white 0 50%, transparent 50%) 0 55% / 80px 8px repeat-x,
+    #495057;
+  border-top: 10px solid #adb5bd;
+}
+
+.badge {
+  border: 3px solid #343a40;
+  background: white;
+  box-shadow: 0 3px 0 rgba(52, 58, 64, 0.25);
+}
+
+.avatar {
+  background: #ffe066;
+  color: #343a40;
+}
+
+.title {
+  color: #e8590c;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(52, 58, 64, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #343a40;
+  box-shadow: 0 3px 0 rgba(52, 58, 64, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #343a40;
+  background: #e8590c;
+  color: white;
+  box-shadow: 0 3px 0 rgba(52, 58, 64, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The school bus: front on the left so the first letter rides up front and the last one at the back. */
+.bus {
+  --b: clamp(110px, 22dvh, 190px);
+  width: min(92vw, calc(var(--b) * 3.4));
+  height: var(--b);
+  background: linear-gradient(180deg, #fcc419 0 70%, #343a40 70% 74%, #fcc419 74%);
+  border: 5px solid #343a40;
+  border-radius: calc(var(--b) * 0.3) calc(var(--b) * 0.12) calc(var(--b) * 0.12) calc(var(--b) * 0.12);
+  box-shadow: 0 8px 0 rgba(52, 58, 64, 0.3);
+  animation: idle 0.5s ease-in-out infinite alternate;
+}
+
+.windshield {
+  width: calc(var(--b) * 0.32);
+  margin: calc(var(--b) * 0.1) 0 calc(var(--b) * 0.32);
+  background: linear-gradient(135deg, #d0ebff 0 60%, #a5d8ff 60%);
+  border: 4px solid #343a40;
+  border-radius: calc(var(--b) * 0.2) 8px 8px 8px;
+}
+
+.window {
+  height: calc(var(--b) * 0.5);
+  margin-bottom: calc(var(--b) * 0.2);
+  font-size: calc(var(--b) * 0.34);
+  background: #e7f5ff;
+  border: 4px solid #343a40;
+}
+
+.windowEmpty {
+  color: #e8590c;
+  background: rgba(255, 255, 255, 0.7);
+  border-style: dashed;
+}
+
+.windowFilled {
+  color: #343a40;
+  background: white;
+  border-style: solid;
+  animation: thump 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 0 4px #16a34a, 0 0 18px 6px rgba(74, 222, 128, 0.6);
+}
+
+.windowReveal {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wheel {
+  bottom: calc(var(--b) * -0.2);
+  width: calc(var(--b) * 0.36);
+  height: calc(var(--b) * 0.36);
+  border-radius: 9999px;
+  background: radial-gradient(circle, #ced4da 0 28%, #212529 30%);
+  border: 4px solid #343a40;
+}
+
+.roofSign {
+  top: calc(var(--b) * -0.32);
+  height: calc(var(--b) * 0.3);
+  background: white;
+  border: 4px solid #343a40;
+}
+
+.signPicture {
+  font-size: calc(var(--b) * 0.2);
+}
+
+.signTag {
+  font-size: calc(var(--b) * 0.11);
+  color: white;
+  background: #e8590c;
+}
+
+/* Passengers wait at the stop holding their letter cards. */
+.passenger {
+  --p: clamp(80px, min(24vw, 20dvh), 150px);
+  width: var(--p);
+  touch-action: manipulation;
+  transition: opacity 250ms ease-out;
+}
+
+.passenger:focus-visible {
+  outline: 4px solid #e8590c;
+  outline-offset: 4px;
+  border-radius: 1rem;
+}
+
+.person {
+  font-size: calc(var(--p) * 0.5);
+}
+
+.card {
+  width: calc(var(--p) * 0.62);
+  height: calc(var(--p) * 0.62);
+  margin-top: calc(var(--p) * -0.08);
+  font-size: calc(var(--p) * 0.42);
+  background: white;
+  border: 4px solid #343a40;
+  box-shadow: 0 5px 0 rgba(52, 58, 64, 0.3);
+}
+
+/* The right passenger hops toward the bus with a green glow. */
+.passengerRight {
+  z-index: 2;
+  animation: hop 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.passengerRight .card,
+.passengerReveal .card {
+  box-shadow: 0 0 0 4px #16a34a, 0 0 22px 8px rgba(22, 163, 74, 0.55);
+}
+
+.passengerWrong {
+  animation: shake 0.45s ease-in-out;
+}
+
+.passengerWrong .card {
+  box-shadow: 0 0 0 4px #dc2626;
+}
+
+/* After a miss the right passenger gets a green ring and a 2s grow-and-settle. */
+.passengerReveal {
+  z-index: 2;
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #fcc419;
+  color: #343a40;
+  border: 4px solid #343a40;
+  box-shadow: 0 5px 0 rgba(52, 58, 64, 0.3);
+}
+
+@keyframes idle {
+  from { translate: 0 0; }
+  to { translate: 0 -2px; }
+}
+
+@keyframes hop {
+  0% { translate: 0 0; }
+  50% { translate: 0 -24%; }
+  100% { translate: 0 -10%; }
+}
+
+@keyframes thump {
+  0% { scale: 0.7; }
+  60% { scale: 1.12; }
+  100% { scale: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bus {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller bus so the passengers keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .bus {
+    --b: clamp(64px, 26dvh, 110px);
+  }
+
+  .passenger {
+    --p: clamp(60px, 26dvh, 100px);
+  }
+}

@@ -1,0 +1,200 @@
+/* Look of Listen and Find: Vv, Ww; layout and spacing stay in Tailwind, the lines stay in ListenAndFindVvWw.data.ts. */
+
+/* Under the sea: sunlit water fading to deep blue. */
+.screen {
+  background:
+    radial-gradient(ellipse 60% 30% at 50% 0%, rgba(255, 255, 255, 0.45), transparent 70%),
+    linear-gradient(180deg, #67e8f9 0%, #0ea5e9 45%, #0c4a6e 100%);
+  color: #082f49;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.seabed {
+  background:
+    radial-gradient(ellipse 30% 50% at 15% 100%, #fde68a 0 98%, transparent 100%),
+    radial-gradient(ellipse 40% 60% at 70% 100%, #fcd34d 0 98%, transparent 100%),
+    linear-gradient(180deg, transparent 0 45%, #fbbf24 45%);
+}
+
+/* Seaweed that sways from its root. */
+.weed {
+  background: linear-gradient(90deg, #15803d, #4ade80 50%, #15803d);
+  border-radius: 50% 50% 8px 8px / 20% 20% 8px 8px;
+  transform-origin: 50% 100%;
+  animation: sway 3s ease-in-out infinite;
+}
+
+.fish {
+  animation: swim 14s linear infinite;
+}
+
+.badge {
+  border: 3px solid #082f49;
+  background: white;
+  box-shadow: 0 3px 0 rgba(8, 47, 73, 0.3);
+}
+
+.avatar {
+  background: #a5f3fc;
+  color: #0e7490;
+}
+
+.title {
+  color: white;
+  text-shadow: 0 3px 0 #0369a1, 0 5px 0 rgba(8, 47, 73, 0.3);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.94);
+  border: 3px solid #082f49;
+  box-shadow: 0 3px 0 rgba(8, 47, 73, 0.25);
+}
+
+.iconButton {
+  border: 3px solid #082f49;
+  background: #fb923c;
+  color: white;
+  box-shadow: 0 3px 0 rgba(8, 47, 73, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A coral-pink sign with white letters. */
+.sign {
+  background: #fb7185;
+  border: 4px solid white;
+  outline: 3px solid #082f49;
+  color: white;
+  font-size: clamp(28px, 5.5vh, 50px);
+  box-shadow: 0 6px 0 rgba(8, 47, 73, 0.3);
+}
+
+/* Upright phones stack the bubbles two by two; wider screens float all four in a row. */
+.row {
+  --c: clamp(84px, min(calc((100vw - 60px) / 2.4), 22dvh), 150px);
+  gap: calc(var(--c) * 0.18);
+}
+
+@media (min-width: 640px) {
+  .row {
+    --c: clamp(84px, min(calc((100vw - 80px) / 4.6), 28dvh), 180px);
+  }
+}
+
+.bubble {
+  width: var(--c);
+  height: var(--c);
+  touch-action: manipulation;
+  animation: float 3s ease-in-out var(--float-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.bubble:focus-visible {
+  outline: 4px solid #fb923c;
+  outline-offset: 4px;
+}
+
+.letter {
+  font-size: calc(var(--c) * 0.46);
+  color: #082f49;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* The right bubble rises with a green glow. */
+.bubbleRight {
+  animation: rise 1s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.bubbleWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right bubble after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.bubbleReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #fb7185;
+  color: white;
+  border: 4px solid #082f49;
+  box-shadow: 0 5px 0 rgba(8, 47, 73, 0.3);
+}
+
+@keyframes float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -6px; }
+}
+
+@keyframes rise {
+  0%, 100% { translate: 0 0; }
+  45% { translate: 0 -18%; }
+}
+
+@keyframes sway {
+  0%, 100% { rotate: -6deg; }
+  50% { rotate: 6deg; }
+}
+
+@keyframes swim {
+  from { left: -15%; }
+  to { left: 110%; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble,
+  .weed,
+  .fish {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller sign so the bubbles keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .row {
+    --c: clamp(60px, 32dvh, 120px);
+  }
+
+  .sign {
+    font-size: 24px;
+  }
+}

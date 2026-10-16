@@ -1,0 +1,213 @@
+/* Look of Listen and Match Syllables: u (vowel first) (Honey Jar); layout and spacing stay in Tailwind, the lines stay in ListenAndMatchSyllablesVowelFirstU.data.ts. */
+
+/* A warm honey-colored meadow with a beehive hanging on the left. */
+.screen {
+  background: linear-gradient(180deg, #fff9db 0%, #ffec99 60%, #d8f5a2 100%);
+  color: #7c4a03;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hive {
+  background: repeating-linear-gradient(180deg, #f59f00 0 16%, #e67700 16% 20%);
+  border: 4px solid #7c4a03;
+  border-radius: 50% 50% 46% 46% / 60% 60% 40% 40%;
+}
+
+.meadow {
+  background:
+    radial-gradient(circle, #ff8787 0 4px, transparent 5px) 0 30% / 70px 40px,
+    radial-gradient(circle, white 0 4px, transparent 5px) 34px 60% / 80px 44px,
+    linear-gradient(180deg, #94d82d, #74b816);
+  border-top: 5px solid #5c940d;
+}
+
+.badge {
+  border: 3px solid #7c4a03;
+  background: white;
+  box-shadow: 0 3px 0 rgba(124, 74, 3, 0.25);
+}
+
+.avatar {
+  background: #ffe066;
+  color: #e67700;
+}
+
+.title {
+  color: #e67700;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(124, 74, 3, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #7c4a03;
+  box-shadow: 0 3px 0 rgba(124, 74, 3, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #7c4a03;
+  background: #fab005;
+  color: #7c4a03;
+  box-shadow: 0 3px 0 rgba(124, 74, 3, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The play area sets the bee and jar sizes from its own height. */
+.play {
+  --b: clamp(76px, min(22vw, 20dvh), 150px);
+  --j: clamp(130px, min(46vw, 34dvh), 280px);
+}
+
+/* Each bee is 1 wide for 1 tall: the bee on top and its letter card hanging below. */
+.bee {
+  width: var(--b);
+  height: var(--b);
+  margin-left: calc(var(--b) / -2);
+  touch-action: manipulation;
+  animation: buzz 2.4s ease-in-out var(--buzz-delay, 0s) infinite;
+  transition: left 0.8s cubic-bezier(0.6, 0, 0.3, 1), top 0.8s cubic-bezier(0.6, 0, 0.3, 1), scale 0.8s ease-out, opacity 250ms ease-out;
+}
+
+.bee:focus-visible {
+  outline: 4px solid #e67700;
+  outline-offset: 4px;
+}
+
+.wing {
+  transform-origin: 50% 100%;
+  animation: flap 0.18s ease-in-out infinite alternate;
+}
+
+.card {
+  width: calc(var(--b) * 0.46);
+  height: calc(var(--b) * 0.42);
+  margin-left: calc(var(--b) * -0.23);
+  font-size: calc(var(--b) * 0.32);
+  background: white;
+  color: #7c4a03;
+  border: 3px solid #7c4a03;
+  box-shadow: 0 3px 0 rgba(124, 74, 3, 0.25);
+}
+
+/* The right bee flies down to the jar and shrinks a little as it lands. */
+.beeLanded {
+  z-index: 3;
+  scale: 0.7;
+  animation: none;
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.beeWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right bee after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.beeReveal {
+  z-index: 3;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+/* The honey jar is 1.1 wide for 1 tall and sits centered at the bottom. */
+.jar {
+  width: calc(var(--j) * 1.1);
+  height: var(--j);
+  margin-left: calc(var(--j) * -0.55);
+}
+
+.label {
+  background: #fff9db;
+  border: 4px solid #7c4a03;
+  color: #7c4a03;
+  font-size: calc(var(--j) * 0.26);
+}
+
+.blank {
+  width: 0.9em;
+  height: 1.05em;
+  border: 4px dashed #e67700;
+  transition: background-color 300ms ease-out, border-color 300ms ease-out;
+}
+
+/* The finished syllable: the blank turns solid green and the letter drops in after the bee lands. */
+.blankFilled {
+  border: 4px solid #16a34a;
+  background: #dcfce7;
+  color: #166534;
+  animation: dropIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s backwards;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #e67700;
+  color: white;
+  border: 4px solid #7c4a03;
+  box-shadow: 0 5px 0 rgba(124, 74, 3, 0.3);
+}
+
+@keyframes buzz {
+  0%, 100% { translate: 0 0; rotate: -3deg; }
+  25% { translate: 6px -6px; }
+  50% { translate: 0 -2px; rotate: 3deg; }
+  75% { translate: -6px -6px; }
+}
+
+@keyframes flap {
+  from { scale: 1 1; }
+  to { scale: 1 0.7; }
+}
+
+@keyframes dropIn {
+  from { translate: 0 -40%; opacity: 0; }
+  to { translate: 0 0; opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bee,
+  .wing {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller bees and jar so they fit the short screen. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .play {
+    --b: clamp(56px, 24dvh, 96px);
+    --j: clamp(96px, 40dvh, 160px);
+  }
+}

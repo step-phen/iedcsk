@@ -67,10 +67,16 @@ interface AttendanceModalProps {
   learners: AttendanceLearner[];
   /** learnerId -> status already recorded for today, from the server. */
   initialAttendance: Record<number, Status>;
+  /** Learners excused today by an excuse slip: settled, so their row is read-only. */
+  excused: Set<number>;
+  /** Learners who started an activity today: they were in class, so only Present is accepted. */
+  startedToday: Set<number>;
   /** Today's class was ended — the record is frozen. */
   classEndedToday: boolean;
   /** Reloads the classroom after a save. */
   onSaved: () => void;
+  /** Reloads the classroom after a refused save, so startedToday catches up without touching unsaved marks. */
+  onRefresh: () => void;
 }
 
 export default function AttendanceModal({
@@ -79,8 +85,11 @@ export default function AttendanceModal({
   sectionId,
   learners,
   initialAttendance,
+  excused,
+  startedToday,
   classEndedToday,
   onSaved,
+  onRefresh,
 }: AttendanceModalProps) {
   return (
     <ModalShell
@@ -95,9 +104,12 @@ export default function AttendanceModal({
           sectionId={sectionId}
           learners={learners}
           initialAttendance={initialAttendance}
+          excused={excused}
+          startedToday={startedToday}
           classEndedToday={classEndedToday}
           onOpenChange={onOpenChange}
           onSaved={onSaved}
+          onRefresh={onRefresh}
         />
     </ModalShell>
   );
@@ -107,16 +119,22 @@ function AttendanceForm({
   sectionId,
   learners,
   initialAttendance,
+  excused,
+  startedToday,
   classEndedToday,
   onOpenChange,
   onSaved,
+  onRefresh,
 }: {
   sectionId: number;
   learners: AttendanceLearner[];
   initialAttendance: Record<number, Status>;
+  excused: Set<number>;
+  startedToday: Set<number>;
   classEndedToday: boolean;
   onOpenChange: (open: boolean) => void;
   onSaved: () => void;
+  onRefresh: () => void;
 }) {
   // Seeded once per open: this component only exists while the modal is open,
   // so closing unmounts it and reopening remounts with today's saved marks.
@@ -127,7 +145,12 @@ function AttendanceForm({
   const [search, setSearch] = useState("");
   const [unmarkedOnly, setUnmarkedOnly] = useState(false);
 
-  const markedCount = learners.filter((l) => marks[l.learnerId]).length;
+  // An excused learner counts as marked: the slip already settled the day.
+  const markedCount = learners.filter((l) => marks[l.learnerId] || excused.has(l.learnerId)).length;
+  // Started learners still marked Late or Absent (an old saved mark, or picked before they started) — the API would refuse the save.
+  const needsPresent = learners.filter(
+    (l) => startedToday.has(l.learnerId) && marks[l.learnerId] && marks[l.learnerId] !== "PRESENT"
+  ).length;
 
   // What the teacher can currently see. Marking and saving always work off
   // the full roster — filtering narrows the view, never the record.
@@ -135,9 +158,9 @@ function AttendanceForm({
     () =>
       learners.filter(
         (l) =>
-          matchesLearnerSearch(l, search) && (!unmarkedOnly || !marks[l.learnerId])
+          matchesLearnerSearch(l, search) && (!unmarkedOnly || !(marks[l.learnerId] || excused.has(l.learnerId)))
       ),
-    [learners, search, unmarkedOnly, marks]
+    [learners, search, unmarkedOnly, marks, excused]
   );
   const counts = useMemo(() => {
     const tally: Record<Status, number> = { PRESENT: 0, LATE: 0, ABSENT: 0 };
@@ -153,7 +176,7 @@ function AttendanceForm({
   function setAllVisible(status: Status) {
     setMarks((current) => ({
       ...current,
-      ...Object.fromEntries(visible.map((l) => [l.learnerId, status])),
+      ...Object.fromEntries(visible.filter((l) => !excused.has(l.learnerId)).map((l) => [l.learnerId, status])),
     }));
   }
 
@@ -177,6 +200,8 @@ function AttendanceForm({
         onOpenChange(false);
       } else {
         toast.error(result.error);
+        // A learner may have started while the modal was open; refresh who did. Marks state is kept.
+        onRefresh();
       }
     });
   }
@@ -239,6 +264,7 @@ function AttendanceForm({
         </button>
         <p className="text-xs font-medium text-gray-600">
           {counts.PRESENT} present · {counts.LATE} late · {counts.ABSENT} absent
+          {excused.size > 0 && ` · ${excused.size} excused`}
           <span className="text-gray-500"> · {learners.length - markedCount} unmarked</span>
         </p>
       </div>
@@ -255,10 +281,15 @@ function AttendanceForm({
           const middle = hasMiddleName(learner.middleName)
             ? ` ${middleInitial(learner.middleName)}`
             : "";
+          const started = startedToday.has(learner.learnerId);
+          const isExcused = excused.has(learner.learnerId);
+          const needsFix = started && !!marks[learner.learnerId] && marks[learner.learnerId] !== "PRESENT";
           return (
             <div
               key={learner.learnerId}
-              className="flex flex-col gap-2 rounded-lg border border-gray-100 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3"
+              className={`flex flex-col gap-2 rounded-lg border px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3 ${
+                needsFix ? "border-amber-300 bg-amber-50" : "border-gray-100"
+              }`}
             >
               <div className="flex items-center gap-3 min-w-0">
                 <span
@@ -266,10 +297,20 @@ function AttendanceForm({
                 >
                   {getInitials(learner.firstName, learner.lastName)}
                 </span>
-                <p className="truncate text-sm font-semibold text-gray-800">
-                  {learner.lastName}, {learner.firstName}
-                  {middle}
-                </p>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-gray-800">
+                    {learner.lastName}, {learner.firstName}
+                    {middle}
+                  </p>
+                  {isExcused && <p className="text-xs text-sky-700">Excused — slip logged for today.</p>}
+                  {started && (
+                    <p className={`text-xs ${needsFix ? "font-medium text-amber-700" : "text-gray-500"}`}>
+                      {needsFix
+                        ? "Activity started today — change to Present."
+                        : "Activity started today — Present only."}
+                    </p>
+                  )}
+                </div>
               </div>
 
               <div
@@ -279,13 +320,15 @@ function AttendanceForm({
               >
                 {OPTIONS.map((option) => {
                   const selected = marks[learner.learnerId] === option.value;
+                  const blocked = started && option.value !== "PRESENT";
                   const Icon = option.icon;
                   return (
                     <button
                       key={option.value}
                       type="button"
                       aria-pressed={selected}
-                      disabled={classEndedToday || pending}
+                      title={blocked ? "Activity started today — Present only" : undefined}
+                      disabled={classEndedToday || pending || blocked || isExcused}
                       onClick={() =>
                         setMarks((current) => ({ ...current, [learner.learnerId]: option.value }))
                       }
@@ -309,12 +352,14 @@ function AttendanceForm({
       <Footer
         onClose={() => onOpenChange(false)}
         onSave={handleSave}
-        saveDisabled={classEndedToday || pending || markedCount === 0}
+        saveDisabled={classEndedToday || pending || markedCount === 0 || needsPresent > 0}
         pending={pending}
         note={
           classEndedToday
             ? "Today's class has ended — attendance is locked."
-            : undefined
+            : needsPresent > 0
+              ? `Change ${needsPresent} ${needsPresent === 1 ? "learner" : "learners"} to Present before saving.`
+              : undefined
         }
       />
     </>

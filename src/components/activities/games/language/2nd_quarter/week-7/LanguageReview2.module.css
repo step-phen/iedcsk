@@ -1,0 +1,227 @@
+/* Look of Language Review 2 (Music Stage); layout and spacing stay in Tailwind, the lines stay in LanguageReview2.data.ts. */
+
+/* A concert hall: deep plum backdrop, red velvet curtains, a spotlight and a wooden stage. */
+.screen {
+  background: linear-gradient(180deg, #2b1438 0%, #4a1d5c 75%);
+  color: white;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.curtainLeft,
+.curtainRight {
+  background: repeating-linear-gradient(90deg, #a61e4d 0 14px, #c2255c 14px 26px, #a61e4d 26px 34px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.curtainLeft {
+  border-bottom-right-radius: 70% 30%;
+}
+
+.curtainRight {
+  border-bottom-left-radius: 70% 30%;
+}
+
+.spotlight {
+  background: radial-gradient(ellipse 50% 100% at 50% 0%, rgba(255, 243, 191, 0.35), transparent 75%);
+  animation: glow 4s ease-in-out infinite;
+}
+
+.stage {
+  background: repeating-linear-gradient(90deg, #b5651d 0 70px, #a0571a 70px 72px);
+  border-top: 8px solid #7c3c10;
+}
+
+.badge {
+  border: 3px solid #2b1438;
+  background: white;
+  color: #2b1438;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #ffdeeb;
+  color: #a61e4d;
+}
+
+.title {
+  color: #ffe066;
+  text-shadow: 0 3px 0 #a61e4d, 0 6px 10px rgba(0, 0, 0, 0.4);
+}
+
+.ticket {
+  background: #fff9db;
+  color: #2b1438;
+  border: 3px solid #2b1438;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.iconButton {
+  border: 3px solid #2b1438;
+  background: #ffe066;
+  color: #2b1438;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The song card on a music stand, bopping to the beat as it arrives. */
+.order {
+  --o: clamp(70px, 15dvh, 130px);
+  width: calc(var(--o) * 1.15);
+  height: var(--o);
+  background:
+    repeating-linear-gradient(180deg, transparent 0 14%, rgba(43, 20, 56, 0.12) 14% 16%),
+    white;
+  color: #2b1438;
+  border: 4px solid #2b1438;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.35);
+  animation: bop 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.orderTag {
+  background: #e64980;
+  color: white;
+  font-size: calc(var(--o) * 0.14);
+  border: 2px solid #2b1438;
+}
+
+.orderLetter {
+  font-size: calc(var(--o) * 0.62);
+  color: #a61e4d;
+}
+
+/* Three drums on a riser; each drum is a square tap target. */
+.drumRow {
+  --c: clamp(84px, min(calc((100vw - 90px) / 3.4), 27dvh), 200px);
+  gap: calc(var(--c) * 0.18);
+  padding: 0 calc(var(--c) * 0.16) calc(var(--c) * 0.08);
+  border-bottom: 10px solid #343a40;
+}
+
+.drum {
+  width: var(--c);
+  height: var(--c);
+  touch-action: manipulation;
+  animation: dropIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) var(--pop-delay, 0ms) backwards;
+  transition: opacity 250ms ease-out, scale 150ms ease-out;
+}
+
+.drum:not(:disabled):active {
+  scale: 0.94;
+}
+
+.drum:focus-visible {
+  outline: 4px solid #ffe066;
+  outline-offset: 4px;
+}
+
+.letter {
+  font-size: calc(var(--c) * 0.34);
+  color: #212529;
+  translate: 0 -24%;
+}
+
+.picture {
+  font-size: calc(var(--c) * 0.3);
+  translate: 0 -24%;
+}
+
+/* The right drum gets a big boom: a squash and a green glow. */
+.drumRight {
+  animation: boom 0.35s ease-out 3;
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.drumWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right drum after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.drumReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.resultStamp {
+  background: #e64980;
+  color: white;
+  border: 4px solid #fff9db;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes bop {
+  0% { translate: 0 -40%; opacity: 0; }
+  60% { translate: 0 6%; opacity: 1; }
+  100% { translate: 0 0; }
+}
+
+@keyframes dropIn {
+  from { translate: 0 -30%; opacity: 0; }
+  to { translate: 0 0; opacity: 1; }
+}
+
+@keyframes boom {
+  0%, 100% { scale: 1 1; }
+  40% { scale: 1.08 0.9; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight,
+  .order,
+  .drum {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller song card so the drums keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .order {
+    --o: clamp(56px, 20dvh, 80px);
+  }
+
+  .drumRow {
+    --c: clamp(70px, 36dvh, 130px);
+  }
+}

@@ -1,0 +1,226 @@
+/* Look of Letter V Trails: a green V-shaped valley where hot-air balloons lift off; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #ffe6c7 0%, #cfe9ff 45%, #b7ddff 100%);
+  color: #23365e;
+}
+
+/* Two hills sloping down into a V, with the river running out of it. */
+.mountains {
+  background:
+    linear-gradient(to bottom right, transparent 49.5%, #7cc56a 50%) left / 50.5% 100% no-repeat,
+    linear-gradient(to bottom left, transparent 49.5%, #6ab85a 50%) right / 50.5% 100% no-repeat;
+}
+
+.river {
+  background: linear-gradient(180deg, #7fd0f5, #4fb3e6);
+  clip-path: polygon(45% 0, 55% 0, 100% 100%, 0 100%);
+}
+
+.badge {
+  background: #ffffff;
+  border: 3px solid #3d5a99;
+  box-shadow: 0 3px 0 rgba(40, 60, 110, 0.25);
+}
+
+.avatar {
+  background: #e3ecff;
+}
+
+.title {
+  color: #2f4a86;
+  text-shadow: 0 2px 0 #ffffff, 0 4px 0 rgba(61, 90, 153, 0.3);
+}
+
+.instruction {
+  background: #ffffff;
+  border: 3px solid #3d5a99;
+  color: #23365e;
+}
+
+.iconButton {
+  background: #e0523b;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(120, 40, 25, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* Cream card with a striped balloon-cloth border; the state colours swap the stripes for a solid ring. */
+.card {
+  border: 9px solid transparent;
+  background:
+    linear-gradient(#fffdf5, #fffdf5) padding-box,
+    repeating-linear-gradient(45deg, #e0523b 0 14px, #ffc94a 14px 28px, #3d9be0 28px 42px) border-box;
+  box-shadow: 0 8px 0 rgba(40, 60, 110, 0.28);
+  transition: box-shadow 250ms ease-out;
+}
+
+.cardWrong {
+  background:
+    linear-gradient(#fffdf5, #fffdf5) padding-box,
+    linear-gradient(#dc2626, #dc2626) border-box;
+  animation: shake 0.45s ease-in-out;
+}
+
+.cardModel {
+  background:
+    linear-gradient(#fffdf5, #fffdf5) padding-box,
+    linear-gradient(#22b35e, #22b35e) border-box;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.25), 0 0 32px 8px rgba(34, 179, 94, 0.45);
+}
+
+.cardZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.cardRight {
+  animation: bump 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* A grassy launch field with sky above it. */
+.launch {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0 82%, #8fd07a 82% 100%);
+  border: 3px solid #ffffff;
+  box-shadow: 0 5px 0 rgba(40, 60, 110, 0.2);
+}
+
+/* Grounded: sits on the grass; up: rides to the top of its lane. Moving top and translate together keeps the climb smooth. */
+.balloon {
+  top: 100%;
+  translate: 0 -100%;
+  transition: top 1.4s cubic-bezier(0.3, 0.7, 0.4, 1), translate 1.4s cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+.balloonUp {
+  top: 0;
+  translate: 0 0;
+  animation: sway 3s ease-in-out 1.4s infinite;
+}
+
+.balloonNext {
+  animation: puff 1.4s ease-in-out infinite;
+}
+
+.envelope {
+  border-radius: 50% 50% 45% 45% / 55% 55% 45% 45%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: inset -6px -6px 0 rgba(0, 0, 0, 0.12);
+}
+
+.envelope0 {
+  background: repeating-linear-gradient(90deg, #e0523b 0 25%, #ffc94a 25% 50%);
+}
+
+.envelope1 {
+  background: repeating-linear-gradient(90deg, #3d9be0 0 25%, #ffffff 25% 50%);
+}
+
+.envelope2 {
+  background: repeating-linear-gradient(90deg, #8a5ad6 0 25%, #ffd1e8 25% 50%);
+}
+
+.envelope3 {
+  background: repeating-linear-gradient(90deg, #2bb38a 0 25%, #fff3a8 25% 50%);
+}
+
+.envelope4 {
+  background: repeating-linear-gradient(90deg, #ff8a3d 0 25%, #c7f0ff 25% 50%);
+}
+
+.ropes {
+  background:
+    linear-gradient(to bottom right, transparent 46%, #7a5a3a 46% 54%, transparent 54%) left / 50% 100% no-repeat,
+    linear-gradient(to bottom left, transparent 46%, #7a5a3a 46% 54%, transparent 54%) right / 50% 100% no-repeat;
+}
+
+.basket {
+  background: repeating-linear-gradient(0deg, #b9813f 0 4px, #a06c30 4px 8px);
+  border: 2px solid #7a5a3a;
+}
+
+.passenger {
+  animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.passengerMissed {
+  filter: grayscale(0.6) opacity(0.65);
+}
+
+.resultStamp {
+  background: #3d5a99;
+  color: white;
+  border: 4px solid white;
+  box-shadow: 0 5px 0 rgba(40, 60, 110, 0.4);
+  rotate: -3deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.05; }
+}
+
+/* rotate, not translate, so the sway never fights the climb. */
+@keyframes sway {
+  0%, 100% { rotate: -3deg; }
+  50% { rotate: 3deg; }
+}
+
+@keyframes puff {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.08; }
+}
+
+@keyframes popIn {
+  0% { scale: 0.4; }
+  60% { scale: 1.25; }
+  100% { scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardWrong,
+  .cardRight,
+  .balloonUp,
+  .balloonNext,
+  .passenger {
+    animation: none;
+  }
+
+  .balloon {
+    transition: none;
+  }
+}

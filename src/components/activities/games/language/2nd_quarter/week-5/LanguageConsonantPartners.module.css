@@ -1,0 +1,205 @@
+/* Look of the Language Consonant Partners (Mama Hen); layout and spacing stay in Tailwind, the lines stay in LanguageConsonantPartners.data.ts. */
+
+/* A farmyard morning: soft sky, red barn, green grass behind a white fence. */
+.screen {
+  background: linear-gradient(180deg, #e3fafc 0%, #fff9db 60%);
+  color: #5c3317;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.barn {
+  background:
+    linear-gradient(135deg, transparent 49%, #c92a2a 50%) 0 0 / 50% 40% no-repeat,
+    linear-gradient(225deg, transparent 49%, #c92a2a 50%) 100% 0 / 50% 40% no-repeat,
+    linear-gradient(#fff 0 0) 50% 100% / 36% 46% no-repeat,
+    linear-gradient(#e03131 0 0) 0 100% / 100% 60% no-repeat;
+}
+
+.grass {
+  background: linear-gradient(180deg, #8ce99a, #51cf66);
+}
+
+.fence {
+  background:
+    linear-gradient(transparent 30%, white 30% 44%, transparent 44% 66%, white 66% 80%, transparent 80%),
+    repeating-linear-gradient(90deg, white 0 12px, transparent 12px 52px);
+}
+
+.badge {
+  border: 3px solid #5c3317;
+  background: white;
+  box-shadow: 0 3px 0 rgba(92, 51, 23, 0.25);
+}
+
+.avatar {
+  background: #ffe066;
+  color: #e8590c;
+}
+
+.title {
+  color: #c92a2a;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(92, 51, 23, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #5c3317;
+  box-shadow: 0 3px 0 rgba(92, 51, 23, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #5c3317;
+  background: #fab005;
+  color: #5c3317;
+  box-shadow: 0 3px 0 rgba(92, 51, 23, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Mama Hen is 1 wide for 0.875 tall and struts in each round. */
+.hen {
+  --hen: clamp(110px, min(26dvh, 40vw), 220px);
+  width: var(--hen);
+  height: calc(var(--hen) * 0.875);
+  animation: strut 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.henLetter {
+  font-size: calc(var(--hen) * 0.3);
+  color: #c92a2a;
+  background: #fff9db;
+  border: 3px solid #5c3317;
+}
+
+.heart {
+  font-size: calc(var(--hen) * 0.2);
+  animation: floatUp 1.2s ease-out forwards;
+}
+
+/* A straw nest under the three chicks. */
+.nest {
+  --c: clamp(80px, min(calc((100vw - 80px) / 3.4), 22dvh), 160px);
+  gap: calc(var(--c) * 0.16);
+  padding: 0 calc(var(--c) * 0.3) calc(var(--c) * 0.12);
+  background:
+    repeating-linear-gradient(160deg, transparent 0 6px, rgba(92, 51, 23, 0.25) 6px 8px),
+    linear-gradient(180deg, transparent 55%, #e0a96d 55%);
+}
+
+.chick {
+  width: var(--c);
+  height: var(--c);
+  touch-action: manipulation;
+  animation: peck 2.4s ease-in-out var(--peck-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.chick:focus-visible {
+  outline: 4px solid #fab005;
+  outline-offset: 4px;
+}
+
+.letter {
+  font-size: calc(var(--c) * 0.34);
+  color: #5c3317;
+}
+
+/* The right chick hops for joy. */
+.chickRight {
+  animation: hop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2;
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.chickWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right chick after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.chickReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #c92a2a;
+  color: white;
+  border: 4px solid #5c3317;
+  box-shadow: 0 5px 0 rgba(92, 51, 23, 0.3);
+}
+
+@keyframes strut {
+  0% { translate: -30% 0; opacity: 0; rotate: -6deg; }
+  60% { translate: 4% 0; opacity: 1; rotate: 3deg; }
+  100% { translate: 0 0; rotate: 0deg; }
+}
+
+@keyframes peck {
+  0%, 80%, 100% { rotate: 0deg; }
+  86% { rotate: 8deg; }
+  92% { rotate: -4deg; }
+}
+
+@keyframes hop {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 0 -18%; }
+}
+
+@keyframes floatUp {
+  from { translate: 0 0; opacity: 1; }
+  to { translate: 0 -60%; opacity: 0; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hen,
+  .chick {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller hen so the chicks keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hen {
+    --hen: clamp(80px, 30dvh, 120px);
+  }
+
+  .nest {
+    --c: clamp(64px, 30dvh, 110px);
+  }
+}

@@ -1,0 +1,237 @@
+/* Look of Last Sound Finder (Kite Day); layout and spacing stay in Tailwind, the words and lines stay in LastSoundFinder.data.ts. */
+
+/* A windy afternoon: deep sky fading to warm haze, drifting clouds, and a green hill. */
+.screen {
+  background: linear-gradient(180deg, #4dabf7 0%, #a5d8ff 55%, #fff3bf 100%);
+  color: #3b2a85;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cloud {
+  background: white;
+  opacity: 0.85;
+  box-shadow: 30px -14px 0 -4px white, -26px -8px 0 -8px white;
+  animation: drift 26s linear infinite alternate;
+}
+
+.cloudSlow {
+  animation-duration: 38s;
+  animation-direction: alternate-reverse;
+}
+
+.hill {
+  background: #8ce99a;
+  border-top: 6px solid #51cf66;
+}
+
+.badge {
+  border: 3px solid #3b2a85;
+  background: white;
+  box-shadow: 0 3px 0 rgba(59, 42, 133, 0.25);
+}
+
+.avatar {
+  background: #d0bfff;
+  color: #5f3dc4;
+}
+
+.title {
+  color: white;
+  text-shadow: 0 3px 0 #5f3dc4, 0 6px 0 rgba(59, 42, 133, 0.25);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #3b2a85;
+  box-shadow: 0 3px 0 rgba(59, 42, 133, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #3b2a85;
+  background: #f03e3e;
+  color: white;
+  box-shadow: 0 3px 0 rgba(59, 42, 133, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The kite bobs in the wind with the heard word painted in its middle. */
+.kite {
+  --k: clamp(110px, 24dvh, 210px);
+  width: calc(var(--k) * 0.8);
+  height: var(--k);
+  animation: bob 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 0 rgba(59, 42, 133, 0.2));
+}
+
+.kitePicture {
+  width: calc(var(--k) * 0.44);
+  height: calc(var(--k) * 0.44);
+  font-size: calc(var(--k) * 0.26);
+  background: white;
+  border: 4px solid #5f3dc4;
+}
+
+.tail {
+  width: clamp(50px, 12vw, 120px);
+}
+
+/* The empty knot at the tail's end: a dashed ring until the right bow is tied there. */
+.knot {
+  --n: clamp(64px, 13dvh, 110px);
+  width: var(--n);
+  height: var(--n);
+  font-size: calc(var(--n) * 0.5);
+  font-weight: 800;
+  color: #5f3dc4;
+  background: rgba(255, 255, 255, 0.6);
+  border: 4px dashed #5f3dc4;
+  transition: background-color 250ms ease-out, border-color 250ms ease-out;
+}
+
+.knotTied {
+  background: white;
+  border-style: solid;
+  animation: thump 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.knotReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 22px 8px rgba(22, 163, 74, 0.5);
+}
+
+/* Each bow sways on its own beat like ribbons in the breeze. */
+.bow {
+  --b: clamp(96px, min(28vw, 22dvh), 180px);
+  width: var(--b);
+  height: calc(var(--b) * 0.64);
+  touch-action: manipulation;
+  transform-origin: 50% 0;
+  animation: sway 2.4s ease-in-out var(--sway-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.bow:focus-visible {
+  outline: 4px solid #f03e3e;
+  outline-offset: 4px;
+  border-radius: 1rem;
+}
+
+.bowPicture {
+  width: calc(var(--b) * 0.38);
+  height: calc(var(--b) * 0.38);
+  font-size: calc(var(--b) * 0.22);
+  background: white;
+  border: 4px solid #343a40;
+}
+
+/* The right bow lifts toward the kite with a green glow. */
+.bowRight {
+  z-index: 2;
+  animation: lift 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  filter: drop-shadow(0 0 6px #16a34a) drop-shadow(0 0 14px rgba(74, 222, 128, 0.8));
+}
+
+.bowWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 4px #dc2626) drop-shadow(0 0 4px #dc2626);
+}
+
+/* After a miss the right bow gets a green glow and a 2s grow-and-settle. */
+.bowReveal {
+  z-index: 2;
+  animation: revealZoom 2s ease-in-out;
+  filter: drop-shadow(0 0 5px #16a34a) drop-shadow(0 0 16px rgba(22, 163, 74, 0.7));
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #5f3dc4;
+  color: white;
+  border: 4px solid #3b2a85;
+  box-shadow: 0 5px 0 rgba(59, 42, 133, 0.3);
+}
+
+@keyframes drift {
+  from { translate: 0 0; }
+  to { translate: 40px 0; }
+}
+
+@keyframes bob {
+  0%, 100% { translate: 0 0; rotate: -4deg; }
+  50% { translate: 0 -8px; rotate: 4deg; }
+}
+
+@keyframes sway {
+  0%, 100% { rotate: -5deg; }
+  50% { rotate: 5deg; }
+}
+
+@keyframes lift {
+  0% { translate: 0 0; }
+  60% { translate: 0 -22%; }
+  100% { translate: 0 -12%; }
+}
+
+@keyframes thump {
+  0% { scale: 0.7; }
+  60% { scale: 1.1; }
+  100% { scale: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud,
+  .kite,
+  .bow {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller kite so the bows keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .kite {
+    --k: clamp(70px, 30dvh, 120px);
+  }
+
+  .knot {
+    --n: clamp(48px, 16dvh, 72px);
+  }
+
+  .bow {
+    --b: clamp(80px, 28dvh, 130px);
+  }
+}

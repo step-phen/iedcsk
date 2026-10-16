@@ -1,0 +1,174 @@
+/* Look of Letter c Trails: a warm bakery kitchen, tracing on a recipe card while cookies bake; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #fff4e6 0%, #ffe8cc 60%, #f7d7ae 100%);
+  color: #4a2a0a;
+}
+
+/* Blue-and-white kitchen tiles, faint behind everything. */
+.tiles {
+  background:
+    linear-gradient(90deg, rgba(47, 93, 138, 0.08) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(0deg, rgba(47, 93, 138, 0.08) 1px, transparent 1px) 0 0 / 48px 48px;
+}
+
+.oven {
+  background: linear-gradient(180deg, #5b6470 0 8px, #3c434c 8px 100%);
+}
+
+.badge {
+  background: #fffdf8;
+  border: 3px solid #2f5d8a;
+  box-shadow: 0 3px 0 rgba(120, 60, 10, 0.3);
+}
+
+.avatar {
+  background: #e6f0fb;
+}
+
+.title {
+  color: #b45309;
+  text-shadow: 0 2px 0 #fffaf0, 0 4px 0 rgba(180, 83, 9, 0.3);
+}
+
+.instruction {
+  background: #fffdf8;
+  border: 3px solid #2f5d8a;
+  color: #4a2a0a;
+}
+
+.iconButton {
+  background: #b45309;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(120, 60, 10, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A recipe card with a blue gingham edge, showing through a clear border that the state colours paint over; scale (not transform) so the shake and the zoom never fight. */
+.recipe {
+  background:
+    linear-gradient(#fffdf8, #fffdf8) padding-box,
+    repeating-conic-gradient(#2f5d8a 0 25%, #dbe8f5 0 50%) 0 0 / 16px 16px border-box;
+  border: 9px solid transparent;
+  box-shadow: 0 8px 0 rgba(120, 60, 10, 0.3);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.recipeWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.recipeModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.25), 0 0 32px 8px rgba(34, 179, 94, 0.45);
+}
+
+.recipeZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.recipeRight {
+  border-color: #b45309;
+  animation: bump 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+.tray {
+  background: linear-gradient(180deg, #c9ced6 0%, #a9b0ba 100%);
+  border: 4px solid #8a929d;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.5), 0 5px 0 rgba(60, 60, 70, 0.3);
+}
+
+/* Raw dough: pale and soft; baked: golden with chocolate chips. */
+.cookie {
+  background: radial-gradient(circle at 40% 35%, #fff6e2 0%, #f3dfb8 70%);
+  box-shadow: 0 3px 0 rgba(120, 60, 10, 0.2);
+  transition: background 700ms ease-out;
+}
+
+.cookieNext {
+  animation: nudge 1.4s ease-in-out infinite;
+}
+
+.cookieBaked {
+  background:
+    radial-gradient(circle at 25% 30%, #5a3210 0 5%, transparent 6%),
+    radial-gradient(circle at 72% 62%, #5a3210 0 5%, transparent 6%),
+    radial-gradient(circle at 30% 75%, #5a3210 0 4%, transparent 5%),
+    radial-gradient(circle at 40% 35%, #f0b86a 0%, #d99a4e 75%);
+}
+
+.cookieBurnt {
+  background: radial-gradient(circle at 40% 35%, #c9b8a0 0%, #a8957c 75%);
+}
+
+.icing {
+  animation: appear 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards;
+}
+
+.resultStamp {
+  background: #b45309;
+  color: white;
+  border: 4px solid white;
+  box-shadow: 0 5px 0 rgba(120, 60, 10, 0.3);
+  rotate: -3deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.05; }
+}
+
+@keyframes appear {
+  from { opacity: 0; scale: 0.5; }
+  to { opacity: 1; scale: 1; }
+}
+
+@keyframes nudge {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.08; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recipeWrong,
+  .recipeRight,
+  .cookieNext,
+  .icing {
+    animation: none;
+  }
+}

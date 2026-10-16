@@ -1,0 +1,196 @@
+/* Look of Sound and Syllable Match; layout and spacing stay in Tailwind, the sounds and lines stay in SoundAndSyllableMatch.data.ts. */
+
+/* A music room: soft lilac wall with faint floating notes. */
+.screen {
+  background: linear-gradient(180deg, #f3d9fa 0%, #eebefa 100%);
+  color: #4a1d5c;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.notes {
+  background:
+    radial-gradient(ellipse 1.6% 1.1% at 12% 30%, rgba(132, 94, 247, 0.35) 0 95%, transparent 100%),
+    linear-gradient(rgba(132, 94, 247, 0.35) 0 0) calc(12% + 9px) 22% / 3px 6% no-repeat,
+    radial-gradient(ellipse 1.6% 1.1% at 88% 62%, rgba(230, 73, 128, 0.35) 0 95%, transparent 100%),
+    linear-gradient(rgba(230, 73, 128, 0.35) 0 0) calc(88% + 9px) 54% / 3px 6% no-repeat;
+}
+
+.badge {
+  border: 3px solid #4a1d5c;
+  background: white;
+  color: #4a1d5c;
+  box-shadow: 0 3px 0 rgba(74, 29, 92, 0.3);
+}
+
+.avatar {
+  background: #e5dbff;
+  color: #5f3dc4;
+}
+
+.title {
+  color: #ae3ec9;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(74, 29, 92, 0.25);
+}
+
+.instruction {
+  background: white;
+  color: #4a1d5c;
+  border: 3px solid #4a1d5c;
+  box-shadow: 0 3px 0 rgba(74, 29, 92, 0.25);
+}
+
+.iconButton {
+  border: 3px solid #4a1d5c;
+  background: #845ef7;
+  color: white;
+  box-shadow: 0 3px 0 rgba(74, 29, 92, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A black music stand holding a sheet with the picture. */
+.sheet {
+  --s: clamp(86px, min(30vw, 18dvh), 150px);
+  width: calc(var(--s) * 1.25);
+  height: var(--s);
+  background:
+    repeating-linear-gradient(180deg, transparent 0 14px, rgba(74, 29, 92, 0.12) 14px 16px),
+    #fffdf7;
+  border: 4px solid #212529;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.25);
+}
+
+.standPicture {
+  font-size: calc(var(--s) * 0.62);
+  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.2));
+}
+
+.pole {
+  width: 8px;
+  height: clamp(12px, 3dvh, 28px);
+  background: #212529;
+}
+
+/* The xylophone frame: a dark wooden base with two felt rails under the bars. */
+.frame {
+  --x: clamp(84px, min(30vw, 22dvh), 170px);
+  padding: calc(var(--x) * 0.16) calc(var(--x) * 0.2);
+  background: linear-gradient(180deg, #862e9c 0%, #5f1f70 100%);
+  border: 5px solid #3b0d4a;
+  box-shadow: 0 8px 0 rgba(59, 13, 74, 0.35);
+}
+
+.rail {
+  height: calc(var(--x) * 0.08);
+  background: #e9ecef;
+  border-radius: 999px;
+  opacity: 0.6;
+}
+
+.bar {
+  width: calc(var(--x) * 0.62);
+  border: 4px solid rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 6px 0 rgba(255, 255, 255, 0.35), inset 0 -6px 0 rgba(0, 0, 0, 0.12), 0 5px 0 rgba(0, 0, 0, 0.3);
+  touch-action: manipulation;
+  transition: opacity 250ms ease-out;
+}
+
+.bar:focus-visible {
+  outline: 4px solid white;
+  outline-offset: 3px;
+}
+
+.barText {
+  font-size: calc(var(--x) * 0.34);
+  color: #212529;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.6);
+}
+
+.peg {
+  background: #adb5bd;
+  border: 2px solid #495057;
+}
+
+.barRight {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 18px 6px rgba(74, 222, 128, 0.7);
+  animation: ring 0.25s ease-in-out 4;
+}
+
+.barWrong {
+  box-shadow: 0 0 0 4px #dc2626, 0 5px 0 rgba(0, 0, 0, 0.3);
+  animation: shake 0.45s ease-in-out;
+}
+
+/* The right bar after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.barReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #845ef7;
+  color: white;
+  border: 4px solid #4a1d5c;
+  box-shadow: 0 5px 0 rgba(74, 29, 92, 0.3);
+}
+
+/* A struck bar trembles quickly, like it is ringing. */
+@keyframes ring {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 3px; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barRight,
+  .barWrong {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller stand and xylophone so both fit. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .sheet {
+    --s: clamp(56px, 22dvh, 96px);
+  }
+
+  .frame {
+    --x: clamp(56px, 26dvh, 110px);
+  }
+}

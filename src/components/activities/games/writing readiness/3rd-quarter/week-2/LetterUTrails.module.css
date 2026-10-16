@@ -1,0 +1,185 @@
+/* Look of Letter U Trails: a rainy afternoon, tracing on a misty window while umbrellas pop open; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #6f86a6 0%, #93a9c4 55%, #b8c8da 100%);
+  color: #1f3550;
+}
+
+/* Slanted rain streaks. */
+.rain {
+  background-image: repeating-linear-gradient(105deg, transparent 0 22px, rgba(255, 255, 255, 0.28) 22px 24px, transparent 24px 60px);
+}
+
+.puddles {
+  background:
+    radial-gradient(40% 60% at 20% 80%, rgba(120, 150, 190, 0.8) 0 60%, transparent 61%),
+    radial-gradient(35% 50% at 75% 85%, rgba(120, 150, 190, 0.7) 0 60%, transparent 61%),
+    #5c6f55;
+}
+
+.badge {
+  background: #f4f8fc;
+  border: 3px solid #35577a;
+  box-shadow: 0 3px 0 rgba(30, 50, 80, 0.35);
+}
+
+.avatar {
+  background: #dde8f3;
+}
+
+.title {
+  color: #ffffff;
+  text-shadow: 0 3px 0 #35577a, 0 5px 0 rgba(30, 50, 80, 0.3);
+}
+
+.instruction {
+  background: #f4f8fc;
+  border: 3px solid #35577a;
+  color: #1f3550;
+}
+
+.iconButton {
+  background: #f28c28;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(30, 50, 80, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A misted window in a white frame with raindrops on the glass; scale (not transform) so the shake and the zoom never fight. */
+.pane {
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.9) 0 5px, transparent 6px),
+    radial-gradient(circle at 82% 30%, rgba(255, 255, 255, 0.9) 0 4px, transparent 5px),
+    radial-gradient(circle at 70% 78%, rgba(255, 255, 255, 0.9) 0 6px, transparent 7px),
+    radial-gradient(circle at 25% 85%, rgba(255, 255, 255, 0.8) 0 4px, transparent 5px),
+    linear-gradient(170deg, #eef5fb 0%, #dce8f3 100%);
+  border: 8px solid #ffffff;
+  box-shadow: inset 0 0 0 3px #b8c8da, 0 8px 0 rgba(30, 50, 80, 0.35);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.paneWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.paneModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.25), 0 0 32px 8px rgba(34, 179, 94, 0.45);
+}
+
+.paneZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.paneRight {
+  border-color: #f28c28;
+  animation: bump 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* Folded: a thin sliver; open: the full dome with ribs. */
+.canopy {
+  scale: 0.28 1;
+  transform-origin: bottom center;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  transition: scale 450ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.canopy0 { background: repeating-conic-gradient(from -90deg at 50% 100%, #f28c28 0 30deg, #ffb35c 30deg 60deg); }
+.canopy1 { background: repeating-conic-gradient(from -90deg at 50% 100%, #3d9be0 0 30deg, #7cc0f0 30deg 60deg); }
+.canopy2 { background: repeating-conic-gradient(from -90deg at 50% 100%, #d6336c 0 30deg, #f27aa3 30deg 60deg); }
+.canopy3 { background: repeating-conic-gradient(from -90deg at 50% 100%, #2bb38a 0 30deg, #6fd8b6 30deg 60deg); }
+.canopy4 { background: repeating-conic-gradient(from -90deg at 50% 100%, #8a5ad6 0 30deg, #b897f0 30deg 60deg); }
+
+/* rotate, not scale, so the nudge never unfolds the umbrella early. */
+.canopyNext {
+  animation: tilt 1.4s ease-in-out infinite;
+}
+
+.canopyOpen {
+  scale: 1;
+}
+
+.handle {
+  background: #3a3a3a;
+}
+
+.dry {
+  animation: appear 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dryMissed {
+  filter: grayscale(0.6) opacity(0.65);
+}
+
+.resultStamp {
+  background: #f28c28;
+  color: white;
+  border: 4px solid white;
+  box-shadow: 0 5px 0 rgba(30, 50, 80, 0.35);
+  rotate: -3deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.05; }
+}
+
+@keyframes appear {
+  from { opacity: 0; scale: 0.5; }
+  to { opacity: 1; scale: 1; }
+}
+
+@keyframes nudge {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.08; }
+}
+
+@keyframes tilt {
+  0%, 100% { rotate: -6deg; }
+  50% { rotate: 6deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paneWrong,
+  .paneRight,
+  .canopyNext,
+  .dry {
+    animation: none;
+  }
+}

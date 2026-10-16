@@ -1,0 +1,166 @@
+/* Look of Listen and Match Syllables: e (vowel first); layout and spacing stay in Tailwind, the lines stay in ListenAndMatchSyllablesVowelFirstE.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #e3fafc 0%, #f3f0ff 100%);
+  color: #3b3f5c;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Round green bushes behind a spring meadow. */
+.bushes {
+  background:
+    radial-gradient(circle at 10% 100%, #8ce99a 0 18%, transparent 18.5%),
+    radial-gradient(circle at 28% 100%, #69db7c 0 14%, transparent 14.5%),
+    radial-gradient(circle at 74% 100%, #8ce99a 0 20%, transparent 20.5%),
+    radial-gradient(circle at 92% 100%, #69db7c 0 15%, transparent 15.5%);
+}
+
+.meadow {
+  background:
+    radial-gradient(circle, #ffa8a8 0 3px, transparent 4px) 0 0 / 46px 30px,
+    radial-gradient(circle, #ffe066 0 3px, transparent 4px) 22px 14px / 52px 34px,
+    #b2f2bb;
+}
+
+.badge {
+  border: 3px solid #3b3f5c;
+  background: white;
+  color: #3b3f5c;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+}
+
+.avatar {
+  background: #e5dbff;
+  color: #6741d9;
+}
+
+.title {
+  color: #7048e8;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(0, 0, 0, 0.18);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  color: #3b3f5c;
+  border: 3px solid #3b3f5c;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #3b3f5c;
+  background: #9775fa;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Three eggs in a row; each is a square tap target. */
+.row {
+  --c: clamp(88px, min(calc((100vw - 90px) / 3.3), 32dvh), 220px);
+  gap: calc(var(--c) * 0.16);
+  padding: 0 calc(var(--c) * 0.1);
+}
+
+.item {
+  width: var(--c);
+  height: var(--c);
+  touch-action: manipulation;
+  animation: rock 2.8s ease-in-out var(--idle-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.item:focus-visible {
+  outline: 4px solid #9775fa;
+  outline-offset: 4px;
+}
+
+.syllable {
+  font-size: calc(var(--c) * 0.24);
+  color: #3b3f5c;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.7);
+}
+
+.itemRight {
+  animation: crackHop 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.itemWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right egg after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.itemReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #9775fa;
+  color: white;
+  border: 4px solid #3b3f5c;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.25);
+}
+
+@keyframes crackHop {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  20% { rotate: -10deg; }
+  40% { rotate: 10deg; translate: 0 -8%; }
+  60% { rotate: -4deg; translate: 0 -14%; }
+}
+
+@keyframes rock {
+  0%, 100% { rotate: -2deg; }
+  50% { rotate: 2deg; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller eggs so the row fits under the header. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .row {
+    --c: clamp(64px, 40dvh, 140px);
+  }
+}

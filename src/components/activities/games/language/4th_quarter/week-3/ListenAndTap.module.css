@@ -1,0 +1,223 @@
+/* Look of Listen and Tap; layout and spacing stay in Tailwind, the animals and lines stay in ListenAndTap.data.ts. */
+
+/* A farm morning: pale sky over a mowed green field behind a white fence. */
+.screen {
+  background: linear-gradient(180deg, #a5d8ff 0%, #d0ebff 38%, #d3f9d8 38%);
+  color: #2b5718;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.field {
+  background:
+    repeating-linear-gradient(100deg, rgba(255, 255, 255, 0.08) 0 40px, transparent 40px 80px),
+    linear-gradient(180deg, #8ce99a 0%, #51cf66 100%);
+}
+
+.fence {
+  background:
+    linear-gradient(white 0 0) 0 30% / 100% 4px no-repeat,
+    linear-gradient(white 0 0) 0 75% / 100% 4px no-repeat,
+    linear-gradient(90deg, white 0 8px, transparent 8px) 0 0 / 40px 100%;
+  filter: drop-shadow(0 2px 0 rgba(43, 87, 24, 0.3));
+}
+
+.badge {
+  border: 3px solid #2b5718;
+  background: white;
+  color: #2b5718;
+  box-shadow: 0 3px 0 rgba(43, 87, 24, 0.3);
+}
+
+.avatar {
+  background: #ffec99;
+  color: #8a5a00;
+}
+
+.title {
+  color: #e03131;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(92, 26, 26, 0.25);
+}
+
+.instruction {
+  background: white;
+  color: #2b5718;
+  border: 3px solid #2b5718;
+  box-shadow: 0 3px 0 rgba(43, 87, 24, 0.25);
+}
+
+.iconButton {
+  border: 3px solid #2b5718;
+  background: #fab005;
+  color: #2b5718;
+  box-shadow: 0 3px 0 rgba(43, 87, 24, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A wooden farm sign with the direction painted on it. */
+.sign {
+  background:
+    repeating-linear-gradient(180deg, transparent 0 18px, rgba(92, 54, 22, 0.25) 18px 20px),
+    #e8b67a;
+  color: #4a2a0c;
+  border: 4px solid #8a5a2b;
+  box-shadow: 0 5px 0 rgba(74, 42, 12, 0.35);
+}
+
+/* Each animal stands on its own round patch of darker grass. */
+.patch {
+  --a: clamp(80px, min(30vw, 17dvh), 150px);
+  width: var(--a);
+  height: var(--a);
+  background: radial-gradient(circle at 50% 70%, #40c057 0%, #2f9e44 70%);
+  border: 4px solid #2b8a3e;
+  box-shadow: 0 6px 0 rgba(43, 87, 24, 0.35);
+  touch-action: manipulation;
+  transition: opacity 250ms ease-out, box-shadow 200ms ease-out;
+}
+
+.patchDrag {
+  touch-action: none;
+  cursor: grab;
+}
+
+.patch:focus-visible {
+  outline: 4px solid #fab005;
+  outline-offset: 3px;
+}
+
+.animal {
+  font-size: calc(var(--a) * 0.6);
+  filter: drop-shadow(0 4px 2px rgba(0, 0, 0, 0.25));
+}
+
+.patchDragging {
+  z-index: 5;
+  cursor: grabbing;
+  scale: 1.08;
+  box-shadow: 0 14px 16px rgba(0, 0, 0, 0.25);
+}
+
+.patchTapped {
+  box-shadow: 0 0 0 4px #fab005, 0 6px 0 rgba(43, 87, 24, 0.35);
+}
+
+.patchRight {
+  box-shadow: 0 0 0 4px #16a34a, 0 0 18px 6px rgba(74, 222, 128, 0.7);
+  animation: hop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2;
+}
+
+.patchWrong {
+  box-shadow: 0 0 0 4px #dc2626, 0 6px 0 rgba(43, 87, 24, 0.35);
+  animation: shake 0.45s ease-in-out;
+}
+
+/* The animals that should have been tapped after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.patchReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.stepBadge {
+  background: #fab005;
+  color: #4a2a0c;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* The place an animal is sent: a pond or a barn, glowing gold when an animal is dragged over it. */
+.place {
+  --a: clamp(80px, min(30vw, 17dvh), 150px);
+  width: calc(var(--a) * 1.9);
+  height: calc(var(--a) * 1.2);
+  border-radius: 24px;
+  transition: box-shadow 200ms ease-out;
+}
+
+.placeBarn {
+  height: calc(var(--a) * 1.55);
+  width: calc(var(--a) * 1.9);
+}
+
+.placeBarn .animal {
+  margin-top: 28%;
+}
+
+.placeHover {
+  box-shadow: 0 0 0 5px #fab005, 0 0 22px rgba(250, 176, 5, 0.6);
+}
+
+/* The place holding the right animal after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.placeReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.animalHop {
+  animation: hop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #e03131;
+  color: white;
+  border: 4px solid white;
+  box-shadow: 0 5px 0 rgba(92, 26, 26, 0.35);
+}
+
+@keyframes hop {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 0 -14%; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .patchRight,
+  .patchWrong,
+  .animalHop {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller patches so the sign, the place and the animals fit. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .patch,
+  .place {
+    --a: clamp(56px, 22dvh, 96px);
+  }
+}

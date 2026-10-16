@@ -1,0 +1,176 @@
+/* Look of Letter I Trails: a snowy arctic morning with an ice block to trace on; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #bfe7fb 0%, #e3f5fd 60%, #f7fcff 100%);
+  color: #14466e;
+}
+
+.snow {
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 3px, transparent 4px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.8) 0 2px, transparent 3px);
+  background-size: 90px 90px, 55px 55px;
+  background-position: 0 0, 25px 35px;
+}
+
+.drifts {
+  background:
+    radial-gradient(70% 100% at 15% 100%, #ffffff 0 60%, transparent 61%),
+    radial-gradient(80% 90% at 80% 100%, #f1f9ff 0 60%, transparent 61%);
+}
+
+.badge {
+  background: #ffffff;
+  border: 3px solid #2b6f9e;
+  box-shadow: 0 3px 0 rgba(20, 70, 110, 0.25);
+}
+
+.avatar {
+  background: #dff1fb;
+}
+
+.title {
+  color: #1b5a8a;
+  text-shadow: 0 2px 0 #ffffff, 0 4px 0 rgba(43, 111, 158, 0.3);
+}
+
+.instruction {
+  background: #ffffff;
+  border: 3px solid #2b6f9e;
+  color: #14466e;
+}
+
+.iconButton {
+  background: #d6336c;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(130, 20, 60, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A clear ice block with a frosty rim; scale (not transform) so the shake and the zoom never fight. */
+.ice {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0 18%, transparent 19% 100%),
+    linear-gradient(160deg, #f4fbff 0%, #d9f0fc 100%);
+  border: 6px solid #8fd0f0;
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.8), 0 8px 0 rgba(43, 111, 158, 0.3);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.iceWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.iceModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.25), 0 0 32px 8px rgba(34, 179, 94, 0.45);
+}
+
+.iceZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.iceRight {
+  border-color: #d6336c;
+  animation: bump 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+.cube {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), #b9e2f7);
+  border: 3px solid #8fd0f0;
+  box-shadow: inset 0 -4px 0 rgba(43, 111, 158, 0.18), 0 3px 0 rgba(43, 111, 158, 0.25);
+  transition: background 400ms ease-out;
+}
+
+.cubeNext {
+  border-color: #d6336c;
+  animation: glint 1.6s ease-in-out infinite;
+}
+
+.cubeThawed {
+  background: #ffffff;
+}
+
+/* The picture waits frozen as a pale blue blur. */
+.frozen {
+  filter: blur(2px) grayscale(1) opacity(0.45);
+  transition: filter 500ms ease-out;
+}
+
+.frozenOut {
+  filter: none;
+  animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.frozenMissed {
+  filter: grayscale(0.6) opacity(0.6);
+}
+
+.resultStamp {
+  background: #2b6f9e;
+  color: white;
+  border: 4px solid white;
+  box-shadow: 0 5px 0 rgba(20, 70, 110, 0.4);
+  rotate: -3deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.05; }
+}
+
+@keyframes glint {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(214, 51, 108, 0); }
+  50% { box-shadow: 0 0 0 6px rgba(214, 51, 108, 0.3); }
+}
+
+@keyframes popIn {
+  0% { scale: 0.4; rotate: -15deg; }
+  60% { scale: 1.2; rotate: 6deg; }
+  100% { scale: 1; rotate: 0deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iceWrong,
+  .iceRight,
+  .cubeNext,
+  .frozenOut {
+    animation: none;
+  }
+}

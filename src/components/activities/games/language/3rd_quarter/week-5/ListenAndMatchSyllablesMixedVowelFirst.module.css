@@ -1,0 +1,193 @@
+/* Look of Listen and Match Syllables: mixed (vowel first) (Parol Night); layout and spacing stay in Tailwind, the sounds and lines stay in ListenAndMatchSyllablesMixedVowelFirst.data.ts. */
+
+/* A Christmas night street: indigo sky with twinkling stars over dark rooftops. */
+.screen {
+  background: linear-gradient(180deg, #1b1442 0%, #3b2a85 70%, #5f3dc4 100%);
+  color: #fff9db;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.stars {
+  background:
+    radial-gradient(circle, #fff9db 0 1.5px, transparent 2.5px) 0 0 / 90px 70px,
+    radial-gradient(circle, #ffe066 0 1px, transparent 2px) 45px 35px / 120px 90px;
+  animation: twinkle 3s ease-in-out infinite alternate;
+}
+
+.roofs {
+  background:
+    conic-gradient(from 135deg at 50% 0, #120d2e 90deg, transparent 0) 0 0 / 120px 100%,
+    #120d2e;
+  clip-path: polygon(0 40%, 10% 0, 20% 40%, 32% 10%, 44% 40%, 56% 0, 68% 40%, 80% 12%, 90% 40%, 100% 5%, 100% 100%, 0 100%);
+}
+
+.badge {
+  border: 3px solid #ffd43b;
+  background: #1b1442;
+  color: #fff9db;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #ffd43b;
+  color: #1b1442;
+}
+
+.title {
+  color: #ffe066;
+  text-shadow: 0 0 14px rgba(255, 212, 59, 0.6), 0 3px 0 #1b1442;
+}
+
+.instruction {
+  background: #fff9db;
+  color: #1b1442;
+  border: 3px solid #ffd43b;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.iconButton {
+  border: 3px solid #fff9db;
+  background: #f03e3e;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.garland path {
+  stroke: #ffd43b;
+  stroke-dasharray: 1 8;
+  stroke-linecap: round;
+  stroke-width: 5;
+}
+
+/* Each parol hangs on its own cord and swings gently; dim until it is lit. */
+.cord {
+  --p: clamp(96px, min(26vw, 30dvh), 180px);
+  width: 3px;
+  height: calc(var(--p) * var(--drop, 0.2));
+  background: #ffd43b;
+}
+
+.parol {
+  --p: clamp(96px, min(26vw, 30dvh), 180px);
+  width: calc(var(--p) * 0.72);
+  height: var(--p);
+  touch-action: manipulation;
+  transform-origin: 50% 0;
+  animation: swing 3.2s ease-in-out var(--swing-delay, 0s) infinite;
+  filter: brightness(0.75) saturate(0.85);
+  transition: opacity 250ms ease-out, filter 300ms ease-out;
+}
+
+.parol:focus-visible {
+  outline: 4px solid #ffd43b;
+  outline-offset: 4px;
+  border-radius: 1rem;
+}
+
+.window {
+  top: calc(var(--p) * 0.21);
+  width: calc(var(--p) * 0.36);
+  height: calc(var(--p) * 0.36);
+  font-size: calc(var(--p) * 0.17);
+  color: #1b1442;
+  background: #fff9db;
+  border: 3px solid #1b1442;
+}
+
+/* A lit parol: full color with a warm glow and a green ring around it. */
+.parolLit {
+  z-index: 2;
+  filter: brightness(1.15) drop-shadow(0 0 6px #16a34a) drop-shadow(0 0 22px rgba(255, 212, 59, 0.9));
+  animation: glow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.parolWrong {
+  animation: flicker 0.45s steps(2, jump-none) 1, shake 0.45s ease-in-out;
+  filter: brightness(0.75) drop-shadow(0 0 4px #dc2626) drop-shadow(0 0 4px #dc2626);
+}
+
+/* After a miss the right parol lights with a green glow and a 2s grow-and-settle. */
+.parolReveal {
+  filter: brightness(1.15) drop-shadow(0 0 5px #16a34a) drop-shadow(0 0 18px rgba(22, 163, 74, 0.8));
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.resultStamp {
+  background: #f03e3e;
+  color: white;
+  border: 4px solid #ffd43b;
+  box-shadow: 0 0 18px rgba(255, 212, 59, 0.5), 0 5px 0 rgba(0, 0, 0, 0.35);
+}
+
+@keyframes twinkle {
+  from { opacity: 0.55; }
+  to { opacity: 1; }
+}
+
+@keyframes swing {
+  0%, 100% { rotate: -4deg; }
+  50% { rotate: 4deg; }
+}
+
+@keyframes glow {
+  0% { scale: 0.9; }
+  60% { scale: 1.1; }
+  100% { scale: 1; }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars,
+  .parol {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller parols so the whole garland fits. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .cord,
+  .parol {
+    --p: clamp(70px, 40dvh, 130px);
+  }
+}

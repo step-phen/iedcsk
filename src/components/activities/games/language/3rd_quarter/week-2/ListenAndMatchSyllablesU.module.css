@@ -1,0 +1,162 @@
+/* Look of Listen and Match Syllables: u; layout and spacing stay in Tailwind, the lines stay in ListenAndMatchSyllablesU.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #fff9db 0%, #ebfbee 100%);
+  color: #2b5f2e;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Daisies along the garden bed above tall grass. */
+.flowers {
+  background:
+    radial-gradient(circle, #fcc419 0 5px, white 6px 13px, transparent 14px) 0 50% / 90px 60px repeat-x;
+}
+
+.grass {
+  background:
+    linear-gradient(135deg, #51cf66 25%, transparent 25%) 0 0 / 22px 22px,
+    linear-gradient(225deg, #51cf66 25%, transparent 25%) 0 0 / 22px 22px,
+    linear-gradient(180deg, #69db7c 0 40%, #40c057 40%);
+}
+
+.badge {
+  border: 3px solid #2b5f2e;
+  background: white;
+  color: #2b5f2e;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+}
+
+.avatar {
+  background: #ffe3e3;
+  color: #c92a2a;
+}
+
+.title {
+  color: #2b8a3e;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(0, 0, 0, 0.18);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  color: #2b5f2e;
+  border: 3px solid #2b5f2e;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #2b5f2e;
+  background: #e03131;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Three leaves in a row; each is a square tap target. */
+.row {
+  --c: clamp(88px, min(calc((100vw - 90px) / 3.3), 32dvh), 220px);
+  gap: calc(var(--c) * 0.16);
+  padding: 0 calc(var(--c) * 0.1);
+}
+
+.item {
+  width: var(--c);
+  height: var(--c);
+  touch-action: manipulation;
+  animation: sway 3s ease-in-out var(--idle-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.item:focus-visible {
+  outline: 4px solid #e03131;
+  outline-offset: 4px;
+}
+
+.syllable {
+  font-size: calc(var(--c) * 0.24);
+  color: #1b4332;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.7);
+}
+
+.itemRight {
+  animation: flutter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.itemWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right leaf after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.itemReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #e03131;
+  color: white;
+  border: 4px solid #2b5f2e;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.25);
+}
+
+@keyframes flutter {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  30% { translate: 0 -14%; rotate: -6deg; }
+  60% { translate: 0 -6%; rotate: 6deg; }
+}
+
+@keyframes sway {
+  0%, 100% { rotate: -2deg; }
+  50% { rotate: 2deg; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller leaves so the row fits under the header. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .row {
+    --c: clamp(64px, 40dvh, 140px);
+  }
+}

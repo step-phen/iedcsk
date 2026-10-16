@@ -23,7 +23,10 @@ export function promptSpeech(syllable: string): string {
   return `Listen... ${SOUNDS[syllable]}... ${SOUNDS[syllable]}. Which apple says ${SOUNDS[syllable]}?`;
 }
 
-const blend = (syllable: string) => `${syllable[0].toUpperCase()} and ${syllable[1].toUpperCase()} make ${SOUNDS[syllable]}`;
+// A lone capital "A" is read as the word "uh", so the letter a is spelled the way its name sounds.
+const letterName = (letter: string) => (letter === "a" ? "Ay" : letter.toUpperCase());
+
+const blend = (syllable: string) => `${letterName(syllable[0])} and ${letterName(syllable[1])} make ${SOUNDS[syllable]}`;
 
 export function correctSpeech(syllable: string): string {
   return `Yummy! ${blend(syllable)}!`;

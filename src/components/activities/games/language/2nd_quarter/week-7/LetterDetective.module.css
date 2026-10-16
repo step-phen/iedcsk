@@ -1,0 +1,171 @@
+/* Look of Letter Detective (Clue Board); layout and spacing stay in Tailwind, the lines stay in LetterDetective.data.ts. */
+
+/* A detective's office: dark wood-panel wall under a desk lamp's warm glow. */
+.screen {
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 35%, rgba(255, 224, 102, 0.35), transparent 70%),
+    repeating-linear-gradient(90deg, #6f4e37 0 60px, #5e412d 60px 62px),
+    #6f4e37;
+  color: #432818;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.badge {
+  border: 3px solid #432818;
+  background: #fff9db;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.avatar {
+  background: #ffd8a8;
+  color: #9c4221;
+}
+
+.title {
+  color: #fff9db;
+  text-shadow: 0 3px 0 #432818, 0 6px 10px rgba(0, 0, 0, 0.35);
+}
+
+.instruction {
+  background: #fff9db;
+  border: 3px solid #432818;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.iconButton {
+  border: 3px solid #432818;
+  background: #e8590c;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The cork board in a wooden frame; four notes across, two rows. */
+.board {
+  --n: clamp(58px, min(calc((100vw - 90px) / 4.6), 19dvh), 140px);
+  gap: calc(var(--n) * 0.2);
+  padding: calc(var(--n) * 0.24);
+  background:
+    radial-gradient(circle, rgba(92, 51, 23, 0.25) 0 1px, transparent 1.5px) 0 0 / 9px 9px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.15) 0 1px, transparent 1.5px) 4px 5px / 11px 11px,
+    #c99a6b;
+  border: 8px solid #8d5a2b;
+  box-shadow: inset 0 0 18px rgba(67, 40, 24, 0.45), 0 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.note {
+  width: var(--n);
+  height: var(--n);
+  font-size: calc(var(--n) * 0.48);
+  color: #432818;
+  rotate: var(--tilt, 0deg);
+  box-shadow: 0 4px 6px rgba(67, 40, 24, 0.35);
+  touch-action: manipulation;
+  animation: pinUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) var(--pin-delay, 0ms) backwards;
+  transition: opacity 250ms ease-out, rotate 200ms ease-out;
+}
+
+.note:focus-visible {
+  outline: 4px solid #e8590c;
+  outline-offset: 3px;
+}
+
+.pin {
+  width: calc(var(--n) * 0.14);
+  height: calc(var(--n) * 0.14);
+  background: radial-gradient(circle at 35% 35%, #ff8787, #c92a2a);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.35);
+}
+
+.magnifier {
+  width: calc(var(--n) * 0.9);
+  height: calc(var(--n) * 0.9);
+  rotate: -10deg;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.35));
+}
+
+/* The right note straightens up and glows green. */
+.noteRight {
+  rotate: 0deg;
+  animation: hop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 18px 4px rgba(74, 222, 128, 0.7);
+}
+
+.noteWrong {
+  animation: shake 0.45s ease-in-out;
+  box-shadow: 0 0 0 4px #dc2626, 0 4px 6px rgba(67, 40, 24, 0.35);
+}
+
+/* The right note after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.noteReveal {
+  z-index: 3;
+  rotate: 0deg;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.resultStamp {
+  background: #e8590c;
+  color: white;
+  border: 4px solid #432818;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+@keyframes pinUp {
+  from { translate: 0 -30%; opacity: 0; }
+  to { translate: 0 0; opacity: 1; }
+}
+
+@keyframes hop {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 0 -14%; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -7px 0; }
+  40% { translate: 7px 0; }
+  60% { translate: -4px 0; }
+  80% { translate: 4px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .note {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller notes so both rows fit. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .board {
+    --n: clamp(44px, 24dvh, 90px);
+  }
+}
