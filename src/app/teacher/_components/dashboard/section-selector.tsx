@@ -41,6 +41,9 @@ export default function SectionSelector({
   // group-has-data-pending: CSS. Superseded navigations are dropped by the
   // router, so rapid switching always settles on the last pick.
   const [isPending, startTransition] = useTransition();
+  // A new section resets the other filters, but a report tab (?tab=) stays on the same tab.
+  const tab = searchParams.get("tab");
+  const sectionHref = (id: string) => `${pathname}?${tab ? `tab=${encodeURIComponent(tab)}&` : ""}section=${id}`;
 
   useEffect(() => {
     if (searchParams.get("section")) return; // URL already says which one — never override an explicit choice.
@@ -54,7 +57,7 @@ export default function SectionSelector({
 
     // Only honor it if that section still exists and is still this teacher's.
     if (stored && sections.some((s) => String(s.sectionId) === stored) && stored !== String(selectedSectionId)) {
-      router.replace(`${pathname}?section=${stored}`);
+      router.replace(sectionHref(stored));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-check when the section list itself changes.
   }, [sections]);
@@ -82,7 +85,7 @@ export default function SectionSelector({
             }
             startTransition(() => {
               setOptimisticId(nextSectionId);
-              router.push(`${pathname}?section=${nextSectionId}`, { scroll: false });
+              router.push(sectionHref(String(nextSectionId)), { scroll: false });
             });
           }}
           className={`${SELECT_CLASS} w-full md:w-auto`}
