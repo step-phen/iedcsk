@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useState, type InputHTMLAttributes } from "react";
 import { useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
-import { ArrowRightLeft, CalendarClock, CalendarDays, KeyRound, Layers, Plus, type LucideIcon } from "lucide-react";
+import { ArrowRightLeft, CalendarClock, CalendarDays, KeyRound, Layers, Pencil, Plus, type LucideIcon } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { ModalShell } from "@/components/ui/modal-shell";
 import {
@@ -23,7 +23,7 @@ import HandoverPanel from "@/app/teacher/_components/layout/handover-panel";
 import { cn } from "@/lib/utils";
 import { invalidateSections, sectionLabel, useSections } from "@/hooks/useSections";
 import { apiFetch } from "@/lib/api";
-import type { SchoolYear, SectionChoice } from "@/types/db";
+import type { SchoolYear, Section, SectionChoice } from "@/types/db";
 
 // The only sections a school year can have; each starts with its session's default timetable.
 const SECTION_CHOICES: { name: SectionChoice; label: string }[] = [
@@ -136,18 +136,58 @@ export default function SettingsModal({ open, onClose }: { open: boolean; onClos
   );
 }
 
-// Read-only: a school year's sections are picked once, when it is activated (School Year tab).
+// A school year's sections are picked once, when it is activated (School Year tab); an unused one's name can change here.
 function SectionsPanel() {
-  const { sections, loading, failed } = useSections(true);
+  const router = useRouter();
+  const { sections: loaded, loading, failed } = useSections(true);
   const activeYear = useActiveSchoolYear();
+  // Renamed rows replace the cached list until it is fetched again.
+  const [renamed, setRenamed] = useState<Record<number, Section>>({});
+  const sections = loaded.map((s) => renamed[s.sectionId] ?? s);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function rename(section: Section, name: string) {
+    setSaving(true);
+    setError(null);
+    try {
+      const res = await apiFetch(`/api/sections/${section.sectionId}`, { method: "PATCH", body: JSON.stringify({ sectionName: name }) });
+      if (res.ok) {
+        const updated = (await res.json()) as Section;
+        setRenamed((prev) => ({ ...prev, [updated.sectionId]: updated }));
+        setEditingId(null);
+        // Every section picker and the server-rendered pages pick up the new name.
+        invalidateSections();
+        router.refresh();
+        toast.success("Section renamed.");
+      } else if (res.status === 422) {
+        const { errors } = (await res.json()) as { errors: Record<string, string[]> };
+        if (errors.section) {
+          // Records arrived after the list loaded: the name is fixed now, so the row shows why instead of the form.
+          setRenamed((prev) => ({ ...prev, [section.sectionId]: { ...section, canRename: false, renameReason: errors.section[0] } }));
+          setEditingId(null);
+          invalidateSections();
+        } else {
+          setError(errors.sectionName?.[0] ?? "Check the section name.");
+        }
+      } else {
+        setError("Could not rename the section. Please try again.");
+      }
+    } catch {
+      setError("Could not reach the server. Please try again.");
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
     <div className="space-y-4">
       <div>
         <h3 className="text-base font-bold text-stone-900">Sections</h3>
         <p className="text-xs text-stone-500 mt-0.5">
-          Sections for the current school year. They are chosen when the school year is activated and can&apos;t be
-          added or changed during the year.
+          Sections for the current school year. They are chosen when the school year is activated. You can edit a
+          section&apos;s name until it has learners or classroom records; its session and schedule stay the same.
         </p>
       </div>
 
@@ -164,12 +204,82 @@ function SectionsPanel() {
           </p>
         ) : (
           <ul className="divide-y divide-gray-100">
-            {sections.map((s) => (
-              <li key={s.sectionId} className="flex items-center gap-3 px-4 py-2.5 text-sm">
-                <Layers size={16} aria-hidden="true" className="shrink-0 text-[#5b0610]" />
-                <span className="font-semibold text-gray-900">{sectionLabel(s)}</span>
-              </li>
-            ))}
+            {sections.map((s) =>
+              editingId === s.sectionId ? (
+                <li key={s.sectionId} className="px-4 py-2.5 text-sm">
+                  <form
+                    className="flex flex-wrap items-center gap-2"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      void rename(s, String(new FormData(e.currentTarget).get("sectionName") ?? ""));
+                    }}
+                  >
+                    <Layers size={16} aria-hidden="true" className="shrink-0 text-[#5b0610]" />
+                    <label htmlFor={`section-name-${s.sectionId}`} className="text-xs font-semibold text-gray-600">
+                      {s.gradeLevel} -
+                    </label>
+                    <input
+                      id={`section-name-${s.sectionId}`}
+                      name="sectionName"
+                      defaultValue={s.sectionName}
+                      maxLength={50}
+                      required
+                      autoFocus
+                      aria-invalid={!!error}
+                      aria-describedby={error ? `section-error-${s.sectionId}` : undefined}
+                      className="h-8 min-w-0 flex-1 rounded-lg border border-stone-300 bg-white px-3 text-sm focus:border-sidebar focus:outline-none focus:ring-2 focus:ring-sidebar/20"
+                    />
+                    <button
+                      type="submit"
+                      disabled={saving}
+                      className="h-8 cursor-pointer rounded-lg bg-sidebar px-3 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {saving ? "Saving…" : "Save"}
+                    </button>
+                    <button
+                      type="button"
+                      disabled={saving}
+                      onClick={() => {
+                        setEditingId(null);
+                        setError(null);
+                      }}
+                      className="h-8 cursor-pointer rounded-lg border border-stone-300 px-3 text-xs font-semibold text-gray-700 hover:bg-stone-50 disabled:cursor-not-allowed"
+                    >
+                      Cancel
+                    </button>
+                    {error && (
+                      <p id={`section-error-${s.sectionId}`} className="basis-full text-xs text-red-500">
+                        {error}
+                      </p>
+                    )}
+                  </form>
+                </li>
+              ) : (
+                <li key={s.sectionId} className="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2.5 text-sm">
+                  <Layers size={16} aria-hidden="true" className="shrink-0 text-[#5b0610]" />
+                  <span className="min-w-0 flex-1 font-semibold text-gray-900">{sectionLabel(s)}</span>
+                  <button
+                    type="button"
+                    disabled={saving || !s.canRename}
+                    onClick={() => {
+                      setEditingId(s.sectionId);
+                      setError(null);
+                    }}
+                    aria-label={`Edit the name of ${s.sectionName}`}
+                    aria-describedby={s.canRename ? undefined : `section-locked-${s.sectionId}`}
+                    className="flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-stone-300 px-2.5 text-xs font-semibold text-gray-700 enabled:hover:bg-stone-50 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <Pencil size={13} aria-hidden="true" />
+                    Edit
+                  </button>
+                  {!s.canRename && (
+                    <p id={`section-locked-${s.sectionId}`} className="basis-full pl-7 text-xs text-gray-500">
+                      {s.renameReason ?? "This section has learner or classroom records, so its name can no longer be changed."}
+                    </p>
+                  )}
+                </li>
+              ),
+            )}
           </ul>
         )}
       </div>
