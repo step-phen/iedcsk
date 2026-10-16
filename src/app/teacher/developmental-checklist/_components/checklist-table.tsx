@@ -341,61 +341,76 @@ export default function ChecklistTable({
             {shownLearners.length === 0 ? (
               <p className="px-4 py-12 text-center text-sm text-gray-500">No learners match this search.</p>
             ) : (
-              <ul className="divide-y divide-gray-100">
-                {shownLearners.map((l) => {
-                  const name = learnerName(l);
-                  const rating = ratingOf(keyOf(l.enrollmentId, item.itemId));
-                  const remarks = remarksOf(keyOf(l.enrollmentId, item.itemId));
-                  // A skill linked to a game unlocks once the learner has finished it; the server enforces the same rule.
-                  const locked = !!item.activityId && !resultOf(l.enrollmentId, item.activityId);
-                  return (
-                    <li key={l.enrollmentId} className="flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-2.5">
-                      <span className="w-52 shrink-0 truncate text-sm font-semibold text-gray-900">{name}</span>
-                      {item.activityId && (
-                        <span className="w-24 shrink-0">
-                          <span className="sr-only">Activity result: </span>
-                          <ResultBadge result={resultOf(l.enrollmentId, item.activityId)} />
-                        </span>
-                      )}
-                      {/* Tap to rate; tapping the picked rating again clears it. */}
-                      <div role="group" aria-label={`Rating for ${name}`} className="flex flex-1 flex-wrap gap-1.5">
-                        {RATINGS.map((r) => (
+              // Header and rows share column widths and never wrap, so they stay aligned; narrow screens scroll sideways.
+              <div className="overflow-x-auto">
+                {/* Hidden from screen readers: each row's controls already carry their own labels. */}
+                <div
+                  aria-hidden="true"
+                  className="flex min-w-xl items-center gap-x-4 border-b border-gray-200 bg-gray-50 px-5 py-2 text-xs font-bold uppercase tracking-wider text-gray-600"
+                >
+                  <span className="w-52 shrink-0">Learner Name</span>
+                  {item.activityId && <span className="w-24 shrink-0">Score</span>}
+                  <span className="flex-1">Skill Status</span>
+                  <span className="w-16 shrink-0 text-center">Remarks</span>
+                </div>
+                <ul className="divide-y divide-gray-100">
+                  {shownLearners.map((l) => {
+                    const name = learnerName(l);
+                    const rating = ratingOf(keyOf(l.enrollmentId, item.itemId));
+                    const remarks = remarksOf(keyOf(l.enrollmentId, item.itemId));
+                    // A skill linked to a game unlocks once the learner has finished it; the server enforces the same rule.
+                    const locked = !!item.activityId && !resultOf(l.enrollmentId, item.activityId);
+                    return (
+                      <li key={l.enrollmentId} className="flex min-w-xl items-center gap-x-4 px-5 py-2.5">
+                        <span className="w-52 shrink-0 truncate text-sm font-semibold text-gray-900">{name}</span>
+                        {item.activityId && (
+                          <span className="w-24 shrink-0">
+                            <span className="sr-only">Activity result: </span>
+                            <ResultBadge result={resultOf(l.enrollmentId, item.activityId)} />
+                          </span>
+                        )}
+                        {/* Tap to rate; tapping the picked rating again clears it. */}
+                        <div role="group" aria-label={`Rating for ${name}`} className="flex min-w-0 flex-1 flex-wrap gap-1.5">
+                          {RATINGS.map((r) => (
+                            <button
+                              key={r}
+                              type="button"
+                              aria-pressed={rating === r}
+                              // An older rating on a locked skill can still be tapped to clear it.
+                              disabled={locked && rating !== r}
+                              title={locked ? `Wait until ${name} finishes ${item.activityName}` : undefined}
+                              onClick={() => rate(l.enrollmentId, item.itemId, rating === r ? null : r)}
+                              className={cn(
+                                "h-8 cursor-pointer rounded-full border px-3 text-xs font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-sidebar/30 disabled:cursor-not-allowed disabled:opacity-40",
+                                rating === r ? RATING_SOLID[r] : "border-gray-300 bg-white text-gray-700 enabled:hover:border-gray-400 enabled:hover:bg-gray-50",
+                              )}
+                            >
+                              {RATING_BADGE[r].label}
+                            </button>
+                          ))}
+                        </div>
+                        {/* Remarks belong to a rating, so the button waits until the skill is rated; a filled button means remarks are saved. */}
+                        <span className="flex w-16 shrink-0 justify-center">
                           <button
-                            key={r}
                             type="button"
-                            aria-pressed={rating === r}
-                            // An older rating on a locked skill can still be tapped to clear it.
-                            disabled={locked && rating !== r}
-                            title={locked ? `Wait until ${name} finishes ${item.activityName}` : undefined}
-                            onClick={() => rate(l.enrollmentId, item.itemId, rating === r ? null : r)}
+                            disabled={!rating}
+                            onClick={() => setRemarksCell({ enrollmentId: l.enrollmentId, itemId: item.itemId, learner: name, item: item.item })}
+                            aria-label={`${remarks ? "Edit" : "Add"} remarks for ${name}`}
+                            title={!rating ? "Rate this skill first to add remarks" : (remarks ?? "Add remarks")}
                             className={cn(
-                              "h-8 cursor-pointer rounded-full border px-3 text-xs font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-sidebar/30 disabled:cursor-not-allowed disabled:opacity-40",
-                              rating === r ? RATING_SOLID[r] : "border-gray-300 bg-white text-gray-700 enabled:hover:border-gray-400 enabled:hover:bg-gray-50",
+                              ICON_BUTTON,
+                              "rounded-full",
+                              remarks && "border-sidebar bg-sidebar text-white hover:text-white",
                             )}
                           >
-                            {RATING_BADGE[r].label}
+                            <MessageSquareText size={14} aria-hidden="true" />
                           </button>
-                        ))}
-                      </div>
-                      {/* Remarks belong to a rating, so the button waits until the skill is rated; a filled button means remarks are saved. */}
-                      <button
-                        type="button"
-                        disabled={!rating}
-                        onClick={() => setRemarksCell({ enrollmentId: l.enrollmentId, itemId: item.itemId, learner: name, item: item.item })}
-                        aria-label={`${remarks ? "Edit" : "Add"} remarks for ${name}`}
-                        title={!rating ? "Rate this skill first to add remarks" : (remarks ?? "Add remarks")}
-                        className={cn(
-                          ICON_BUTTON,
-                          "rounded-full",
-                          remarks && "border-sidebar bg-sidebar text-white hover:text-white",
-                        )}
-                      >
-                        <MessageSquareText size={14} aria-hidden="true" />
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             )}
             <p className="border-t border-gray-100 px-5 py-2.5 text-xs text-gray-500">
               Tap a rating to save it. Tap it again to clear it.
