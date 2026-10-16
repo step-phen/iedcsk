@@ -1,4 +1,5 @@
 import type { PracticalResultValue } from "@/constants/enums";
+import { hasMiddleName } from "@/lib/learners";
 
 export type Cell = { score: number; maxScore: number } | { rating: PracticalResultValue | null };
 
@@ -23,6 +24,18 @@ export interface ClassroomRecord {
 
 /** Same points as ClassroomRecordController::PRACTICAL_POINTS in the API; a rated practical counts out of 3. */
 export const PRACTICAL_POINTS: Record<PracticalResultValue, number> = { needs_help: 1, good: 2, very_good: 3 };
+
+/** The score bands the screen, print and Excel legends all explain. */
+export const LEGEND: [PracticalResultValue, string][] = [
+  ["very_good", "80% and up"],
+  ["good", "60–79%"],
+  ["needs_help", "below 60%"],
+];
+
+/** "Dela Cruz, Juan Santos Jr." — the name the screen, print and exports all show. */
+export function learnerName(row: ClassroomRecord["rows"][number]) {
+  return `${row.lastName}, ${[row.firstName, hasMiddleName(row.middleName) && row.middleName, row.extensionName].filter(Boolean).join(" ")}`;
+}
 
 /**
  * Weeks 1 to the last week with activities (a gap week stays listed and says it has none), and the week to show:
