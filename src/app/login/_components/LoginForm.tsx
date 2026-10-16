@@ -38,7 +38,7 @@ export default function LoginForm() {
       if (!res.ok) {
         setError(
           res.status === 429
-            ? "Too many attempts. Please wait a minute and try again."
+            ? "Too many attempts. Please wait a few minutes and try again."
             : res.status === 422
               ? "Invalid username or password."
               : "Something went wrong. Please try again."
