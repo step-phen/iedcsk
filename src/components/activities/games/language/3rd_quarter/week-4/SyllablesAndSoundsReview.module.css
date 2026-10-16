@@ -1,0 +1,238 @@
+/* Look of the Q3 Language Review (Board Game); layout and spacing stay in Tailwind, the tasks and lines stay in SyllablesAndSoundsReview.data.ts. */
+
+/* A play table: a green felt top with a soft lamp glow. */
+.screen {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 30%, rgba(255, 255, 255, 0.2), transparent 70%),
+    radial-gradient(circle, rgba(0, 0, 0, 0.06) 0 1px, transparent 1.5px) 0 0 / 6px 6px,
+    #2f9e44;
+  color: #1b3a1f;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.badge {
+  border: 3px solid #1b3a1f;
+  background: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.avatar {
+  background: #ffe066;
+  color: #c92a2a;
+}
+
+.title {
+  color: white;
+  text-shadow: 0 3px 0 #1b3a1f, 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.96);
+  border: 3px solid #1b3a1f;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.iconButton {
+  border: 3px solid #1b3a1f;
+  background: #fa5252;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The board: a cream card with a snaking path of numbered spaces. */
+.board {
+  --s: clamp(30px, min(calc((100vw - 80px) / 7), 7.5dvh), 64px);
+  gap: calc(var(--s) * 0.3) calc(var(--s) * 0.45);
+  padding: calc(var(--s) * 0.45) calc(var(--s) * 0.5);
+  background: #fff4e6;
+  border: 5px solid #8d5a2b;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.3);
+}
+
+.space {
+  width: var(--s);
+  height: var(--s);
+  font-size: calc(var(--s) * 0.42);
+  background: white;
+  color: #868e96;
+  border: 3px solid #adb5bd;
+}
+
+.spaceRight {
+  background: #ffd43b;
+  color: #7c4a03;
+  border-color: #f59f00;
+}
+
+.spaceMissed {
+  background: #dee2e6;
+  color: #868e96;
+  border-color: #adb5bd;
+}
+
+.spaceNow {
+  border-color: #fa5252;
+  box-shadow: 0 0 0 3px rgba(250, 82, 82, 0.35);
+}
+
+/* The pawn hops onto its new space each task. */
+.pawn {
+  width: calc(var(--s) * 0.75);
+  height: var(--s);
+  animation: hopOn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* The task card is dealt onto the table each turn. */
+.card {
+  --c: clamp(72px, min(calc((100vw - 110px) / 3.4), 18dvh), 150px);
+  padding: calc(var(--c) * 0.18) calc(var(--c) * 0.24);
+  background: white;
+  border: 5px solid #1b3a1f;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.3);
+  animation: deal 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cue {
+  font-size: calc(var(--c) * 0.6);
+}
+
+.choice {
+  width: var(--c);
+  height: var(--c);
+  font-size: calc(var(--c) * 0.4);
+  background: #e7f5ff;
+  color: #1864ab;
+  border: 4px solid #1864ab;
+  box-shadow: 0 5px 0 #1864ab;
+  touch-action: manipulation;
+  animation: flipIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) var(--deal-delay, 0ms) backwards;
+  transition: opacity 250ms ease-out, translate 120ms ease-out, box-shadow 120ms ease-out;
+}
+
+.choicePicture {
+  font-size: calc(var(--c) * 0.52);
+  background: #fff9db;
+  border-color: #f59f00;
+  box-shadow: 0 5px 0 #f59f00;
+}
+
+.choice:not(:disabled):active {
+  translate: 0 4px;
+  box-shadow: 0 1px 0 #1864ab;
+}
+
+.choice:focus-visible {
+  outline: 4px solid #fa5252;
+  outline-offset: 3px;
+}
+
+.choiceRight {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 18px 6px rgba(74, 222, 128, 0.7);
+  animation: hop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2;
+}
+
+.choiceWrong {
+  background: #ffe3e3;
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+/* The right card after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.choiceReveal {
+  z-index: 2;
+  background: #dcfce7;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #fa5252;
+  color: white;
+  border: 4px solid #1b3a1f;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+@keyframes hopOn {
+  0% { translate: 0 -60%; opacity: 0; }
+  60% { translate: 0 6%; opacity: 1; }
+  100% { translate: 0 0; }
+}
+
+@keyframes deal {
+  from { translate: 0 30%; rotate: -4deg; opacity: 0; }
+  to { translate: 0 0; rotate: 0deg; opacity: 1; }
+}
+
+@keyframes flipIn {
+  from { scale: 0 1; }
+  to { scale: 1 1; }
+}
+
+@keyframes hop {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 0 -14%; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -7px 0; }
+  40% { translate: 7px 0; }
+  60% { translate: -4px 0; }
+  80% { translate: 4px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pawn,
+  .card,
+  .choice {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a slimmer board and card so both fit. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .board {
+    --s: clamp(22px, 8dvh, 36px);
+  }
+
+  .card {
+    --c: clamp(56px, 24dvh, 96px);
+  }
+
+  .cue {
+    font-size: calc(var(--c) * 0.4);
+  }
+}

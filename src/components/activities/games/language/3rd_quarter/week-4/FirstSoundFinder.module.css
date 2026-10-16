@@ -1,0 +1,254 @@
+/* Look of First Sound Finder (Sound Factory); layout and spacing stay in Tailwind, the words and lines stay in FirstSoundFinder.data.ts. */
+
+/* A bright toy factory: teal walls, overhead pipes, and a yellow-striped floor. */
+.screen {
+  background: linear-gradient(180deg, #c5f6fa 0%, #e3fafc 100%);
+  color: #0b4b55;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pipes {
+  background:
+    linear-gradient(#ff922b 0 0) 0 40% / 100% 14px no-repeat,
+    linear-gradient(#4dabf7 0 0) 0 75% / 100% 10px no-repeat;
+}
+
+.floor {
+  background: repeating-linear-gradient(135deg, #ffd43b 0 22px, #343a40 22px 44px);
+  border-top: 6px solid #343a40;
+}
+
+.badge {
+  border: 3px solid #0b4b55;
+  background: white;
+  box-shadow: 0 3px 0 rgba(11, 75, 85, 0.25);
+}
+
+.avatar {
+  background: #99e9f2;
+  color: #0b7285;
+}
+
+.title {
+  color: #0b7285;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(11, 75, 85, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #0b4b55;
+  box-shadow: 0 3px 0 rgba(11, 75, 85, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #0b4b55;
+  background: #ff922b;
+  color: white;
+  box-shadow: 0 3px 0 rgba(11, 75, 85, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The sound machine: a purple box with a screen and turning gears. */
+.machine {
+  --m: clamp(90px, 18dvh, 160px);
+  width: calc(var(--m) * 2);
+  height: var(--m);
+  background: #7048e8;
+  border: 5px solid #343a40;
+  box-shadow: 0 8px 0 rgba(11, 75, 85, 0.3);
+  animation: thump 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ear {
+  font-size: calc(var(--m) * 0.42);
+}
+
+.screenPanel {
+  width: calc(var(--m) * 0.86);
+  height: calc(var(--m) * 0.76);
+  font-size: calc(var(--m) * 0.52);
+  background: #e7f5ff;
+  border: 4px solid #343a40;
+  box-shadow: inset 0 0 12px rgba(77, 171, 247, 0.5);
+}
+
+.gear {
+  width: calc(var(--m) * 0.4);
+  height: calc(var(--m) * 0.4);
+  animation: turn 4s linear infinite;
+}
+
+.gearLeft {
+  left: calc(var(--m) * -0.2);
+  top: calc(var(--m) * -0.16);
+}
+
+.gearRight {
+  right: calc(var(--m) * -0.18);
+  bottom: calc(var(--m) * -0.14);
+  animation-direction: reverse;
+}
+
+/* The belt: crates ride on a dark band; the track holds the choices four times and slides one copy's width per loop. */
+.belt {
+  --c: clamp(84px, min(26vw, 22dvh), 150px);
+  --gap: calc(var(--c) * 0.4);
+  padding: calc(var(--c) * 0.12) 0 calc(var(--c) * 0.2);
+  background: linear-gradient(180deg, transparent 0 calc(100% - var(--c) * 0.22), #343a40 calc(100% - var(--c) * 0.22));
+}
+
+.track {
+  gap: var(--gap);
+  padding-left: var(--gap);
+  animation: slide 14s linear infinite;
+}
+
+.trackPaused {
+  animation-play-state: paused;
+}
+
+.rollers {
+  height: calc(var(--c) * 0.22);
+  background: radial-gradient(circle, #868e96 0 30%, #495057 32% 46%, transparent 48%) 0 50% / calc(var(--c) * 0.3) 100%;
+  animation: roll 1s linear infinite;
+}
+
+.crate {
+  width: var(--c);
+  height: var(--c);
+  font-size: calc(var(--c) * 0.56);
+  background:
+    linear-gradient(90deg, transparent 0 10%, rgba(124, 74, 3, 0.25) 10% 13%, transparent 13% 87%, rgba(124, 74, 3, 0.25) 87% 90%, transparent 90%),
+    #e0a96d;
+  border: 4px solid #7c4a03;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
+  touch-action: manipulation;
+  transition: opacity 250ms ease-out;
+}
+
+.crate:focus-visible {
+  outline: 4px solid #ff922b;
+  outline-offset: 3px;
+}
+
+/* The right crate pops up off the belt with a green glow. */
+.crateRight {
+  z-index: 2;
+  animation: popUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 18px 6px rgba(74, 222, 128, 0.7);
+}
+
+.crateWrong {
+  animation: shake 0.45s ease-in-out;
+  box-shadow: 0 0 0 4px #dc2626, 0 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Every copy of the right crate after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.crateReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #7048e8;
+  color: white;
+  border: 4px solid #343a40;
+  box-shadow: 0 5px 0 rgba(11, 75, 85, 0.3);
+}
+
+@keyframes slide {
+  from { translate: 0 0; }
+  to { translate: -25% 0; }
+}
+
+@keyframes roll {
+  from { background-position: 0 50%; }
+  to { background-position: calc(var(--c) * -0.3) 50%; }
+}
+
+@keyframes turn {
+  to { rotate: 360deg; }
+}
+
+@keyframes thump {
+  0% { scale: 0.85; }
+  60% { scale: 1.05; }
+  100% { scale: 1; }
+}
+
+@keyframes popUp {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 0 -18%; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+/* Children who prefer less motion get a still belt with one copy of each crate, sized so all of them fit on screen. */
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .rollers,
+  .gear {
+    animation: none;
+  }
+
+  .belt {
+    --c: clamp(70px, min(22vw, 22dvh), 150px);
+    --gap: calc(var(--c) * 0.2);
+  }
+
+  .track {
+    width: 100%;
+    justify-content: center;
+    padding-left: 0;
+  }
+
+  .crateCopy {
+    display: none;
+  }
+}
+
+/* Phones held sideways: a smaller machine so the belt keeps its room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .machine {
+    --m: clamp(60px, 22dvh, 96px);
+  }
+
+  .belt {
+    --c: clamp(64px, 30dvh, 110px);
+  }
+}

@@ -130,18 +130,54 @@ export const GAME_INTRO_LINES = {
     "Let's meet capital T! Watch the pencil, then trace each T to uncover a hidden picture.",
   "letter l trails":
     "Let's visit the lily pond! Watch the pencil, then trace each capital L so a friend can hop onto a lily pad.",
+  "letter i trails":
+    "Brr, it's snowy! Watch the pencil, then trace each capital I to melt a picture out of the ice.",
+  "letter h trails":
+    "Let's visit the farm! Watch the pencil, then trace each capital H so a farm friend peeks out of the barn window.",
+  "letter f trails":
+    "It's night time in the meadow! Watch the pencil, then trace each capital F to light up a firefly jar.",
+  "letter e trails":
+    "Let's go on an egg hunt! Watch the pencil, then trace each capital E to hatch an egg in the nest.",
+  "letter v trails":
+    "Welcome to the valley! Watch the pencil, then trace each capital V to send a hot-air balloon up, up, and away.",
+  "letter x trails":
+    "Ahoy, pirate! X marks the spot! Watch the pencil, then trace each capital X to open a treasure chest.",
   "letter d trails":
     "Let's dig in the sand! Watch the pencil, then trace each capital D to dig up a hidden picture.",
   "letter o trails":
     "Let's dive under the sea! Watch the pencil, then trace each capital O around the porthole to see who swims in.",
   "letter p trails":
     "Let's paint in the art studio! Watch the pencil, then trace each capital P on the canvas to earn a sticker.",
+  "letter u trails":
+    "Pitter-patter, it's raining! Watch the pencil, then trace each capital U to pop open an umbrella.",
+  "letter g trails":
+    "Welcome to the gift shop! Watch the pencil, then trace each capital G to unwrap a surprise.",
+  "letter j trails":
+    "Let's open the juice bar! Watch the pencil, then trace each capital J to fill a glass with juice.",
+  "letter r trails":
+    "Let's make a rainbow! Watch the pencil, then trace each capital R to paint a new rainbow stripe.",
+  "letter s trails":
+    "Let's go to the beach! Watch the pencil, then trace each capital S in the sand to open a seashell.",
+  "letter q trails":
+    "Welcome to the royal castle! Watch the pencil, then trace each capital Q to open the curtains on a royal picture.",
   "small letter g trails":
     "Let's visit the candy shop! Watch the pencil, then trace each small g to get a gumball from the machine.",
   "small letter p trails":
     "Let's go to the movies! Watch the pencil, then trace each small p on the big screen to print a ticket.",
   "small letter j trails":
     "Let's swing into the jungle! Watch the pencil, then trace each small j, and don't forget the dot!",
+  "small letter e trails":
+    "Welcome to the circus! Watch the pencil, then trace each small e to turn on the spotlight.",
+  "small letter c trails":
+    "Let's bake cookies! Watch the pencil, then trace each small c to bake a cookie golden.",
+  "small letter a trails":
+    "Let's visit the apple tree! Watch the pencil, then trace each small a to make something grow.",
+  "small letter q trails":
+    "Welcome to the quiz show! Watch the pencil, then trace each small q to flip an answer tile.",
+  "small letter o trails":
+    "It's bath time! Watch the pencil, then trace each small o to blow a big bubble.",
+  "small letter s trails":
+    "Let's help the snail! Watch the pencil, then trace each small s so the snail can slide along the leaves.",
   "count the objects":
     "Let's count! Tap each picture to count it into the jar, one by one. Then tap the number that shows how many.",
   "match number to objects":
@@ -304,18 +340,102 @@ export const GAME_INTRO_LINES = {
     "Welcome to the robot workshop! Listen to the letter name, then tap the robot with that letter.",
   "listen and find: ss, tt":
     "All aboard! Listen to the letter name, then tap the train car with that letter.",
+  "listen and find: vv, ww":
+    "Let's dive under the sea! Listen to the letter name, then tap the bubble with that letter.",
+  "listen and find: xx, yy":
+    "Help the frog cross the pond! Listen to the letter name, then tap the lily pad with that letter.",
+  "listen and find: zz":
+    "Start your engines! Listen to the letter name, then tap the race car with that letter.",
+  "language consonant partners":
+    "Welcome to the farm! Help each baby chick find Mama Hen by matching big and small letters.",
+  "listen and find: taught letters":
+    "Welcome to the post office! Listen to the letter name, then tap the envelope with that letter.",
+  "listen and find: aa, ee, ii, oo, uu":
+    "Let's fly to space! Listen to the vowel name, then tap the planet with that letter.",
+  "listen and find the letter: consonants":
+    "Look at the hot-air balloons! Listen to the letter name, then tap the balloon with that letter.",
+  "letters around me":
+    "Let's take a walk around town! Listen to the letter name, then find it on the sign or label.",
+  "letter detective":
+    "Let's be letter detectives! Read and hear the clue, then tap the sticky note with that big or small letter.",
+  "language review 2":
+    "Welcome to the music show! Listen to each song card, then tap the drum with the right letter or picture.",
+  "language final assessment 2":
+    "Let's go on a castle quest, brave knight! Listen to each banner, then tap the shield with the right letter or picture.",
+  "letter names review":
+    "Welcome to the Letter Bakery! Listen to each order, then tap the right cookie.",
   "listen and match syllables: a":
     "Welcome to the apple tree! Listen to the sound, then pick the apple that says it.",
   "listen and match syllables: o":
     "Welcome to the harbor! Listen to the sound, then tap the boat that says it.",
   "listen and match syllables: e":
     "Welcome to the post office! Listen to the sound, then mail the envelope that says it.",
+  "listen and match syllables: i":
+    "Welcome to the ice cream shop! Listen to the sound, then tap the ice cream that says it.",
+  "listen and match syllables: u":
+    "Welcome to the garden! Listen to the sound, then tap the ladybug leaf that says it.",
+  "listen and match syllables: a (vowel first)":
+    "Welcome to the airport! Listen to the sound, then tap the airplane that says it.",
+  "listen and match syllables: o (vowel first)":
+    "Welcome to the owl tree! Listen to the sound, then tap the owl that says it.",
+  "listen and match syllables: e (vowel first)":
+    "Let's go on an egg hunt! Listen to the sound, then tap the egg that says it.",
+  "listen and match syllables: i (vowel first)":
+    "Welcome to the snowy igloo village! Listen to the sound, then tap the igloo that says it.",
+  "listen and match syllables: u (vowel first)":
+    "Welcome to the honey meadow! Listen to the sound, then tap the bee that finishes the honey jar word.",
+  "first sound finder":
+    "Welcome to the sound factory! Listen to the word, then tap the picture on the belt that starts the same way.",
+  "last sound finder":
+    "It's a windy kite day! Listen to the word, then tap the bow that ends the same way.",
+  "listen and match syllables: mixed":
+    "It's bath time! Listen to the sound, then pop the bubble that says it.",
+  "listen and match syllables: mixed (vowel first)":
+    "Let's light up the parols! Listen to the sound, then tap the parol that says it.",
+  "beginning sound groups":
+    "Let's tidy up the toy room! Listen to each toy's name, then put it in the chest that starts the same way.",
+  "ending sound partners":
+    "Let's finish the puzzles! Listen to the names, then find the piece that ends the same way.",
+  "first and last sound":
+    "The bus is here! Listen to the word, then help the passenger with its first or last sound get on.",
+  "syllable sequence match":
+    "Let's play dominoes at the picnic! Listen to two sounds, then tap the domino that says them in the same order.",
+  "language review 3":
+    "Welcome to the balloon festival! Listen to each question, then tap the right balloon to send it into the sky.",
+  "language final assessment 3":
+    "Ahoy, treasure hunter! It's your language final. Listen to each question, then tap the gold coin with the right answer.",
+  "syllables and sounds review":
+    "Let's play a board game! On each space, listen or look, then tap the right answer to move ahead.",
   "middle sound finder":
     "The caterpillar lost its middle! Listen to the word, then tap the leaf with the middle sound.",
   "describe the object":
     "Welcome to show and tell! Look at the object, listen to each sentence, then tap the one that tells about it.",
   "family and pet match":
     "Welcome to our living room! Listen to who is described, then tap that picture on the wall.",
+  "story steps a":
+    "Story time on the class board! Listen to the story, then pin the pictures in order: first, next, last.",
+  "story steps b":
+    "Gather round the campfire! Listen to the story, then tap the stone that answers the question.",
+  "rhyme match":
+    "Let's blast off to Rhyme Planet! Listen to the word, then fly the rocket that rhymes to the planet.",
+  "listen and tap":
+    "Welcome to the farm! Listen to the farmer, then tap or move the animals the way she says.",
+  "question and answer":
+    "Say cheese! Look at each photo, listen to the question, then tap the right answer.",
+  "object vocabulary":
+    "Let's go to the store! Listen to the describing words, then tap the thing they tell about.",
+  "picture vocabulary":
+    "Let's walk down the street! Listen to each description, then tap the window with the matching picture.",
+  "sound and syllable match":
+    "Let's play the xylophone! Listen to the sound, then tap the bar that matches it.",
+  "language skills review 4":
+    "All aboard the review train! Listen to each task, then tap the right train cars.",
+  "what is happening?":
+    "Welcome to Sports Day! Listen to the sentence, then tap the big screen that shows it.",
+  "picture story steps":
+    "It's laundry day! Listen, then hang the pictures on the line: first, next, last.",
+  "needs and feelings":
+    "Let's peek through the window! Look at the picture, listen, then tap what the child would say.",
   "consonant bb":
     "Let's go to Bubble Bay! Listen to the picture names, then pop the bubble that begins with B.",
   "consonant cc":

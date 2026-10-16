@@ -1,0 +1,171 @@
+/* Look of Listen and Match Syllables: a (vowel first); layout and spacing stay in Tailwind, the lines stay in ListenAndMatchSyllablesVowelFirstA.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #4dabf7 0%, #a5d8ff 55%, #e7f5ff 100%);
+  color: #1c2e4a;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* A control tower beside the runway with its dashed center line. */
+.tower {
+  background:
+    linear-gradient(#1c2e4a 0 0) 50% 0 / 100% 22% no-repeat,
+    linear-gradient(#a5d8ff 0 0) 50% 6% / 80% 12% no-repeat,
+    linear-gradient(#dee2e6 0 0) 50% 100% / 46% 80% no-repeat;
+}
+
+.runway {
+  background:
+    repeating-linear-gradient(90deg, white 0 40px, transparent 40px 80px) 0 50% / 100% 8% no-repeat,
+    #495057;
+  border-top: 6px solid #868e96;
+}
+
+.title {
+  text-shadow: 0 3px 0 #1971c2, 0 6px 10px rgba(0, 0, 0, 0.25) !important;
+}
+
+.badge {
+  border: 3px solid #1c2e4a;
+  background: white;
+  color: #1c2e4a;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+}
+
+.avatar {
+  background: #fff3bf;
+  color: #e67700;
+}
+
+.title {
+  color: white;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(0, 0, 0, 0.18);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1c2e4a;
+  border: 3px solid #1c2e4a;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #1c2e4a;
+  background: #f59f00;
+  color: #1c2e4a;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Three airplanes in a row; each is a square tap target. */
+.row {
+  --c: clamp(88px, min(calc((100vw - 90px) / 3.3), 32dvh), 220px);
+  gap: calc(var(--c) * 0.16);
+  padding: 0 calc(var(--c) * 0.1);
+}
+
+.item {
+  width: var(--c);
+  height: var(--c);
+  touch-action: manipulation;
+  animation: hover 2.6s ease-in-out var(--idle-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.item:focus-visible {
+  outline: 4px solid #f59f00;
+  outline-offset: 4px;
+}
+
+.syllable {
+  font-size: calc(var(--c) * 0.24);
+  color: #1c2e4a;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.7);
+}
+
+.itemRight {
+  animation: takeoff 1.3s cubic-bezier(0.6, 0, 0.3, 1);
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.itemWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right airplane after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.itemReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #f59f00;
+  color: #1c2e4a;
+  border: 4px solid #1c2e4a;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.25);
+}
+
+@keyframes takeoff {
+  0% { translate: 0 0; rotate: 0deg; }
+  40% { translate: 40% -45%; rotate: -14deg; opacity: 1; }
+  50% { translate: 60% -60%; opacity: 0; }
+  60% { translate: -40% 0; rotate: 0deg; opacity: 0; }
+  70% { opacity: 1; }
+  100% { translate: 0 0; }
+}
+
+@keyframes hover {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -4px; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller airplanes so the row fits under the header. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .row {
+    --c: clamp(64px, 40dvh, 140px);
+  }
+}

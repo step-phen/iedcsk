@@ -1,0 +1,235 @@
+/* Look of Question and Answer; layout and spacing stay in Tailwind, the scenes and lines stay in QuestionAndAnswer.data.ts. */
+
+/* A photo studio: charcoal backdrop with a soft spotlight and coral accents. */
+.screen {
+  background: radial-gradient(ellipse 70% 55% at 50% 40%, #495057 0%, #343a40 55%, #212529 100%);
+  color: #f8f9fa;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.badge {
+  border: 3px solid #ff8787;
+  background: #212529;
+  color: #f8f9fa;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.avatar {
+  background: #ff8787;
+  color: #212529;
+}
+
+.title {
+  color: #ffc9c9;
+  text-shadow: 0 3px 0 #c92a2a, 0 6px 10px rgba(0, 0, 0, 0.45);
+}
+
+.instruction {
+  background: #f8f9fa;
+  color: #212529;
+  border: 3px solid #ff8787;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.iconButton {
+  border: 3px solid #f8f9fa;
+  background: #ff6b6b;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The camera body: a chunky coral case around the photo, with a shutter bump on top. */
+.camera {
+  --v: clamp(150px, min(60vw, 32dvh), 300px);
+  padding: calc(var(--v) * 0.07);
+  background: linear-gradient(180deg, #ff8787 0%, #fa5252 100%);
+  border: 5px solid #212529;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.45);
+}
+
+.camera::before {
+  content: "";
+  position: absolute;
+  right: 14%;
+  top: calc(var(--v) * -0.09);
+  width: calc(var(--v) * 0.2);
+  height: calc(var(--v) * 0.09);
+  border: 5px solid #212529;
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  background: #ffc9c9;
+}
+
+.photo {
+  width: calc(var(--v) * 1.25);
+  height: var(--v);
+  border: 4px solid #212529;
+  animation: develop 0.6s ease-out;
+}
+
+.photo span {
+  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.25));
+}
+
+/* Viewfinder corner marks drawn as four little L shapes. */
+.corners {
+  background:
+    linear-gradient(white 0 0) 0 0 / 18% 3px no-repeat,
+    linear-gradient(white 0 0) 0 0 / 3px 18% no-repeat,
+    linear-gradient(white 0 0) 100% 0 / 18% 3px no-repeat,
+    linear-gradient(white 0 0) 100% 0 / 3px 18% no-repeat,
+    linear-gradient(white 0 0) 0 100% / 18% 3px no-repeat,
+    linear-gradient(white 0 0) 0 100% / 3px 18% no-repeat,
+    linear-gradient(white 0 0) 100% 100% / 18% 3px no-repeat,
+    linear-gradient(white 0 0) 100% 100% / 3px 18% no-repeat;
+  opacity: 0.85;
+}
+
+.rec {
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.recDot {
+  background: #fa5252;
+  animation: blink 1s steps(2, start) infinite;
+}
+
+.questionCard {
+  background: #f8f9fa;
+  color: #212529;
+  border: 3px solid #212529;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.4);
+}
+
+.kindTag {
+  background: #ff6b6b;
+  color: white;
+}
+
+/* Answer prints: white-bordered instant photos lying on the studio floor. */
+.print {
+  --p: clamp(80px, min(26vw, 17dvh), 140px);
+  width: var(--p);
+  height: calc(var(--p) * 1.12);
+  padding-bottom: calc(var(--p) * 0.14);
+  background: linear-gradient(180deg, #e9ecef 0 calc(100% - var(--p) * 0.2), white calc(100% - var(--p) * 0.2));
+  border: calc(var(--p) * 0.07) solid white;
+  border-radius: 8px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.45);
+  touch-action: manipulation;
+  transition: opacity 250ms ease-out;
+}
+
+.print:nth-child(odd) {
+  rotate: -3deg;
+}
+
+.print:nth-child(even) {
+  rotate: 2deg;
+}
+
+.print:focus-visible {
+  outline: 4px solid #ff8787;
+  outline-offset: 4px;
+}
+
+.printPicture {
+  font-size: calc(var(--p) * 0.55);
+}
+
+.printRight {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 18px 6px rgba(74, 222, 128, 0.7);
+  animation: flash 0.5s ease-out 2;
+}
+
+.printWrong {
+  box-shadow: 0 0 0 4px #dc2626, 0 6px 10px rgba(0, 0, 0, 0.45);
+  animation: shake 0.45s ease-in-out;
+}
+
+/* The right print after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.printReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.resultStamp {
+  background: #ff6b6b;
+  color: white;
+  border: 4px solid #f8f9fa;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.45);
+}
+
+@keyframes develop {
+  from { filter: brightness(1.8) saturate(0.2); }
+  to { filter: none; }
+}
+
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+@keyframes flash {
+  0%, 100% { filter: none; }
+  30% { filter: brightness(1.5); }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo,
+  .recDot,
+  .printRight,
+  .printWrong {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller camera and prints so the photo and its answers sit side by side. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .camera {
+    --v: clamp(110px, 44dvh, 190px);
+  }
+
+  .print {
+    --p: clamp(48px, 20dvh, 80px);
+  }
+}

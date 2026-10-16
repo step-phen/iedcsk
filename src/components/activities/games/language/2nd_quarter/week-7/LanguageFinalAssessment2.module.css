@@ -1,0 +1,210 @@
+/* Look of Language Final Assessment 2 (Castle Quest); layout and spacing stay in Tailwind, the lines stay in LanguageFinalAssessment2.data.ts. */
+
+/* A fairy-tale castle on a hill under a golden afternoon sky. */
+.screen {
+  background: linear-gradient(180deg, #ffe8a3 0%, #fff4d6 55%, #e9f5db 100%);
+  color: #343a40;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Stone castle wall with battlements and two towers. */
+.castle {
+  background:
+    repeating-linear-gradient(90deg, #adb5bd 0 30px, transparent 30px 50px) 0 0 / 100% 12% no-repeat,
+    linear-gradient(#adb5bd 0 0) 0 12% / 100% 88% no-repeat,
+    repeating-linear-gradient(0deg, transparent 0 22px, rgba(73, 80, 87, 0.25) 22px 24px);
+  opacity: 0.55;
+  mask-image: linear-gradient(90deg, black 0 22%, transparent 22% 78%, black 78%);
+}
+
+.ground {
+  background: linear-gradient(180deg, #94d82d, #74b816);
+  border-top: 5px solid #5c940d;
+}
+
+.badge {
+  border: 3px solid #343a40;
+  background: white;
+  box-shadow: 0 3px 0 rgba(52, 58, 64, 0.25);
+}
+
+.avatar {
+  background: #fff3bf;
+  color: #e67700;
+}
+
+.title {
+  color: #1864ab;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(52, 58, 64, 0.2);
+}
+
+.ticket {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #343a40;
+  box-shadow: 0 3px 0 rgba(52, 58, 64, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #343a40;
+  background: #1864ab;
+  color: white;
+  box-shadow: 0 3px 0 rgba(52, 58, 64, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The castle banner: a cloth flag with a notched bottom that unfurls each task. */
+.order {
+  --o: clamp(70px, 15dvh, 130px);
+  width: calc(var(--o) * 1.1);
+  height: var(--o);
+  background: #7048e8;
+  color: white;
+  border: 4px solid #343a40;
+  border-radius: 10px 10px 0 0 !important;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 84%, 0 100%);
+  transform-origin: 50% 0;
+  animation: unfurl 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.orderTag {
+  background: #ffd43b;
+  color: #343a40;
+  font-size: calc(var(--o) * 0.13);
+  border: 2px solid #343a40;
+  top: 4% !important;
+}
+
+.orderLetter {
+  font-size: calc(var(--o) * 0.56);
+  color: #ffd43b;
+  padding-top: 12%;
+}
+
+/* Three shields on the castle wall; each is 1 wide for 1.2 tall. */
+.shieldRow {
+  --c: clamp(76px, min(calc((100vw - 90px) / 3.4), 24dvh), 180px);
+  gap: calc(var(--c) * 0.22);
+}
+
+.shield {
+  width: var(--c);
+  height: calc(var(--c) * 1.2);
+  touch-action: manipulation;
+  animation: raise 0.5s cubic-bezier(0.16, 1, 0.3, 1) var(--pop-delay, 0ms) backwards;
+  transition: opacity 250ms ease-out, scale 150ms ease-out;
+}
+
+.shield:not(:disabled):active {
+  scale: 0.94;
+}
+
+.shield:focus-visible {
+  outline: 4px solid #7048e8;
+  outline-offset: 4px;
+}
+
+.letter {
+  font-size: calc(var(--c) * 0.46);
+  color: white;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  translate: 0 -6%;
+}
+
+.picture {
+  font-size: calc(var(--c) * 0.38);
+  translate: 0 -6%;
+}
+
+/* The right shield is raised high with a green glow. */
+.shieldRight {
+  animation: hoist 0.6s cubic-bezier(0.16, 1, 0.3, 1) 2;
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.shieldWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right shield after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.shieldReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #7048e8;
+  color: #ffd43b;
+  border: 4px solid #343a40;
+  box-shadow: 0 5px 0 rgba(52, 58, 64, 0.3);
+}
+
+@keyframes unfurl {
+  from { scale: 1 0.2; opacity: 0; }
+  to { scale: 1 1; opacity: 1; }
+}
+
+@keyframes raise {
+  from { translate: 0 30%; opacity: 0; }
+  to { translate: 0 0; opacity: 1; }
+}
+
+@keyframes hoist {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  45% { translate: 0 -16%; rotate: -4deg; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .order,
+  .shield {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller banner so the shields keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .order {
+    --o: clamp(56px, 20dvh, 80px);
+  }
+
+  .shieldRow {
+    --c: clamp(60px, 30dvh, 110px);
+  }
+}

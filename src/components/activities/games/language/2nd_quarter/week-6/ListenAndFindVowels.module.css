@@ -1,0 +1,194 @@
+/* Look of Listen and Find: Aa, Ee, Ii, Oo, Uu; layout and spacing stay in Tailwind, the lines stay in ListenAndFindVowels.data.ts. */
+
+/* Outer space: a purple nebula sprinkled with stars, with a grey moon in the corner. */
+.screen {
+  background:
+    radial-gradient(ellipse 50% 40% at 80% 20%, rgba(218, 119, 242, 0.35), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 15% 60%, rgba(77, 171, 247, 0.25), transparent 70%),
+    linear-gradient(180deg, #1a1b4b 0%, #2b1d5c 100%);
+  color: white;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.stars {
+  background:
+    radial-gradient(circle, white 0 1.5px, transparent 2px) 0 0 / 90px 90px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.7) 0 1px, transparent 1.5px) 40px 55px / 70px 70px;
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.moon {
+  background:
+    radial-gradient(circle at 35% 40%, #ced4da 0 10%, transparent 11%),
+    radial-gradient(circle at 65% 30%, #ced4da 0 7%, transparent 8%),
+    radial-gradient(circle at 55% 65%, #ced4da 0 12%, transparent 13%),
+    #e9ecef;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.25);
+}
+
+.badge {
+  border: 3px solid #1a1b4b;
+  background: white;
+  color: #1a1b4b;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #d0bfff;
+  color: #5f3dc4;
+}
+
+.title {
+  color: #ffe066;
+  text-shadow: 0 3px 0 #5f3dc4, 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a1b4b;
+  border: 3px solid #1a1b4b;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.iconButton {
+  border: 3px solid #1a1b4b;
+  background: #ffe066;
+  color: #1a1b4b;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A glowing control-panel strip with the five vowels. */
+.sign {
+  background: #5f3dc4;
+  border: 3px solid #d0bfff;
+  color: white;
+  font-size: clamp(22px, 4.6vh, 42px);
+  box-shadow: 0 0 18px rgba(208, 191, 255, 0.6);
+}
+
+/* Upright phones set the planets two by two; wider screens line up all four. */
+.row {
+  --c: clamp(84px, min(calc((100vw - 60px) / 2.4), 22dvh), 150px);
+  gap: calc(var(--c) * 0.2);
+}
+
+@media (min-width: 640px) {
+  .row {
+    --c: clamp(90px, min(calc((100vw - 80px) / 4.6), 28dvh), 190px);
+  }
+}
+
+.planet {
+  width: var(--c);
+  height: var(--c);
+  touch-action: manipulation;
+  animation: drift 4s ease-in-out var(--orbit-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.planet:focus-visible {
+  outline: 4px solid #ffe066;
+  outline-offset: 4px;
+}
+
+.letter {
+  font-size: calc(var(--c) * 0.4);
+  color: white;
+  text-shadow: 0 2px 0 #1a1b4b, 0 0 6px rgba(26, 27, 75, 0.8);
+}
+
+/* The right planet spins once with a green glow. */
+.planetRight {
+  animation: spin 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 12px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.planetWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 8px #dc2626);
+}
+
+/* The right planet after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.planetReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.resultStamp {
+  background: #5f3dc4;
+  color: #ffe066;
+  border: 4px solid #d0bfff;
+  box-shadow: 0 0 18px rgba(208, 191, 255, 0.6);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes drift {
+  0%, 100% { translate: 0 0; rotate: -3deg; }
+  50% { translate: 0 -6px; rotate: 3deg; }
+}
+
+@keyframes spin {
+  from { rotate: 0deg; scale: 1; }
+  50% { scale: 1.1; }
+  to { rotate: 360deg; scale: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars,
+  .planet {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller strip so the planets keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .row {
+    --c: clamp(60px, 32dvh, 120px);
+  }
+
+  .sign {
+    font-size: 20px;
+  }
+}

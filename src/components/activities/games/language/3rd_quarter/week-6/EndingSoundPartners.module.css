@@ -1,0 +1,178 @@
+/* Look of Ending Sound Partners (Puzzle Table); layout and spacing stay in Tailwind, the words and lines stay in EndingSoundPartners.data.ts. */
+
+/* A navy craft cutting mat with a measuring grid. */
+.screen {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px) 0 0 / 32px 32px,
+    #1d4e89;
+  color: #1d3557;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.badge {
+  border: 3px solid #1d3557;
+  background: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+}
+
+.avatar {
+  background: #a5d8ff;
+  color: #1d3557;
+}
+
+.title {
+  color: #fff9db;
+  text-shadow: 0 3px 0 #1d3557, 0 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #1d3557;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+}
+
+.iconButton {
+  border: 3px solid #1d3557;
+  background: #ffa94d;
+  color: #1d3557;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The puzzle board: a cream tray holding the fixed piece and the empty socket beside it. */
+.board {
+  --w: clamp(110px, min(30vw, 26dvh), 210px);
+  padding: calc(var(--w) * 0.12) calc(var(--w) * 0.16);
+  background: #fff9db;
+  border: 5px solid #1d3557;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.25);
+}
+
+.socketPiece {
+  width: var(--w);
+  height: var(--w);
+}
+
+/* The partner's tab tucks into the socket, so the slot overlaps the fixed piece by the tab's depth. */
+.slot {
+  width: calc(var(--w) * 1.16);
+  height: var(--w);
+  margin-left: calc(var(--w) * -0.24);
+  transition: filter 150ms ease-out, scale 150ms ease-out;
+}
+
+.slotHover {
+  scale: 1.05;
+  filter: drop-shadow(0 0 10px rgba(255, 169, 77, 0.95));
+}
+
+.slotFitted {
+  animation: snap 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 5px #16a34a) drop-shadow(0 0 14px rgba(74, 222, 128, 0.8));
+}
+
+/* After a miss the right piece fills the socket with a green glow and a 2s grow-and-settle. */
+.slotReveal {
+  z-index: 2;
+  animation: revealZoom 2s ease-in-out;
+  filter: drop-shadow(0 0 5px #16a34a) drop-shadow(0 0 18px rgba(22, 163, 74, 0.75));
+}
+
+.picture {
+  font-size: calc(var(--w) * 0.46);
+}
+
+/* Loose partner pieces lie on the felt below, each tilted a little. */
+.piece {
+  --w: clamp(84px, min(26vw, 20dvh), 160px);
+  width: calc(var(--w) * 1.16);
+  height: var(--w);
+  touch-action: none;
+  cursor: grab;
+  rotate: -3deg;
+  filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.25));
+  transition: opacity 250ms ease-out, rotate 150ms ease-out;
+}
+
+.piece:nth-of-type(odd) {
+  rotate: 3deg;
+}
+
+.piece:focus-visible {
+  outline: 4px solid #ffa94d;
+  outline-offset: 4px;
+  border-radius: 1rem;
+}
+
+.pieceDragging {
+  z-index: 5;
+  cursor: grabbing;
+  rotate: 0deg;
+  filter: drop-shadow(0 16px 12px rgba(0, 0, 0, 0.35));
+}
+
+.pieceWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 4px #dc2626) drop-shadow(0 0 4px #dc2626);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.resultStamp {
+  background: #ffa94d;
+  color: #1d3557;
+  border: 4px solid #1d3557;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+@keyframes snap {
+  0% { translate: 12px 0; }
+  60% { translate: -3px 0; }
+  100% { translate: 0 0; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+/* Phones held sideways: a smaller board so the loose pieces keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .board {
+    --w: clamp(64px, 26dvh, 110px);
+  }
+
+  .piece {
+    --w: clamp(56px, 22dvh, 90px);
+  }
+}

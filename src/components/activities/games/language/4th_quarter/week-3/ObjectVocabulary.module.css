@@ -1,0 +1,188 @@
+/* Look of Object Vocabulary; layout and spacing stay in Tailwind, the items and lines stay in ObjectVocabulary.data.ts. */
+
+/* A neighborhood sari-sari store: mint walls under a striped awning, a wooden counter in front. */
+.screen {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 46px, rgba(12, 166, 120, 0.08) 46px 48px),
+    linear-gradient(180deg, #e6fcf5 0%, #c3fae8 100%);
+  color: #5c3a14;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.awning {
+  background:
+    radial-gradient(circle at 50% 0, transparent 0 60%, #e6fcf5 62%) 0 100% / 48px 14px repeat-x,
+    repeating-linear-gradient(90deg, #f03e3e 0 24px, white 24px 48px);
+  filter: drop-shadow(0 4px 2px rgba(0, 0, 0, 0.15));
+}
+
+.counter {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 70px, rgba(92, 58, 20, 0.25) 70px 73px),
+    linear-gradient(180deg, #d9a066 0%, #b07438 100%);
+  border-top: 8px solid #8b5a2b;
+}
+
+.badge {
+  border: 3px solid #5c3a14;
+  background: white;
+  color: #5c3a14;
+  box-shadow: 0 3px 0 rgba(92, 58, 20, 0.3);
+}
+
+.avatar {
+  background: #ffe8cc;
+  color: #a35a12;
+}
+
+.title {
+  color: #0ca678;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(8, 127, 91, 0.3);
+}
+
+.instruction {
+  background: white;
+  color: #5c3a14;
+  border: 3px solid #5c3a14;
+  box-shadow: 0 3px 0 rgba(92, 58, 20, 0.25);
+}
+
+.iconButton {
+  border: 3px solid #5c3a14;
+  background: #f03e3e;
+  color: white;
+  box-shadow: 0 3px 0 rgba(92, 58, 20, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The shopping list: lined notebook paper with a torn top edge. */
+.list {
+  background:
+    repeating-linear-gradient(180deg, transparent 0 26px, rgba(77, 171, 247, 0.35) 26px 28px),
+    #fffdf5;
+  border: 3px solid #5c3a14;
+  border-radius: 6px 6px 14px 14px;
+  box-shadow: 0 6px 0 rgba(92, 58, 20, 0.25);
+  rotate: -1.5deg;
+  animation: unfold 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wordTag {
+  background: #fff3bf;
+  color: #5c3a14;
+  border: 3px dashed #f59f00;
+}
+
+/* The store shelf: dark wood with a lip under each row of bins. */
+.shelf {
+  background: linear-gradient(180deg, #8b5a2b 0%, #6f4518 100%);
+  border: 4px solid #4a2c0c;
+  box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.2), 0 6px 0 rgba(74, 44, 12, 0.35);
+}
+
+.bin {
+  --b: clamp(78px, min(32vw, 17dvh), 140px);
+  width: var(--b);
+  height: var(--b);
+  background: linear-gradient(180deg, #fff9db 0%, #fff3bf 100%);
+  border: 5px solid;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
+  touch-action: manipulation;
+  transition: opacity 250ms ease-out;
+}
+
+.bin:focus-visible {
+  outline: 4px solid #fff3bf;
+  outline-offset: 3px;
+}
+
+.item {
+  font-size: calc(var(--b) * 0.58);
+  filter: drop-shadow(0 4px 2px rgba(0, 0, 0, 0.25));
+}
+
+.binRight {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 18px 6px rgba(74, 222, 128, 0.7);
+  animation: pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2;
+}
+
+.binWrong {
+  box-shadow: 0 0 0 4px #dc2626, 0 5px 0 rgba(0, 0, 0, 0.3);
+  animation: shake 0.45s ease-in-out;
+}
+
+/* The right bin after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.binReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #0ca678;
+  color: white;
+  border: 4px solid #5c3a14;
+  box-shadow: 0 5px 0 rgba(92, 58, 20, 0.3);
+}
+
+@keyframes unfold {
+  from { scale: 1 0.6; opacity: 0; }
+  to { scale: 1 1; opacity: 1; }
+}
+
+@keyframes pop {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 0 -12%; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .list,
+  .binRight,
+  .binWrong {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller bins so the list and the shelf sit side by side. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .bin {
+    --b: clamp(54px, 24dvh, 96px);
+  }
+}

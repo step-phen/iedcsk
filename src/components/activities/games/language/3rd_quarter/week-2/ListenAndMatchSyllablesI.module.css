@@ -1,0 +1,158 @@
+/* Look of Listen and Match Syllables: i; layout and spacing stay in Tailwind, the lines stay in ListenAndMatchSyllablesI.data.ts. */
+
+.screen {
+  background: linear-gradient(180deg, #fff0f6 0%, #e6fcf5 100%);
+  color: #7c4a1e;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Rainbow sprinkles on the wall and a black-and-white tiled floor. */
+.sprinkles {
+  background:
+    linear-gradient(45deg, transparent 46%, #f06595 46% 54%, transparent 54%) 0 0 / 60px 60px,
+    linear-gradient(-45deg, transparent 46%, #4dabf7 46% 54%, transparent 54%) 30px 20px / 70px 70px,
+    linear-gradient(90deg, transparent 46%, #fcc419 46% 54%, transparent 54%) 15px 40px / 80px 80px;
+  opacity: 0.35;
+}
+
+.floor {
+  background: repeating-conic-gradient(#343a40 0 25%, #f8f9fa 0 50%) 0 0 / 48px 48px;
+  border-top: 6px solid #f06595;
+}
+
+.badge {
+  border: 3px solid #7c4a1e;
+  background: white;
+  color: #7c4a1e;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+}
+
+.avatar {
+  background: #ffdeeb;
+  color: #c2255c;
+}
+
+.title {
+  color: #d6336c;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(0, 0, 0, 0.18);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  color: #7c4a1e;
+  border: 3px solid #7c4a1e;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #7c4a1e;
+  background: #f06595;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Three ice creams in a row; each is a square tap target. */
+.row {
+  --c: clamp(88px, min(calc((100vw - 90px) / 3.3), 32dvh), 220px);
+  gap: calc(var(--c) * 0.16);
+  padding: 0 calc(var(--c) * 0.1);
+}
+
+.item {
+  width: var(--c);
+  height: var(--c);
+  touch-action: manipulation;
+  animation: none;
+  transition: opacity 250ms ease-out;
+}
+
+.item:focus-visible {
+  outline: 4px solid #f06595;
+  outline-offset: 4px;
+}
+
+.syllable {
+  font-size: calc(var(--c) * 0.24);
+  color: #7c4a1e;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.7);
+}
+
+.itemRight {
+  animation: wiggle 0.5s ease-in-out 2;
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.itemWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right ice cream after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.itemReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #f06595;
+  color: white;
+  border: 4px solid #7c4a1e;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.25);
+}
+
+@keyframes wiggle {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: -8deg; }
+  75% { rotate: 8deg; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: smaller ice creams so the row fits under the header. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .row {
+    --c: clamp(64px, 40dvh, 140px);
+  }
+}

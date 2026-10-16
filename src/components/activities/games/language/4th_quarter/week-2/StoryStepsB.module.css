@@ -1,0 +1,224 @@
+/* Look of Story Steps B; layout and spacing stay in Tailwind, the stories and lines stay in StoryStepsB.data.ts. */
+
+/* Story time at a campfire: a deep indigo night sky over dark pine hills. */
+.screen {
+  background: linear-gradient(180deg, #0b1236 0%, #1b2559 55%, #2c2f6b 100%);
+  color: #fff4e0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.stars {
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 1.2px, transparent 1.8px) 0 0 / 70px 60px,
+    radial-gradient(circle, rgba(255, 236, 179, 0.7) 0 1px, transparent 1.6px) 33px 27px / 90px 80px;
+  mask-image: linear-gradient(180deg, black 0%, black 50%, transparent 80%);
+}
+
+.hills {
+  background:
+    radial-gradient(ellipse 40% 70% at 15% 100%, #10183d 0 98%, transparent 100%),
+    radial-gradient(ellipse 45% 80% at 85% 100%, #10183d 0 98%, transparent 100%),
+    linear-gradient(180deg, transparent 0 45%, #0d1433 45%);
+}
+
+.badge {
+  border: 3px solid #ffb74d;
+  background: #1b2559;
+  color: #fff4e0;
+  box-shadow: 0 0 10px rgba(255, 183, 77, 0.35);
+}
+
+.avatar {
+  background: #ffb74d;
+  color: #3e2005;
+}
+
+.title {
+  color: #ffd180;
+  text-shadow: 0 0 14px rgba(255, 145, 0, 0.6), 0 3px 0 #5d2c00;
+}
+
+.instruction {
+  background: #fff4e0;
+  color: #1b2559;
+  border: 3px solid #ffb74d;
+  box-shadow: 0 0 12px rgba(255, 183, 77, 0.35);
+}
+
+.iconButton {
+  border: 3px solid #fff4e0;
+  background: #ff9100;
+  color: #1b2559;
+  box-shadow: 0 0 10px rgba(255, 145, 0, 0.5);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The question floats in warm firelight above the stones. */
+.question {
+  background: rgba(255, 145, 0, 0.14);
+  border: 2px solid rgba(255, 209, 128, 0.5);
+}
+
+.askWord {
+  color: #ffd180;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px rgba(255, 145, 0, 0.8);
+}
+
+.ember {
+  color: rgba(255, 244, 224, 0.45);
+  border: 2px solid rgba(255, 244, 224, 0.2);
+}
+
+.emberLit {
+  color: #3e2005;
+  background: #ffb74d;
+  border-color: #ffd180;
+  box-shadow: 0 0 12px rgba(255, 145, 0, 0.8);
+}
+
+/* Story stones: flat, lumpy river rocks with a picture painted on top. */
+.stone {
+  --s: clamp(86px, min(26vw, 22dvh), 170px);
+  width: var(--s);
+  height: calc(var(--s) * 0.86);
+  border-radius: 52% 48% 46% 54% / 58% 55% 45% 42%;
+  border: 4px solid #3e2a4f;
+  box-shadow: inset 0 -10px 0 rgba(0, 0, 0, 0.15), 0 0 22px rgba(255, 145, 0, 0.35), 0 6px 0 rgba(0, 0, 0, 0.35);
+  touch-action: manipulation;
+  transition: opacity 250ms ease-out;
+}
+
+.stone:focus-visible {
+  outline: 4px solid #ffd180;
+  outline-offset: 4px;
+}
+
+.picture {
+  font-size: calc(var(--s) * 0.48);
+  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.3));
+}
+
+.stoneRight {
+  z-index: 2;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 18px 6px rgba(74, 222, 128, 0.7);
+  animation: bounce 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2;
+}
+
+.stoneWrong {
+  box-shadow: 0 0 0 4px #dc2626, 0 6px 0 rgba(0, 0, 0, 0.35);
+  animation: shake 0.45s ease-in-out;
+}
+
+/* The right stone after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.stoneReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+/* The campfire: two flickering flames on crossed logs. */
+.fire {
+  --c: clamp(44px, 9dvh, 80px);
+  width: var(--c);
+  height: calc(var(--c) * 1.1);
+}
+
+.flame {
+  width: var(--c);
+  height: calc(var(--c) * 1.1);
+  translate: -50% 0;
+  border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+  background: radial-gradient(ellipse at 50% 80%, #fff3b0 0%, #ffb300 40%, #ff6d00 75%, transparent 78%);
+  transform-origin: 50% 100%;
+  animation: flicker 1.2s ease-in-out infinite alternate;
+}
+
+.flameSmall {
+  width: calc(var(--c) * 0.55);
+  height: calc(var(--c) * 0.7);
+  background: radial-gradient(ellipse at 50% 80%, #ffffff 0%, #fff3b0 45%, transparent 75%);
+  animation-duration: 0.8s;
+}
+
+.logs {
+  width: calc(clamp(44px, 9dvh, 80px) * 1.8);
+  height: calc(clamp(44px, 9dvh, 80px) * 0.32);
+  background:
+    linear-gradient(12deg, transparent 0 40%, #6d4c41 40% 60%, transparent 60%),
+    linear-gradient(-12deg, transparent 0 40%, #5d4037 40% 60%, transparent 60%);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.resultStamp {
+  background: #ff9100;
+  color: #1b2559;
+  border: 4px solid #fff4e0;
+  box-shadow: 0 0 20px rgba(255, 145, 0, 0.6);
+}
+
+@keyframes flicker {
+  0% { scale: 1 1; rotate: -3deg; }
+  50% { scale: 0.92 1.08; }
+  100% { scale: 1.05 0.94; rotate: 3deg; }
+}
+
+@keyframes bounce {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 0 -14%; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flame,
+  .stoneRight,
+  .stoneWrong {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: the campfire drops out so the stones keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .fire,
+  .logs {
+    display: none;
+  }
+
+  .stone {
+    --s: clamp(70px, 30dvh, 120px);
+  }
+}

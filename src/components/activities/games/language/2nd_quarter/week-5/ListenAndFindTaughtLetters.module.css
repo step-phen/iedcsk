@@ -1,0 +1,190 @@
+/* Look of Listen and Find: taught letters (Post Office); layout and spacing stay in Tailwind, the lines stay in ListenAndFindTaughtLetters.data.ts. */
+
+/* A post office: airmail-striped wall over a tiled floor. */
+.screen {
+  background:
+    repeating-linear-gradient(135deg, rgba(224, 49, 49, 0.12) 0 18px, transparent 18px 36px, rgba(25, 113, 194, 0.12) 36px 54px, transparent 54px 72px),
+    #f8f9fa;
+  color: #1c3d5a;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.floor {
+  background: repeating-conic-gradient(#ced4da 0 25%, #e9ecef 0 50%) 0 0 / 40px 40px;
+  border-top: 5px solid #1c3d5a;
+}
+
+.badge {
+  border: 3px solid #1c3d5a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(28, 61, 90, 0.25);
+}
+
+.avatar {
+  background: #a5d8ff;
+  color: #1864ab;
+}
+
+.title {
+  color: #1864ab;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(28, 61, 90, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.96);
+  border: 3px solid #1c3d5a;
+  box-shadow: 0 3px 0 rgba(28, 61, 90, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #1c3d5a;
+  background: #e03131;
+  color: white;
+  box-shadow: 0 3px 0 rgba(28, 61, 90, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The round-topped red mailbox. */
+.mailbox {
+  --m: clamp(60px, 13dvh, 110px);
+  width: var(--m);
+  height: calc(var(--m) * 0.9);
+  background: linear-gradient(90deg, #c92a2a, #fa5252 40%, #c92a2a);
+  border: 4px solid #1c3d5a;
+  box-shadow: 0 6px 0 rgba(28, 61, 90, 0.3);
+}
+
+.slot {
+  width: 62%;
+  height: 12%;
+  background: #1c3d5a;
+}
+
+/* A wooden sorting shelf with one cubby per envelope; each envelope is 1.4 wide for 1 tall. */
+.shelf {
+  --c: clamp(60px, min(calc((100vw - 90px) / 2.9), 17dvh), 110px);
+  gap: calc(var(--c) * 0.12);
+  padding: calc(var(--c) * 0.12);
+  background: #a0612b;
+  border: 5px solid #5c3317;
+  box-shadow: 0 8px 0 rgba(28, 61, 90, 0.3);
+}
+
+@media (min-width: 640px) {
+  .shelf {
+    --c: clamp(70px, min(calc((100vw - 120px) / 6), 22dvh), 130px);
+  }
+}
+
+.cubby {
+  padding: calc(var(--c) * 0.12) calc(var(--c) * 0.1);
+  background: #5c3317;
+  box-shadow: inset 0 6px 8px rgba(0, 0, 0, 0.35);
+}
+
+.envelope {
+  width: calc(var(--c) * 1.4);
+  height: var(--c);
+  touch-action: manipulation;
+  animation: slideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) var(--slide-delay, 0ms) backwards;
+  transition: opacity 250ms ease-out;
+}
+
+.envelope:focus-visible {
+  outline: 4px solid #ffd43b;
+  outline-offset: 4px;
+}
+
+.letter {
+  font-size: calc(var(--c) * 0.5);
+  color: #1c3d5a;
+}
+
+/* The right envelope lifts toward the mailbox with a green glow. */
+.envelopeRight {
+  z-index: 2;
+  animation: post 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 10px #4ade80) drop-shadow(0 0 4px #16a34a);
+}
+
+.envelopeWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 6px #dc2626);
+}
+
+/* The right envelope after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.envelopeReveal {
+  z-index: 2;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #1864ab;
+  color: white;
+  border: 4px solid #1c3d5a;
+  box-shadow: 0 5px 0 rgba(28, 61, 90, 0.3);
+}
+
+@keyframes slideIn {
+  from { translate: 0 30%; opacity: 0; }
+  to { translate: 0 0; opacity: 1; }
+}
+
+@keyframes post {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  45% { translate: 0 -30%; rotate: -6deg; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .envelope {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller mailbox so the shelf keeps its room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .mailbox {
+    --m: clamp(40px, 16dvh, 64px);
+  }
+
+  .shelf {
+    --c: clamp(50px, 26dvh, 90px);
+  }
+}

@@ -1,0 +1,201 @@
+/* Look of Letter E Trails: a spring egg hunt, tracing on a gingham picnic cloth beside a nest; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #fff1f6 0%, #fde3ee 45%, #e6f7d8 100%);
+  color: #5a2b4f;
+}
+
+.blossoms {
+  background-image:
+    radial-gradient(circle, #ffc2d8 0 5px, transparent 6px),
+    radial-gradient(circle, #fff3a8 0 3px, transparent 4px);
+  background-size: 140px 120px, 95px 105px;
+  background-position: 20px 30px, 70px 10px;
+  opacity: 0.7;
+}
+
+.meadow {
+  background:
+    radial-gradient(80% 100% at 10% 100%, #9ad66f 0 60%, transparent 61%),
+    radial-gradient(70% 90% at 90% 100%, #86c95c 0 60%, transparent 61%);
+}
+
+.badge {
+  background: #ffffff;
+  border: 3px solid #7a4a9e;
+  box-shadow: 0 3px 0 rgba(120, 60, 90, 0.25);
+}
+
+.avatar {
+  background: #f3e6fb;
+}
+
+.title {
+  color: #7a4a9e;
+  text-shadow: 0 2px 0 #ffffff, 0 4px 0 rgba(122, 74, 158, 0.3);
+}
+
+.instruction {
+  background: #ffffff;
+  border: 3px solid #7a4a9e;
+  color: #5a2b4f;
+}
+
+.iconButton {
+  background: #2a9d8f;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(20, 90, 80, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* Soft pink gingham with a scalloped-looking rim; scale (not transform) so the shake and the zoom never fight. */
+.cloth {
+  background:
+    linear-gradient(90deg, rgba(255, 182, 206, 0.35) 50%, transparent 50%),
+    linear-gradient(0deg, rgba(255, 182, 206, 0.35) 50%, transparent 50%),
+    #fffafc;
+  background-size: 50px 50px;
+  border: 6px solid #f28db2;
+  box-shadow: inset 0 0 0 5px #ffffff, 0 8px 0 rgba(120, 60, 90, 0.28);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.clothWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.clothModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.25), 0 0 32px 8px rgba(34, 179, 94, 0.45);
+}
+
+.clothZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.clothRight {
+  border-color: #2a9d8f;
+  animation: bump 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* A woven twig nest. */
+.nest {
+  background:
+    repeating-linear-gradient(35deg, rgba(90, 55, 25, 0.35) 0 3px, transparent 3px 9px),
+    repeating-linear-gradient(-30deg, rgba(90, 55, 25, 0.3) 0 3px, transparent 3px 11px),
+    #c8955c;
+  border: 4px solid #9a6a38;
+  box-shadow: inset 0 6px 10px rgba(60, 35, 10, 0.35), 0 6px 0 rgba(90, 55, 25, 0.3);
+}
+
+/* A speckled pastel egg, rounder at the bottom. */
+.egg {
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8) 0 12%, transparent 13%),
+    radial-gradient(circle, rgba(122, 74, 158, 0.25) 0 2px, transparent 3px) 0 0 / 12px 12px,
+    #e9dcff;
+  border: 3px solid #ffffff;
+  box-shadow: 0 3px 0 rgba(90, 55, 25, 0.3);
+}
+
+.eggNext {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8) 0 12%, transparent 13%),
+    radial-gradient(circle, rgba(242, 141, 178, 0.35) 0 2px, transparent 3px) 0 0 / 12px 12px,
+    #ffe08a;
+  animation: wobble 1.2s ease-in-out infinite;
+}
+
+/* The picture pops out over the bottom half of its cracked shell. */
+.hatch {
+  isolation: isolate;
+  animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hatch::after {
+  content: "";
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: -18%;
+  height: 45%;
+  background: #fffaf0;
+  clip-path: polygon(0 20%, 15% 0, 30% 25%, 45% 0, 60% 25%, 75% 0, 90% 25%, 100% 5%, 100% 100%, 0 100%);
+  border-radius: 0 0 50% 50%;
+  z-index: -1;
+}
+
+.hatchMissed {
+  filter: grayscale(0.6) opacity(0.65);
+}
+
+.resultStamp {
+  background: #7a4a9e;
+  color: white;
+  border: 4px solid white;
+  box-shadow: 0 5px 0 rgba(90, 40, 120, 0.4);
+  rotate: -3deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.05; }
+}
+
+@keyframes wobble {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: -8deg; }
+  75% { rotate: 8deg; }
+}
+
+@keyframes popIn {
+  0% { scale: 0.4; translate: 0 30%; }
+  60% { scale: 1.2; translate: 0 -8%; }
+  100% { scale: 1; translate: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clothWrong,
+  .clothRight,
+  .eggNext,
+  .hatch {
+    animation: none;
+  }
+}

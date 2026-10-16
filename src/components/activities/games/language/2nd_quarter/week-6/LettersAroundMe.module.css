@@ -1,0 +1,163 @@
+/* Look of Letters Around Me (Town Walk); layout and spacing stay in Tailwind, the labels and lines stay in LettersAroundMe.data.ts. */
+
+/* A sunny town street: sky over a row of shops and a grey sidewalk. */
+.screen {
+  background: linear-gradient(180deg, #99e9f2 0%, #e3fafc 70%);
+  color: #212529;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Shop fronts in a row, each with a window. */
+.town {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 22px, rgba(255, 255, 255, 0.7) 22px 52px, transparent 52px 90px) 0 30% / 100% 26% no-repeat,
+    linear-gradient(90deg, #ffc9c9 0 18%, #ffec99 18% 36%, #b2f2bb 36% 52%, #d0bfff 52% 70%, #ffd8a8 70% 86%, #a5d8ff 86%);
+  border-top: 5px solid #495057;
+}
+
+.sidewalk {
+  background: repeating-linear-gradient(90deg, #ced4da 0 58px, #adb5bd 58px 60px);
+  border-top: 5px solid #868e96;
+}
+
+.badge {
+  border: 3px solid #212529;
+  background: white;
+  box-shadow: 0 3px 0 rgba(33, 37, 41, 0.25);
+}
+
+.avatar {
+  background: #ffec99;
+  color: #e67700;
+}
+
+.title {
+  color: #0b7285;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(33, 37, 41, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #212529;
+  box-shadow: 0 3px 0 rgba(33, 37, 41, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #212529;
+  background: #15aabf;
+  color: white;
+  box-shadow: 0 3px 0 rgba(33, 37, 41, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The pictured label is 1.25 wide for 1 tall and pops in each round. */
+.label {
+  --w: clamp(240px, min(90vw, 54dvh * 1.25), 560px);
+  width: var(--w);
+  height: calc(var(--w) * 0.8);
+  animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tile {
+  font-size: calc(var(--w) * 0.13);
+  max-width: calc(var(--w) * 0.2);
+  touch-action: manipulation;
+  transition: opacity 250ms ease-out, background-color 150ms ease-out;
+}
+
+.tile:not(:disabled):active {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.tile:focus-visible {
+  outline: 4px solid #15aabf;
+  outline-offset: 2px;
+}
+
+/* The right letter lights up green and bounces. */
+.tileRight {
+  background: rgba(220, 252, 231, 0.9);
+  color: #166534 !important;
+  box-shadow: 0 0 0 4px #16a34a;
+  animation: hop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 2;
+}
+
+.tileWrong {
+  background: rgba(254, 226, 226, 0.85);
+  animation: shake 0.45s ease-in-out;
+}
+
+/* The right letter after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.tileReveal {
+  z-index: 2;
+  background: rgba(220, 252, 231, 0.9);
+  color: #166534 !important;
+  box-shadow: 0 0 0 4px #16a34a, 0 0 22px 8px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #15aabf;
+  color: white;
+  border: 4px solid #212529;
+  box-shadow: 0 5px 0 rgba(33, 37, 41, 0.3);
+}
+
+@keyframes popIn {
+  from { scale: 0.7; opacity: 0; }
+  to { scale: 1; opacity: 1; }
+}
+
+@keyframes hop {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 0 -12%; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -6px 0; }
+  40% { translate: 6px 0; }
+  60% { translate: -4px 0; }
+  80% { translate: 4px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .label {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller label so it fits under the header. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .label {
+    --w: clamp(200px, 60dvh * 1.25, 360px);
+  }
+}

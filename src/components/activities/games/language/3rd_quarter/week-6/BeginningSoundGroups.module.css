@@ -1,0 +1,213 @@
+/* Look of Beginning Sound Groups (Toy Room Cleanup); layout and spacing stay in Tailwind, the pictures and lines stay in BeginningSoundGroups.data.ts. */
+
+/* A cozy playroom: peach striped wallpaper over a wooden floor. */
+.screen {
+  background: repeating-linear-gradient(90deg, #fff4e6 0 38px, #ffe8cc 38px 76px);
+  color: #5c3d1e;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.floor {
+  background: repeating-linear-gradient(90deg, #d9a066 0 90px, #c98e55 90px 92px);
+  border-top: 8px solid #a0693a;
+}
+
+.badge {
+  border: 3px solid #5c3d1e;
+  background: white;
+  box-shadow: 0 3px 0 rgba(92, 61, 30, 0.25);
+}
+
+.avatar {
+  background: #ffd8a8;
+  color: #d9480f;
+}
+
+.title {
+  color: #d9480f;
+  text-shadow: 0 2px 0 white, 0 4px 0 rgba(92, 61, 30, 0.2);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #5c3d1e;
+  box-shadow: 0 3px 0 rgba(92, 61, 30, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #5c3d1e;
+  background: #1c7ed6;
+  color: white;
+  box-shadow: 0 3px 0 rgba(92, 61, 30, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* A round braided rug where the toy waits to be picked up. */
+.rug {
+  --r: clamp(130px, 28dvh, 240px);
+  width: calc(var(--r) * 1.5);
+  height: var(--r);
+  background: repeating-radial-gradient(ellipse, #f783ac 0 10px, #fcc2d7 10px 20px, #da77f2 20px 30px);
+  border: 5px solid #a61e4d;
+  box-shadow: 0 6px 0 rgba(92, 61, 30, 0.25);
+}
+
+.toy {
+  --t: clamp(84px, 18dvh, 150px);
+  width: var(--t);
+  height: var(--t);
+  font-size: calc(var(--t) * 0.62);
+  background: white;
+  border: 5px solid #5c3d1e;
+  box-shadow: 0 6px 0 rgba(92, 61, 30, 0.3);
+  touch-action: none;
+  cursor: grab;
+  animation: hop 1.8s ease-in-out infinite;
+}
+
+.toyDragging {
+  z-index: 5;
+  cursor: grabbing;
+  animation: none;
+  scale: 1.08;
+  box-shadow: 0 16px 18px rgba(92, 61, 30, 0.35);
+}
+
+/* Toy chests: colored wooden boxes with a picture on the lid and their sorted toys peeking out. */
+.chest {
+  --c: clamp(100px, min(30vw, 26dvh), 210px);
+  width: var(--c);
+  height: calc(var(--c) * 0.78);
+  padding-top: calc(var(--c) * 0.04);
+  touch-action: manipulation;
+  transition: opacity 250ms ease-out, scale 150ms ease-out;
+}
+
+.chest:focus-visible {
+  outline: 4px solid #1c7ed6;
+  outline-offset: 4px;
+  border-radius: 1rem;
+}
+
+.label {
+  width: calc(var(--c) * 0.3);
+  height: calc(var(--c) * 0.3);
+  font-size: calc(var(--c) * 0.18);
+  background: white;
+  border: 3px solid #5c3d1e;
+}
+
+.pile {
+  margin-top: calc(var(--c) * 0.08);
+  max-width: 70%;
+  gap: 2px;
+  font-size: calc(var(--c) * 0.15);
+}
+
+.pileItem {
+  animation: thump 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chestHover {
+  scale: 1.08;
+  filter: drop-shadow(0 0 10px rgba(28, 126, 214, 0.8));
+}
+
+.chestRight {
+  z-index: 2;
+  filter: drop-shadow(0 0 5px #16a34a) drop-shadow(0 0 14px rgba(74, 222, 128, 0.8));
+  animation: gulp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chestWrong {
+  animation: shake 0.45s ease-in-out;
+  filter: drop-shadow(0 0 4px #dc2626) drop-shadow(0 0 4px #dc2626);
+}
+
+/* After a miss the right chest gets a green glow and a 2s grow-and-settle, with the toy dropped inside. */
+.chestReveal {
+  z-index: 2;
+  filter: drop-shadow(0 0 5px #16a34a) drop-shadow(0 0 18px rgba(22, 163, 74, 0.75));
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #e8590c;
+  color: white;
+  border: 4px solid #5c3d1e;
+  box-shadow: 0 5px 0 rgba(92, 61, 30, 0.3);
+}
+
+@keyframes hop {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -8px; }
+}
+
+@keyframes gulp {
+  0% { scale: 1; }
+  40% { scale: 1.12 0.9; }
+  100% { scale: 1; }
+}
+
+@keyframes thump {
+  0% { scale: 0.4; }
+  60% { scale: 1.2; }
+  100% { scale: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toy {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller rug so the chests keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .rug {
+    --r: clamp(80px, 30dvh, 130px);
+  }
+
+  .toy {
+    --t: clamp(56px, 20dvh, 90px);
+  }
+
+  .chest {
+    --c: clamp(80px, 32dvh, 140px);
+  }
+}

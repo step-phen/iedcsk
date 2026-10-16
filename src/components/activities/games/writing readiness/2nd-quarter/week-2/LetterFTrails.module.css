@@ -1,0 +1,204 @@
+/* Look of Letter F Trails: a starry meadow at night, filling jars with fireflies; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #141a46 0%, #26307a 60%, #3a3f8f 100%);
+  color: #fdf6d8;
+}
+
+.sky {
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle, rgba(255, 236, 160, 0.7) 0 2px, transparent 3px);
+  background-size: 70px 70px, 130px 130px;
+  background-position: 10px 20px, 60px 80px;
+}
+
+.moon {
+  top: 10%;
+  right: 8%;
+  width: clamp(60px, 13vmin, 130px);
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%, #fffbe6 0%, #ffeaa0 70%);
+  box-shadow: 0 0 40px 10px rgba(255, 234, 160, 0.35);
+}
+
+.grass {
+  background:
+    radial-gradient(60% 100% at 20% 100%, #1d5b3c 0 60%, transparent 61%),
+    radial-gradient(70% 90% at 85% 100%, #174a31 0 60%, transparent 61%);
+}
+
+.badge {
+  background: #fffbe9;
+  border: 3px solid #ffd84d;
+  color: #26307a;
+  box-shadow: 0 3px 0 rgba(10, 10, 40, 0.4);
+}
+
+.avatar {
+  background: #fff3c4;
+}
+
+.title {
+  color: #ffe27a;
+  text-shadow: 0 0 14px rgba(255, 216, 77, 0.55), 0 3px 0 rgba(10, 10, 40, 0.5);
+}
+
+.instruction {
+  background: #fffbe9;
+  border: 3px solid #ffd84d;
+  color: #26307a;
+}
+
+.iconButton {
+  background: #ff9f43;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(10, 10, 40, 0.45);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* Deep-blue night paper with a golden frame; scale (not transform) so the shake and the zoom never fight. */
+.slate {
+  background: radial-gradient(circle at 50% 40%, #2c3a8c 0%, #1b2462 100%);
+  border: 6px solid #ffd84d;
+  box-shadow: 0 0 24px 2px rgba(255, 216, 77, 0.25), 0 8px 0 rgba(10, 10, 40, 0.45);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.slateWrong {
+  border-color: #ff4d4d;
+  animation: shake 0.45s ease-in-out;
+}
+
+.slateModel {
+  border-color: #3ddc84;
+  box-shadow: 0 0 0 6px rgba(61, 220, 132, 0.3), 0 0 36px 10px rgba(61, 220, 132, 0.5);
+}
+
+.slateZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.slateRight {
+  border-color: #ffd84d;
+  box-shadow: 0 0 40px 12px rgba(255, 216, 77, 0.55), 0 8px 0 rgba(10, 10, 40, 0.45);
+  animation: bump 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.lid {
+  background: #b98a4e;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.jar {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.22) 0 18%, rgba(255, 255, 255, 0.08) 18% 100%);
+  border: 3px solid rgba(220, 230, 255, 0.7);
+  transition: background 500ms ease-out, box-shadow 500ms ease-out;
+}
+
+.jarNext {
+  border-color: #ffd84d;
+  animation: twinkle 1.6s ease-in-out infinite;
+}
+
+.jarLit {
+  background: radial-gradient(circle, rgba(255, 236, 140, 0.95) 0%, rgba(255, 216, 77, 0.55) 70%);
+  box-shadow: 0 0 22px 6px rgba(255, 216, 77, 0.6);
+}
+
+.jarDim {
+  background: rgba(200, 210, 255, 0.25);
+}
+
+/* The picture sits dark in the jar until the firefly lights it. */
+.glowPic {
+  filter: brightness(0) opacity(0.35);
+  transition: filter 500ms ease-out;
+}
+
+.glowPicShown {
+  filter: none;
+  animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.firefly {
+  background: #fff7b0;
+  box-shadow: 0 0 8px 4px rgba(255, 240, 120, 0.9);
+  animation: buzz 1.2s ease-in-out infinite;
+}
+
+.resultStamp {
+  background: #ffd84d;
+  color: #26307a;
+  border: 4px solid white;
+  box-shadow: 0 0 24px 4px rgba(255, 216, 77, 0.5);
+  rotate: -3deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.05; }
+}
+
+@keyframes twinkle {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 216, 77, 0); }
+  50% { box-shadow: 0 0 16px 4px rgba(255, 216, 77, 0.5); }
+}
+
+@keyframes buzz {
+  0%, 100% { translate: 0 0; }
+  33% { translate: -6px 4px; }
+  66% { translate: -2px -3px; }
+}
+
+@keyframes popIn {
+  0% { scale: 0.4; rotate: -15deg; }
+  60% { scale: 1.2; rotate: 6deg; }
+  100% { scale: 1; rotate: 0deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slateWrong,
+  .slateRight,
+  .jarNext,
+  .glowPicShown,
+  .firefly {
+    animation: none;
+  }
+}

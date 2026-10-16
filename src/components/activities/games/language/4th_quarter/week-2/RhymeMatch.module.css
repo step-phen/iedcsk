@@ -1,0 +1,239 @@
+/* Look of Rhyme Match; layout and spacing stay in Tailwind, the words and lines stay in RhymeMatch.data.ts. */
+
+/* Outer space: a violet galaxy with twinkling dots and a soft nebula. */
+.screen {
+  background: radial-gradient(ellipse 80% 60% at 70% 20%, #5f3dc4 0%, #2b1b6b 45%, #120b35 100%);
+  color: #f3f0ff;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.space {
+  background:
+    radial-gradient(circle, white 0 1.4px, transparent 2px) 0 0 / 64px 58px,
+    radial-gradient(circle, #ffec99 0 1px, transparent 1.6px) 21px 35px / 97px 83px,
+    radial-gradient(ellipse 35% 25% at 15% 75%, rgba(240, 101, 149, 0.28), transparent 70%);
+  animation: twinkle 3s ease-in-out infinite alternate;
+}
+
+.badge {
+  border: 3px solid #b197fc;
+  background: #1c1f4a;
+  color: #f3f0ff;
+  box-shadow: 0 0 10px rgba(177, 151, 252, 0.4);
+}
+
+.avatar {
+  background: #b197fc;
+  color: #1c1f4a;
+}
+
+.title {
+  color: #ffe066;
+  text-shadow: 0 0 14px rgba(255, 224, 102, 0.55), 0 3px 0 #5f3dc4;
+}
+
+.instruction {
+  background: #f3f0ff;
+  color: #1c1f4a;
+  border: 3px solid #b197fc;
+  box-shadow: 0 0 12px rgba(177, 151, 252, 0.45);
+}
+
+.iconButton {
+  border: 3px solid #f3f0ff;
+  background: #f06595;
+  color: white;
+  box-shadow: 0 0 10px rgba(240, 101, 149, 0.55);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The planet: a striped teal world with a tilted ring. */
+.planet {
+  --p: clamp(110px, min(34vw, 26dvh), 220px);
+  width: var(--p);
+  height: var(--p);
+  background:
+    linear-gradient(170deg, transparent 0 30%, rgba(255, 255, 255, 0.18) 30% 38%, transparent 38% 60%, rgba(0, 0, 0, 0.12) 60% 70%, transparent 70%),
+    radial-gradient(circle at 35% 30%, #63e6be 0%, #12b886 55%, #087f5b 100%);
+  box-shadow: inset -12px -14px 0 rgba(0, 0, 0, 0.18), 0 0 30px rgba(99, 230, 190, 0.45);
+  animation: drift 5s ease-in-out infinite alternate;
+}
+
+.ring {
+  width: calc(var(--p) * 1.5);
+  height: calc(var(--p) * 0.36);
+  border: 6px solid rgba(255, 236, 153, 0.85);
+  rotate: -14deg;
+  mask-image: linear-gradient(180deg, transparent 0 45%, black 45%);
+}
+
+.planetPicture {
+  font-size: calc(var(--p) * 0.48);
+  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.35));
+}
+
+/* The landing pad beside the planet, outlined with blinking dashes. */
+.dock {
+  --r: clamp(64px, min(19vw, 18dvh), 120px);
+  width: calc(var(--r) * 1.3);
+  height: calc(var(--r) * 1.6);
+  border: 4px dashed rgba(243, 240, 255, 0.55);
+  background: rgba(243, 240, 255, 0.06);
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.dockHover {
+  border-color: #ffe066;
+  box-shadow: 0 0 22px rgba(255, 224, 102, 0.6);
+}
+
+/* The pad holding the right rocket after a miss: green ring, soft glow, and a 2s grow-and-settle. */
+.dockReveal {
+  z-index: 2;
+  border: 4px solid #16a34a;
+  box-shadow: 0 0 0 3px #16a34a, 0 0 26px 10px rgba(22, 163, 74, 0.55);
+  animation: revealZoom 2s ease-in-out;
+}
+
+.pad {
+  background: #ffe066;
+  box-shadow: 0 0 10px #ffe066;
+}
+
+.rocket {
+  --r: clamp(64px, min(19vw, 18dvh), 120px);
+  width: var(--r);
+  height: calc(var(--r) * 1.5);
+}
+
+.rocketButton {
+  touch-action: none;
+  cursor: grab;
+  filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.3));
+  transition: opacity 250ms ease-out;
+}
+
+/* A flickering exhaust flame under every rocket still on the launch row. */
+.rocketButton::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -14%;
+  width: 26%;
+  height: 18%;
+  translate: -50% 0;
+  border-radius: 50% 50% 50% 50% / 30% 30% 70% 70%;
+  background: radial-gradient(ellipse at 50% 20%, #fff3bf 0%, #ff922b 60%, transparent 75%);
+  animation: thrust 0.35s ease-in-out infinite alternate;
+}
+
+.rocketButton:focus-visible {
+  outline: 4px solid #ffe066;
+  outline-offset: 4px;
+  border-radius: 20px;
+}
+
+.windowPicture {
+  font-size: calc(var(--r) * 0.34);
+}
+
+.rocketDragging {
+  z-index: 5;
+  cursor: grabbing;
+  scale: 1.08;
+}
+
+.rocketLanded {
+  filter: drop-shadow(0 0 10px rgba(74, 222, 128, 0.9));
+  animation: land 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rocketWrong {
+  filter: drop-shadow(0 0 8px #dc2626);
+  animation: sputter 0.45s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.resultStamp {
+  background: #f06595;
+  color: white;
+  border: 4px solid #f3f0ff;
+  box-shadow: 0 0 20px rgba(240, 101, 149, 0.6);
+}
+
+@keyframes twinkle {
+  from { opacity: 0.65; }
+  to { opacity: 1; }
+}
+
+@keyframes drift {
+  from { translate: 0 -4px; }
+  to { translate: 0 4px; }
+}
+
+@keyframes thrust {
+  from { scale: 1 0.8; opacity: 0.8; }
+  to { scale: 1 1.15; opacity: 1; }
+}
+
+@keyframes land {
+  from { translate: 0 -30%; }
+  to { translate: 0 0; }
+}
+
+@keyframes sputter {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -8px 0; }
+  40% { translate: 8px 0; }
+  60% { translate: -5px 0; }
+  80% { translate: 5px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .space,
+  .planet,
+  .rocketButton::after,
+  .rocketLanded,
+  .rocketWrong {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller planet and rockets so both rows fit. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .planet {
+    --p: clamp(80px, 30dvh, 130px);
+  }
+
+  .dock,
+  .rocket {
+    --r: clamp(48px, 20dvh, 80px);
+  }
+}

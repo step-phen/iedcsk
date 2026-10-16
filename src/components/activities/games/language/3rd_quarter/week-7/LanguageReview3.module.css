@@ -1,0 +1,207 @@
+/* Look of Language Review 3 (Balloon Festival); layout and spacing stay in Tailwind, the tasks and lines stay in LanguageReview3.data.ts. */
+
+/* A bright morning sky over a meadow launch field. */
+.screen {
+  background: linear-gradient(180deg, #74c0fc 0%, #d0ebff 70%, #e7f5ff 100%);
+  color: #1864ab;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sun {
+  background: radial-gradient(circle, #fff3bf 0 40%, #ffd43b 70%);
+  box-shadow: 0 0 40px 14px rgba(255, 212, 59, 0.55);
+}
+
+.field {
+  background:
+    radial-gradient(circle, #fab005 0 3px, transparent 4px) 0 0 / 46px 30px,
+    linear-gradient(180deg, #8ce99a, #51cf66);
+  border-top: 6px solid #40c057;
+}
+
+.badge {
+  border: 3px solid #1864ab;
+  background: white;
+  box-shadow: 0 3px 0 rgba(24, 100, 171, 0.25);
+}
+
+.avatar {
+  background: #ffe3e3;
+  color: #e03131;
+}
+
+.title {
+  color: white;
+  text-shadow: 0 3px 0 #1864ab, 0 6px 0 rgba(24, 100, 171, 0.25);
+}
+
+.instruction {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #1864ab;
+  box-shadow: 0 3px 0 rgba(24, 100, 171, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #1864ab;
+  background: #ff6b6b;
+  color: white;
+  box-shadow: 0 3px 0 rgba(24, 100, 171, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The question cloud: puffy white with the picture or an ear in the middle. */
+.cloud {
+  --q: clamp(80px, 17dvh, 150px);
+  min-width: calc(var(--q) * 2);
+  height: var(--q);
+  padding: 0 calc(var(--q) * 0.35);
+  background: white;
+  box-shadow:
+    calc(var(--q) * -0.5) calc(var(--q) * 0.1) 0 calc(var(--q) * -0.12) white,
+    calc(var(--q) * 0.55) calc(var(--q) * 0.12) 0 calc(var(--q) * -0.14) white,
+    0 8px 0 rgba(24, 100, 171, 0.18);
+  animation: drift 6s ease-in-out infinite alternate;
+}
+
+.cloudFace {
+  font-size: calc(var(--q) * 0.58);
+}
+
+.cloudTag {
+  font-size: calc(var(--q) * 0.17);
+  color: white;
+  background: #1864ab;
+}
+
+/* Hot air balloons bob on their ropes; the answer sits in a white badge on the envelope. */
+.balloon {
+  --b: clamp(92px, min(28vw, 30dvh), 180px);
+  width: calc(var(--b) * 0.72);
+  height: var(--b);
+  touch-action: manipulation;
+  animation: bob 2.8s ease-in-out var(--bob-delay, 0s) infinite;
+  transition: opacity 250ms ease-out;
+}
+
+.balloon:focus-visible {
+  outline: 4px solid #ff6b6b;
+  outline-offset: 4px;
+  border-radius: 1rem;
+}
+
+.face {
+  top: calc(var(--b) * 0.12);
+  min-width: calc(var(--b) * 0.46);
+  height: calc(var(--b) * 0.46);
+  padding: 0 0.2em;
+  color: #1864ab;
+  background: white;
+  border: 3px solid #343a40;
+}
+
+.faceText {
+  font-size: calc(var(--b) * 0.17);
+  white-space: nowrap;
+}
+
+.facePicture {
+  font-size: calc(var(--b) * 0.26);
+}
+
+/* The right balloon glows green and lifts off into the sky. */
+.balloonUp {
+  z-index: 2;
+  filter: drop-shadow(0 0 5px #16a34a) drop-shadow(0 0 14px rgba(74, 222, 128, 0.8));
+  animation: liftOff 1.4s cubic-bezier(0.5, 0, 0.75, 0) 0.3s both;
+}
+
+.balloonWrong {
+  animation: wobble 0.45s ease-in-out;
+  filter: drop-shadow(0 0 4px #dc2626) drop-shadow(0 0 4px #dc2626);
+}
+
+/* After a miss the right balloon gets a green glow and a 2s grow-and-settle. */
+.balloonReveal {
+  z-index: 2;
+  filter: drop-shadow(0 0 5px #16a34a) drop-shadow(0 0 18px rgba(22, 163, 74, 0.75));
+  animation: revealZoom 2s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(22, 101, 52, 0.35);
+}
+
+.resultStamp {
+  background: #ff6b6b;
+  color: white;
+  border: 4px solid #1864ab;
+  box-shadow: 0 5px 0 rgba(24, 100, 171, 0.3);
+}
+
+@keyframes drift {
+  from { translate: -10px 0; }
+  to { translate: 10px 0; }
+}
+
+@keyframes bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -10px; }
+}
+
+@keyframes liftOff {
+  from { translate: 0 0; }
+  to { translate: 0 -60dvh; }
+}
+
+@keyframes wobble {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: -8deg; }
+  50% { rotate: 8deg; }
+  75% { rotate: -4deg; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud,
+  .balloon {
+    animation: none;
+  }
+
+  .balloonUp {
+    animation: none;
+  }
+}
+
+/* Phones held sideways: a smaller cloud so the balloons keep their room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .cloud {
+    --q: clamp(50px, 18dvh, 80px);
+  }
+
+  .balloon {
+    --b: clamp(70px, 40dvh, 130px);
+  }
+}
