@@ -63,11 +63,12 @@ export function exportRows(record: ClassroomRecord, meta: ExportMeta) {
   return { info, header, rows };
 }
 
-/** Text a spreadsheet would run as a formula gets a leading apostrophe; numbers are left alone. */
+/** Text a spreadsheet would run as a formula gets a leading apostrophe; numbers are left alone.
+ *  Leading whitespace and the full-width ＝＋－＠ count too: some spreadsheets trim or normalize them first. */
 function csvField(value: Value): string {
   if (value === null) return "";
   if (typeof value === "number") return String(value);
-  const text = /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
+  const text = /^[\s=+\-@＝＋－＠]/.test(value) ? `'${value}` : value;
   return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
 }
 
