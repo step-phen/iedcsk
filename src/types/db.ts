@@ -53,13 +53,17 @@ export interface Province {
 export type SectionChoice = "Joy" | "Faith";
 
 /** A row of the `sections` table — the Add Learner form's Section dropdown is
- *  populated from these, filtered by grade level. session is null only for a
- *  section from before the fixed Joy (morning) / Faith (afternoon) choices. */
+ *  populated from these, filtered by grade level. sectionName is the editable
+ *  display name; session comes from the stored Joy (morning) / Faith (afternoon)
+ *  identity, never from the name, and is null only for an older section without one. */
 export interface Section {
   sectionId: number;
   gradeLevel: string;
   sectionName: string;
   session: "morning" | "afternoon" | null;
+  /** False once the section has any learner or classroom records; renameReason then says why. */
+  canRename: boolean;
+  renameReason: string | null;
 }
 
 /** A row of the institution-wide `school_years` table. name is UNIQUE and
