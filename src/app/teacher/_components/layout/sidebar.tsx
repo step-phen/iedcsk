@@ -91,7 +91,7 @@ const sections: { label: string; items: NavItem[] }[] = [
       },
       {
         href: "/teacher/reports/qualified-learners",
-        label: "Ready for Kinder 2",
+        label: "Ready for Grade 1",
         hint: "Learners who can move up",
         icon: BadgeCheck,
       },

@@ -56,7 +56,7 @@ export default function PromotedLearnersPage() {
               Promotion History
             </h1>
             <p className="text-xs md:text-[13px] text-white/80 mt-1 max-w-xl font-medium">
-              Each school year&apos;s batch of learners promoted to Kinder 2.
+              Each school year&apos;s batch of learners promoted to Grade 1.
             </p>
           </div>
         </div>
