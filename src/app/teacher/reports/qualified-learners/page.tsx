@@ -6,7 +6,7 @@ import { serverApi } from "@/lib/server-api";
 import LearnerListReport, { type LearnerListRow } from "../learner-list/_components/learner-list-report";
 
 export const metadata: Metadata = {
-  title: "IEDCSK | Ready for Kinder 2",
+  title: "IEDCSK | Ready for Grade 1",
   description: "Progress reports for learners meeting standard criteria.",
 };
 
@@ -34,7 +34,7 @@ export default async function QualifiedLearnersPage() {
               Report Center
             </p>
             <h1 className="text-xl md:text-2xl font-bold text-white tracking-tight">
-              Ready for Kinder 2
+              Ready for Grade 1
             </h1>
             <p className="text-xs md:text-[13px] text-white/80 mt-1 max-w-xl font-medium">
               Learners meeting the standard criteria across all developmental
@@ -48,7 +48,7 @@ export default async function QualifiedLearnersPage() {
       <LearnerListReport
         learners={learners}
         teacherName={me.teacherName}
-        reportTitle="Learners Ready for Kinder 2"
+        reportTitle="Learners Ready for Grade 1"
         emptyHeading="No learners ready yet"
         emptyMessage="Learners appear here once every skill from the 1st to the 4th quarter is rated Achieved or Developing."
         status="Promoted"
