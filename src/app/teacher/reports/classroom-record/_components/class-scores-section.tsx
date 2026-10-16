@@ -2,15 +2,13 @@ import Link from "next/link";
 import { serverApi } from "@/lib/server-api";
 import { PRACTICAL_RESULT_LABEL, type PracticalResultValue } from "@/constants/enums";
 import type { Section } from "@/types/db";
-import { hasMiddleName } from "@/lib/learners";
 import { cn } from "@/lib/utils";
 import { RESULT_CLASS, percentOf, scoreBand } from "@/lib/score-band";
 import RecordFilters from "./record-filters";
 import PrintRecord from "./print-record";
+import ExportRecord from "./export-record";
 import WeekNav from "./week-nav";
-import { pickWeek, weekRecord, type Cell, type ClassroomRecord } from "./week-record";
-
-type Row = ClassroomRecord["rows"][number];
+import { LEGEND, learnerName, pickWeek, weekRecord, type Cell, type ClassroomRecord } from "./week-record";
 
 const DOT_CLASS: Record<PracticalResultValue, string> = {
   needs_help: "bg-rose-500",
@@ -18,17 +16,7 @@ const DOT_CLASS: Record<PracticalResultValue, string> = {
   very_good: "bg-emerald-500",
 };
 
-const LEGEND: [PracticalResultValue, string][] = [
-  ["very_good", "80% and up"],
-  ["good", "60–79%"],
-  ["needs_help", "below 60%"],
-];
-
 const PILL = "inline-block rounded-full px-2 py-0.5 text-xs font-semibold whitespace-nowrap tabular-nums";
-
-function learnerName(row: Row) {
-  return `${row.lastName}, ${[row.firstName, hasMiddleName(row.middleName) && row.middleName, row.extensionName].filter(Boolean).join(" ")}`;
-}
 
 export default async function ClassScoresSection({
   section,
@@ -74,6 +62,8 @@ export default async function ClassScoresSection({
 
   const hasTable = !!shown && shown.columns.length > 0 && shown.rows.length > 0;
   const showWeekNav = byWeek && selectedWeek !== null;
+  const moduleName = shown?.modules.find((m) => m.id === shown.moduleId)?.name ?? "—";
+  const domainName = shown && shown.domains.length > 1 ? (shown.domains.find((d) => d.id === shown.domainId)?.name ?? "—") : null;
 
   return (
     <div className="flex flex-col gap-3">
@@ -90,20 +80,36 @@ export default async function ClassScoresSection({
           view={byWeek ? "week" : "all"}
           week={selectedWeek}
         />
-        {hasTable && (
-          <PrintRecord
-            title={byWeek ? `Classroom Record · Week ${selectedWeek}` : undefined}
-            details={[
-              `Adviser: ${teacherName ?? "—"}`,
-              `Section: ${current.gradeLevel} - ${current.sectionName}`,
-              `Module: ${shown.modules.find((m) => m.id === shown.moduleId)?.name ?? "—"}${
-                shown.domains.length > 1 ? ` – ${shown.domains.find((d) => d.id === shown.domainId)?.name ?? "—"}` : ""
-              } · Quarter ${shown.quarter}${byWeek ? ` · Week ${selectedWeek}` : ""}`,
-            ]}
-          >
-            <ScoresTable record={shown} totalLabel={totalLabel} print />
-            <Legend totalLabel={totalLabel} />
-          </PrintRecord>
+        {current && (
+          <div className="ml-auto flex flex-wrap items-center gap-2">
+            {/* Exports `shown`, the record the table and print use; disabled when there is no table. */}
+            <ExportRecord
+              record={hasTable ? shown : null}
+              meta={{
+                section: `${current.gradeLevel} - ${current.sectionName}`,
+                module: moduleName,
+                domain: domainName,
+                quarter: shown?.quarter ?? 1,
+                week: byWeek ? selectedWeek : null,
+                totalLabel,
+              }}
+            />
+            {hasTable && (
+              <PrintRecord
+                title={byWeek ? `Classroom Record · Week ${selectedWeek}` : undefined}
+                details={[
+                  `Adviser: ${teacherName ?? "—"}`,
+                  `Section: ${current.gradeLevel} - ${current.sectionName}`,
+                  `Module: ${moduleName}${domainName !== null ? ` – ${domainName}` : ""} · Quarter ${shown.quarter}${
+                    byWeek ? ` · Week ${selectedWeek}` : ""
+                  }`,
+                ]}
+              >
+                <ScoresTable record={shown} totalLabel={totalLabel} print />
+                <Legend totalLabel={totalLabel} />
+              </PrintRecord>
+            )}
+          </div>
         )}
       </div>
       <div className="space-y-3 rounded-xl border border-gray-200/80 bg-white p-5 shadow-sm">
@@ -241,10 +247,10 @@ function ScoresTable({
       >
         <thead className="bg-gray-50 text-gray-600">
           <tr className="border-b border-gray-200">
-            <th rowSpan={2} className={cn(stickyNum, "w-10 min-w-10 bg-gray-50 px-2 py-2 text-center font-semibold align-bottom")}>
+            <th rowSpan={2} className={cn(stickyNum, "w-10 min-w-10 bg-gray-50 px-2 py-2 text-center font-semibold align-middle")}>
               #
             </th>
-            <th rowSpan={2} className={cn(stickyCol, "bg-gray-50 px-3 py-2 text-left font-semibold align-bottom")}>
+            <th rowSpan={2} className={cn(stickyCol, "bg-gray-50 px-3 py-2 text-left font-semibold align-middle")}>
               Learner
             </th>
             {weeks.map((week) => (
@@ -262,8 +268,9 @@ function ScoresTable({
           </tr>
           <tr className="border-b-2 border-gray-300">
             {record.columns.map((c) => (
-              <th key={c.activityId} className="border-l border-gray-200 px-2 py-2 text-center font-semibold text-gray-900">
-                <div className="mx-auto max-w-36 text-[10px] leading-tight">{c.name}</div>
+              <th key={c.activityId} className="border-l border-gray-200 px-2 py-1 text-center font-semibold text-gray-900">
+                {/* A floor width so a title wraps over a few lines instead of one word per line. */}
+                <div className="mx-auto min-w-24 max-w-36 text-[10px] leading-tight">{c.name}</div>
                 <div className="mt-0.5 text-[11px] font-medium text-gray-500">
                   {c.format === "practical" ? "Practical" : c.maxScore !== null ? `out of ${c.maxScore}` : "Digital"}
                 </div>
