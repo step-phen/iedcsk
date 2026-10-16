@@ -36,7 +36,14 @@ export function moduleSlug(moduleName: string): string {
 
 /** On the edit controls of the active quarter: its lessons are in use by classes, so they're view-only. */
 export const QUARTER_LOCKED_HINT =
-  "This quarter is active for classes, so its lessons and practical activities can't be changed. Activate another quarter to edit them."
+  "This quarter is active and open for classes, so its lessons and practical activities are view-only."
+
+/** On the edit controls of a completed quarter: it's over, so its lessons stay as they were taught. */
+export const QUARTER_COMPLETED_HINT = "This quarter is completed, so its lessons and practical activities are view-only."
+
+/** On the edit controls of a quarter the active school year hasn't set up (or with no active year): nothing to prepare yet. */
+export const QUARTER_NOT_SET_HINT =
+  "This quarter isn't set up in the active school year yet, so its lessons and practical activities can't be changed. Set its dates in Manage Quarters first."
 
 /** On edit controls of content used in a class or by a learner: it stays as it was, whichever quarter is active. */
 export const CONTENT_HAS_RECORDS_HINT = "This content has classroom or learner records and can no longer be changed."
