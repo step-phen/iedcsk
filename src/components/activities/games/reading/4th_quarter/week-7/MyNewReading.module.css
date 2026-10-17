@@ -1,0 +1,211 @@
+/* Look of My New Reading (Park Picnic); layout and spacing stay in Tailwind, the pictures and speech stay in MyNewReading.data.ts. */
+
+.screen {
+  background: #dcfce7;
+  color: #3f2a14;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Sunny park lawn with little daisies. */
+.meadow {
+  background:
+    radial-gradient(6px 6px at 10% 70%, white 98%, transparent),
+    radial-gradient(6px 6px at 88% 62%, white 98%, transparent),
+    radial-gradient(5px 5px at 30% 92%, #fde047 98%, transparent),
+    radial-gradient(5px 5px at 72% 88%, #fde047 98%, transparent),
+    radial-gradient(circle at 92% 8%, #fef08a 0 40px, transparent 42px),
+    linear-gradient(180deg, #bae6fd 0 28%, #86efac 28%, #4ade80);
+}
+
+.badge {
+  border: 3px solid #3f2a14;
+  background: white;
+  box-shadow: 0 3px 0 rgba(63, 42, 20, 0.3);
+}
+
+.avatar {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.title {
+  color: #b91c1c;
+  text-shadow: 0 3px 0 white;
+}
+
+.pill {
+  background: white;
+  border: 3px solid #dc2626;
+  box-shadow: 0 3px 0 rgba(63, 42, 20, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #3f2a14;
+  background: white;
+  color: #3f2a14;
+  box-shadow: 0 3px 0 rgba(63, 42, 20, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #dc2626;
+  color: white;
+  border: 4px solid #3f2a14;
+  box-shadow: 0 5px 0 rgba(63, 42, 20, 0.35);
+  text-shadow: 0 3px 0 #991b1b;
+}
+
+/* The new story on a recipe card pinned with a tape strip. */
+.note {
+  position: relative;
+  background: #fffbeb;
+  border: 3px solid #3f2a14;
+  box-shadow: 0 5px 0 rgba(63, 42, 20, 0.25);
+  rotate: -1deg;
+}
+
+.note::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 70px;
+  height: 22px;
+  translate: -50% 0;
+  background: rgba(253, 224, 71, 0.85);
+  border: 2px solid rgba(63, 42, 20, 0.25);
+}
+
+/* Yellow marker over the sentence that holds the answer. */
+.marked {
+  background: linear-gradient(180deg, transparent 15%, #fde047 15% 90%, transparent 90%) no-repeat;
+  background-size: 100% 100%;
+  border-radius: 4px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  animation: markIn 0.5s ease-out;
+}
+
+.question {
+  background: #fef3c7;
+  border: 3px solid #b45309;
+  box-shadow: 0 3px 0 rgba(63, 42, 20, 0.2);
+  animation: popIn 0.35s ease-out;
+}
+
+/* Red gingham picnic blanket. */
+.blanket {
+  background:
+    repeating-linear-gradient(0deg, rgba(220, 38, 38, 0.55) 0 18px, transparent 18px 36px),
+    repeating-linear-gradient(90deg, rgba(220, 38, 38, 0.55) 0 18px, transparent 18px 36px),
+    white;
+  border: 4px solid #3f2a14;
+  box-shadow: 0 6px 0 rgba(63, 42, 20, 0.3);
+}
+
+/* Paper plate with a fluted rim. */
+.plate {
+  background: radial-gradient(circle, white 0 60%, #f5f5f4 61% 68%, white 69%);
+  border: 4px solid #3f2a14;
+  box-shadow: 0 5px 0 rgba(63, 42, 20, 0.35);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, transform 150ms ease-out;
+}
+
+.plate:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.plate:disabled {
+  cursor: default;
+}
+
+.plateWon {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #fcd34d, 0 0 30px 10px rgba(252, 211, 77, 0.85);
+  animation: wiggle 0.6s ease-in-out;
+}
+
+.plateWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: shake 0.4s ease-in-out;
+}
+
+.plateReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(63, 42, 20, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(63, 42, 20, 0.3);
+  animation: popIn 0.3s ease-out;
+}
+
+.result {
+  animation: popIn 0.4s ease-out;
+}
+
+@keyframes markIn {
+  0% { background-size: 0% 100%; }
+  100% { background-size: 100% 100%; }
+}
+
+@keyframes wiggle {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: -8deg; }
+  75% { rotate: 8deg; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marked,
+  .question,
+  .plateWon,
+  .plateWrong,
+  .plateReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

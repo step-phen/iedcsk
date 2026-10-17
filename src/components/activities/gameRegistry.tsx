@@ -296,6 +296,66 @@ export const gameRegistry: Record<
     () =>
       import("@/components/activities/games/reading/4th_quarter/week-2/BookPartsHunt"),
   ),
+  "RD-Q4W3-01": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-3/ConsonantSoundChallenge"),
+  ),
+  "RD-Q4W3-02": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-3/CvcWordMix"),
+  ),
+  "RD-Q4W3-03": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-3/ReadToMe"),
+  ),
+  "RD-Q4W4-01": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-4/WordHunt"),
+  ),
+  "RD-Q4W4-02": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-4/ComprehensionCheck"),
+  ),
+  "RD-Q4W4-03": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-4/ReadingSkillsReview4"),
+  ),
+  "RD-Q4W5-01": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-5/StoryOrder"),
+  ),
+  "RD-Q4W5-02": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-5/SentencePictureMatch"),
+  ),
+  "RD-Q4W5-03": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-5/TellTheStory"),
+  ),
+  "RD-Q4W6-01": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-6/ShortVowelWordSort"),
+  ),
+  "RD-Q4W6-02": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-6/ReadAndDo"),
+  ),
+  "RD-Q4W6-03": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-6/WhoAndWhere"),
+  ),
+  "RD-Q4W7-01": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-7/MyNewReading"),
+  ),
+  "RD-Q4W7-02": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-7/ReadingReview4"),
+  ),
+  "RD-Q4W7-03": game(
+    () =>
+      import("@/components/activities/games/reading/4th_quarter/week-7/ReadingFinalAssessment4"),
+  ),
 
   // language
   "LG-Q1W1-01": game(
@@ -609,6 +669,18 @@ export const gameRegistry: Record<
   "LG-Q4W5-03": game(
     () =>
       import("@/components/activities/games/language/4th_quarter/week-5/NeedsAndFeelings"),
+  ),
+  "LG-Q4W6-01": game(
+    () =>
+      import("@/components/activities/games/language/4th_quarter/week-6/MyQuestion"),
+  ),
+  "LG-Q4W6-02": game(
+    () =>
+      import("@/components/activities/games/language/4th_quarter/week-6/ConversationMatch"),
+  ),
+  "LG-Q4W6-03": game(
+    () =>
+      import("@/components/activities/games/language/4th_quarter/week-6/MyStoryMatch"),
   ),
 
   // writing readiness

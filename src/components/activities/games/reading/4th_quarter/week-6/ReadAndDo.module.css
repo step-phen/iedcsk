@@ -1,0 +1,262 @@
+/* Look of Read and Do (Wizard's Spell Tower); layout and spacing stay in Tailwind, the spells and speech stay in ReadAndDo.data.ts. */
+
+.screen {
+  background: #1e1b4b;
+  color: #ede9fe;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Stone tower room lit by floating sparkles. */
+.tower {
+  background:
+    radial-gradient(3px 3px at 15% 25%, #fde68a 98%, transparent),
+    radial-gradient(2px 2px at 40% 12%, #c4b5fd 98%, transparent),
+    radial-gradient(3px 3px at 78% 22%, #fde68a 98%, transparent),
+    radial-gradient(2px 2px at 88% 55%, #c4b5fd 98%, transparent),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.18) 0 2px, transparent 2px) 0 0 / 90px 46px,
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0 2px, transparent 2px) 0 0 / 90px 46px,
+    linear-gradient(180deg, #312e81, #1e1b4b);
+}
+
+.badge {
+  border: 3px solid #c4b5fd;
+  background: #1e1b4b;
+  color: #ede9fe;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.avatar {
+  background: #fef3c7;
+  color: #7c3aed;
+}
+
+.title {
+  color: #fde68a;
+  text-shadow: 0 0 14px rgba(253, 230, 138, 0.5), 0 3px 0 #5b21b6;
+}
+
+.pill {
+  background: #ede9fe;
+  color: #2e1065;
+  border: 3px solid #a78bfa;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.iconButton {
+  border: 3px solid #fde68a;
+  background: #2e1065;
+  color: #fde68a;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #7c3aed;
+  color: white;
+  border: 4px solid #fde68a;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4);
+  text-shadow: 0 3px 0 #4c1d95;
+}
+
+.wizard {
+  filter: drop-shadow(0 5px 4px rgba(0, 0, 0, 0.5));
+  transform-origin: 50% 100%;
+}
+
+.wizardCasting {
+  animation: cast 1.2s ease-in-out infinite;
+}
+
+/* Parchment spell scroll with rolled ends. */
+.scroll {
+  background: linear-gradient(180deg, #fef3c7, #fde68a);
+  color: #451a03;
+  border: 3px solid #92400e;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.35);
+  animation: unroll 0.45s ease-out;
+}
+
+.rollTop,
+.rollBottom {
+  background: linear-gradient(180deg, #b45309, #78350f);
+}
+
+/* Round magic rug the spell's things sit on. */
+.rug {
+  background:
+    radial-gradient(ellipse at center, transparent 0 58%, rgba(253, 230, 138, 0.6) 59% 62%, transparent 63%),
+    radial-gradient(ellipse at center, #6d28d9, #4c1d95);
+  border: 4px solid #fde68a;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.35);
+}
+
+.thing {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.05));
+  border: 4px solid rgba(196, 181, 253, 0.7);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.thing:disabled {
+  cursor: default;
+}
+
+.thingDone {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #fcd34d, 0 0 30px 10px rgba(252, 211, 77, 0.85);
+}
+
+.thingWrong {
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.35);
+  animation: shake 0.4s ease-in-out;
+}
+
+.thingReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+/* One animation per spell verb, played on the thing the learner acted on. */
+.doPat {
+  display: inline-block;
+  animation: squish 0.5s ease-in-out 2;
+}
+
+.doTap {
+  display: inline-block;
+  animation: bounce 0.45s ease-out 2;
+}
+
+.doHug {
+  display: inline-block;
+  animation: squeeze 0.8s ease-in-out;
+}
+
+.doZip {
+  display: inline-block;
+  animation: zipShake 0.12s linear 6;
+}
+
+.doHop {
+  display: inline-block;
+  animation: hop 0.5s ease-out 3;
+}
+
+.actionPop {
+  animation: popUp 0.4s ease-out;
+}
+
+.wand {
+  animation: wave 0.6s ease-in-out 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  animation: popUp 0.3s ease-out;
+}
+
+.result {
+  animation: popUp 0.4s ease-out;
+}
+
+@keyframes cast {
+  0%, 100% { transform: rotate(0); }
+  40% { transform: rotate(-8deg); }
+  70% { transform: rotate(5deg); }
+}
+
+@keyframes unroll {
+  0% { transform: scaleY(0.2); opacity: 0; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+
+@keyframes squish {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.15, 0.85); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-14px); }
+}
+
+@keyframes squeeze {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(0.85); }
+  60% { transform: scale(1.12); }
+}
+
+@keyframes zipShake {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+
+@keyframes hop {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-20px) rotate(-8deg); }
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(25deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes popUp {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wizardCasting,
+  .scroll,
+  .thingWrong,
+  .thingReveal,
+  .doPat,
+  .doTap,
+  .doHug,
+  .doZip,
+  .doHop,
+  .actionPop,
+  .wand,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}
