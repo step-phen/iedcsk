@@ -442,6 +442,12 @@ export const GAME_INTRO_LINES = {
     "Ring ring! Someone is calling you. Listen to what they say, then tap the best reply.",
   "my story match":
     "Welcome to the story gallery! Listen to the story, then tap the painting that shows each sentence.",
+  "picture questions":
+    "Let's go on a nature walk! Look through the binoculars, listen, then tap the sign that fits the picture.",
+  "language review 4":
+    "Welcome to the greenhouse! Do each task to grow a flower in your garden.",
+  "language final assessment 4":
+    "Let's climb the snowy mountain! Listen to each task, then tap the right snowball.",
   "consonant bb":
     "Let's go to Bubble Bay! Listen to the picture names, then pop the bubble that begins with B.",
   "consonant cc":

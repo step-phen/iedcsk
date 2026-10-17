@@ -1,0 +1,194 @@
+/* Look of Picture Questions (Nature Walk); layout and spacing stay in Tailwind, the scenes, sentences and lines stay in PictureQuestions.data.ts. */
+
+.screen {
+  background: #ecfccb;
+  color: #14532d;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Pine forest edge along a dirt trail. */
+.forest {
+  background:
+    linear-gradient(180deg, transparent 0 86%, #d6a46b 86%),
+    radial-gradient(ellipse 60px 140px at 30px 100%, #4d7c0f 98%, transparent) 0 86% / 90px 200px repeat-x,
+    radial-gradient(ellipse 50px 110px at 70px 100%, #65a30d 98%, transparent) 0 86% / 120px 160px repeat-x,
+    linear-gradient(180deg, #bae6fd 0%, #ecfccb 70%);
+}
+
+.badge {
+  border: 3px solid #14532d;
+  background: white;
+  box-shadow: 0 3px 0 rgba(20, 83, 45, 0.3);
+}
+
+.avatar {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.title {
+  color: #166534;
+  text-shadow: 0 3px 0 white;
+}
+
+.pill {
+  background: white;
+  border: 3px solid #65a30d;
+  box-shadow: 0 3px 0 rgba(20, 83, 45, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #14532d;
+  background: white;
+  color: #14532d;
+  box-shadow: 0 3px 0 rgba(20, 83, 45, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #15803d;
+  color: white;
+  border: 4px solid #14532d;
+  box-shadow: 0 5px 0 rgba(20, 83, 45, 0.35);
+  text-shadow: 0 3px 0 #14532d;
+}
+
+.binoculars {
+  animation: popIn 0.35s ease-out;
+}
+
+/* Dark binocular body: two round barrels joined by a bridge. */
+.rim {
+  background: #1f2937;
+  mask:
+    radial-gradient(ellipse 31% 50% at 32% 50%, #000 98%, transparent 100%),
+    radial-gradient(ellipse 31% 50% at 68% 50%, #000 98%, transparent 100%),
+    linear-gradient(#000, #000) 50% 18% / 18% 26% no-repeat;
+  filter: drop-shadow(0 5px 0 rgba(20, 83, 45, 0.35));
+}
+
+/* The scene shows only through the two round lenses. */
+.lens {
+  overflow: hidden;
+  mask:
+    radial-gradient(ellipse 31% 50% at 30% 50%, #000 97%, transparent 100%),
+    radial-gradient(ellipse 31% 50% at 70% 50%, #000 97%, transparent 100%);
+}
+
+.question {
+  background: #fef9c3;
+  border: 3px solid #a16207;
+  color: #713f12;
+}
+
+.post {
+  background: linear-gradient(90deg, #92400e, #b45309 50%, #78350f);
+  border: 2px solid #451a03;
+}
+
+/* Arrow-shaped plank; glow and outline come from drop-shadows on its wrapper since the clip hides box-shadows. */
+.sign {
+  clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 50%, calc(100% - 26px) 100%, 0 100%);
+  background:
+    repeating-linear-gradient(0deg, rgba(120, 53, 15, 0.12) 0 2px, transparent 2px 9px),
+    #f3c98b;
+}
+
+.signWrap {
+  touch-action: manipulation;
+  filter: drop-shadow(0 4px 0 rgba(69, 26, 3, 0.35));
+  transition: filter 200ms ease-out, transform 150ms ease-out;
+  animation: swingIn 0.4s ease-out backwards;
+}
+
+.signWrap:nth-of-type(2) {
+  animation-delay: 0.08s;
+}
+
+.signWrap:nth-of-type(3) {
+  animation-delay: 0.16s;
+}
+
+.signWrap:active:has(button:first-child:not(:disabled)) {
+  transform: scale(0.97);
+}
+
+.signLit {
+  filter: drop-shadow(3px 0 0 #f59e0b) drop-shadow(-3px 0 0 #f59e0b) drop-shadow(0 3px 0 #f59e0b) drop-shadow(0 -3px 0 #f59e0b);
+}
+
+.signRight {
+  filter: drop-shadow(3px 0 0 #facc15) drop-shadow(-3px 0 0 #facc15) drop-shadow(0 3px 0 #facc15) drop-shadow(0 -3px 0 #facc15) drop-shadow(0 0 14px rgba(250, 204, 21, 0.9));
+}
+
+.signWrong {
+  filter: drop-shadow(3px 0 0 #dc2626) drop-shadow(-3px 0 0 #dc2626) drop-shadow(0 3px 0 #dc2626) drop-shadow(0 -3px 0 #dc2626);
+  animation: shake 0.4s ease-in-out;
+}
+
+.signWrong .sign {
+  background: #fecaca;
+}
+
+.signReveal {
+  filter: drop-shadow(3px 0 0 #16a34a) drop-shadow(-3px 0 0 #16a34a) drop-shadow(0 3px 0 #16a34a) drop-shadow(0 -3px 0 #16a34a) drop-shadow(0 0 14px rgba(22, 163, 74, 0.8));
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(20, 83, 45, 0.3);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(20, 83, 45, 0.3);
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes swingIn {
+  0% { transform: translateX(-30px) rotate(-6deg); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .binoculars,
+  .signWrap,
+  .signWrong,
+  .signReveal,
+  .revealNote {
+    animation: none;
+  }
+}
