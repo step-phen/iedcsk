@@ -1,0 +1,182 @@
+/* Look of My Story Match (Art Gallery); layout and spacing stay in Tailwind, the story, paintings and lines stay in MyStoryMatch.data.ts. */
+
+.screen {
+  background: #fdf6e3;
+  color: #451a03;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Cream gallery wall with a wooden wainscot and a red rope rail. */
+.gallery {
+  background:
+    linear-gradient(180deg, transparent 0 calc(100% - 22%), #b91c1c calc(100% - 22%) calc(100% - 21%), transparent calc(100% - 21%)),
+    repeating-linear-gradient(90deg, rgba(120, 53, 15, 0.18) 0 3px, transparent 3px 90px) bottom / 100% 18% no-repeat,
+    linear-gradient(180deg, transparent 0 82%, #92400e 82%),
+    repeating-linear-gradient(90deg, #fdf6e3 0 60px, #fbefd2 60px 120px);
+}
+
+.badge {
+  border: 3px solid #451a03;
+  background: white;
+  box-shadow: 0 3px 0 rgba(69, 26, 3, 0.25);
+}
+
+.avatar {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.title {
+  color: #9a3412;
+  text-shadow: 0 3px 0 white;
+}
+
+.pill {
+  background: white;
+  border: 3px solid #d97706;
+  box-shadow: 0 3px 0 rgba(69, 26, 3, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #451a03;
+  background: white;
+  color: #451a03;
+  box-shadow: 0 3px 0 rgba(69, 26, 3, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #b45309;
+  color: white;
+  border: 4px solid #451a03;
+  box-shadow: 0 5px 0 rgba(69, 26, 3, 0.3);
+  text-shadow: 0 3px 0 #78350f;
+}
+
+/* Brass plaque with screw heads in its corners. */
+.plaque {
+  background:
+    radial-gradient(circle at 10px 10px, #78350f 2.5px, transparent 3px),
+    radial-gradient(circle at calc(100% - 10px) 10px, #78350f 2.5px, transparent 3px),
+    radial-gradient(circle at 10px calc(100% - 10px), #78350f 2.5px, transparent 3px),
+    radial-gradient(circle at calc(100% - 10px) calc(100% - 10px), #78350f 2.5px, transparent 3px),
+    linear-gradient(180deg, #fde68a, #f59e0b);
+  border: 3px solid #78350f;
+  box-shadow: 0 4px 0 rgba(69, 26, 3, 0.3);
+  animation: popIn 0.35s ease-out;
+  transition: box-shadow 200ms ease-out;
+}
+
+.plaqueLit {
+  box-shadow: 0 0 0 4px #fde047, 0 0 22px 6px rgba(253, 224, 71, 0.7), 0 4px 0 rgba(69, 26, 3, 0.3);
+}
+
+.storyName {
+  color: #78350f;
+}
+
+/* Carved gold frame around each painting. */
+.frame {
+  background: linear-gradient(135deg, #fcd34d, #b45309 50%, #fcd34d);
+  border: 3px solid #78350f;
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.35), 0 8px 10px rgba(69, 26, 3, 0.3);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, transform 150ms ease-out;
+}
+
+.frame:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.frame:disabled {
+  cursor: default;
+}
+
+/* Lets each emoji size itself as a share of the painting's width. */
+.canvas {
+  container-type: inline-size;
+  border: 3px solid #78350f;
+}
+
+.frameRight {
+  border-color: #fde047;
+  box-shadow: 0 0 0 5px #fde047, 0 0 32px 12px rgba(253, 224, 71, 0.85);
+}
+
+.frameWrong {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 4px #dc2626;
+  animation: shake 0.4s ease-in-out;
+}
+
+.frameReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.sticker {
+  background: white;
+  border: 3px solid #b45309;
+  box-shadow: 0 3px 0 rgba(69, 26, 3, 0.3);
+  animation: stamp 0.35s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(69, 26, 3, 0.3);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(69, 26, 3, 0.3);
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes stamp {
+  0% { transform: scale(2) rotate(-30deg); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plaque,
+  .frameWrong,
+  .frameReveal,
+  .sticker,
+  .revealNote {
+    animation: none;
+  }
+}

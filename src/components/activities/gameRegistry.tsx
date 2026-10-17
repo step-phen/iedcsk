@@ -670,6 +670,18 @@ export const gameRegistry: Record<
     () =>
       import("@/components/activities/games/language/4th_quarter/week-5/NeedsAndFeelings"),
   ),
+  "LG-Q4W6-01": game(
+    () =>
+      import("@/components/activities/games/language/4th_quarter/week-6/MyQuestion"),
+  ),
+  "LG-Q4W6-02": game(
+    () =>
+      import("@/components/activities/games/language/4th_quarter/week-6/ConversationMatch"),
+  ),
+  "LG-Q4W6-03": game(
+    () =>
+      import("@/components/activities/games/language/4th_quarter/week-6/MyStoryMatch"),
+  ),
 
   // writing readiness
   "WR-Q1W1-01": game(

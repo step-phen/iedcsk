@@ -1,0 +1,233 @@
+/* Look of Conversation Match (Toy Phone Chat); layout and spacing stay in Tailwind, the callers, replies and lines stay in ConversationMatch.data.ts. */
+
+.screen {
+  background: #f5f3ff;
+  color: #3b0764;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Lilac wall dotted with little hearts and phone doodles. */
+.wall {
+  background:
+    radial-gradient(circle at 20px 20px, rgba(167, 139, 250, 0.35) 5px, transparent 6px) 0 0 / 56px 56px,
+    radial-gradient(circle at 48px 48px, rgba(244, 114, 182, 0.3) 4px, transparent 5px) 0 0 / 56px 56px,
+    linear-gradient(180deg, #ede9fe, #fae8ff);
+}
+
+.badge {
+  border: 3px solid #3b0764;
+  background: white;
+  box-shadow: 0 3px 0 rgba(59, 7, 100, 0.25);
+}
+
+.avatar {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.title {
+  color: #7c3aed;
+  text-shadow: 0 3px 0 white;
+}
+
+.pill {
+  background: white;
+  border: 3px solid #a78bfa;
+  box-shadow: 0 3px 0 rgba(59, 7, 100, 0.18);
+}
+
+.iconButton {
+  border: 3px solid #3b0764;
+  background: white;
+  color: #3b0764;
+  box-shadow: 0 3px 0 rgba(59, 7, 100, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #7c3aed;
+  color: white;
+  border: 4px solid #3b0764;
+  box-shadow: 0 5px 0 rgba(59, 7, 100, 0.3);
+  text-shadow: 0 3px 0 #4c1d95;
+}
+
+/* Chunky toy phone with a thick bezel. */
+.phone {
+  background: white;
+  border: 8px solid #312e81;
+  box-shadow: 0 8px 0 rgba(59, 7, 100, 0.3), inset 0 0 0 2px #a5b4fc;
+  animation: ring 0.5s ease-in-out;
+}
+
+.phoneBar {
+  background: #e0e7ff;
+  border-bottom: 3px solid #312e81;
+}
+
+.chat {
+  background:
+    radial-gradient(circle, rgba(99, 102, 241, 0.12) 1.5px, transparent 2px) 0 0 / 14px 14px,
+    #f8fafc;
+}
+
+.incoming {
+  background: white;
+  border: 3px solid #312e81;
+  animation: slideIn 0.35s ease-out;
+  transition: box-shadow 200ms ease-out;
+}
+
+.incomingLit {
+  box-shadow: 0 0 0 4px #c4b5fd;
+}
+
+.outgoing {
+  background: #a3e635;
+  border: 3px solid #312e81;
+  animation: sendUp 0.4s ease-out;
+}
+
+.outgoingReveal {
+  background: #86efac;
+}
+
+/* Three bouncing dots while the learner is choosing. */
+.typing {
+  background: #e0e7ff;
+}
+
+.typing i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6366f1;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.typing i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Reply chip like a suggested message. */
+.chip {
+  background: white;
+  border: 4px solid #312e81;
+  box-shadow: 0 4px 0 rgba(59, 7, 100, 0.3);
+  touch-action: manipulation;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, transform 150ms ease-out;
+}
+
+.chip:active:has(button:first-child:not(:disabled)) {
+  transform: scale(0.97);
+}
+
+.send {
+  background: #6366f1;
+  color: white;
+}
+
+.chipLit {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 4px #c4b5fd, 0 4px 0 rgba(59, 7, 100, 0.3);
+}
+
+.chipRight {
+  border-color: #65a30d;
+  background: #ecfccb;
+  box-shadow: 0 0 0 5px #bef264, 0 0 28px 10px rgba(163, 230, 53, 0.7);
+}
+
+.chipWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: shake 0.4s ease-in-out;
+}
+
+.chipReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(59, 7, 100, 0.3);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(59, 7, 100, 0.3);
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes ring {
+  0%, 100% { rotate: 0deg; }
+  20% { rotate: -3deg; }
+  40% { rotate: 3deg; }
+  60% { rotate: -2deg; }
+  80% { rotate: 2deg; }
+}
+
+@keyframes slideIn {
+  0% { transform: translateX(-24px); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+@keyframes sendUp {
+  0% { transform: translateY(30px) scale(0.8); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-5px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone,
+  .incoming,
+  .outgoing,
+  .typing i,
+  .chipWrong,
+  .chipReveal,
+  .revealNote {
+    animation: none;
+  }
+}

@@ -1,0 +1,236 @@
+/* Look of My Question (TV Studio); layout and spacing stay in Tailwind, the pictures, questions and lines stay in MyQuestion.data.ts. */
+
+.screen {
+  background: #0c4a6e;
+  color: #082f49;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Studio wall of foam sound panels lit by two stage lamps. */
+.studio {
+  background:
+    radial-gradient(ellipse 40% 50% at 15% 0, rgba(254, 249, 195, 0.35), transparent 70%),
+    radial-gradient(ellipse 40% 50% at 85% 0, rgba(254, 249, 195, 0.35), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 36px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 36px),
+    linear-gradient(180deg, #0369a1, #0c4a6e);
+}
+
+.badge {
+  border: 3px solid #082f49;
+  background: white;
+  box-shadow: 0 3px 0 rgba(8, 47, 73, 0.45);
+}
+
+.avatar {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.title {
+  color: white;
+  text-shadow: 0 3px 0 #082f49;
+}
+
+.pill {
+  background: white;
+  border: 3px solid #f97316;
+  box-shadow: 0 3px 0 rgba(8, 47, 73, 0.4);
+}
+
+.iconButton {
+  border: 3px solid #082f49;
+  background: white;
+  color: #082f49;
+  box-shadow: 0 3px 0 rgba(8, 47, 73, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #f97316;
+  color: white;
+  border: 4px solid #082f49;
+  box-shadow: 0 5px 0 rgba(8, 47, 73, 0.45);
+  text-shadow: 0 3px 0 #9a3412;
+}
+
+/* Red ON AIR sign that glows once the question is chosen. */
+.onAir {
+  background: #7f1d1d;
+  color: #fecaca;
+  border: 3px solid #082f49;
+  transition: background 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.onAirLive {
+  background: #ef4444;
+  color: white;
+  box-shadow: 0 0 18px 6px rgba(239, 68, 68, 0.7);
+}
+
+/* Camera body around the picture. */
+.camera {
+  background: linear-gradient(180deg, #334155, #1e293b);
+  border: 4px solid #082f49;
+  box-shadow: 0 6px 0 rgba(8, 47, 73, 0.5);
+  animation: popIn 0.35s ease-out;
+}
+
+.viewfinder {
+  border: 3px solid #0f172a;
+}
+
+/* Four white focus corners over the picture. */
+.brackets {
+  --c: rgba(255, 255, 255, 0.9);
+  background:
+    linear-gradient(var(--c) 0 0) top left / 22px 3px no-repeat,
+    linear-gradient(var(--c) 0 0) top left / 3px 22px no-repeat,
+    linear-gradient(var(--c) 0 0) top right / 22px 3px no-repeat,
+    linear-gradient(var(--c) 0 0) top right / 3px 22px no-repeat,
+    linear-gradient(var(--c) 0 0) bottom left / 22px 3px no-repeat,
+    linear-gradient(var(--c) 0 0) bottom left / 3px 22px no-repeat,
+    linear-gradient(var(--c) 0 0) bottom right / 22px 3px no-repeat,
+    linear-gradient(var(--c) 0 0) bottom right / 3px 22px no-repeat;
+}
+
+.rec {
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.rec::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ef4444;
+  animation: blink 1s steps(2, start) infinite;
+}
+
+/* Cue card with a microphone on top. */
+.card {
+  background: #fffbeb;
+  border: 4px solid #082f49;
+  box-shadow: 0 5px 0 rgba(8, 47, 73, 0.45);
+  touch-action: manipulation;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, transform 150ms ease-out;
+}
+
+.card:active:has(button:first-child:not(:disabled)) {
+  transform: scale(0.96);
+}
+
+.cardLit {
+  border-color: #f97316;
+  box-shadow: 0 0 0 4px #fdba74, 0 5px 0 rgba(8, 47, 73, 0.45);
+}
+
+.cardRight {
+  border-color: #eab308;
+  box-shadow: 0 0 0 5px #fde047, 0 0 30px 10px rgba(253, 224, 71, 0.8);
+}
+
+.cardRight .mic {
+  animation: talk 0.5s ease-in-out 3;
+}
+
+.cardWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: shake 0.4s ease-in-out;
+}
+
+.cardReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+/* Mesh microphone head, tinted by its question word. */
+.mic {
+  border: 3px solid #082f49;
+  background-image: radial-gradient(circle, rgba(8, 47, 73, 0.25) 1.5px, transparent 2px);
+  background-size: 7px 7px;
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.15);
+}
+
+.micWho {
+  background-color: #f9a8d4;
+}
+
+.micWhat {
+  background-color: #93c5fd;
+}
+
+.micWhere {
+  background-color: #86efac;
+}
+
+.micWord {
+  background: white;
+  border: 2px solid #082f49;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(8, 47, 73, 0.4);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(8, 47, 73, 0.4);
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+@keyframes talk {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.12; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .camera,
+  .rec::before,
+  .cardRight .mic,
+  .cardWrong,
+  .cardReveal,
+  .revealNote {
+    animation: none;
+  }
+}

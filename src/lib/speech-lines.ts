@@ -436,6 +436,12 @@ export const GAME_INTRO_LINES = {
     "It's laundry day! Listen, then hang the pictures on the line: first, next, last.",
   "needs and feelings":
     "Let's peek through the window! Look at the picture, listen, then tap what the child would say.",
+  "my question":
+    "Welcome to the TV studio, little reporter! Look at the picture, then tap the question that fits it.",
+  "conversation match":
+    "Ring ring! Someone is calling you. Listen to what they say, then tap the best reply.",
+  "my story match":
+    "Welcome to the story gallery! Listen to the story, then tap the painting that shows each sentence.",
   "consonant bb":
     "Let's go to Bubble Bay! Listen to the picture names, then pop the bubble that begins with B.",
   "consonant cc":
