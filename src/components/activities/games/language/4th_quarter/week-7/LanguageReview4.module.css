@@ -1,0 +1,214 @@
+/* Look of Language Review 4 (Greenhouse); layout and spacing stay in Tailwind, the pictures, tasks and lines stay in LanguageReview4.data.ts. */
+
+.screen {
+  background: #f0fdf4;
+  color: #14532d;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Glass panes in white frames over a soft green glow, with a wooden potting bench below. */
+.glasshouse {
+  background:
+    linear-gradient(180deg, transparent 0 88%, #a16207 88% 90%, #ca8a04 90%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.85) 0 4px, transparent 4px) 0 0 / 110px 100%,
+    linear-gradient(0deg, rgba(255, 255, 255, 0.85) 0 4px, transparent 4px) 0 0 / 100% 130px,
+    linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0 20%, transparent 20% 40%, rgba(255, 255, 255, 0.25) 40% 48%, transparent 48%),
+    linear-gradient(180deg, #bbf7d0, #dcfce7 60%, #f0fdf4);
+}
+
+.badge {
+  border: 3px solid #14532d;
+  background: white;
+  box-shadow: 0 3px 0 rgba(20, 83, 45, 0.25);
+}
+
+.avatar {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.title {
+  color: #15803d;
+  text-shadow: 0 3px 0 white;
+}
+
+.pill {
+  background: white;
+  border: 3px solid #22c55e;
+  box-shadow: 0 3px 0 rgba(20, 83, 45, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #14532d;
+  background: white;
+  color: #14532d;
+  box-shadow: 0 3px 0 rgba(20, 83, 45, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #16a34a;
+  color: white;
+  border: 4px solid #14532d;
+  box-shadow: 0 5px 0 rgba(20, 83, 45, 0.35);
+  text-shadow: 0 3px 0 #14532d;
+}
+
+/* Clipboard with a metal clip holding the task. */
+.clipboard {
+  background: #fefce8;
+  border: 5px solid #a16207;
+  box-shadow: 0 5px 0 rgba(20, 83, 45, 0.3);
+  animation: popIn 0.35s ease-out;
+}
+
+.clip {
+  background: linear-gradient(180deg, #e5e7eb, #9ca3af);
+  border: 3px solid #4b5563;
+}
+
+.taskLabel {
+  background: #16a34a;
+  color: white;
+}
+
+/* Seed packet: crimped paper top and a round picture window. */
+.packet {
+  border: 4px solid #14532d;
+  border-top: none;
+  box-shadow: 0 5px 0 rgba(20, 83, 45, 0.3);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, transform 150ms ease-out;
+}
+
+.packet::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  top: -8px;
+  height: 14px;
+  background: inherit;
+  mask: conic-gradient(from -45deg at 50% 100%, #000 90deg, transparent 0) 0 0 / 14px 100%;
+}
+
+.packet:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.packet:disabled {
+  cursor: default;
+}
+
+.window {
+  background: rgba(255, 255, 255, 0.92);
+  border: 3px dashed #14532d;
+}
+
+.packetTapped {
+  border-color: #d97706;
+  box-shadow: 0 0 0 4px #fcd34d, 0 5px 0 rgba(20, 83, 45, 0.3);
+}
+
+.packetRight {
+  border-color: #eab308;
+  box-shadow: 0 0 0 5px #fde047, 0 0 30px 10px rgba(253, 224, 71, 0.85);
+}
+
+.packetWrong {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 4px #dc2626;
+  animation: shake 0.4s ease-in-out;
+}
+
+.packetReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.orderTag {
+  background: #f59e0b;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(20, 83, 45, 0.3);
+  animation: popIn 0.25s ease-out;
+}
+
+.orderTagReveal {
+  background: #16a34a;
+}
+
+.pot {
+  background: linear-gradient(180deg, #c2410c 0 28%, #ea580c 28%);
+  border: 2px solid #7c2d12;
+  border-radius: 2px 2px 6px 6px;
+  clip-path: polygon(0 0, 100% 0, 86% 100%, 14% 100%);
+}
+
+.bloom {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  animation: grow 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(20, 83, 45, 0.3);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(20, 83, 45, 0.3);
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes grow {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clipboard,
+  .packetWrong,
+  .packetReveal,
+  .orderTag,
+  .bloom,
+  .revealNote {
+    animation: none;
+  }
+}

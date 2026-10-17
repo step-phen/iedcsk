@@ -1,0 +1,187 @@
+/* Look of Language Final Assessment 4 (Snowy Mountain); layout and spacing stay in Tailwind, the pictures, tasks and lines stay in LanguageFinalAssessment4.data.ts. */
+
+.screen {
+  background: #dbeafe;
+  color: #1e3a8a;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Snow-capped peaks under a cold blue sky, with a snowfield in front. */
+.mountains {
+  background:
+    linear-gradient(180deg, transparent 0 84%, #f8fafc 84%),
+    conic-gradient(from 145deg at 22% 79%, #f8fafc 0 70deg, transparent 0) 0 0 / 100% 48% no-repeat,
+    conic-gradient(from 140deg at 22% 38%, #94a3b8 0 80deg, transparent 0) 0 0 / 100% 100% no-repeat,
+    conic-gradient(from 150deg at 72% 76%, #f8fafc 0 60deg, transparent 0) 0 0 / 100% 34% no-repeat,
+    conic-gradient(from 140deg at 72% 26%, #64748b 0 80deg, transparent 0) 0 0 / 100% 100% no-repeat,
+    linear-gradient(180deg, #93c5fd, #dbeafe 70%);
+}
+
+/* Slow falling snowflakes. */
+.snow {
+  background:
+    radial-gradient(circle, white 0 2px, transparent 3px) 0 0 / 60px 60px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.8) 0 1.5px, transparent 2.5px) 20px 30px / 90px 90px;
+  animation: snowfall 12s linear infinite;
+}
+
+.badge {
+  border: 3px solid #1e3a8a;
+  background: white;
+  box-shadow: 0 3px 0 rgba(30, 58, 138, 0.25);
+}
+
+.avatar {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.title {
+  color: #1d4ed8;
+  text-shadow: 0 3px 0 white;
+}
+
+.pill {
+  background: white;
+  border: 3px solid #60a5fa;
+  box-shadow: 0 3px 0 rgba(30, 58, 138, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #1e3a8a;
+  background: white;
+  color: #1e3a8a;
+  box-shadow: 0 3px 0 rgba(30, 58, 138, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #2563eb;
+  color: white;
+  border: 4px solid #1e3a8a;
+  box-shadow: 0 5px 0 rgba(30, 58, 138, 0.35);
+  text-shadow: 0 3px 0 #1e3a8a;
+}
+
+/* Frosty ice block with a shine across it. */
+.ice {
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.7) 0 12%, transparent 12% 20%, rgba(255, 255, 255, 0.5) 20% 24%, transparent 24%),
+    linear-gradient(180deg, #e0f2fe, #bae6fd);
+  border: 4px solid #0369a1;
+  box-shadow: 0 5px 0 rgba(30, 58, 138, 0.3);
+  animation: popIn 0.35s ease-out;
+}
+
+.taskLabel {
+  background: #0369a1;
+  color: white;
+}
+
+/* Round snowball with a soft blue shade; its size sets the picture size. */
+.snowball {
+  container-type: inline-size;
+  background: radial-gradient(circle at 35% 30%, white 0 40%, #e0f2fe 70%, #bfdbfe);
+  border: 4px solid #1e3a8a;
+  box-shadow: inset -6px -8px 0 rgba(147, 197, 253, 0.5), 0 6px 0 rgba(30, 58, 138, 0.3);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, transform 150ms ease-out;
+}
+
+.snowball:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.snowball:disabled {
+  cursor: default;
+}
+
+.snowballRight {
+  border-color: #eab308;
+  box-shadow: 0 0 0 5px #fde047, 0 0 32px 12px rgba(253, 224, 71, 0.85);
+}
+
+.snowballWrong {
+  border-color: #dc2626;
+  background: radial-gradient(circle, #fee2e2, #fca5a5);
+  animation: shake 0.4s ease-in-out;
+}
+
+.snowballReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  z-index: 2;
+}
+
+.flag {
+  transform-origin: 0 100%;
+  animation: plant 0.45s ease-out;
+}
+
+.summit {
+  filter: drop-shadow(0 6px 0 rgba(30, 58, 138, 0.25));
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(30, 58, 138, 0.3);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(30, 58, 138, 0.3);
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes snowfall {
+  to { background-position: 0 60px, 20px 120px; }
+}
+
+@keyframes plant {
+  0% { transform: translateY(-30px) scale(0.6); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snow,
+  .ice,
+  .snowballWrong,
+  .snowballReveal,
+  .flag,
+  .revealNote {
+    animation: none;
+  }
+}
