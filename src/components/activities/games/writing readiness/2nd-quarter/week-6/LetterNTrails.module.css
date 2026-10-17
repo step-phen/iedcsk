@@ -1,0 +1,184 @@
+/* Look of Letter N Trails: a city newsstand in the morning, tracing on a newspaper page while the press prints each picture; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #cfe3f5 0%, #eef4fa 55%, #f8f1e5 100%);
+  color: #212529;
+}
+
+/* Grey city blocks of different heights along the bottom. */
+.skyline {
+  background:
+    linear-gradient(#9aa8b8, #9aa8b8) 3% 100% / 10% 62% no-repeat,
+    linear-gradient(#8494a6, #8494a6) 15% 100% / 8% 92% no-repeat,
+    linear-gradient(#a7b4c3, #a7b4c3) 26% 100% / 12% 55% no-repeat,
+    linear-gradient(#8494a6, #8494a6) 42% 100% / 7% 80% no-repeat,
+    linear-gradient(#9aa8b8, #9aa8b8) 56% 100% / 11% 68% no-repeat,
+    linear-gradient(#7d8da0, #7d8da0) 70% 100% / 8% 100% no-repeat,
+    linear-gradient(#a7b4c3, #a7b4c3) 84% 100% / 12% 58% no-repeat,
+    linear-gradient(#8494a6, #8494a6) 98% 100% / 8% 84% no-repeat;
+  opacity: 0.7;
+}
+
+.badge {
+  background: #fffdf7;
+  border: 3px solid #343a40;
+  box-shadow: 0 3px 0 rgba(40, 45, 55, 0.3);
+}
+
+.avatar {
+  background: #e9ecef;
+}
+
+.title {
+  color: #fffdf7;
+  text-shadow: 0 3px 0 #343a40, 0 5px 0 rgba(20, 25, 35, 0.3);
+}
+
+.instruction {
+  background: #fffdf7;
+  border: 3px solid #343a40;
+  color: #212529;
+}
+
+.iconButton {
+  background: #d6336c;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(110, 20, 50, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A crisp newsprint page with a bold masthead edge; scale (not transform) so the shake and the zoom never fight. */
+.paper {
+  background: #f7f3e8;
+  border: 6px solid #343a40;
+  border-top-width: 14px;
+  box-shadow: 6px 8px 0 rgba(40, 45, 55, 0.25);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.paperWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.paperModel {
+  border-color: #22b35e;
+  box-shadow: 6px 8px 0 rgba(40, 45, 55, 0.25), 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.paperZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.paperRight {
+  border-color: #d6336c;
+  animation: rustle 0.45s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* A steel printing press with a striped ink roller. */
+.press {
+  background: linear-gradient(180deg, #6c757d 0%, #495057 100%);
+  border: 4px solid #212529;
+  box-shadow: 0 5px 0 rgba(20, 25, 35, 0.3);
+}
+
+.roller {
+  background: repeating-conic-gradient(#d6336c 0 30deg, #f7f3e8 30deg 60deg);
+  border: 3px solid #212529;
+}
+
+.rollerSpin {
+  animation: spin 0.4s linear 3;
+}
+
+/* The fresh page is hidden inside the press, then rolls out below it. */
+.page {
+  background: #f7f3e8;
+  border: 3px solid #343a40;
+  border-top: none;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 900ms ease-out 300ms;
+}
+
+.pageOut {
+  clip-path: inset(0);
+}
+
+.pageRule {
+  background: #adb5bd;
+}
+
+.word {
+  background: #fffdf7;
+  border: 3px solid #343a40;
+  color: #212529;
+}
+
+.wordN {
+  color: #d6336c;
+}
+
+.resultStamp {
+  background: #fffdf7;
+  color: #d6336c;
+  border: 4px double #d6336c;
+  box-shadow: 0 5px 0 rgba(40, 45, 55, 0.3);
+  rotate: -3deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes rustle {
+  0%, 100% { rotate: 0deg; }
+  35% { rotate: 1deg; }
+  70% { rotate: -0.6deg; }
+}
+
+@keyframes spin {
+  to { rotate: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rollerSpin,
+  .paperWrong,
+  .paperRight {
+    animation: none;
+  }
+
+  .page {
+    transition: none;
+  }
+}

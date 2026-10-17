@@ -1,0 +1,200 @@
+/* Look of Letter W Trails: a breezy hilltop where each traced W whirls a windmill; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #a9dcfb 0%, #d6efff 55%, #fff4d6 100%);
+  color: #1f3b57;
+}
+
+.clouds {
+  background:
+    radial-gradient(18% 16% at 14% 30%, rgba(255, 255, 255, 0.9) 60%, transparent 62%),
+    radial-gradient(12% 11% at 22% 26%, rgba(255, 255, 255, 0.9) 60%, transparent 62%),
+    radial-gradient(16% 14% at 82% 20%, rgba(255, 255, 255, 0.85) 60%, transparent 62%),
+    radial-gradient(10% 10% at 90% 17%, rgba(255, 255, 255, 0.85) 60%, transparent 62%);
+  animation: drift 24s ease-in-out infinite alternate;
+}
+
+.hills {
+  background:
+    radial-gradient(70% 120% at 20% 100%, #7cc66b 0 58%, transparent 59%),
+    radial-gradient(65% 110% at 85% 100%, #5fb35a 0 58%, transparent 59%);
+}
+
+.badge {
+  background: #ffffff;
+  border: 3px solid #2f6f9f;
+  box-shadow: 0 3px 0 rgba(30, 70, 110, 0.3);
+}
+
+.avatar {
+  background: #d6efff;
+}
+
+.title {
+  color: #ffffff;
+  text-shadow: 0 3px 0 #2f6f9f, 0 5px 0 rgba(20, 50, 80, 0.3);
+}
+
+.instruction {
+  background: #ffffff;
+  border: 3px solid #2f6f9f;
+  color: #1f3b57;
+}
+
+.iconButton {
+  background: #7b3fc4;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(60, 25, 110, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* Cream sail cloth with a stitched seam; scale (not transform) so the shake and the zoom never fight. */
+.sail {
+  background: linear-gradient(160deg, #fffdf6 0%, #f6efdc 100%);
+  border: 6px solid #2f6f9f;
+  outline: 3px dashed rgba(47, 111, 159, 0.45);
+  outline-offset: -16px;
+  box-shadow: 0 8px 0 rgba(20, 50, 80, 0.25);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.sailWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.sailModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.sailZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.sailRight {
+  border-color: #7b3fc4;
+  animation: flutter 0.6s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* The windmill: four lattice sails on a hub, turning lazily until a W sends them whirling. */
+.blades {
+  animation: spin 9s linear infinite;
+}
+
+.bladesFast {
+  animation-duration: 0.9s;
+}
+
+.blade {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 9px, rgba(122, 74, 32, 0.55) 9px 11px),
+    linear-gradient(90deg, #fffaf0 0 46%, #a8743c 46% 54%, #fffaf0 54%);
+  border: 3px solid #7a4a20;
+}
+
+.hub {
+  background: #7b3fc4;
+  border: 3px solid #fff;
+}
+
+.tower {
+  background: repeating-linear-gradient(0deg, #e9d3b0 0 14px, #d9bd93 14px 16px);
+  border: 3px solid #7a4a20;
+  border-bottom: none;
+  clip-path: polygon(22% 0, 78% 0, 100% 100%, 0 100%);
+}
+
+/* The picture rides the wind in from the side once the W is traced. */
+.gust {
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+}
+
+.gustShown {
+  opacity: 1;
+  animation: blowIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 4px 6px rgba(20, 50, 80, 0.3));
+}
+
+.word {
+  background: #ffffff;
+  border: 3px solid #2f6f9f;
+  color: #1f3b57;
+}
+
+.wordW {
+  color: #7b3fc4;
+}
+
+.resultFlag {
+  background: #7b3fc4;
+  color: white;
+  border: 4px solid #ffffff;
+  box-shadow: 0 5px 0 rgba(60, 25, 110, 0.4);
+  rotate: 2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes flutter {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: -1.5deg; }
+  60% { rotate: 1deg; }
+}
+
+@keyframes spin {
+  to { rotate: 360deg; }
+}
+
+@keyframes blowIn {
+  from { translate: -120% 40%; rotate: -30deg; scale: 0.5; }
+  to { translate: 0 0; rotate: 0deg; scale: 1; }
+}
+
+@keyframes drift {
+  to { translate: 4% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clouds,
+  .blades,
+  .sailWrong,
+  .sailRight,
+  .gustShown {
+    animation: none;
+  }
+}

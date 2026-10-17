@@ -1,0 +1,175 @@
+/* Look of Writing Skills Review 2: a toy maker's workshop where each traced capital is carved into a painted wooden tile; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    radial-gradient(circle, rgba(90, 55, 25, 0.22) 2.5px, transparent 3px) 0 0 / 34px 34px,
+    linear-gradient(180deg, #f3e1c2 0%, #e9cfa3 100%);
+  color: #3d2410;
+}
+
+.bench {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 140px, rgba(60, 30, 10, 0.35) 140px 143px),
+    linear-gradient(180deg, #a86b35 0%, #8a5427 100%);
+  border-top: 8px solid #c58748;
+}
+
+.badge {
+  background: #fff8ec;
+  border: 3px solid #7a4a20;
+  box-shadow: 0 3px 0 rgba(70, 40, 15, 0.3);
+}
+
+.avatar {
+  background: #f3e1c2;
+}
+
+.title {
+  color: #fff8ec;
+  text-shadow: 0 3px 0 #7a4a20, 0 5px 0 rgba(50, 25, 5, 0.3);
+}
+
+.instruction {
+  background: #fff8ec;
+  border: 3px solid #7a4a20;
+  color: #3d2410;
+}
+
+.iconButton {
+  background: #1d4e89;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(15, 35, 70, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A dark walnut plank with grain lines; scale (not transform) so the shake and the zoom never fight. */
+.plank {
+  background:
+    repeating-linear-gradient(176deg, transparent 0 22px, rgba(40, 20, 5, 0.18) 22px 24px),
+    radial-gradient(ellipse 30% 8% at 70% 62%, rgba(40, 20, 5, 0.28), transparent 70%),
+    linear-gradient(180deg, #8a5a32 0%, #6f4524 100%);
+  border: 6px solid #4e2e12;
+  box-shadow: inset 0 0 18px rgba(30, 15, 5, 0.45), 0 8px 0 rgba(50, 25, 5, 0.35);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.plankWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.plankModel {
+  border-color: #22b35e;
+  box-shadow: inset 0 0 18px rgba(30, 15, 5, 0.45), 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.plankZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.plankRight {
+  border-color: #1d4e89;
+  animation: thud 0.4s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* A painted toy-block tile; blank pine until the letter is carved. */
+.tile {
+  background: linear-gradient(160deg, #ffd166 0%, #f4a940 100%);
+  border: 4px solid #7a4a20;
+  box-shadow: inset 0 -5px 0 rgba(122, 74, 32, 0.35), 0 4px 0 rgba(50, 25, 5, 0.3);
+  color: #1d4e89;
+}
+
+.tileMissed {
+  background: linear-gradient(160deg, #e8d4b4 0%, #d4bb93 100%);
+  color: #9a7a55;
+}
+
+.tileBig {
+  transition: scale 300ms ease-out;
+}
+
+.tileBlank {
+  background: linear-gradient(160deg, #f1dfc0 0%, #dcc49c 100%);
+  color: transparent;
+}
+
+.tileShown {
+  animation: popOut 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hammer {
+  transform-origin: 80% 80%;
+}
+
+.hammerTap {
+  animation: tap 0.5s ease-in-out 2;
+}
+
+.resultSign {
+  background: #1d4e89;
+  color: #ffd166;
+  border: 4px solid #fff8ec;
+  box-shadow: 0 5px 0 rgba(15, 35, 70, 0.4);
+  rotate: -2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes thud {
+  0%, 100% { translate: 0 0; }
+  35% { translate: 0 6px; }
+}
+
+@keyframes popOut {
+  0% { scale: 0.6; rotate: -12deg; }
+  60% { scale: 1.12; rotate: 4deg; }
+  100% { scale: 1; rotate: 0deg; }
+}
+
+@keyframes tap {
+  0%, 100% { rotate: 0deg; }
+  50% { rotate: -35deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plankWrong,
+  .plankRight,
+  .tileShown,
+  .hammerTap {
+    animation: none;
+  }
+}

@@ -1,0 +1,199 @@
+/* Look of Letter C Trails: a lakeside campsite, tracing on the tent canvas while a canoe paddles each picture across; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    radial-gradient(circle at 84% 14%, #fff4b8 0 5%, rgba(255, 244, 184, 0.4) 6%, transparent 11%),
+    linear-gradient(180deg, #bfe8ff 0%, #e2f6ff 55%, #cfe9c4 100%);
+  color: #23402c;
+}
+
+/* A row of pine trees drawn as repeated triangles over a grassy bank. */
+.pines {
+  background:
+    conic-gradient(from 150deg at 50% 0, #2f6b45 0 60deg, transparent 0) 0 0 / 64px 70% repeat-x,
+    conic-gradient(from 150deg at 50% 0, #3f8556 0 60deg, transparent 0) 32px 30% / 64px 70% repeat-x,
+    linear-gradient(180deg, transparent 60%, #5c9a4f 60%);
+}
+
+.badge {
+  background: #fffdf5;
+  border: 3px solid #2f5d3a;
+  box-shadow: 0 3px 0 rgba(30, 60, 40, 0.3);
+}
+
+.avatar {
+  background: #cfe9c4;
+}
+
+.title {
+  color: #fffdf5;
+  text-shadow: 0 3px 0 #2f5d3a, 0 5px 0 rgba(20, 45, 30, 0.3);
+}
+
+.instruction {
+  background: #fffdf5;
+  border: 3px solid #2f5d3a;
+  color: #23402c;
+}
+
+.iconButton {
+  background: #1f6f8b;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(15, 55, 70, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* Striped tent canvas; scale (not transform) so the shake and the zoom never fight. */
+.tent {
+  background:
+    repeating-linear-gradient(90deg, #fbf3e2 0 34px, #f3e6c9 34px 68px);
+  border: 6px solid #2f5d3a;
+  box-shadow: inset 0 0 20px rgba(120, 90, 50, 0.25), 0 8px 0 rgba(20, 45, 30, 0.3);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.tentWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.tentModel {
+  border-color: #22b35e;
+  box-shadow: inset 0 0 20px rgba(120, 90, 50, 0.25), 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.tentZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.tentRight {
+  border-color: #1f6f8b;
+  animation: flap 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* Rippled lake water. */
+.lake {
+  background:
+    repeating-radial-gradient(ellipse at 50% 120%, transparent 0 14px, rgba(255, 255, 255, 0.28) 14px 16px),
+    linear-gradient(180deg, #5bb8e0 0%, #2f86b8 100%);
+  border: 4px solid #7a5230;
+  box-shadow: 0 5px 0 rgba(20, 45, 30, 0.3);
+}
+
+/* The canoe bobs at the near shore, then glides across once the C is traced. */
+.canoe {
+  left: 6%;
+  animation: bob 1.6s ease-in-out infinite;
+  transition: left 1.1s ease-in-out;
+}
+
+.canoeAcross {
+  left: 62%;
+}
+
+/* A red-and-white life ring hanging on the far shore. */
+.ring {
+  background: conic-gradient(#e03131 0 45deg, #fff 45deg 90deg, #e03131 90deg 135deg, #fff 135deg 180deg, #e03131 180deg 225deg, #fff 225deg 270deg, #e03131 270deg 315deg, #fff 315deg 360deg);
+  border: 4px solid #7a5230;
+  box-shadow: 0 5px 0 rgba(20, 45, 30, 0.3);
+  scale: 0.8;
+  transition: scale 450ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ringShown {
+  scale: 1;
+}
+
+.ringHole {
+  background: #e2f6ff;
+  border: 4px solid #7a5230;
+}
+
+.picture {
+  opacity: 0;
+  scale: 0.4;
+  transition: opacity 250ms ease-out 600ms, scale 400ms cubic-bezier(0.34, 1.56, 0.64, 1) 600ms;
+}
+
+.pictureShown {
+  opacity: 1;
+  scale: 1;
+}
+
+.word {
+  background: #fffdf5;
+  border: 3px solid #2f5d3a;
+  color: #23402c;
+}
+
+.wordC {
+  color: #1e3a8a;
+}
+
+.resultFlag {
+  background: #1f6f8b;
+  color: #fff4b8;
+  border: 4px solid #fffdf5;
+  box-shadow: 0 5px 0 rgba(15, 55, 70, 0.4);
+  rotate: -2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes flap {
+  0%, 100% { rotate: 0deg; }
+  30% { rotate: -1.5deg; }
+  65% { rotate: 1deg; }
+}
+
+@keyframes bob {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  50% { translate: 0 4px; rotate: 3deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .canoe,
+  .tentWrong,
+  .tentRight {
+    animation: none;
+  }
+
+  .canoe,
+  .ring,
+  .picture {
+    transition: none;
+  }
+}

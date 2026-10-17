@@ -142,6 +142,30 @@ export const GAME_INTRO_LINES = {
     "Welcome to the valley! Watch the pencil, then trace each capital V to send a hot-air balloon up, up, and away.",
   "letter x trails":
     "Ahoy, pirate! X marks the spot! Watch the pencil, then trace each capital X to open a treasure chest.",
+  "letter w trails":
+    "Feel the wind on the hill! Watch the pencil, then trace each capital W to make the windmill whirl.",
+  "letter b trails":
+    "Welcome to the bee garden! Watch the pencil, then trace each capital B to help a busy bee find a flower.",
+  "writing skills review 2":
+    "Welcome to the toy workshop! Sit up tall, feet flat, and hold your pencil gently. Let's trace all the capital letters we learned!",
+  "letter c trails":
+    "Welcome to camp by the lake! Watch the pencil, then trace each capital C to paddle the canoe across.",
+  "letter a trails":
+    "Welcome to the launch pad! Watch the pencil, then trace each capital A to blast a rocket into space.",
+  "letter m trails":
+    "Let's climb the mountains! Watch the pencil, then trace each capital M to help the climber reach the top.",
+  "letter n trails":
+    "Good morning, news fans! Watch the pencil, then trace each capital N to print a brand-new page.",
+  "letter k trails":
+    "Welcome to our classroom! Watch the pencil, then trace each capital K on the chalkboard to pin a picture on the board.",
+  "letter y trails":
+    "Welcome to the cozy knitting corner! Watch the pencil, then trace each capital Y to roll the yarn into the basket.",
+  "letter z trails":
+    "Welcome to the treetop park! Watch the pencil, then trace each capital Z to send a picture zooming down the zip line.",
+  "writing readiness review q2":
+    "Welcome to the post office! Watch the pencil, then trace each capital letter to stamp it and mail it.",
+  "writing readiness final assessment q2":
+    "All aboard for your writing final! Sit up tall, feet flat, and hold your pencil gently. Trace each capital letter all by yourself to build a letter train.",
   "letter d trails":
     "Let's dig in the sand! Watch the pencil, then trace each capital D to dig up a hidden picture.",
   "letter o trails":

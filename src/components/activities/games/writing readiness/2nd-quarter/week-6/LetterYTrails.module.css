@@ -1,0 +1,181 @@
+/* Look of Letter Y Trails: a cozy knitting corner, tracing on a knitted blanket while a yarn ball rolls each picture into the basket; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 46px, rgba(214, 120, 90, 0.14) 46px 58px),
+    linear-gradient(180deg, #ffe8d6 0%, #ffd8bf 100%);
+  color: #5a2a1a;
+}
+
+/* A striped round rug on the floor. */
+.rug {
+  background: repeating-radial-gradient(ellipse at 50% 100%, #e8590c 0 14px, #fff4e6 14px 26px, #4dabf7 26px 38px, #fff4e6 38px 50px);
+  opacity: 0.85;
+}
+
+.badge {
+  background: #fff8f2;
+  border: 3px solid #a0442a;
+  box-shadow: 0 3px 0 rgba(110, 50, 30, 0.3);
+}
+
+.avatar {
+  background: #ffd8bf;
+}
+
+.title {
+  color: #fff8f2;
+  text-shadow: 0 3px 0 #a0442a, 0 5px 0 rgba(80, 30, 15, 0.3);
+}
+
+.instruction {
+  background: #fff8f2;
+  border: 3px solid #a0442a;
+  color: #5a2a1a;
+}
+
+.iconButton {
+  background: #3b6aa0;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(20, 45, 80, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A soft blue knitted blanket with a ribbed edge; scale (not transform) so the shake and the zoom never fight. */
+.blanket {
+  background: #e7f1fb;
+  border: 10px solid #3b6aa0;
+  border-image: repeating-linear-gradient(90deg, #3b6aa0 0 8px, #5b8cc4 8px 16px) 10;
+  box-shadow: 0 8px 0 rgba(110, 50, 30, 0.25);
+  transition: box-shadow 250ms ease-out;
+}
+
+.blanketWrong {
+  border-image: none;
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.blanketModel {
+  border-image: none;
+  border-color: #22b35e;
+  box-shadow: 0 8px 0 rgba(110, 50, 30, 0.25), 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.blanketZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.blanketRight {
+  animation: squish 0.45s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* The yarn ball rolls from the left into the basket. */
+.ball {
+  left: 0;
+}
+
+.ballRolled {
+  animation: rollIn 1s ease-in forwards;
+}
+
+/* A woven wicker basket. */
+.basket {
+  background:
+    repeating-linear-gradient(90deg, rgba(110, 60, 20, 0.35) 0 3px, transparent 3px 14px),
+    repeating-linear-gradient(180deg, #d9a35a 0 8px, #c4873c 8px 16px);
+  border: 4px solid #8a5222;
+  box-shadow: 0 5px 0 rgba(110, 50, 30, 0.3);
+}
+
+/* The picture waits down in the basket, then pops up once the yarn lands. */
+.picture {
+  opacity: 0;
+  translate: 0 70%;
+  transition: opacity 200ms ease-out 900ms, translate 450ms cubic-bezier(0.34, 1.56, 0.64, 1) 900ms;
+}
+
+.pictureShown {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.word {
+  background: #fff8f2;
+  border: 3px solid #a0442a;
+  color: #5a2a1a;
+}
+
+.wordY {
+  color: #e8590c;
+}
+
+.resultTag {
+  background: #e8590c;
+  color: #fff8f2;
+  border: 4px dashed #fff8f2;
+  box-shadow: 0 5px 0 rgba(110, 50, 30, 0.4);
+  rotate: -2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes squish {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.02 0.98; }
+}
+
+@keyframes rollIn {
+  0% { left: 0; rotate: 0deg; opacity: 1; }
+  80% { left: 46%; rotate: 540deg; opacity: 1; }
+  100% { left: 52%; rotate: 600deg; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blanketWrong,
+  .blanketRight {
+    animation: none;
+  }
+
+  .ballRolled {
+    animation: none;
+    opacity: 0;
+  }
+
+  .picture {
+    transition: none;
+  }
+}

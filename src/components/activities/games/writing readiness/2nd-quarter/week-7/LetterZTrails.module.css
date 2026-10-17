@@ -1,0 +1,180 @@
+/* Look of Letter Z Trails: a treetop adventure park, tracing on a leafy sign while a gondola zips each picture down the zip line; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.7) 0 4%, transparent 8%),
+    linear-gradient(180deg, #9be7ff 0%, #d3f9d8 70%, #b2f2bb 100%);
+  color: #1b4332;
+}
+
+/* Bushy treetops along the bottom, drawn as overlapping circles. */
+.treetops {
+  background:
+    radial-gradient(circle at 8% 70%, #2f9e44 0 18%, transparent 18.5%),
+    radial-gradient(circle at 26% 80%, #37b24d 0 20%, transparent 20.5%),
+    radial-gradient(circle at 46% 72%, #2f9e44 0 19%, transparent 19.5%),
+    radial-gradient(circle at 66% 82%, #40c057 0 21%, transparent 21.5%),
+    radial-gradient(circle at 86% 70%, #2f9e44 0 19%, transparent 19.5%),
+    linear-gradient(180deg, transparent 70%, #2b8a3e 70%);
+}
+
+.badge {
+  background: #f8fff4;
+  border: 3px solid #2b8a3e;
+  box-shadow: 0 3px 0 rgba(30, 70, 40, 0.3);
+}
+
+.avatar {
+  background: #d3f9d8;
+}
+
+.title {
+  color: #f8fff4;
+  text-shadow: 0 3px 0 #2b8a3e, 0 5px 0 rgba(15, 45, 25, 0.3);
+}
+
+.instruction {
+  background: #f8fff4;
+  border: 3px solid #2b8a3e;
+  color: #1b4332;
+}
+
+.iconButton {
+  background: #d9480f;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(110, 35, 5, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A pale canvas sign lashed with rope; scale (not transform) so the shake and the zoom never fight. */
+.sign {
+  background: #fdf8e8;
+  border: 8px double #b5823c;
+  box-shadow: 0 0 0 4px #e3c18a, 0 8px 0 4px rgba(30, 70, 40, 0.3);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.signWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.signModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 4px #e3c18a, 0 0 0 10px rgba(34, 179, 94, 0.3), 0 0 32px 12px rgba(34, 179, 94, 0.5);
+}
+
+.signZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.signRight {
+  border-color: #d9480f;
+  animation: sway 0.6s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+.trunk {
+  background: linear-gradient(90deg, #8a5a2b 0%, #a9713a 50%, #7a4a20 100%);
+}
+
+/* The steel cable runs from the tall tree down to the landing tree. */
+.cable {
+  background: #495057;
+  transform-origin: 0 50%;
+  rotate: 24deg;
+}
+
+/* The gondola hangs at the top, then zips down the cable once the Z is traced. */
+.gondola {
+  left: 2%;
+  top: 12%;
+  background: #fff3bf;
+  border: 4px solid #d9480f;
+  box-shadow: 0 4px 0 rgba(30, 70, 40, 0.3);
+  transition: left 1s ease-in, top 1s ease-in;
+}
+
+.gondolaDown {
+  left: 62%;
+  top: 46%;
+}
+
+.picture {
+  opacity: 0;
+  transition: opacity 250ms ease-out 900ms;
+}
+
+.pictureShown {
+  opacity: 1;
+}
+
+.word {
+  background: #f8fff4;
+  border: 3px solid #2b8a3e;
+  color: #1b4332;
+}
+
+.wordZ {
+  color: #d9480f;
+}
+
+.resultBadge {
+  background: #2b8a3e;
+  color: #fff3bf;
+  border: 4px solid #f8fff4;
+  box-shadow: 0 5px 0 rgba(15, 45, 25, 0.4);
+  rotate: -2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes sway {
+  0%, 100% { rotate: 0deg; }
+  30% { rotate: 1.5deg; }
+  70% { rotate: -1deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signWrong,
+  .signRight {
+    animation: none;
+  }
+
+  .gondola,
+  .picture {
+    transition: none;
+  }
+}

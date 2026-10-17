@@ -1,0 +1,208 @@
+/* Look of Letter A Trails: a space launch pad, tracing on a mission-control screen while a rocket blasts off to each picture planet; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    radial-gradient(circle at 14% 22%, #fff 0 1.5px, transparent 2px),
+    radial-gradient(circle at 72% 12%, #fff 0 1.5px, transparent 2px),
+    radial-gradient(circle at 90% 46%, #fff 0 2px, transparent 2.5px),
+    radial-gradient(circle at 32% 70%, #fff 0 1.5px, transparent 2px),
+    radial-gradient(circle at 58% 86%, #fff 0 1.5px, transparent 2px),
+    radial-gradient(circle at 8% 88%, #fff 0 2px, transparent 2.5px),
+    radial-gradient(ellipse at 50% 120%, #5f3dc4 0%, transparent 60%),
+    linear-gradient(180deg, #141042 0%, #2b1f6e 100%);
+  color: #f3f0ff;
+}
+
+.badge {
+  background: #f3f0ff;
+  border: 3px solid #5f3dc4;
+  box-shadow: 0 3px 0 rgba(20, 10, 60, 0.45);
+  color: #2b1f6e;
+}
+
+.avatar {
+  background: #d0bfff;
+}
+
+.title {
+  color: #fff;
+  text-shadow: 0 3px 0 #6741d9, 0 0 18px rgba(151, 117, 250, 0.7);
+}
+
+.instruction {
+  background: #f3f0ff;
+  border: 3px solid #5f3dc4;
+  color: #2b1f6e;
+}
+
+.iconButton {
+  background: #ff6b6b;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(120, 20, 20, 0.45);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A dark glass screen with a cyan bezel; scale (not transform) so the shake and the zoom never fight. */
+.console {
+  background: radial-gradient(circle at 50% 40%, #1c2b5e 0%, #0d1638 80%);
+  border: 6px solid #5ee0ff;
+  box-shadow: inset 0 0 26px rgba(94, 224, 255, 0.25), 0 0 0 4px #2b1f6e, 0 8px 0 4px rgba(10, 5, 40, 0.5);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.consoleWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.consoleModel {
+  border-color: #22b35e;
+  box-shadow: inset 0 0 26px rgba(94, 224, 255, 0.25), 0 0 0 6px rgba(34, 179, 94, 0.35), 0 0 32px 8px rgba(34, 179, 94, 0.55);
+}
+
+.consoleZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.consoleRight {
+  border-color: #ffd23f;
+  animation: rumble 0.5s linear;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* The rocket points straight up and hums on the pad until the A is traced. */
+.rocket {
+  rotate: -45deg;
+  animation: hum 0.25s linear infinite;
+}
+
+.rocketLaunch {
+  animation: launch 1.2s ease-in forwards;
+}
+
+.pad {
+  background: repeating-linear-gradient(135deg, #ffd23f 0 8px, #343a40 8px 16px);
+  border: 3px solid #adb5bd;
+}
+
+/* A ringed planet that glows once the rocket arrives. */
+.planet {
+  background: radial-gradient(circle at 35% 30%, #b197fc 0%, #7048e8 60%, #4c2fa8 100%);
+  box-shadow: 0 0 0 4px rgba(243, 240, 255, 0.4);
+  scale: 0.85;
+  transition: scale 450ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 450ms ease-out;
+}
+
+.planet::after {
+  content: "";
+  position: absolute;
+  inset: 38% -18%;
+  border: 5px solid #ffd23f;
+  border-radius: 50%;
+  rotate: -14deg;
+  opacity: 0.85;
+}
+
+.planetLit {
+  scale: 1;
+  box-shadow: 0 0 0 4px rgba(243, 240, 255, 0.6), 0 0 34px 10px rgba(255, 210, 63, 0.55);
+}
+
+.picture {
+  opacity: 0;
+  scale: 0.4;
+  transition: opacity 250ms ease-out 700ms, scale 400ms cubic-bezier(0.34, 1.56, 0.64, 1) 700ms;
+}
+
+.pictureShown {
+  opacity: 1;
+  scale: 1;
+}
+
+.word {
+  background: #f3f0ff;
+  border: 3px solid #5f3dc4;
+  color: #2b1f6e;
+}
+
+.wordA {
+  color: #e8590c;
+}
+
+.resultPanel {
+  background: #ffd23f;
+  color: #2b1f6e;
+  border: 4px solid #f3f0ff;
+  box-shadow: 0 5px 0 rgba(10, 5, 40, 0.5), 0 0 22px rgba(255, 210, 63, 0.5);
+  rotate: -2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes rumble {
+  0%, 100% { translate: 0; }
+  25% { translate: 0 2px; }
+  50% { translate: 0 -2px; }
+  75% { translate: 0 1px; }
+}
+
+@keyframes hum {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -1px; }
+}
+
+@keyframes launch {
+  0% { translate: 0 0; opacity: 1; }
+  25% { translate: 0 6px; opacity: 1; }
+  100% { translate: 0 -320%; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rocket,
+  .consoleWrong,
+  .consoleRight {
+    animation: none;
+  }
+
+  .rocketLaunch {
+    animation: none;
+    opacity: 0;
+  }
+
+  .planet,
+  .picture {
+    transition: none;
+  }
+}

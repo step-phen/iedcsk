@@ -34,11 +34,15 @@ const isDot = (s: Point[]) => s.every((p) => dist(p, s[0]) < 16);
 /** How many guide strokes, from step on, one drawn stroke traces in order: 0 for a miss. */
 export function strokesCovered(stroke: Point[], strokes: Point[][], step: number): number {
   const cur = strokes[step];
-  const next = strokes[step + 1];
   if (isDot(cur)) return stroke.every((p) => dist(p, centre(cur)) <= DOT_REACH) ? 1 : 0;
-  if (judgeStroke(stroke, cur)) return 1;
-  // Strokes that meet end to start (the corner of an L) may also be drawn as one, without lifting.
-  return next && dist(cur[cur.length - 1], next[0]) < 4 && judgeStroke(stroke, [...cur, ...next.slice(1)]) ? 2 : 0;
+  // Strokes that meet end to start (the corner of an L, the points of a W) may also be drawn as one, without lifting; the longest run traced wins.
+  let path = cur;
+  let covered = judgeStroke(stroke, cur) ? 1 : 0;
+  for (let n = step + 1; n < strokes.length && dist(path[path.length - 1], strokes[n][0]) < 4; n++) {
+    path = [...path, ...strokes[n].slice(1)];
+    if (judgeStroke(stroke, path)) covered = n - step + 1;
+  }
+  return covered;
 }
 
 export interface LetterTracePadProps {
