@@ -152,7 +152,11 @@ export default function TellTheStory({ activityId, activityName, onFinish }: Gam
       const sentence = round.story[round.step - 1];
       const earned = id === round.answer;
       setResults((r) => [...r, earned]);
-      setTold((t) => [...t, round.answer]);
+      setTold((t) => {
+        const next = [...t];
+        next[round.step - 1] = round.answer;
+        return next;
+      });
       if (earned) {
         speak(correctSpeech(sentence, roundIndex), advance);
         return;

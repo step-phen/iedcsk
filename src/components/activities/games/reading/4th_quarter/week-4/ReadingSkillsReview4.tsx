@@ -51,6 +51,9 @@ function buildRound(row: QuestionRow): Round {
     throw new Error(`Question ${row.questionKey} needs a known "type" and a "text"`);
   }
   const kind = type as Kind;
+  if (kind === "book" && !Object.hasOwn(BOOK_PARTS, text)) {
+    throw new Error(`Question ${row.questionKey} needs a known book part in "text"`);
+  }
   const known = kind === "book" ? BOOK_PARTS : PICTURES;
   if (!Array.isArray(choices) || choices.length !== 3 || !choices.every((c) => typeof c === "string" && Object.hasOwn(known, c))) {
     throw new Error(`Question ${row.questionKey} needs three known "choices"`);
