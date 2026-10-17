@@ -1,0 +1,230 @@
+/* Look of Reading Skills Review 4 (TV Quiz Show); layout and spacing stay in Tailwind, the pictures and speech stay in ReadingSkillsReview4.data.ts. */
+
+.screen {
+  background: #3b0764;
+  color: #fdf4ff;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Velvet stage curtains on both sides. */
+.curtains {
+  background:
+    repeating-linear-gradient(90deg, #9d174d 0 18px, #be185d 18px 30px, #9d174d 30px 44px) left / 12% 100% no-repeat,
+    repeating-linear-gradient(90deg, #9d174d 0 18px, #be185d 18px 30px, #9d174d 30px 44px) right / 12% 100% no-repeat,
+    linear-gradient(180deg, #4c1d95, #2e1065);
+}
+
+.spotlight {
+  background: radial-gradient(ellipse 45% 60% at 50% 0%, rgba(253, 224, 71, 0.28), transparent 70%);
+  animation: sweep 6s ease-in-out infinite;
+}
+
+.badge {
+  border: 3px solid #facc15;
+  background: #2e1065;
+  color: #fdf4ff;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.avatar {
+  background: #fdf4ff;
+  color: #a21caf;
+}
+
+.title {
+  color: #fde047;
+  text-shadow: 0 0 14px rgba(253, 224, 71, 0.6), 0 3px 0 #a21caf;
+}
+
+.pill {
+  background: #fdf4ff;
+  color: #3b0764;
+  border: 3px solid #e879f9;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.iconButton {
+  border: 3px solid #facc15;
+  background: #2e1065;
+  color: #facc15;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #a21caf;
+  color: white;
+  border: 4px solid #facc15;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4);
+  text-shadow: 0 3px 0 #701a75;
+}
+
+/* Big quiz board ringed with marquee bulbs. */
+.board {
+  background: #1e1b4b;
+  color: #fef9c3;
+  border: 6px dotted #facc15;
+  outline: 4px solid #a21caf;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.4), 0 0 26px rgba(250, 204, 21, 0.35);
+  animation: flipIn 0.4s ease-out;
+}
+
+.ask {
+  background: #a21caf;
+  color: white;
+}
+
+.podium {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.podium:disabled {
+  cursor: default;
+}
+
+.buzzer {
+  background: radial-gradient(circle at 50% 80%, #f87171, #b91c1c);
+  border: 3px solid #450a0a;
+  border-bottom: none;
+}
+
+.monitor {
+  background: linear-gradient(180deg, #fdf4ff, #f5d0fe);
+  color: #3b0764;
+  border: 5px solid #facc15;
+  box-shadow: 0 0 0 3px #3b0764, 0 6px 0 rgba(0, 0, 0, 0.35);
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.stand {
+  background: linear-gradient(90deg, #6d28d9, #a78bfa 50%, #6d28d9);
+  border: 3px solid #3b0764;
+  border-top: none;
+}
+
+.podiumWon .monitor {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #fcd34d, 0 0 30px 10px rgba(252, 211, 77, 0.85);
+}
+
+.podiumWon .buzzer {
+  animation: buzz 0.5s ease-out 2;
+}
+
+.podiumWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.podiumWrong .monitor {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.podiumReveal {
+  position: relative;
+  z-index: 2;
+  animation: revealZoom 2s ease-in-out;
+}
+
+.podiumReveal .monitor {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+}
+
+/* Storybook drawings for the book-part rounds. */
+.closedBook {
+  background: #2563eb;
+  border: 3px solid #1e3a8a;
+  border-left-width: 8px;
+}
+
+.titleStrip {
+  background: #fef3c7;
+  border: 2px solid #1e3a8a;
+}
+
+.openBook {
+  background: #92400e;
+}
+
+.page {
+  background: repeating-linear-gradient(180deg, #fffbeb 0 6px, #e7e5e4 6px 7px);
+}
+
+.glow {
+  box-shadow: 0 0 0 3px #facc15, 0 0 14px 5px rgba(250, 204, 21, 0.85);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes sweep {
+  0%, 100% { transform: translateX(-12%); }
+  50% { transform: translateX(12%); }
+}
+
+@keyframes flipIn {
+  0% { transform: rotateX(80deg); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+@keyframes buzz {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.8); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight,
+  .board,
+  .podiumWon .buzzer,
+  .podiumWrong,
+  .podiumReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

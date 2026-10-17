@@ -1,0 +1,184 @@
+/* Look of Word Hunt (Penguin's Frozen Lake); layout and spacing stay in Tailwind, the speech stays in WordHunt.data.ts. */
+
+.screen {
+  background: #0c4a6e;
+  color: #0c2d48;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Pale arctic sky with soft snow dots. */
+.sky {
+  background:
+    radial-gradient(2px 2px at 10% 30%, white 98%, transparent),
+    radial-gradient(3px 3px at 30% 60%, white 98%, transparent),
+    radial-gradient(2px 2px at 55% 20%, white 98%, transparent),
+    radial-gradient(3px 3px at 75% 50%, white 98%, transparent),
+    radial-gradient(2px 2px at 90% 25%, white 98%, transparent),
+    linear-gradient(180deg, #bae6fd, #e0f2fe);
+}
+
+/* Deep blue lake water with gentle ripples. */
+.lake {
+  background:
+    repeating-radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.08) 0 2px, transparent 2px 26px),
+    linear-gradient(180deg, #0ea5e9, #075985);
+  border-top: 5px solid #e0f2fe;
+}
+
+.badge {
+  border: 3px solid #075985;
+  background: white;
+  box-shadow: 0 3px 0 rgba(7, 89, 133, 0.3);
+}
+
+.avatar {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.title {
+  color: #075985;
+  text-shadow: 0 3px 0 white;
+}
+
+.pill {
+  background: white;
+  border: 3px solid #0ea5e9;
+  box-shadow: 0 3px 0 rgba(7, 89, 133, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #075985;
+  background: white;
+  color: #075985;
+  box-shadow: 0 3px 0 rgba(7, 89, 133, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #0284c7;
+  color: white;
+  border: 4px solid #0c2d48;
+  box-shadow: 0 5px 0 rgba(12, 45, 72, 0.35);
+  text-shadow: 0 3px 0 #075985;
+}
+
+.penguin {
+  filter: drop-shadow(0 5px 3px rgba(12, 45, 72, 0.35));
+  transform-origin: 50% 100%;
+  animation: waddle 1.4s ease-in-out infinite;
+}
+
+.penguinHop {
+  animation: hop 0.6s ease-out 2;
+}
+
+/* Each floe bobs on the water a little out of step with its neighbours. */
+.floeSlot {
+  animation: bob 3s ease-in-out infinite;
+}
+
+.floe {
+  background: linear-gradient(180deg, #ffffff 0 62%, #cfe9f8 62%);
+  color: #0c2d48;
+  border: 4px solid #7dd3fc;
+  box-shadow: 0 7px 0 #38bdf8, 0 10px 12px rgba(12, 45, 72, 0.35);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.floe:disabled {
+  cursor: default;
+}
+
+.floeWon {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #fcd34d, 0 0 30px 10px rgba(252, 211, 77, 0.85);
+}
+
+.floeWrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: crack 0.4s ease-in-out;
+}
+
+.floeReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(12, 45, 72, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(12, 45, 72, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes waddle {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
+}
+
+@keyframes hop {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-22px); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes crack {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  25% { transform: translateX(-8px) rotate(-3deg); }
+  50% { transform: translateX(8px) rotate(3deg); }
+  75% { transform: translateX(-4px) rotate(-1deg); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .penguin,
+  .penguinHop,
+  .floeSlot,
+  .floeWrong,
+  .floeReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

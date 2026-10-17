@@ -1,0 +1,205 @@
+/* Look of Sentence Picture Match (Snow Globe Shelf); layout and spacing stay in Tailwind, the scenes and speech stay in SentencePictureMatch.data.ts. */
+
+.screen {
+  background: #e0e7ff;
+  color: #312e81;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Wintry shop wall with a wooden shelf the globes stand on. */
+.shelf {
+  background:
+    linear-gradient(180deg, transparent 0 84%, #a16207 84% 87%, #78350f 87% 89%, transparent 89%),
+    repeating-linear-gradient(45deg, rgba(99, 102, 241, 0.06) 0 12px, transparent 12px 24px),
+    linear-gradient(180deg, #eef2ff, #c7d2fe);
+}
+
+.badge {
+  border: 3px solid #312e81;
+  background: white;
+  box-shadow: 0 3px 0 rgba(49, 46, 129, 0.25);
+}
+
+.avatar {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.title {
+  color: #4338ca;
+  text-shadow: 0 3px 0 white;
+}
+
+.pill {
+  background: white;
+  border: 3px solid #818cf8;
+  box-shadow: 0 3px 0 rgba(49, 46, 129, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #312e81;
+  background: white;
+  color: #312e81;
+  box-shadow: 0 3px 0 rgba(49, 46, 129, 0.25);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #4338ca;
+  color: white;
+  border: 4px solid #312e81;
+  box-shadow: 0 5px 0 rgba(49, 46, 129, 0.35);
+  text-shadow: 0 3px 0 #1e1b4b;
+}
+
+/* Gift-tag ribbon holding the sentence. */
+.ribbon {
+  background: #be123c;
+  color: white;
+  border: 4px solid #881337;
+  box-shadow: 0 5px 0 rgba(136, 19, 55, 0.4);
+  text-shadow: 0 3px 0 #881337;
+  animation: unroll 0.4s ease-out;
+}
+
+.globe {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.globe:disabled {
+  cursor: default;
+}
+
+.glass {
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.85) 0 9%, transparent 10%),
+    linear-gradient(180deg, #bfdbfe 0 66%, white 66%);
+  border: 5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: inset 0 0 0 3px #a5b4fc, 0 6px 14px rgba(49, 46, 129, 0.3);
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+/* Snowflakes drifting down inside the glass. */
+.snow {
+  background:
+    radial-gradient(2.5px 2.5px at 20% 20%, white 98%, transparent),
+    radial-gradient(2px 2px at 60% 10%, white 98%, transparent),
+    radial-gradient(3px 3px at 80% 40%, white 98%, transparent),
+    radial-gradient(2px 2px at 35% 55%, white 98%, transparent),
+    radial-gradient(2.5px 2.5px at 70% 70%, white 98%, transparent);
+  background-size: 100% 60%;
+  animation: snowfall 4s linear infinite;
+}
+
+.base {
+  background: linear-gradient(180deg, #b45309, #78350f);
+  border: 3px solid #451a03;
+}
+
+.globeWon .glass {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #fcd34d, 0 0 30px 10px rgba(252, 211, 77, 0.85);
+}
+
+.globeWon {
+  animation: wobble 0.6s ease-in-out;
+}
+
+.globeWon .snow {
+  animation-duration: 0.8s;
+}
+
+.globeWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.globeWrong .glass {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.globeReveal {
+  position: relative;
+  z-index: 2;
+  animation: revealZoom 2s ease-in-out;
+}
+
+.globeReveal .glass {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(49, 46, 129, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(49, 46, 129, 0.3);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes unroll {
+  0% { transform: scaleX(0.3); opacity: 0; }
+  100% { transform: scaleX(1); opacity: 1; }
+}
+
+@keyframes snowfall {
+  0% { background-position: 0 -60%; }
+  100% { background-position: 0 100%; }
+}
+
+@keyframes wobble {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: -8deg; }
+  60% { rotate: 6deg; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon,
+  .snow,
+  .globeWon,
+  .globeWrong,
+  .globeReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

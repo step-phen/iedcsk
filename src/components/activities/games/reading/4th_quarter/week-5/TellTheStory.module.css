@@ -1,0 +1,227 @@
+/* Look of Tell the Story (Kids' Radio Studio); layout and spacing stay in Tailwind, the events and speech stay in TellTheStory.data.ts. */
+
+.screen {
+  background: #134e4a;
+  color: #f0fdfa;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Foam-panel studio wall with a warm desk lamp glow. */
+.studio {
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(251, 191, 36, 0.25), transparent 70%),
+    repeating-conic-gradient(from 45deg, #115e59 0 25%, #0f766e 0 50%) 0 0 / 46px 46px;
+}
+
+.badge {
+  border: 3px solid #fbbf24;
+  background: #042f2e;
+  color: #f0fdfa;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.avatar {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.title {
+  color: #fbbf24;
+  text-shadow: 0 3px 0 #042f2e;
+}
+
+.pill {
+  background: #fffbeb;
+  color: #042f2e;
+  border: 3px solid #fbbf24;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.iconButton {
+  border: 3px solid #fbbf24;
+  background: #042f2e;
+  color: #fbbf24;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #dc2626;
+  color: white;
+  border: 4px solid #fbbf24;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4);
+  text-shadow: 0 3px 0 #7f1d1d;
+}
+
+/* Clipboard script the storyteller reads from. */
+.script {
+  background: #fffbeb;
+  color: #1c1917;
+  border: 4px solid #57534e;
+  border-top-width: 10px;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Tape reel strip that fills with each part of the story as it is told. */
+.reel {
+  background: #1c1917;
+  border: 3px solid #57534e;
+  box-shadow: inset 0 0 0 2px #292524;
+}
+
+.slot {
+  background: #292524;
+  border: 2px dashed #78716c;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.slotNow {
+  border-style: solid;
+  border-color: #fbbf24;
+  box-shadow: 0 0 12px 3px rgba(251, 191, 36, 0.6);
+}
+
+.slotNum {
+  color: #78716c;
+  font-weight: 800;
+  font-size: 0.7em;
+}
+
+.slotIn {
+  animation: tagIn 0.35s ease-out;
+}
+
+.onAir {
+  background: #dc2626;
+  color: white;
+  box-shadow: 0 0 12px 3px rgba(220, 38, 38, 0.7);
+  animation: glow 1.4s ease-in-out infinite;
+}
+
+.mic {
+  color: #e7e5e4;
+}
+
+.question {
+  color: #fef3c7;
+  text-shadow: 0 3px 0 #042f2e;
+  animation: tagIn 0.35s ease-out;
+}
+
+/* Cassette tape with a picture label and two spools. */
+.tape {
+  background: linear-gradient(180deg, #f97316, #c2410c);
+  border: 4px solid #1c1917;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.4);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.tape:disabled {
+  cursor: default;
+}
+
+.label {
+  background: #fffbeb;
+  border: 3px solid #1c1917;
+}
+
+.spool {
+  background: radial-gradient(circle, #fffbeb 0 30%, #1c1917 32%);
+  border: 2px solid #1c1917;
+}
+
+.tapeWon {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #fcd34d, 0 0 30px 10px rgba(252, 211, 77, 0.85);
+}
+
+.tapeWon .spool {
+  animation: spin 0.6s linear infinite;
+}
+
+.tapeWrong {
+  border-color: #dc2626;
+  animation: shake 0.4s ease-in-out;
+}
+
+.tapeWrong .label {
+  background: #fee2e2;
+}
+
+.tapeReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+  animation: revealZoom 2s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  animation: tagIn 0.3s ease-out;
+}
+
+.result {
+  animation: tagIn 0.4s ease-out;
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes tagIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slotIn,
+  .onAir,
+  .question,
+  .tapeWon .spool,
+  .tapeWrong,
+  .tapeReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

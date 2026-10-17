@@ -1,0 +1,230 @@
+/* Look of Reading Final Assessment Q4 (Moving-Up Stage); layout and spacing stay in Tailwind, the pictures and speech stay in ReadingFinalAssessment4.data.ts. */
+
+.screen {
+  background: #2e1065;
+  color: #2e1065;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Dark hall with a spotlight falling on a wooden stage floor. */
+.stage {
+  background:
+    radial-gradient(ellipse 45% 55% at 50% 42%, rgba(254, 240, 138, 0.45), transparent 70%),
+    repeating-linear-gradient(90deg, rgba(120, 53, 15, 0.25) 0 2px, transparent 2px 70px) bottom / 100% 18% no-repeat,
+    linear-gradient(180deg, #3b0764 0 82%, #b45309 82%);
+}
+
+/* Velvet side curtains with soft folds. */
+.curtain {
+  background: repeating-linear-gradient(90deg, #991b1b 0 12px, #b91c1c 12px 20px, #7f1d1d 20px 26px);
+  border-bottom-right-radius: 60% 18%;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.valance {
+  background: radial-gradient(30px 22px at 30px 0, #b91c1c 98%, transparent) 0 0 / 60px 100% repeat-x;
+}
+
+.badge {
+  border: 3px solid #2e1065;
+  background: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.title {
+  color: #fde047;
+  text-shadow: 0 3px 0 #7c2d12;
+}
+
+.pill {
+  background: white;
+  border: 3px solid #a16207;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.iconButton {
+  border: 3px solid #2e1065;
+  background: white;
+  color: #2e1065;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #a16207;
+  color: white;
+  border: 4px solid #2e1065;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
+  text-shadow: 0 3px 0 #713f12;
+}
+
+/* Diploma scroll with rolled ends. */
+.scroll {
+  position: relative;
+  background: linear-gradient(180deg, #fef3c7, #fde68a);
+  border: 3px solid #92400e;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.35);
+  animation: unroll 0.4s ease-out;
+}
+
+.scroll::before,
+.scroll::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  width: 16px;
+  border: 3px solid #92400e;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #fcd34d, #f59e0b);
+}
+
+.scroll::before {
+  left: -14px;
+}
+
+.scroll::after {
+  right: -14px;
+}
+
+.question {
+  color: #7c2d12;
+}
+
+/* V-shaped ribbon the medal hangs from. */
+.ribbon {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 70%, 0 100%);
+}
+
+.ribbonRed {
+  background: linear-gradient(90deg, #dc2626 0 50%, #b91c1c 50%);
+}
+
+.ribbonBlue {
+  background: linear-gradient(90deg, #2563eb 0 50%, #1d4ed8 50%);
+}
+
+.ribbonGreen {
+  background: linear-gradient(90deg, #16a34a 0 50%, #15803d 50%);
+}
+
+.medal {
+  background: radial-gradient(circle at 35% 30%, #fef9c3, #facc15 45%, #ca8a04);
+  border: 4px solid #713f12;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
+  touch-action: manipulation;
+  cursor: pointer;
+  transform-origin: 50% -20%;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, transform 150ms ease-out;
+}
+
+.medal:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.medal:disabled {
+  cursor: default;
+}
+
+.medalFace {
+  background: #fffbeb;
+  border: 3px dashed #ca8a04;
+}
+
+.medalWon {
+  border-color: #fde047;
+  box-shadow: 0 0 0 5px #fde047, 0 0 34px 12px rgba(253, 224, 71, 0.9);
+  animation: swing 0.8s ease-in-out;
+}
+
+.medalWrong {
+  border-color: #dc2626;
+  background: radial-gradient(circle, #fecaca, #f87171);
+  animation: shake 0.4s ease-in-out;
+}
+
+.medalReveal {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.7);
+  animation: revealZoom 2s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+  animation: popIn 0.3s ease-out;
+}
+
+.trophy {
+  filter: drop-shadow(0 0 18px rgba(253, 224, 71, 0.8));
+}
+
+.result {
+  animation: popIn 0.4s ease-out;
+}
+
+@keyframes unroll {
+  0% { transform: scaleX(0.2); opacity: 0; }
+  100% { transform: scaleX(1); opacity: 1; }
+}
+
+@keyframes swing {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: 10deg; }
+  50% { rotate: -8deg; }
+  75% { rotate: 4deg; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll,
+  .medalWon,
+  .medalWrong,
+  .medalReveal,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

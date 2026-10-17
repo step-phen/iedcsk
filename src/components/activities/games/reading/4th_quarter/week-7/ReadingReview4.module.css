@@ -1,0 +1,228 @@
+/* Look of Reading Review Q4 (Ice Cream Parlor); layout and spacing stay in Tailwind, the pictures, tasks and speech stay in ReadingReview4.data.ts. */
+
+.screen {
+  background: #fdf2f8;
+  color: #4a1d3b;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Candy-striped awning over a checkered shop floor. */
+.parlor {
+  background:
+    repeating-linear-gradient(90deg, #f472b6 0 40px, white 40px 80px) top / 100% 56px no-repeat,
+    radial-gradient(30px 14px at 20px 56px, #f472b6 98%, transparent) 0 0 / 80px 70px repeat-x,
+    repeating-conic-gradient(#fbcfe8 0 25%, #fdf2f8 0 50%) bottom / 60px 60px,
+    #fdf2f8;
+}
+
+.badge {
+  border: 3px solid #4a1d3b;
+  background: white;
+  box-shadow: 0 3px 0 rgba(74, 29, 59, 0.3);
+}
+
+.avatar {
+  background: #cffafe;
+  color: #0e7490;
+}
+
+.title {
+  color: #be185d;
+  text-shadow: 0 3px 0 white;
+}
+
+.pill {
+  background: white;
+  border: 3px solid #db2777;
+  box-shadow: 0 3px 0 rgba(74, 29, 59, 0.2);
+}
+
+.iconButton {
+  border: 3px solid #4a1d3b;
+  background: white;
+  color: #4a1d3b;
+  box-shadow: 0 3px 0 rgba(74, 29, 59, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.headline {
+  background: #db2777;
+  color: white;
+  border: 4px solid #4a1d3b;
+  box-shadow: 0 5px 0 rgba(74, 29, 59, 0.35);
+  text-shadow: 0 3px 0 #9d174d;
+}
+
+/* Chalkboard menu in a wooden frame. */
+.board {
+  background: #1f3a2e;
+  color: #f8fafc;
+  border: 6px solid #a16207;
+  box-shadow: 0 6px 0 rgba(74, 29, 59, 0.3);
+  animation: popIn 0.35s ease-out;
+}
+
+.boardLabel {
+  background: #fde68a;
+  color: #713f12;
+}
+
+.boardQuestion {
+  color: #fde68a;
+}
+
+/* Cone choices: a flavored scoop on a waffle cone. */
+.cone {
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: transform 150ms ease-out;
+}
+
+.cone:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.cone:disabled {
+  cursor: default;
+}
+
+.scoop {
+  border: 4px solid #4a1d3b;
+  box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.08), 0 4px 0 rgba(74, 29, 59, 0.25);
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+.strawberry {
+  background: #fbcfe8;
+}
+
+.mint {
+  background: #bbf7d0;
+}
+
+.vanilla {
+  background: #fef9c3;
+}
+
+.wafer {
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background:
+    repeating-linear-gradient(45deg, rgba(120, 53, 15, 0.35) 0 3px, transparent 3px 14px),
+    repeating-linear-gradient(-45deg, rgba(120, 53, 15, 0.35) 0 3px, transparent 3px 14px),
+    #f59e0b;
+}
+
+.coneWon .scoop {
+  border-color: #e0a100;
+  box-shadow: 0 0 0 5px #fcd34d, 0 0 30px 10px rgba(252, 211, 77, 0.85);
+}
+
+.cherry {
+  position: relative;
+  z-index: 2;
+  animation: cherryDrop 0.45s ease-out;
+}
+
+.coneWrong .scoop {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.coneWrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+.coneReveal .scoop {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 5px #16a34a, 0 0 28px 10px rgba(22, 163, 74, 0.6);
+}
+
+.coneReveal {
+  animation: revealZoom 2s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+/* The growing tower beside the menu board. */
+.towerScoop {
+  border: 3px solid #4a1d3b;
+  animation: scoopDrop 0.45s ease-out;
+}
+
+.towerCone {
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background:
+    repeating-linear-gradient(45deg, rgba(120, 53, 15, 0.35) 0 2px, transparent 2px 9px),
+    repeating-linear-gradient(-45deg, rgba(120, 53, 15, 0.35) 0 2px, transparent 2px 9px),
+    #f59e0b;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(74, 29, 59, 0.3);
+}
+
+.revealTag {
+  background: #16a34a;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(74, 29, 59, 0.3);
+  animation: popIn 0.3s ease-out;
+}
+
+.result {
+  animation: popIn 0.4s ease-out;
+}
+
+@keyframes cherryDrop {
+  0% { transform: translateY(-40px); opacity: 0; }
+  70% { transform: translateY(3px); opacity: 1; }
+  100% { transform: none; }
+}
+
+@keyframes scoopDrop {
+  0% { transform: translateY(-60px); opacity: 0; }
+  80% { transform: translateY(4px); opacity: 1; }
+  100% { transform: none; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .board,
+  .cherry,
+  .coneWrong,
+  .coneReveal,
+  .towerScoop,
+  .revealTag,
+  .result {
+    animation: none;
+  }
+}

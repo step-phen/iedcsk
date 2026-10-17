@@ -530,4 +530,34 @@ export const GAME_INTRO_LINES = {
     "It's laundry day! Listen to the words, then find the sock that rhymes to make a pair.",
   "book parts hunt":
     "Welcome to the class library! Listen, then tap the front cover, the title, or the pages of each book.",
+  "consonant sound challenge":
+    "Welcome to the basketball court! Listen for the first or last sound, then shoot for the hoop with that letter.",
+  "cvc word mix":
+    "Welcome to the robot lab! Read the word on the robot, then tap the screen with its picture.",
+  "read to me":
+    "Hoot hoot! I'm Owl. Watch me read first, then you read the story to me.",
+  "word hunt":
+    "Help Penguin cross the frozen lake! Listen to the word, then tap the ice block that has it.",
+  "comprehension check":
+    "Welcome to the harbor! Read the story, then tap the boat that answers each question.",
+  "reading skills review 4":
+    "Welcome to the reading quiz show! Listen to each question, then tap the answer.",
+  "story order":
+    "Let's play hopscotch! Read the story, then hop the pictures into the squares in order.",
+  "sentence picture match":
+    "Look at the snow globes! Read the sentence, then tap the snow globe that shows it.",
+  "tell the story":
+    "Welcome to the story radio! Read the story, then tell it on the air, part by part.",
+  "short vowel word sort":
+    "Welcome to the school hallway! Read each word, then put it in the locker with its vowel sound.",
+  "read and do":
+    "Welcome to the wizard's tower! Read each spell, then do what it says.",
+  "who and where?":
+    "Let's make a story box! Read the story, then pick who is in it and where it happens.",
+  "my new reading":
+    "Let's have a picnic! Read the new story all by yourself, then tap the plate that answers each question.",
+  "reading review 4":
+    "Welcome to the ice cream shop! Do each reading task, then tap the right cone to add a scoop.",
+  "reading final assessment 4":
+    "Welcome to the big stage, star reader! Read each word and story, then tap the right medal.",
 } as const;
