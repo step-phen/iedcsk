@@ -1,0 +1,192 @@
+/* Look of Letter M Trails: misty mountains at dawn, tracing on the sky while a climber carries each picture flag to the summit; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    radial-gradient(circle at 50% 100%, #ffd59e 0 12%, rgba(255, 213, 158, 0.45) 18%, transparent 34%),
+    linear-gradient(180deg, #a5b4fc 0%, #e9c7f0 45%, #ffd9c2 100%);
+  color: #3b2a5c;
+}
+
+/* Rolling purple foothills along the bottom. */
+.foothills {
+  background:
+    radial-gradient(ellipse 40% 70% at 18% 100%, #8c6bb8 98%, transparent 100%),
+    radial-gradient(ellipse 45% 80% at 62% 100%, #7a5aa8 98%, transparent 100%),
+    radial-gradient(ellipse 35% 60% at 95% 100%, #9677c2 98%, transparent 100%);
+}
+
+.badge {
+  background: #fffaff;
+  border: 3px solid #6b4c9a;
+  box-shadow: 0 3px 0 rgba(60, 40, 90, 0.3);
+}
+
+.avatar {
+  background: #e9c7f0;
+}
+
+.title {
+  color: #fffaff;
+  text-shadow: 0 3px 0 #6b4c9a, 0 5px 0 rgba(40, 25, 70, 0.3);
+}
+
+.instruction {
+  background: #fffaff;
+  border: 3px solid #6b4c9a;
+  color: #3b2a5c;
+}
+
+.iconButton {
+  background: #e8590c;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(120, 45, 10, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A soft sunrise panel; scale (not transform) so the shake and the zoom never fight. */
+.sky {
+  background: linear-gradient(180deg, #fff6ea 0%, #ffe6d6 60%, #f6d6ec 100%);
+  border: 6px solid #6b4c9a;
+  box-shadow: inset 0 0 20px rgba(107, 76, 154, 0.2), 0 8px 0 rgba(40, 25, 70, 0.3);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.skyWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.skyModel {
+  border-color: #22b35e;
+  box-shadow: inset 0 0 20px rgba(107, 76, 154, 0.2), 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.skyZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.skyRight {
+  border-color: #0b7285;
+  animation: hop 0.45s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* A rocky peak with a snowy cap. */
+.peak {
+  background:
+    linear-gradient(180deg, #fff 0 22%, transparent 22%),
+    linear-gradient(160deg, #8a7aa8 0%, #5e4b80 100%);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  filter: drop-shadow(0 5px 0 rgba(40, 25, 70, 0.3));
+}
+
+/* The climber waits at the foot, then scrambles up the slope once the M is traced. */
+.climber {
+  left: 6%;
+  bottom: 0;
+  transition: left 1.2s ease-in-out, bottom 1.2s ease-in-out;
+}
+
+.climberUp {
+  left: 30%;
+  bottom: 62%;
+}
+
+/* The summit flag rises on its pole after the climber arrives. */
+.flag {
+  transform-origin: 0 100%;
+  scale: 0;
+  transition: scale 450ms cubic-bezier(0.34, 1.56, 0.64, 1) 1s;
+}
+
+.flagUp {
+  scale: 1;
+}
+
+.pole {
+  background: #4a3a2a;
+  border-radius: 2px;
+}
+
+.pennant {
+  background: #fffaff;
+  border: 3px solid #e8590c;
+  box-shadow: 0 3px 0 rgba(40, 25, 70, 0.3);
+  animation: wave 1.6s ease-in-out infinite;
+  transform-origin: 0 50%;
+}
+
+.word {
+  background: #fffaff;
+  border: 3px solid #6b4c9a;
+  color: #3b2a5c;
+}
+
+.wordM {
+  color: #0b7285;
+}
+
+.resultBanner {
+  background: #0b7285;
+  color: #fff6ea;
+  border: 4px solid #fffaff;
+  box-shadow: 0 5px 0 rgba(5, 50, 60, 0.4);
+  rotate: -2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes hop {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 0 -8px; }
+}
+
+@keyframes wave {
+  0%, 100% { rotate: 0deg; }
+  50% { rotate: -4deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pennant,
+  .skyWrong,
+  .skyRight {
+    animation: none;
+  }
+
+  .climber,
+  .flag {
+    transition: none;
+  }
+}

@@ -812,6 +812,54 @@ export const gameRegistry: Record<
     () =>
       import("@/components/activities/games/writing readiness/2nd-quarter/week-3/LetterXTrails"),
   ),
+  "WR-Q2W4-01": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-4/LetterWTrails"),
+  ),
+  "WR-Q2W4-02": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-4/LetterBTrails"),
+  ),
+  "WR-Q2W4-03": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-4/WritingSkillsReview2"),
+  ),
+  "WR-Q2W5-01": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-5/LetterCTrails"),
+  ),
+  "WR-Q2W5-02": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-5/LetterATrails"),
+  ),
+  "WR-Q2W5-03": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-5/LetterMTrails"),
+  ),
+  "WR-Q2W6-01": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-6/LetterNTrails"),
+  ),
+  "WR-Q2W6-02": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-6/LetterKTrails"),
+  ),
+  "WR-Q2W6-03": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-6/LetterYTrails"),
+  ),
+  "WR-Q2W7-01": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-7/LetterZTrails"),
+  ),
+  "WR-Q2W7-02": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-7/WritingReadinessReviewQ2"),
+  ),
+  "WR-Q2W7-03": game(
+    () =>
+      import("@/components/activities/games/writing readiness/2nd-quarter/week-7/WritingReadinessFinalAssessmentQ2"),
+  ),
   "WR-Q3W1-01": game(
     () =>
       import("@/components/activities/games/writing readiness/3rd-quarter/week-1/LetterDTrails"),
