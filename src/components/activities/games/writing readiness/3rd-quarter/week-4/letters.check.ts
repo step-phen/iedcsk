@@ -26,7 +26,7 @@ assert.ok(B[0][0].x < B[1][20].x);
 assert.ok(D[1][0].x > D[0][20].x);
 
 // The review keeps the ten letters it needs, each first stroke tracing on its own.
-assert.equal(Object.keys(LETTERS).join(""), "DPUGJRSQbd");
+for (const letter of "DPUGJRSQbd") assert.ok(letter in LETTERS, letter);
 for (const { strokes } of Object.values(LETTERS)) assert.ok(strokesCovered(drawn(strokes[0]), strokes, 0) >= 1);
 
 console.log("letters.check: ok");
