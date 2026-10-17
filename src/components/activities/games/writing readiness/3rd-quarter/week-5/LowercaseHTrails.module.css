@@ -1,0 +1,181 @@
+/* Look of Letter h Trails: a fancy hat shop, tracing on a striped hatbox while a top hat hops off to show each picture; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    radial-gradient(circle, rgba(194, 37, 92, 0.12) 3px, transparent 3.5px) 0 0 / 40px 40px,
+    linear-gradient(180deg, #fff0f6 0%, #ffdeeb 100%);
+  color: #4a1832;
+}
+
+/* A scalloped pink-and-white shop awning. */
+.awning {
+  background: repeating-linear-gradient(90deg, #e64980 0 40px, #fff 40px 80px);
+  border-bottom: 5px solid #a61e4d;
+  mask: radial-gradient(circle 20px at 20px 100%, transparent 98%, #000) 0 0 / 40px 100%;
+}
+
+.carpet {
+  background: repeating-linear-gradient(90deg, #a61e4d 0 30px, #c2255c 30px 60px);
+  border-top: 5px solid #fcc419;
+}
+
+.badge {
+  background: #fff9fb;
+  border: 3px solid #a61e4d;
+  box-shadow: 0 3px 0 rgba(90, 30, 60, 0.3);
+}
+
+.avatar {
+  background: #ffdeeb;
+}
+
+.title {
+  color: #fff9fb;
+  text-shadow: 0 3px 0 #a61e4d, 0 5px 0 rgba(70, 15, 40, 0.3);
+}
+
+.instruction {
+  background: #fff9fb;
+  border: 3px solid #a61e4d;
+  color: #4a1832;
+}
+
+.iconButton {
+  background: #6741d9;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(40, 20, 90, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A pale striped hatbox tied with a ribbon edge; scale (not transform) so the shake and the zoom never fight. */
+.hatbox {
+  background: repeating-linear-gradient(90deg, #fff9fb 0 36px, #ffe3ee 36px 72px);
+  border: 8px solid #e64980;
+  box-shadow: 0 0 0 4px #fcc419, 0 8px 0 4px rgba(90, 30, 60, 0.3);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.hatboxWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.hatboxModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 4px #fcc419, 0 0 0 10px rgba(34, 179, 94, 0.3), 0 0 32px 12px rgba(34, 179, 94, 0.5);
+}
+
+.hatboxZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.hatboxRight {
+  border-color: #6741d9;
+  animation: wiggle 0.45s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* The top hat sits on the stand, then hops up and tips away once the h is traced. */
+.hat {
+  transform-origin: 50% 100%;
+}
+
+.hatLift {
+  animation: hatOff 0.8s ease-out forwards;
+}
+
+.stand {
+  background: linear-gradient(180deg, #fcc419 0%, #e8a300 100%);
+  border: 3px solid #a61e4d;
+}
+
+.picture {
+  opacity: 0;
+  scale: 0.5;
+  transition: opacity 250ms ease-out 400ms, scale 400ms cubic-bezier(0.34, 1.56, 0.64, 1) 400ms;
+}
+
+.pictureShown {
+  opacity: 1;
+  scale: 1;
+}
+
+.word {
+  background: #fff9fb;
+  border: 3px solid #a61e4d;
+  color: #4a1832;
+}
+
+.wordH {
+  color: #6741d9;
+}
+
+.resultLabel {
+  background: #6741d9;
+  color: #fff9fb;
+  border: 4px solid #fcc419;
+  box-shadow: 0 5px 0 rgba(40, 20, 90, 0.4);
+  rotate: -2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes wiggle {
+  0%, 100% { rotate: 0deg; }
+  30% { rotate: -1.2deg; }
+  70% { rotate: 1deg; }
+}
+
+@keyframes hatOff {
+  0% { translate: 0 0; rotate: 0deg; }
+  40% { translate: 0 -70%; rotate: -6deg; }
+  100% { translate: 60% -120%; rotate: 24deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hatboxWrong,
+  .hatboxRight {
+    animation: none;
+  }
+
+  .hatLift {
+    animation: none;
+    opacity: 0;
+  }
+
+  .picture {
+    transition: none;
+  }
+}

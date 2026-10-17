@@ -1,0 +1,186 @@
+/* Look of Letter n Trails: a night forest under the moon, tracing on a birch-bark board while an owl wakes and a tree hollow glows with each picture; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    radial-gradient(circle at 84% 14%, #fff9db 0 4%, rgba(255, 249, 219, 0.35) 6%, transparent 11%),
+    radial-gradient(circle at 18% 12%, #fff 0 0.5%, transparent 0.8%),
+    radial-gradient(circle at 42% 20%, #fff 0 0.4%, transparent 0.7%),
+    radial-gradient(circle at 64% 8%, #fff 0 0.5%, transparent 0.8%),
+    linear-gradient(180deg, #1b1f4b 0%, #2c3e7a 60%, #3b5998 100%);
+  color: #1b1f4b;
+}
+
+/* Dark pine trees along the bottom. */
+.pines {
+  background:
+    conic-gradient(from 150deg at 50% 0, transparent 0 60deg, #0b3d2e 60deg 0) 0 0 / 70px 100%,
+    linear-gradient(180deg, transparent 0 40%, #0b3d2e 40%);
+}
+
+.badge {
+  background: #f8f9fa;
+  border: 3px solid #1b1f4b;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #dbe4ff;
+}
+
+.title {
+  color: #fff9db;
+  text-shadow: 0 3px 0 #1b1f4b, 0 0 14px rgba(255, 236, 153, 0.6);
+}
+
+.instruction {
+  background: #f8f9fa;
+  border: 3px solid #1b1f4b;
+  color: #1b1f4b;
+}
+
+.iconButton {
+  background: #f08c00;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(90, 50, 0, 0.45);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* Pale birch bark with dark notches; scale (not transform) so the shake and the zoom never fight. */
+.bark {
+  background:
+    linear-gradient(90deg, transparent 0 12%, #343a40 12% 15%, transparent 15% 100%) 0 18% / 100% 4px no-repeat,
+    linear-gradient(90deg, transparent 0 74%, #343a40 74% 80%, transparent 80% 100%) 0 70% / 100% 4px no-repeat,
+    linear-gradient(90deg, transparent 0 40%, #495057 40% 44%, transparent 44% 100%) 0 92% / 100% 3px no-repeat,
+    linear-gradient(180deg, #fbfaf6 0%, #ece8dc 100%);
+  border: 6px solid #6c5641;
+  box-shadow: 0 0 0 4px #f8f9fa, 0 8px 0 4px rgba(0, 0, 0, 0.35);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.barkWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.barkModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 4px #f8f9fa, 0 0 0 10px rgba(34, 179, 94, 0.3), 0 0 32px 12px rgba(34, 179, 94, 0.5);
+}
+
+.barkZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.barkRight {
+  border-color: #f08c00;
+  box-shadow: 0 0 0 4px #f8f9fa, 0 0 28px 8px rgba(255, 236, 153, 0.7);
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* The owl bobs awake on its branch. */
+.owl {
+  transform-origin: 50% 100%;
+}
+
+.owlHoot {
+  animation: hoot 0.9s ease-in-out;
+}
+
+.trunk {
+  background: repeating-linear-gradient(90deg, #6c5641 0 10px, #5a4636 10px 18px);
+  border: 3px solid #3d2e22;
+}
+
+/* A dark hollow in the trunk that fills with warm light. */
+.hollow {
+  background: #1a120c;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.7);
+  transition: background 400ms ease-out 300ms, box-shadow 400ms ease-out 300ms;
+}
+
+.hollowLit {
+  background: radial-gradient(circle, #fff3bf 0%, #ffd43b 70%, #f59f00 100%);
+  box-shadow: inset 0 4px 8px rgba(120, 70, 0, 0.4), 0 0 26px 8px rgba(255, 212, 59, 0.6);
+}
+
+.picture {
+  opacity: 0;
+  scale: 0.5;
+  transition: opacity 250ms ease-out 600ms, scale 400ms cubic-bezier(0.34, 1.56, 0.64, 1) 600ms;
+}
+
+.pictureShown {
+  opacity: 1;
+  scale: 1;
+}
+
+.word {
+  background: #f8f9fa;
+  border: 3px solid #1b1f4b;
+  color: #1b1f4b;
+}
+
+.wordN {
+  color: #f08c00;
+}
+
+.resultMoon {
+  background: #fff9db;
+  color: #1b1f4b;
+  border: 4px solid #ffd43b;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4), 0 0 20px 4px rgba(255, 236, 153, 0.5);
+  rotate: -2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes hoot {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  25% { translate: 0 -12%; rotate: -8deg; }
+  50% { translate: 0 0; rotate: 0deg; }
+  75% { translate: 0 -8%; rotate: 8deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barkWrong,
+  .owlHoot {
+    animation: none;
+  }
+
+  .hollow,
+  .picture {
+    transition: none;
+  }
+}

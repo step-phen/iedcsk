@@ -184,6 +184,30 @@ export const GAME_INTRO_LINES = {
     "Let's go to the beach! Watch the pencil, then trace each capital S in the sand to open a seashell.",
   "letter q trails":
     "Welcome to the royal castle! Watch the pencil, then trace each capital Q to open the curtains on a royal picture.",
+  "small letter b trails":
+    "Welcome to the bowling alley! Watch the pencil, then trace each small b to roll a strike.",
+  "small letter d trails":
+    "Here comes the parade! Watch the pencil, then trace each small d to make the big drum go boom.",
+  "writing skills review 3":
+    "Welcome to the library! Sit up tall, feet flat, and hold your pencil gently. Watch the pencil, then trace each big and small letter to put a new book on the shelf.",
+  "small letter h trails":
+    "Welcome to the hat shop! Watch the pencil, then trace each small h to make a top hat hop off.",
+  "small letter t trails":
+    "Welcome to our garden tea party! Watch the pencil, then trace each small t to pour a cup of tea.",
+  "small letter l trails":
+    "The sun is setting by the harbour! Watch the pencil, then trace each small l to light up the lighthouse.",
+  "small letter i trails":
+    "Brrr, it's snowing outside! Watch the pencil, then trace each small i to shake the snow globe.",
+  "small letter f trails":
+    "Welcome to the fire station! Watch the pencil, then trace each small f to ring the bell and open the big door.",
+  "small letter m trails":
+    "Welcome to the toy room! Watch the pencil, then trace each small m to open the music box.",
+  "small letter n trails":
+    "Shh, it's night time in the forest! Watch the pencil, then trace each small n to wake up the owl.",
+  "writing readiness review q3":
+    "Welcome to the greenhouse! Sit up tall, feet flat, and hold your pencil gently. Watch the pencil, then trace each big and small letter to grow a flower.",
+  "writing readiness final assessment q3":
+    "Ahoy, treasure hunter! Sit up tall, feet flat, and hold your pencil gently. Trace each big and small letter all by yourself to fill the treasure chest.",
   "small letter g trails":
     "Let's visit the candy shop! Watch the pencil, then trace each small g to get a gumball from the machine.",
   "small letter p trails":

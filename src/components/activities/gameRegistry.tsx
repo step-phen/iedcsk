@@ -896,6 +896,54 @@ export const gameRegistry: Record<
     () =>
       import("@/components/activities/games/writing readiness/3rd-quarter/week-3/LetterQTrails"),
   ),
+  "WR-Q3W4-01": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-4/LowercaseBTrails"),
+  ),
+  "WR-Q3W4-02": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-4/LowercaseDTrails"),
+  ),
+  "WR-Q3W4-03": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-4/WritingSkillsReview3"),
+  ),
+  "WR-Q3W5-01": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-5/LowercaseHTrails"),
+  ),
+  "WR-Q3W5-02": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-5/LowercaseTTrails"),
+  ),
+  "WR-Q3W5-03": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-5/LowercaseLTrails"),
+  ),
+  "WR-Q3W6-01": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-6/LowercaseITrails"),
+  ),
+  "WR-Q3W6-02": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-6/LowercaseFTrails"),
+  ),
+  "WR-Q3W6-03": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-6/LowercaseMTrails"),
+  ),
+  "WR-Q3W7-01": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-7/LowercaseNTrails"),
+  ),
+  "WR-Q3W7-02": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-7/WritingReadinessReviewQ3"),
+  ),
+  "WR-Q3W7-03": game(
+    () =>
+      import("@/components/activities/games/writing readiness/3rd-quarter/week-7/WritingReadinessFinalAssessmentQ3"),
+  ),
   "WR-Q4W1-01": game(
     () =>
       import("@/components/activities/games/writing readiness/4th-quarter/week-1/LowercaseGTrails"),
