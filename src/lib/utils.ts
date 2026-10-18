@@ -45,6 +45,19 @@ export const QUARTER_COMPLETED_HINT = "This quarter is completed, so its lessons
 export const QUARTER_NOT_SET_HINT =
   "This quarter isn't set up in the active school year yet, so its lessons and practical activities can't be changed. Set its dates in Manage Quarters first."
 
+/** The active quarter's one exception: a lesson or practical activity without a video can still get its first one. */
+export const ACTIVE_QUARTER_VIDEO_HINT =
+  "This quarter is active: you can add a video where none exists yet. Everything else is view-only."
+
+/** On the Remove control of a video in the active quarter: once attached, it stays. */
+export const VIDEO_KEPT_HINT = "This quarter is active, so an attached video can't be replaced or removed."
+
+/** Teacher side: a practical activity learners can't start until its demonstration video is saved. */
+export const PRACTICAL_VIDEO_REQUIRED_HINT = "Video required before learners can start this activity."
+
+/** Learner side: the same practical activity, shown as Locked (same text as the API's 423). */
+export const PRACTICAL_VIDEO_MISSING_HINT = "This activity is not yet available. Please wait for your teacher to add the video."
+
 /** On edit controls of content used in a class or by a learner: it stays as it was, whichever quarter is active. */
 export const CONTENT_HAS_RECORDS_HINT = "This content has classroom or learner records and can no longer be changed."
 

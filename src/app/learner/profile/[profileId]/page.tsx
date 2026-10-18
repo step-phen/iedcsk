@@ -2,9 +2,10 @@
 
 import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
-import { Play } from "lucide-react";
+import { Lock, Play } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiFetch } from "@/lib/api";
+import { PRACTICAL_VIDEO_MISSING_HINT } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
@@ -28,6 +29,8 @@ export default function LearnerProfilePage({ params }: { params: Promise<{ profi
   const [loading, setLoading] = useState<boolean>(true);
   const [activityName, setActivityName] = useState<string | null>(null);
   const [activityCompleted, setActivityCompleted] = useState<boolean>(false);
+  // A practical activity without its demo video: START waits until the teacher's upload is saved (the poll unlocks it).
+  const [activityLocked, setActivityLocked] = useState<boolean>(false);
 
   useEffect(() => {
     async function refreshStatus() {
@@ -38,6 +41,7 @@ export default function LearnerProfilePage({ params }: { params: Promise<{ profi
 
       setIsActive(sessionResult.active);
       setActivityName(sessionResult.activityName || null);
+      setActivityLocked(Boolean(sessionResult.activityLocked));
       setActivityCompleted(Boolean(completionResult.completed));
     }
 
@@ -94,6 +98,12 @@ export default function LearnerProfilePage({ params }: { params: Promise<{ profi
 
       if (joinResponse.status === 409) {
         router.push("/learner/class-ended");
+        return;
+      }
+
+      // The activity on screen has no demo video yet: stay here, Locked, until the poll sees it saved.
+      if (joinResponse.status === 423) {
+        setActivityLocked(true);
         return;
       }
 
@@ -155,7 +165,9 @@ export default function LearnerProfilePage({ params }: { params: Promise<{ profi
             {learner.firstName} {learner.lastName}
           </h1>
           <p className="mt-2 short:mt-0.5 text-sm short:text-xs text-[#a35b00]/80 text-center">
-            {isActive
+            {isActive && activityLocked && !activityCompleted
+              ? PRACTICAL_VIDEO_MISSING_HINT
+              : isActive
               ? activityName
                 ? `Ready to start: ${activityName}!`
                 : "Ready to start the activity!"
@@ -165,16 +177,20 @@ export default function LearnerProfilePage({ params }: { params: Promise<{ profi
 
         <button
           onClick={handleStart}
-          disabled={!isActive || activityCompleted}
+          disabled={!isActive || activityCompleted || activityLocked}
           className={`w-full max-w-xs mx-auto my-4 py-3 sm:my-8 sm:py-4 short:w-auto short:shrink-0 short:mx-5 short:my-0 short:px-6 short:py-2.5 short:text-base rounded-full text-xl font-black flex items-center justify-center gap-2 border-none outline-none transition-all duration-200 focus-visible:ring-4 focus-visible:ring-[#f2c94c] focus-visible:ring-offset-2 ${isActive
-              ? activityCompleted
+              ? activityCompleted || activityLocked
                 ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                 : "bg-[#ffe08a] hover:bg-[#f2c94c] hover:scale-105 active:scale-95 text-[#a35b00] shadow-[0_4px_0_#f2c94c] cursor-pointer"
               : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
         >
-          <Play size={22} className={isActive ? "fill-[#a35b00]" : "fill-gray-400"} />
-          {activityCompleted ? "COMPLETED" : isActive ? "START" : "Waiting for Session..."}
+          {isActive && activityLocked && !activityCompleted ? (
+            <Lock size={22} aria-hidden="true" />
+          ) : (
+            <Play size={22} className={isActive ? "fill-[#a35b00]" : "fill-gray-400"} />
+          )}
+          {activityCompleted ? "COMPLETED" : isActive ? (activityLocked ? "LOCKED" : "START") : "Waiting for Session..."}
         </button>
       </div>
     </main>

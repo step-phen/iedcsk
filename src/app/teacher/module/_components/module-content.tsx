@@ -7,21 +7,15 @@ import {
   ArrowLeft,
   BookOpen,
   Check,
-  Layers,
   ClipboardList,
   AlertTriangle,
   ChevronRight,
   Clock,
-  MessageCircle,
-  PenLine,
-  Palette,
-  Hash,
   Lock,
   LockOpen,
   Plus,
   Pencil,
   Video,
-  type LucideIcon,
 } from "lucide-react";
 import PageHeader from "@/app/teacher/_components/layout/page-header";
 import { PageLoader } from "@/components/ui/page-loader";
@@ -107,36 +101,6 @@ function moduleRank(name: string) {
   return index === -1 ? MODULE_ORDER.length : index;
 }
 
-/** Purely decorative per-module icon, keyed the same way as MODULE_ORDER. */
-const MODULE_ICONS: Record<string, LucideIcon> = {
-  reading: BookOpen,
-  language: MessageCircle,
-  writing: PenLine,
-  mapeh: Palette,
-  math: Hash,
-};
-
-function moduleIcon(name: string): LucideIcon {
-  const normalized = name.trim().toLowerCase();
-  const key = MODULE_ORDER.find((k) => normalized.startsWith(k));
-  return (key && MODULE_ICONS[key]) || Layers;
-}
-
-/** Decorative icon-tile colors for inactive modules, keyed like MODULE_ICONS. */
-const MODULE_TINTS: Record<string, string> = {
-  reading: "bg-sky-50 text-sky-700 border-sky-100",
-  language: "bg-rose-50 text-rose-700 border-rose-100",
-  writing: "bg-amber-50 text-amber-700 border-amber-100",
-  mapeh: "bg-purple-50 text-purple-700 border-purple-100",
-  math: "bg-emerald-50 text-emerald-700 border-emerald-100",
-};
-
-function moduleTint(name: string) {
-  const normalized = name.trim().toLowerCase();
-  const key = MODULE_ORDER.find((k) => normalized.startsWith(k));
-  return (key && MODULE_TINTS[key]) || "bg-stone-50 text-stone-600 border-stone-200";
-}
-
 function sortModules(modules: Module[]) {
   return [...modules].sort((a, b) => moduleRank(a.moduleName) - moduleRank(b.moduleName));
 }
@@ -207,6 +171,7 @@ function LessonGroups({
   onOpen,
   onUpdate,
   quarterLock,
+  firstVideoOnly,
 }: {
   lessons: Lesson[];
   days: string[];
@@ -218,6 +183,8 @@ function LessonGroups({
   onUpdate: (week: number) => void;
   /** Why the quarter is view-only (active or completed); null while it's being prepared. */
   quarterLock: string | null;
+  /** The active quarter: view-only, but lessons without a video can still get one through Update Lessons. */
+  firstVideoOnly: boolean;
 }) {
   const readOnly = !!quarterLock;
   const [page, setPage] = useState(0);
@@ -277,7 +244,7 @@ function LessonGroups({
                   </option>
                 ))}
               </select>
-              {(weekEntries.length > 1 || !readOnly) && <span className="w-px h-5 bg-stone-200 mx-1" />}
+              {(weekEntries.length > 1 || !readOnly || firstVideoOnly) && <span className="w-px h-5 bg-stone-200 mx-1" />}
             </>
           )}
           {weekEntries.length > 1 && (
@@ -301,10 +268,21 @@ function LessonGroups({
               >
                 <ArrowRight size={15} />
               </button>
-              {!readOnly && <span className="w-px h-5 bg-stone-200 mx-1" />}
+              {(!readOnly || firstVideoOnly) && <span className="w-px h-5 bg-stone-200 mx-1" />}
             </>
           )}
-          {/* Hidden while the quarter is active for classes: its lessons and activities can't be changed then. */}
+          {/* The active quarter keeps only this button, for adding missing lesson videos; nothing else in it can change. */}
+          {firstVideoOnly && (
+            <button
+              onClick={() => onUpdate(week)}
+              aria-label={`Add lesson videos for week ${week}`}
+              title="Add lesson videos"
+              className={iconButton}
+            >
+              <Pencil size={15} />
+            </button>
+          )}
+          {/* Hidden while the quarter is view-only: its lessons and activities can't be changed then. */}
           {!readOnly && (
             <>
               <button
@@ -450,9 +428,11 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
           : quarterStatus(quarterId) === "completed"
             ? QUARTER_COMPLETED_HINT
             : QUARTER_NOT_SET_HINT;
+  // The active quarter is view-only except for one thing: a first video where none exists yet (the API allows the same).
+  const firstVideoOnly = (quarterId: number) => schoolYear !== undefined && quarterId === classQuarter;
   const quarterTip = (quarterId: number) =>
     quarterId === classQuarter
-      ? "Active quarter: open for classes. Its lessons and practical activities are view-only."
+      ? "Active quarter: open for classes. Its lessons and practical activities are view-only, but you can still add a video where none exists yet."
       : quarterStatus(quarterId) === "completed"
         ? "Completed: this quarter has ended. Its lessons and practical activities are view-only."
         : quarterStatus(quarterId) === "upcoming"
@@ -763,8 +743,9 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
                 <Icon
                   size={14}
                   aria-hidden="true"
-                  // Selected tab: gold lock body (the icon's <rect>) inside the black outline; the shackle stays unfilled.
-                  className={`text-black ${quarter.quarterId === activeQuarterId ? "[&_rect]:fill-sidebar-primary" : ""}`}
+                  // The school year's active quarter (open for classes), whichever tab is selected: gold lock body (the
+                  // icon's <rect>) inside the black outline; the shackle stays unfilled. Upcoming and completed stay plain.
+                  className={`text-black ${quarter.quarterId === classQuarter ? "[&_rect]:fill-sidebar-primary" : ""}`}
                 />
                 <span>{quarter.quarterName}</span>
                 <span className="sr-only">{quarterState(quarter.quarterId)}</span>
@@ -806,7 +787,6 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
               <ul className="mt-2 space-y-1 min-h-0 overflow-y-auto">
                 {modules.map((mod) => {
                   const isActive = mod.id === selectedModuleId;
-                  const Icon = moduleIcon(mod.moduleName);
                   const quarterLessons = mod.lessons.filter((l) => l.quarterId === activeQuarterId);
                   const weeksPlanned = new Set(quarterLessons.map((l) => l.week)).size;
                   return (
@@ -820,13 +800,6 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
                             : "border-transparent text-stone-800 hover:border-stone-200 hover:bg-stone-50"
                         }`}
                       >
-                        <span
-                          className={`shrink-0 w-8 h-8 rounded-lg flex items-center justify-center border ${
-                            isActive ? "bg-white/10 text-amber-300 border-white/20" : moduleTint(mod.moduleName)
-                          }`}
-                        >
-                          <Icon size={16} />
-                        </span>
                         <span className="flex-1 min-w-0">
                           <span className="flex items-center gap-2">
                             <span
@@ -924,6 +897,7 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
                     onDomainChange={handleDomainChange}
                     onUpdate={setUpdatingWeek}
                     quarterLock={quarterLock(activeQuarterId)}
+                    firstVideoOnly={firstVideoOnly(activeQuarterId)}
                     onOpen={(week, lessonIds, adding) =>
                       setOpenWeek({
                         moduleId: activeModule.id,
@@ -972,6 +946,7 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
           )}
           onLessonChanged={handleLessonChanged}
           quarterLock={quarterLock(activeQuarterId)}
+          firstVideoOnly={firstVideoOnly(activeQuarterId)}
         />
       )}
       {openWeek && (
@@ -985,6 +960,7 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
           lessonIds={openWeek.lessonIds}
           adding={openWeek.adding}
           quarterLock={quarterLock(openWeek.quarter)}
+          firstVideoOnly={firstVideoOnly(openWeek.quarter)}
           onActivityCountChange={(lessonId, delta) => {
             setModules((prev) =>
               prev.map((m) => ({

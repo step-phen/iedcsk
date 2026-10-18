@@ -28,6 +28,8 @@ export interface ActiveSession {
   activeActivityName: string | null;
   activeLessonTitle: string | null;
   activeActivityFormat: "digital" | "practical" | null;
+  /** A practical activity on screen without a saved, reachable demo video: learners see it as Locked. */
+  activeActivityNeedsVideo?: boolean;
 }
 
 export interface LearnerListItem
