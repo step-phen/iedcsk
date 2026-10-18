@@ -1,0 +1,204 @@
+/* Look of the Quarter 4 Writing Readiness Final Assessment: graduation day, where each letter, number and name written alone earns a medal; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    radial-gradient(circle, #ffd166 0 3px, transparent 4px) 20px 30px / 140px 110px,
+    radial-gradient(circle, #ef476f 0 3px, transparent 4px) 80px 70px / 120px 150px,
+    radial-gradient(circle, #06d6a0 0 3px, transparent 4px) 50px 10px / 170px 130px,
+    linear-gradient(180deg, #1b2a4a 0%, #24365f 100%);
+  color: #f4f1e8;
+}
+
+.badge {
+  background: #fdfbf4;
+  color: #1b2a4a;
+  border: 3px solid #ffd166;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #fff1c9;
+}
+
+.title {
+  color: #ffd166;
+  text-shadow: 0 2px 0 #0d1730, 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+.instruction {
+  background: #fdfbf4;
+  border: 3px solid #ffd166;
+  color: #1b2a4a;
+}
+
+.iconButton {
+  background: #ffd166;
+  color: #1b2a4a;
+  border: 3px solid #fdfbf4;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A rolled diploma tied with a red ribbon, holding the child's name as the model. */
+.label {
+  background:
+    linear-gradient(90deg, transparent 0 calc(100% - 22px), #ef476f calc(100% - 22px) calc(100% - 14px), transparent calc(100% - 14px)),
+    linear-gradient(180deg, #fffaf0 0%, #f1e6cc 100%);
+  color: #1b2a4a;
+  border: 2px solid #c9b27c;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+.labelLetter {
+  display: inline-block;
+  color: rgba(27, 42, 74, 0.35);
+  transition: color 300ms ease-out;
+}
+
+.labelNext {
+  color: rgba(27, 42, 74, 0.8);
+  animation: nudge 1.3s ease-in-out infinite;
+}
+
+.labelDone {
+  color: #1b2a4a;
+}
+
+.labelMissed {
+  color: #c1121f;
+}
+
+/* A classroom chalkboard in a wooden frame; scale (not transform) so the shake and the zoom never fight. */
+.chalkboard {
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.06), transparent 60%),
+    linear-gradient(160deg, #2f5d46 0%, #23483a 100%);
+  border: 11px solid #8d5b34;
+  box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.35), 0 10px 0 rgba(0, 0, 0, 0.35);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.chalkboardWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.chalkboardModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.chalkboardZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.chalkboardRight {
+  border-color: #ffd166;
+  animation: bump 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* A round medal on a ribbon; gold once won, grey when missed. */
+.medal {
+  background: radial-gradient(circle at 40% 35%, #5d6b8a 0%, #3c4868 100%);
+  color: #f4f1e8;
+  border: 3px solid #8592b0;
+  border-radius: 9999px;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.medal::before {
+  content: "";
+  position: absolute;
+  bottom: 88%;
+  left: 50%;
+  width: 40%;
+  height: 34%;
+  translate: -50% 0;
+  background: linear-gradient(90deg, #ef476f 0 50%, #118ab2 50% 100%);
+  clip-path: polygon(0 0, 100% 0, 75% 100%, 25% 100%);
+}
+
+.medalNext {
+  border-color: #ffd166;
+  animation: nudge 1.4s ease-in-out infinite;
+}
+
+.medalDone {
+  background: radial-gradient(circle at 40% 35%, #fff1a8 0%, #f2b705 70%, #c48f00 100%);
+  color: #1b2a4a;
+  border-color: #fff1a8;
+  animation: appear 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.medalMissed {
+  background: #8c8f98;
+  color: rgba(244, 241, 232, 0.6);
+  border-color: #a7aab2;
+}
+
+.resultStamp {
+  background: #ffd166;
+  color: #1b2a4a;
+  border: 4px solid #fdfbf4;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
+  rotate: -3deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.05; }
+}
+
+@keyframes appear {
+  from { opacity: 0; scale: 0.5; }
+  to { opacity: 1; scale: 1; }
+}
+
+@keyframes nudge {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.08; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .labelNext,
+  .medalNext,
+  .medalDone,
+  .chalkboardWrong,
+  .chalkboardRight {
+    animation: none;
+  }
+}

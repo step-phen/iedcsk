@@ -55,6 +55,8 @@ export interface LetterTracePadProps {
   guideColor: string;
   inkColor: string;
   inkWidth?: number;
+  /** Fades the dashed guide almost away, for copying a letter rather than tracing it. */
+  faint?: boolean;
   disabled: boolean;
   /** Animates the letter stroke by stroke with a glowing pencil tip, then calls onDemoEnd. */
   demo: boolean;
@@ -66,7 +68,7 @@ export interface LetterTracePadProps {
 }
 
 /** Remount with a new key for each round, so the ink starts fresh. */
-export default function LetterTracePad({ viewW, viewH, strokes, under, guideColor, inkColor, inkWidth = 16, disabled, demo, demoColor, onDemoEnd, onAttempt, className }: LetterTracePadProps) {
+export default function LetterTracePad({ viewW, viewH, strokes, under, guideColor, inkColor, inkWidth = 16, faint, disabled, demo, demoColor, onDemoEnd, onAttempt, className }: LetterTracePadProps) {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
   useLayoutEffect(() => {
@@ -176,7 +178,7 @@ export default function LetterTracePad({ viewW, viewH, strokes, under, guideColo
           <Layer listening={false}>
             {under}
             {strokes.map((s, i) => (
-              <Line key={`g${i}`} points={flat(s)} stroke={guideColor} strokeWidth={10} dash={[16, 12]} lineCap="round" opacity={i === step ? 0.85 : 0.4} />
+              <Line key={`g${i}`} points={flat(s)} stroke={guideColor} strokeWidth={10} dash={[16, 12]} lineCap="round" opacity={faint ? 0.12 : i === step ? 0.85 : 0.4} />
             ))}
             {/* Numbered start dots, the next one green with an arrow showing which way to go; drawn last-first so stroke 1 sits on top. */}
             {strokes

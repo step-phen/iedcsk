@@ -1,0 +1,177 @@
+/* Look of Letter u Trails: a rainy street where each traced u pops open an umbrella over a friend; layout and spacing stay in Tailwind. */
+
+.screen {
+  background: linear-gradient(180deg, #7d93ab 0%, #a9bccf 60%, #6f7f91 60.2%, #5a6878 100%);
+  color: #16283b;
+}
+
+/* Slanted rain falling over the whole street. */
+.screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(105deg, transparent 0 22px, rgba(255, 255, 255, 0.35) 22px 23px, transparent 23px 47px);
+  background-size: 100% 120px;
+  animation: rain 0.8s linear infinite;
+}
+
+.badge {
+  background: #fdfdf8;
+  border: 3px solid #f2b705;
+  box-shadow: 0 3px 0 rgba(20, 40, 70, 0.35);
+}
+
+.avatar {
+  background: #fff3c2;
+}
+
+.title {
+  color: #ffe14d;
+  text-shadow: 0 2px 0 #2d4a6b, 0 4px 0 rgba(20, 40, 70, 0.4);
+}
+
+.instruction {
+  background: #fdfdf8;
+  border: 3px solid #f2b705;
+  color: #16283b;
+}
+
+.iconButton {
+  background: #f2b705;
+  color: #16283b;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(20, 40, 70, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A misty window pane in a yellow frame; scale (not transform) so the shake and the zoom never fight. */
+.board {
+  background:
+    radial-gradient(circle at 22% 30%, rgba(255, 255, 255, 0.25) 0 4px, transparent 5px) 0 0 / 70px 90px,
+    radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.2) 0 3px, transparent 4px) 0 0 / 90px 70px,
+    linear-gradient(160deg, #3d5878 0%, #2a405b 100%);
+  border: 9px solid #f2b705;
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.35), 0 8px 0 rgba(20, 40, 70, 0.35);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.boardWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.boardModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.boardZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.boardRight {
+  border-color: #ffe14d;
+  animation: bump 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* A shallow puddle each friend stands in. */
+.spot {
+  background: radial-gradient(ellipse at 50% 60%, #b9d3ea 0%, #7fa3c4 100%);
+  border: 3px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 3px 0 rgba(20, 40, 70, 0.3);
+}
+
+.spotMissed {
+  background: #a8b2bc;
+}
+
+.prize {
+  animation: appear 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.umbrellaOpen {
+  animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.umbrellaNext {
+  animation: bob 1.4s ease-in-out infinite;
+}
+
+.resultStamp {
+  background: #f2b705;
+  color: #16283b;
+  border: 4px solid white;
+  box-shadow: 0 5px 0 rgba(20, 40, 70, 0.35);
+  rotate: -3deg;
+}
+
+@keyframes rain {
+  from { background-position: 0 0; }
+  to { background-position: -30px 120px; }
+}
+
+@keyframes pop {
+  from { scale: 0.2 0.6; }
+  to { scale: 1; }
+}
+
+@keyframes bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -4px; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.05; }
+}
+
+@keyframes appear {
+  from { opacity: 0; scale: 0.5; }
+  to { opacity: 1; scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen::before,
+  .boardWrong,
+  .boardRight,
+  .prize,
+  .umbrellaOpen,
+  .umbrellaNext {
+    animation: none;
+  }
+}

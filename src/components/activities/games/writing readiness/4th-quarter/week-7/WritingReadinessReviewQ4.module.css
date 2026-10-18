@@ -1,0 +1,188 @@
+/* Look of the Quarter 4 Writing Readiness Review: an art gallery where every letter, number and name the child writes is framed on the wall; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    linear-gradient(180deg, transparent 0 82%, #7a5230 82% 84%, #a47148 84% 100%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 80px) 0 0 / 80px 100%,
+    #1f4e5f;
+  color: #f4ede1;
+}
+
+.badge {
+  background: #fbf7ef;
+  color: #23343b;
+  border: 3px solid #c9a227;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #f3e6c4;
+}
+
+.title {
+  color: #f6d365;
+  text-shadow: 0 2px 0 #0f2e39, 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+.instruction {
+  background: #fbf7ef;
+  border: 3px solid #c9a227;
+  color: #23343b;
+}
+
+.iconButton {
+  background: #d1495b;
+  color: white;
+  border: 3px solid #fbf7ef;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A small brass placard under a painting, holding the child's name as the model. */
+.label {
+  background: linear-gradient(180deg, #f3dc8a 0%, #c9a227 100%);
+  color: #3b2a0c;
+  border: 2px solid #8a6d14;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+.labelLetter {
+  display: inline-block;
+  color: rgba(59, 42, 12, 0.35);
+  transition: color 300ms ease-out;
+}
+
+.labelNext {
+  color: rgba(59, 42, 12, 0.8);
+  animation: nudge 1.3s ease-in-out infinite;
+}
+
+.labelDone {
+  color: #3b2a0c;
+}
+
+.labelMissed {
+  color: #a4161a;
+}
+
+/* A stretched canvas on the easel with a wooden frame; scale (not transform) so the shake and the zoom never fight. */
+.canvas {
+  background:
+    repeating-linear-gradient(0deg, rgba(120, 100, 70, 0.04) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(90deg, rgba(120, 100, 70, 0.04) 0 2px, transparent 2px 5px),
+    #fdfaf3;
+  border: 10px solid #9c6644;
+  box-shadow: inset 0 0 0 3px #c08552, 0 10px 0 rgba(0, 0, 0, 0.35);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.canvasWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.canvasModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.canvasZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.canvasRight {
+  border-color: #c9a227;
+  animation: bump 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* A small gilded picture frame on the wall; it holds what was written once its round is done. */
+.frame {
+  background: #e9e2d4;
+  color: #23343b;
+  border: 4px solid #c9a227;
+  box-shadow: inset 0 0 0 2px #8a6d14, 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.frameNext {
+  background: #fbf7ef;
+  animation: nudge 1.4s ease-in-out infinite;
+}
+
+.frameDone {
+  background: #fdfaf3;
+  color: #d1495b;
+  animation: appear 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.frameMissed {
+  background: #b9b3a8;
+  color: rgba(35, 52, 59, 0.5);
+  border-color: #8f8a80;
+}
+
+.resultStamp {
+  background: #c9a227;
+  color: #23343b;
+  border: 4px solid #fbf7ef;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
+  rotate: -3deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.05; }
+}
+
+@keyframes appear {
+  from { opacity: 0; scale: 0.5; }
+  to { opacity: 1; scale: 1; }
+}
+
+@keyframes nudge {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.08; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .labelNext,
+  .frameNext,
+  .frameDone,
+  .canvasWrong,
+  .canvasRight {
+    animation: none;
+  }
+}

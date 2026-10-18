@@ -1,0 +1,182 @@
+/* Look of My Name: a little theater where each letter the child writes lights up on their name's marquee sign; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 30%, rgba(255, 214, 140, 0.35), transparent 70%),
+    linear-gradient(180deg, #3a0d1c 0%, #5a1428 60%, #2a0912 100%);
+  color: #fff4e0;
+}
+
+/* Velvet curtains gathered at each side. */
+.curtainLeft,
+.curtainRight {
+  background: repeating-linear-gradient(90deg, #8e1b3a 0 14px, #6d1029 14px 26px, #a3264a 26px 34px);
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
+}
+
+.curtainLeft {
+  border-bottom-right-radius: 70% 30%;
+}
+
+.curtainRight {
+  border-bottom-left-radius: 70% 30%;
+}
+
+.badge {
+  background: #fff4e0;
+  color: #3a0d1c;
+  border: 3px solid #d4a017;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  background: #fbe3b8;
+}
+
+.title {
+  color: #ffd166;
+  text-shadow: 0 2px 0 #7a1530, 0 0 18px rgba(255, 209, 102, 0.5);
+}
+
+.instruction {
+  background: #fff4e0;
+  border: 3px solid #d4a017;
+  color: #3a0d1c;
+}
+
+.iconButton {
+  background: #d4a017;
+  color: #3a0d1c;
+  border: 3px solid #fff4e0;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A sign framed with a row of bulbs on every side. */
+.marquee {
+  background: #2a0912;
+  border: 0.14em solid #b8860b;
+  box-shadow:
+    inset 0 0 0 0.08em #2a0912,
+    inset 0 0 0 0.16em rgba(255, 236, 170, 0.9),
+    0 6px 0 rgba(0, 0, 0, 0.4);
+  outline: 0.06em dotted #ffe9a8;
+  outline-offset: -0.11em;
+}
+
+.signLetter {
+  display: inline-block;
+  color: rgba(255, 244, 224, 0.28);
+  transition: color 300ms ease-out, text-shadow 300ms ease-out;
+}
+
+.signNext {
+  color: rgba(255, 244, 224, 0.75);
+  animation: nudge 1.3s ease-in-out infinite;
+}
+
+.signLit {
+  color: #ffe27a;
+  text-shadow: 0 0 0.12em #ffb703, 0 0 0.35em rgba(255, 183, 3, 0.8);
+  animation: flicker 0.5s ease-out;
+}
+
+.signMissed {
+  color: #ffb4a2;
+  text-shadow: 0 0 0.2em rgba(255, 140, 120, 0.6);
+}
+
+/* The stage card: warm paper in a gold frame; scale (not transform) so the shake and the zoom never fight. */
+.card {
+  background: radial-gradient(circle at 50% 30%, #fffaf0 0%, #fbeed6 100%);
+  border: 8px solid #d4a017;
+  box-shadow: inset 0 0 0 3px #f6d77a, 0 8px 0 rgba(0, 0, 0, 0.35);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.cardWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.cardModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.cardZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.cardRight {
+  border-color: #ffe27a;
+  animation: bump 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+.resultStamp {
+  background: #d4a017;
+  color: #3a0d1c;
+  border: 4px solid #fff4e0;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
+  rotate: -3deg;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.3; }
+  30% { opacity: 1; }
+  45% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.05; }
+}
+
+@keyframes nudge {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.08; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signNext,
+  .signLit,
+  .cardWrong,
+  .cardRight {
+    animation: none;
+  }
+}

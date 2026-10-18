@@ -1,0 +1,195 @@
+/* Look of Letter y and z Trails: a cozy knitting corner where each traced y and z knits a stripe onto the scarf; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.35) 0 40px, transparent 41px),
+    repeating-linear-gradient(45deg, rgba(142, 68, 173, 0.05) 0 12px, transparent 12px 24px),
+    linear-gradient(180deg, #fbe7ef 0%, #f3d6e6 100%);
+  color: #3d2147;
+}
+
+.badge {
+  background: #fffaf6;
+  border: 3px solid #8e44ad;
+  box-shadow: 0 3px 0 rgba(70, 30, 80, 0.3);
+}
+
+.avatar {
+  background: #f1e1f7;
+}
+
+.title {
+  color: #8e44ad;
+  text-shadow: 0 2px 0 #ffffff, 0 4px 0 rgba(70, 30, 80, 0.25);
+}
+
+.instruction {
+  background: #fffaf6;
+  border: 3px solid #8e44ad;
+  color: #3d2147;
+}
+
+.iconButton {
+  background: #e07a5f;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(70, 30, 80, 0.3);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A ball of yarn for each letter of the pair. */
+.ball {
+  background: repeating-linear-gradient(-35deg, #d9c7e6 0 4px, #c7aedb 4px 8px);
+  color: rgba(61, 33, 71, 0.5);
+  border: 3px solid #fffaf6;
+  box-shadow: 0 3px 0 rgba(70, 30, 80, 0.25);
+}
+
+.ballNext {
+  background: repeating-linear-gradient(-35deg, #f6c7a8 0 4px, #f4a261 4px 8px);
+  color: #3d2147;
+  animation: nudge 1.3s ease-in-out infinite;
+}
+
+.ballDone {
+  background: repeating-linear-gradient(-35deg, #b07cc6 0 4px, #8e44ad 4px 8px);
+  color: white;
+}
+
+.ballMissed {
+  background: #d8cfd6;
+  color: #9a8f98;
+}
+
+/* A knitting chart of tiny squares; scale (not transform) so the shake and the zoom never fight. */
+.chart {
+  background:
+    linear-gradient(90deg, rgba(142, 68, 173, 0.06) 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(0deg, rgba(142, 68, 173, 0.06) 1px, transparent 1px) 0 0 / 20px 20px,
+    #fffaf6;
+  border: 9px solid #c7aedb;
+  box-shadow: 0 8px 0 rgba(70, 30, 80, 0.25);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.chartWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.chartModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.chartZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.chartRight {
+  border-color: #8e44ad;
+  animation: bump 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* The scarf: knit-stitch texture, with each finished stripe in its own color. */
+.scarf {
+  background: #efe3ea;
+  box-shadow: 0 4px 0 rgba(70, 30, 80, 0.25);
+}
+
+.stripe {
+  background: repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.04) 0 6px, transparent 6px 12px);
+  border-right: 2px dashed rgba(142, 68, 173, 0.25);
+}
+
+.stripe:last-child {
+  border-right: none;
+}
+
+.stripeNext {
+  background: repeating-linear-gradient(90deg, rgba(244, 162, 97, 0.25) 0 6px, transparent 6px 12px);
+}
+
+.stripeDone {
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0 6px, transparent 6px 12px), var(--stripe, #b07cc6);
+}
+
+.stripeDone:nth-child(2) { --stripe: #f4a261; }
+.stripeDone:nth-child(3) { --stripe: #81b29a; }
+.stripeDone:nth-child(4) { --stripe: #e07a5f; }
+.stripeDone:nth-child(5) { --stripe: #6fa8dc; }
+
+.stripeMissed {
+  background: #d8cfd6;
+}
+
+.prize {
+  display: inline-block;
+  animation: appear 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.resultStamp {
+  background: #8e44ad;
+  color: white;
+  border: 4px solid #fffaf6;
+  box-shadow: 0 5px 0 rgba(70, 30, 80, 0.3);
+  rotate: -3deg;
+}
+
+@keyframes nudge {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.1; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.05; }
+}
+
+@keyframes appear {
+  from { opacity: 0; scale: 0.5; }
+  to { opacity: 1; scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ballNext,
+  .chartWrong,
+  .chartRight,
+  .prize {
+    animation: none;
+  }
+}
