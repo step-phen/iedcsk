@@ -1,0 +1,189 @@
+/* Look of the Quarter 3 Writing Readiness Review: a sunny greenhouse, tracing on a seed packet while each letter grows a flower in a clay pot; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 118px, rgba(255, 255, 255, 0.7) 118px 124px),
+    repeating-linear-gradient(0deg, transparent 0 118px, rgba(255, 255, 255, 0.7) 118px 124px),
+    linear-gradient(180deg, #e3fafc 0%, #d3f9d8 100%);
+  color: #1e3a1e;
+}
+
+/* A wooden potting bench along the bottom. */
+.bench {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 140px, rgba(60, 35, 15, 0.35) 140px 144px),
+    linear-gradient(180deg, #c08552 0 18%, #a0673a 18% 100%);
+  border-top: 4px solid #7a4a24;
+}
+
+.badge {
+  background: #fbfff9;
+  border: 3px solid #2f9e44;
+  box-shadow: 0 3px 0 rgba(20, 70, 30, 0.3);
+}
+
+.avatar {
+  background: #d3f9d8;
+}
+
+.title {
+  color: #fbfff9;
+  text-shadow: 0 3px 0 #2f9e44, 0 5px 0 rgba(15, 60, 25, 0.3);
+}
+
+.instruction {
+  background: #fbfff9;
+  border: 3px solid #2f9e44;
+  color: #1e3a1e;
+}
+
+.iconButton {
+  background: #e8590c;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(110, 40, 5, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A seed packet with a leafy band across the top; scale (not transform) so the shake and the zoom never fight. */
+.packet {
+  background:
+    linear-gradient(180deg, #8ce99a 0 7%, #fffdf3 7% 100%);
+  border: 6px solid #2f9e44;
+  box-shadow: 0 0 0 4px #fbfff9, 0 8px 0 4px rgba(20, 70, 30, 0.28);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.packetWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.packetModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 4px #fbfff9, 0 0 0 10px rgba(34, 179, 94, 0.3), 0 0 32px 12px rgba(34, 179, 94, 0.5);
+}
+
+.packetZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.packetRight {
+  border-color: #f76707;
+  animation: sway 0.5s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* A terracotta pot with a rim; the flower grows up out of it. */
+.pot {
+  background: linear-gradient(180deg, #e8590c 0 22%, #d9480f 22% 26%, #f76707 26% 100%);
+  border: 3px solid #a33a0b;
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 12% 100%);
+}
+
+.flower {
+  transform-origin: 50% 100%;
+  scale: 0;
+  transition: scale 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 200ms;
+}
+
+.flowerGrown {
+  scale: 1;
+}
+
+/* Soil strip that the finished plant labels stand in on the result screen. */
+.bed {
+  background: linear-gradient(180deg, transparent calc(100% - 14px), #6b4423 calc(100% - 14px));
+  padding-bottom: 10px;
+}
+
+/* A wooden plant label; a plain grey label waits until the letter is traced. */
+.tile {
+  background: linear-gradient(180deg, #ffe8cc 0%, #ffd8a8 100%);
+  border: 3px solid #a0673a;
+  color: #2b8a3e;
+}
+
+.tileMissed {
+  background: #e9ecef;
+  border-color: #adb5bd;
+  color: #868e96;
+}
+
+.tileBig {
+  transition: scale 300ms ease-out;
+}
+
+.tileBlank {
+  background: #e9ecef;
+  border-color: #ced4da;
+  color: transparent;
+}
+
+.tileShown {
+  animation: popUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.resultSign {
+  background: #2f9e44;
+  color: #fbfff9;
+  border: 4px solid #ffd8a8;
+  box-shadow: 0 5px 0 rgba(15, 60, 25, 0.4);
+  rotate: -2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes sway {
+  0%, 100% { rotate: 0deg; }
+  35% { rotate: -1deg; }
+  70% { rotate: 1deg; }
+}
+
+@keyframes popUp {
+  0% { translate: 0 30%; opacity: 0.3; }
+  100% { translate: 0 0; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .packetWrong,
+  .packetRight,
+  .tileShown {
+    animation: none;
+  }
+
+  .flower {
+    transition: none;
+  }
+}

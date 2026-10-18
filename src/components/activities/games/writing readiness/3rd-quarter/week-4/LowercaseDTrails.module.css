@@ -1,0 +1,200 @@
+/* Look of Letter d Trails: a marching-band parade, tracing on a parade poster while each d booms the big drum; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    radial-gradient(circle at 12% 30%, rgba(255, 212, 59, 0.35) 0 3%, transparent 3.5%),
+    radial-gradient(circle at 88% 55%, rgba(255, 135, 135, 0.35) 0 2.5%, transparent 3%),
+    radial-gradient(circle at 70% 18%, rgba(116, 192, 252, 0.4) 0 2%, transparent 2.5%),
+    linear-gradient(180deg, #a5d8ff 0%, #e7f5ff 70%, #fff4e6 100%);
+  color: #2b1d14;
+}
+
+/* A string of red, yellow and blue party flags across the top. */
+.bunting {
+  background:
+    conic-gradient(from 150deg at 50% 100%, transparent 0 0, #e03131 0 60deg, transparent 0) 0 0 / 60px 100%,
+    conic-gradient(from 150deg at 50% 100%, transparent 0 0, #fcc419 0 60deg, transparent 0) 20px 0 / 60px 100%,
+    conic-gradient(from 150deg at 50% 100%, transparent 0 0, #1c7ed6 0 60deg, transparent 0) 40px 0 / 60px 100%;
+  rotate: 180deg;
+}
+
+/* The parade street with a painted centre line. */
+.street {
+  background:
+    linear-gradient(180deg, transparent 46%, #fff 46% 54%, transparent 54%) 0 0 / 70px 100% repeat-x,
+    #868e96;
+  border-top: 6px solid #ced4da;
+}
+
+.badge {
+  background: #fffaf0;
+  border: 3px solid #c92a2a;
+  box-shadow: 0 3px 0 rgba(90, 20, 20, 0.3);
+}
+
+.avatar {
+  background: #ffe3e3;
+}
+
+.title {
+  color: #fffaf0;
+  text-shadow: 0 3px 0 #c92a2a, 0 5px 0 rgba(60, 10, 10, 0.3);
+}
+
+.instruction {
+  background: #fffaf0;
+  border: 3px solid #c92a2a;
+  color: #2b1d14;
+}
+
+.iconButton {
+  background: #1864ab;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(10, 40, 80, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A cream parade poster with a red and blue star border; scale (not transform) so the shake and the zoom never fight. */
+.poster {
+  background:
+    linear-gradient(#fffaf0, #fffaf0) padding-box,
+    repeating-linear-gradient(45deg, #c92a2a 0 12px, #fffaf0 12px 18px, #1864ab 18px 30px, #fffaf0 30px 36px) border-box;
+  border: 9px solid transparent;
+  box-shadow: 0 8px 0 rgba(90, 20, 20, 0.25);
+  transition: box-shadow 250ms ease-out;
+}
+
+.posterWrong {
+  background: #fffaf0;
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.posterModel {
+  background: #fffaf0;
+  border-color: #22b35e;
+  box-shadow: 0 8px 0 rgba(90, 20, 20, 0.25), 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.posterZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.posterRight {
+  animation: boom 0.4s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* A red marching drum laced with white zigzag cords. */
+.drum {
+  background:
+    repeating-linear-gradient(60deg, transparent 0 14px, rgba(255, 255, 255, 0.85) 14px 17px, transparent 17px 28px),
+    repeating-linear-gradient(-60deg, transparent 0 14px, rgba(255, 255, 255, 0.85) 14px 17px, transparent 17px 28px),
+    linear-gradient(180deg, #e03131 0%, #a51111 100%);
+  border: 5px solid #fcc419;
+  box-shadow: 0 6px 0 rgba(90, 20, 20, 0.3);
+}
+
+.drumHead {
+  background: radial-gradient(ellipse at 50% 40%, #fffaf0 0%, #f1e3c8 100%);
+  border: 4px solid #fcc419;
+}
+
+.drumBoom {
+  animation: boom 0.3s ease-out 3;
+}
+
+.sticks {
+  transform-origin: 80% 80%;
+}
+
+.sticksHit {
+  animation: hit 0.3s ease-in-out 3;
+}
+
+/* The picture waits inside the drum, then bounces up off the drumhead. */
+.picture {
+  opacity: 0;
+  translate: 0 120%;
+  transition: opacity 200ms ease-out 700ms, translate 500ms cubic-bezier(0.34, 1.56, 0.64, 1) 700ms;
+}
+
+.pictureShown {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.word {
+  background: #fffaf0;
+  border: 3px solid #c92a2a;
+  color: #2b1d14;
+}
+
+.wordD {
+  color: #c92a2a;
+}
+
+.resultBanner {
+  background: #1864ab;
+  color: #fcc419;
+  border: 4px solid #fffaf0;
+  box-shadow: 0 5px 0 rgba(10, 40, 80, 0.4);
+  rotate: -2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes boom {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.04 0.97; }
+}
+
+@keyframes hit {
+  0%, 100% { rotate: 0deg; }
+  50% { rotate: 30deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .posterWrong,
+  .posterRight,
+  .drumBoom,
+  .sticksHit {
+    animation: none;
+  }
+
+  .picture {
+    transition: none;
+  }
+}

@@ -1,0 +1,191 @@
+/* Look of Letter m Trails: a toy room music box, tracing on its velvet tray while the lid opens and each picture pops up with music notes; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.35) 0 22px, transparent 22px 44px),
+    linear-gradient(180deg, #e6fcf5 0%, #c3fae8 100%);
+  color: #2b1d3a;
+}
+
+/* A soft lilac rug along the floor. */
+.rug {
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.5) 3px, transparent 3.5px) 0 0 / 24px 24px,
+    #d0bfff;
+  border-top: 5px solid #9775fa;
+  border-top-left-radius: 50% 26px;
+  border-top-right-radius: 50% 26px;
+}
+
+.badge {
+  background: #fdfbff;
+  border: 3px solid #6741d9;
+  box-shadow: 0 3px 0 rgba(50, 30, 100, 0.3);
+}
+
+.avatar {
+  background: #e5dbff;
+}
+
+.title {
+  color: #fdfbff;
+  text-shadow: 0 3px 0 #6741d9, 0 5px 0 rgba(40, 20, 90, 0.3);
+}
+
+.instruction {
+  background: #fdfbff;
+  border: 3px solid #6741d9;
+  color: #2b1d3a;
+}
+
+.iconButton {
+  background: #2b8a3e;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 3px 0 rgba(15, 60, 25, 0.4);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A cream velvet tray inside a gold-trimmed box; scale (not transform) so the shake and the zoom never fight. */
+.tray {
+  background:
+    radial-gradient(ellipse at 50% 40%, #fffaf0 0%, #fff3d6 100%);
+  border: 10px solid #9775fa;
+  box-shadow: inset 0 0 0 4px #fcc419, 0 0 0 3px #fdfbff, 0 8px 0 3px rgba(50, 30, 100, 0.3);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.trayWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.trayModel {
+  border-color: #22b35e;
+  box-shadow: inset 0 0 0 4px #fcc419, 0 0 0 10px rgba(34, 179, 94, 0.3), 0 0 32px 12px rgba(34, 179, 94, 0.5);
+}
+
+.trayZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.trayRight {
+  border-color: #2b8a3e;
+  animation: sway 0.6s ease-in-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* The music box body with a gold key on its side. */
+.box {
+  background: linear-gradient(180deg, #b197fc 0%, #7950f2 100%);
+  border: 4px solid #5f3dc4;
+  box-shadow: inset 0 0 0 3px #fcc419, 0 5px 0 rgba(50, 30, 100, 0.3);
+}
+
+/* The lid tips back on its hinge to let the picture out. */
+.lid {
+  background: linear-gradient(180deg, #d0bfff 0%, #9775fa 100%);
+  border: 4px solid #5f3dc4;
+  box-shadow: inset 0 0 0 3px #fcc419;
+  transform-origin: 50% 100%;
+  transition: rotate 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lidOpen {
+  rotate: x 115deg;
+}
+
+.notes {
+  opacity: 0;
+}
+
+.notesFloat {
+  animation: notesFloat 1.8s ease-out forwards;
+}
+
+.picture {
+  opacity: 0;
+  translate: 0 60%;
+  transition: opacity 250ms ease-out 500ms, translate 500ms cubic-bezier(0.34, 1.56, 0.64, 1) 500ms;
+}
+
+.pictureShown {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.word {
+  background: #fdfbff;
+  border: 3px solid #6741d9;
+  color: #2b1d3a;
+}
+
+.wordM {
+  color: #2b8a3e;
+}
+
+.resultRibbon {
+  background: #fcc419;
+  color: #5f3dc4;
+  border: 4px solid #5f3dc4;
+  box-shadow: 0 5px 0 rgba(50, 30, 100, 0.35);
+  rotate: -2deg;
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes sway {
+  0%, 100% { rotate: 0deg; }
+  30% { rotate: 1.2deg; }
+  70% { rotate: -1.2deg; }
+}
+
+@keyframes notesFloat {
+  0% { opacity: 0; translate: 0 20%; }
+  25% { opacity: 1; }
+  100% { opacity: 0; translate: 0 -120%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trayWrong,
+  .trayRight,
+  .notesFloat {
+    animation: none;
+  }
+
+  .lid,
+  .picture {
+    transition: none;
+  }
+}
