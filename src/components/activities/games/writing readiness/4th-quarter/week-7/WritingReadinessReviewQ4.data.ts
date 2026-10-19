@@ -20,7 +20,8 @@ export function buildRound(key: string, item: Item, name: Letter[]): TraceRound 
   return {
     key,
     glyphs,
-    copy: item.mode === "copy",
+    // Every review item is modeled first, so a name item never skips the pencil, whatever its mode.
+    copy: false,
     prompts: glyphs.map((g, i) => (i === 0 ? `Now let's trace your name, ${word}! Watch the pencil write ${g.say}.` : `Now ${g.say}.`)),
     praise: `Hang it on the wall! You traced your name, ${word}!`,
     missed: "Good try! Let's keep practicing your name.",
