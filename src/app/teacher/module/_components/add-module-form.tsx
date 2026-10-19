@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { ModalShell } from "@/components/ui/modal-shell";
 import { apiFetch } from "@/lib/api";
+import { reloadActiveSchoolYear } from "@/hooks/useActiveSchoolYear";
 
 const inp = (err?: string) =>
   `w-full rounded-xl border px-3 py-2.5 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-[#5b0610]/10 focus:border-[#5b0610] bg-white ${err ? "border-red-400" : "border-gray-400"}`;
@@ -75,6 +76,11 @@ export default function AddModuleForm({ onClose, onCreated }: AddModuleFormProps
       if (res.status === 422) {
         const { errors } = (await res.json()) as { errors: Record<string, string[]> };
         const domainError = Object.entries(errors).find(([key]) => key.startsWith("domainIds"))?.[1][0];
+        // The year started while the form was open: say so, and refetch it so the page disables Add Module.
+        if (errors.schoolYear?.[0]) {
+          setFormError(errors.schoolYear[0]);
+          void reloadActiveSchoolYear();
+        }
         setFieldErrors({ moduleName: errors.moduleName?.[0], domainIds: domainError, newDomain: errors.newDomain?.[0] });
       } else {
         setFormError("Could not add the module. Please try again.");

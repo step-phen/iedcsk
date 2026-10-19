@@ -226,6 +226,30 @@ export const GAME_INTRO_LINES = {
     "It's bath time! Watch the pencil, then trace each small o to blow a big bubble.",
   "small letter s trails":
     "Let's help the snail! Watch the pencil, then trace each small s so the snail can slide along the leaves.",
+  "small letter r trails":
+    "Start your engines! Watch the pencil, then trace each small r to race to the next pit stop.",
+  "small letter k trails":
+    "Welcome to the castle! Watch the pencil, then trace each small k to unlock a door.",
+  "small letter u trails":
+    "It's raining! Watch the pencil, then trace each small u to open an umbrella for a friend.",
+  "small letter v trails":
+    "Welcome to Volcano Island! Watch the pencil, then trace each small v to make a volcano erupt.",
+  "small letter w trails":
+    "Let's dive into the sea! Watch the pencil, then trace each small w so the whale can splash a wave.",
+  "small letter x trails":
+    "It's moving day! Watch the pencil, then trace each small x to help the fox tape a box.",
+  "small letter y and z trails":
+    "Let's knit a scarf! Watch the pencil, then trace small y and small z to knit each stripe.",
+  "writing readiness review q4":
+    "Welcome to the art gallery! Sit up tall, feet flat, and hold your pencil gently. Watch the pencil, then trace each letter, number, and your name to hang it on the wall.",
+  "writing readiness final assessment q4":
+    "It's graduation day! Sit up tall, feet flat, and hold your pencil gently. Write your name, then each letter and number all by yourself to earn your medals.",
+  "number trails":
+    "Welcome to the kite festival! Watch the pencil, then trace the numbers from 1 to 10 to fly each kite.",
+  "my name":
+    "Welcome to the theater! Your name is on the big sign. Trace and copy your name, letter by letter, to light it up.",
+  "writing skills review 4":
+    "Welcome to the post office! Trace letters, numbers, and your name to stamp every postcard.",
   "count the objects":
     "Let's count! Tap each picture to count it into the jar, one by one. Then tap the number that shows how many.",
   "match number to objects":

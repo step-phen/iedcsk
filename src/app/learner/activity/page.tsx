@@ -2,9 +2,10 @@
 
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Lock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiFetch } from "@/lib/api";
+import { PRACTICAL_VIDEO_MISSING_HINT } from "@/lib/utils";
 import { gameRegistry } from "@/components/activities/gameRegistry";
 import VideoDemonstrationPlayer from "@/components/activities/VideoDemonstrationPlayer";
 import { ACTIVITY_TYPE_DEMONSTRATION } from "@/constants/enums";
@@ -281,10 +282,10 @@ function ActivityContent() {
   }
 
   // Practical activities never go through gameRegistry — they have no game
-  // component. A "demonstration"-type one shows a clip to watch; a teacher
-  // rates the learner's performance afterward regardless of what's shown
-  // here, so a practical activity with no video must not block the learner
-  // indefinitely the way "Video Not Ready" used to.
+  // component. A "demonstration"-type one shows a clip to watch. Without a
+  // saved demo video the API keeps it Locked (no start, no submit), so this
+  // shows the Locked card with nothing to press; the 3s poll swaps in the
+  // player once the teacher's upload is saved.
   if (sessionInfo.activityFormat === "practical") {
     if (sessionInfo.activityType === ACTIVITY_TYPE_DEMONSTRATION && sessionInfo.activityVideoUrl) {
       return (
@@ -300,14 +301,12 @@ function ActivityContent() {
     return (
       <div className="min-h-screen bg-[#fef9ed] flex items-center justify-center px-4 py-8">
         <div className="bg-white rounded-3xl shadow-2xl border-4 border-[#f2c94c] p-8 max-w-sm w-full text-center flex flex-col items-center gap-4">
+          <Lock className="w-12 h-12 text-gray-400" aria-hidden="true" />
           <h2 className="text-lg font-bold text-gray-800">{activityName}</h2>
-          <p className="text-sm text-gray-500">Ask your teacher to guide you through this activity!</p>
-          <button
-            onClick={handlePracticalContinue}
-            className="w-full bg-[#f2c94c] hover:bg-[#e0b93a] text-gray-800 font-bold py-3 rounded-xl transition-colors"
-          >
-            Continue
-          </button>
+          <p className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-black uppercase tracking-wider text-gray-500">
+            Locked
+          </p>
+          <p className="text-sm text-gray-500">{PRACTICAL_VIDEO_MISSING_HINT}</p>
         </div>
       </div>
     );

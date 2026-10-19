@@ -1,0 +1,164 @@
+/* Look of Letter k Trails: a royal castle hall where each traced k turns the key in the next door; layout and spacing stay in Tailwind. */
+
+.screen {
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px) 0 0 / 64px 32px,
+    linear-gradient(0deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px) 0 0 / 64px 32px,
+    linear-gradient(180deg, #b9a7cf 0%, #8e7aab 100%);
+  color: #2b1838;
+}
+
+.badge {
+  background: #fff8e7;
+  border: 3px solid #7b3fa0;
+  box-shadow: 0 3px 0 rgba(50, 20, 70, 0.35);
+}
+
+.avatar {
+  background: #f1e3ff;
+}
+
+.title {
+  color: #ffd54a;
+  text-shadow: 0 2px 0 #5b2380, 0 4px 0 rgba(50, 20, 70, 0.4);
+}
+
+.instruction {
+  background: #fff8e7;
+  border: 3px solid #7b3fa0;
+  color: #2b1838;
+}
+
+.iconButton {
+  background: #7b3fa0;
+  color: white;
+  border: 3px solid #ffd54a;
+  box-shadow: 0 3px 0 rgba(50, 20, 70, 0.35);
+  transition: transform 150ms ease-out;
+}
+
+.iconButton:active {
+  transform: scale(0.9);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+}
+
+/* A royal parchment scroll with a gold edge; scale (not transform) so the shake and the zoom never fight. */
+.board {
+  background: radial-gradient(circle at 50% 40%, #fff6dd 0%, #f2deb0 100%);
+  border: 9px double #c99a2e;
+  box-shadow: inset 0 0 26px rgba(140, 95, 30, 0.3), 0 8px 0 rgba(50, 20, 70, 0.35);
+  transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.boardWrong {
+  border-color: #dc2626;
+  animation: shake 0.45s ease-in-out;
+}
+
+.boardModel {
+  border-color: #22b35e;
+  box-shadow: 0 0 0 6px rgba(34, 179, 94, 0.3), 0 0 32px 8px rgba(34, 179, 94, 0.5);
+}
+
+.boardZoom {
+  animation: revealZoom 2s ease-in-out;
+}
+
+.boardRight {
+  border-color: #ffd54a;
+  animation: bump 0.5s ease-out;
+}
+
+.wrongMark {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.revealNote {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* An arched wooden door with planks and an iron ring; once open it becomes a lit doorway. */
+.door {
+  background:
+    radial-gradient(circle at 74% 56%, #3a3a3a 0 3px, transparent 4px),
+    repeating-linear-gradient(90deg, #8a5a2b 0 9px, #6f4620 9px 11px);
+  border: 3px solid #4a2e12;
+  border-radius: 50% 50% 4px 4px / 34% 34% 4px 4px;
+  box-shadow: 0 3px 0 rgba(50, 20, 70, 0.35);
+  transition: background 400ms ease-out;
+}
+
+.doorOpen {
+  background: radial-gradient(circle at 50% 60%, #fff3c4 0%, #ffd54a 100%);
+  border-color: #c99a2e;
+}
+
+.doorMissed {
+  background: #cfc6bd;
+  border-color: #8f857c;
+}
+
+.prize {
+  animation: appear 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.key {
+  animation: jiggle 1.2s ease-in-out infinite;
+}
+
+.resultStamp {
+  background: #7b3fa0;
+  color: #ffd54a;
+  border: 4px solid #fff8e7;
+  box-shadow: 0 5px 0 rgba(50, 20, 70, 0.35);
+  rotate: -3deg;
+}
+
+@keyframes jiggle {
+  0%, 100% { translate: -50% 0; rotate: -12deg; }
+  50% { translate: -50% -3px; rotate: 12deg; }
+}
+
+@keyframes shake {
+  0%, 100% { translate: 0; }
+  20% { translate: -10px 0; }
+  40% { translate: 10px 0; }
+  60% { translate: -6px 0; }
+  80% { translate: 6px 0; }
+}
+
+@keyframes revealZoom {
+  0%, 100% { scale: 1; }
+  20%, 85% { scale: 1.15; }
+}
+
+@keyframes bump {
+  0%, 100% { scale: 1; }
+  40% { scale: 1.05; }
+}
+
+@keyframes appear {
+  from { opacity: 0; scale: 0.5; }
+  to { opacity: 1; scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boardWrong,
+  .boardRight,
+  .prize {
+    animation: none;
+  }
+
+  .key {
+    animation: none;
+    translate: -50% 0;
+  }
+}

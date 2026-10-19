@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { apiFetch, apiUpload } from "@/lib/api";
 import { VIDEO_ACCEPT, videoError } from "@/lib/validations/lessonSchema";
-import { CONTENT_HAS_RECORDS_HINT } from "@/lib/utils";
+import { ACTIVE_QUARTER_VIDEO_HINT, CONTENT_HAS_RECORDS_HINT, VIDEO_KEPT_HINT } from "@/lib/utils";
 import { quarterLockedError } from "@/hooks/useActiveSchoolYear";
 import { lessonDay } from "./add-lesson-form";
 
@@ -57,6 +57,8 @@ interface UpdateLessonsModalProps {
   onLessonChanged: (lessonId: number, changes: Partial<WeekLesson>) => void;
   /** Why the quarter is view-only (active or completed): lessons and videos can be viewed but not changed. */
   quarterLock?: string | null;
+  /** The active quarter: still view-only, except Add Video on lessons that have none (an attached one stays). */
+  firstVideoOnly?: boolean;
 }
 
 /** One description shared by a topic's day-rows (Tue/Thu are the same lesson), saved to each underlying row. */
@@ -243,6 +245,7 @@ export default function UpdateLessonsModal({
   lessons,
   onLessonChanged,
   quarterLock = null,
+  firstVideoOnly = false,
 }: UpdateLessonsModalProps) {
   const readOnly = !!quarterLock;
   // lessonId => upload percent, one entry per video still uploading, so several lessons can upload at once.
@@ -306,6 +309,9 @@ export default function UpdateLessonsModal({
 
   // Same order as the API: the quarter's reason first, then records.
   const lockReason = (hasRecords: boolean) => quarterLock ?? (hasRecords ? CONTENT_HAS_RECORDS_HINT : null);
+  // A first video: the active quarter allows it even on a lesson already taught (the API checks the same).
+  const addVideoLock = (hasRecords: boolean) => (firstVideoOnly ? null : lockReason(hasRecords));
+  const removeVideoLock = (hasRecords: boolean) => (firstVideoOnly ? VIDEO_KEPT_HINT : lockReason(hasRecords));
 
   // Grouped by topic (same lesson name = same topic taught on different days), in the order lessons already arrive.
   const labeled = lessons.map((lesson, i) => ({ ...lesson, day: lessonDay(lesson.dayOfWeek, days[i]) ?? "" }));
@@ -320,9 +326,9 @@ export default function UpdateLessonsModal({
     <ModalShell
       open
       onClose={onClose}
-      title={readOnly ? `${moduleName} — Week ${week}` : `Update ${moduleName} — Week ${week}`}
+      title={firstVideoOnly ? `Add Videos: ${moduleName} — Week ${week}` : readOnly ? `${moduleName} — Week ${week}` : `Update ${moduleName} — Week ${week}`}
       subtitle={
-        quarterLock ?? "Edit descriptions, or add, remove and replace lesson videos."
+        firstVideoOnly ? ACTIVE_QUARTER_VIDEO_HINT : (quarterLock ?? "Edit descriptions, or add, remove and replace lesson videos.")
       }
       headerId="update-lessons-title"
       maxWidth="max-w-xl"
@@ -378,9 +384,9 @@ export default function UpdateLessonsModal({
                         <button
                           type="button"
                           onClick={() => setRemoving(lesson)}
-                          disabled={!!lockReason(lesson.hasRecords)}
+                          disabled={!!removeVideoLock(lesson.hasRecords)}
                           aria-label={`Remove video of ${lesson.lessonName}`}
-                          title={lockReason(lesson.hasRecords) ?? "Remove video"}
+                          title={removeVideoLock(lesson.hasRecords) ?? "Remove video"}
                           className="inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-red-400/40"
                         >
                           <Trash2 size={15} />
@@ -409,8 +415,8 @@ export default function UpdateLessonsModal({
                       </div>
                     ) : (
                       <label
-                        title={lockReason(lesson.hasRecords) ?? undefined}
-                        className={`ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-sidebar/30 bg-white px-3 py-1 text-xs font-semibold text-sidebar focus-within:ring-2 focus-within:ring-sidebar/40 ${lockReason(lesson.hasRecords) ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-sidebar/10"}`}
+                        title={addVideoLock(lesson.hasRecords) ?? undefined}
+                        className={`ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-sidebar/30 bg-white px-3 py-1 text-xs font-semibold text-sidebar focus-within:ring-2 focus-within:ring-sidebar/40 ${addVideoLock(lesson.hasRecords) ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-sidebar/10"}`}
                       >
                         <Upload size={13} />
                         Add Video
@@ -418,7 +424,7 @@ export default function UpdateLessonsModal({
                           type="file"
                           accept={VIDEO_ACCEPT}
                           className="sr-only"
-                          disabled={!!lockReason(lesson.hasRecords)}
+                          disabled={!!addVideoLock(lesson.hasRecords)}
                           onChange={(e) => {
                             handleVideoPicked(lesson.id, e.target.files?.[0]);
                             e.target.value = "";

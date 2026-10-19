@@ -1,4 +1,6 @@
+import { AlertTriangle } from "lucide-react";
 import type { ActiveSession } from "@/types/learner";
+import { PRACTICAL_VIDEO_REQUIRED_HINT } from "@/lib/utils";
 import type { LiveStatus } from "./live-status";
 
 const startedFormat = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "Asia/Manila" });
@@ -32,6 +34,12 @@ export default function NowPlaying({ session, counts }: { session: ActiveSession
           <p className="truncate text-xs text-stone-500">
             {[session.activeModule?.moduleName, session.activeLessonTitle].filter(Boolean).join(" · ")}
           </p>
+          {session.activeActivityNeedsVideo && (
+            <p role="status" className="mt-1.5 flex items-start gap-1.5 rounded-md bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800">
+              <AlertTriangle size={13} aria-hidden="true" className="mt-0.5 shrink-0" />
+              {PRACTICAL_VIDEO_REQUIRED_HINT} Add it from Lessons.
+            </p>
+          )}
         </div>
         <div className="flex shrink-0 items-center gap-2 text-xs text-stone-500">
           {format && (

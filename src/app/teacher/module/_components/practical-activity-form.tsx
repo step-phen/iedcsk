@@ -19,6 +19,8 @@ export type WeekActivity = {
   instructions?: string;
   teacherGuidelines?: string;
   demoVideoUrl?: string | null;
+  /** The demo is saved and its file exists (API rule): until then learners see the activity as Locked. */
+  demoVideoReady?: boolean;
   /** Used in a class or by a learner (API rule): viewable, never changed again. */
   hasRecords: boolean;
 };
