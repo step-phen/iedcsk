@@ -20,7 +20,14 @@ import {
 import PageHeader from "@/app/teacher/_components/layout/page-header";
 import { PageLoader } from "@/components/ui/page-loader";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { moduleSlug, quarterSlug, QUARTER_COMPLETED_HINT, QUARTER_LOCKED_HINT, QUARTER_NOT_SET_HINT } from "@/lib/utils";
+import {
+  MODULE_LOCKED_HINT,
+  moduleSlug,
+  quarterSlug,
+  QUARTER_COMPLETED_HINT,
+  QUARTER_LOCKED_HINT,
+  QUARTER_NOT_SET_HINT,
+} from "@/lib/utils";
 import { useActiveSchoolYear } from "@/hooks/useActiveSchoolYear";
 import { apiFetch } from "@/lib/api";
 import { useSections } from "@/hooks/useSections";
@@ -428,6 +435,9 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
           : quarterStatus(quarterId) === "completed"
             ? QUARTER_COMPLETED_HINT
             : QUARTER_NOT_SET_HINT;
+  // New modules only before the active year has started; with no active year there's none to protect. Same rule as the API.
+  const moduleLock =
+    schoolYear === undefined ? "Checking the school year…" : schoolYear?.canAddModules === false ? MODULE_LOCKED_HINT : null;
   // The active quarter is view-only except for one thing: a first video where none exists yet (the API allows the same).
   const firstVideoOnly = (quarterId: number) => schoolYear !== undefined && quarterId === classQuarter;
   const quarterTip = (quarterId: number) =>
@@ -833,11 +843,20 @@ export default function ModuleContent({ quarters }: { quarters: Quarter[] }) {
               <button
                 type="button"
                 onClick={() => setAddingModule(true)}
-                className="mt-2 shrink-0 w-full inline-flex items-center justify-center gap-1.5 rounded-xl border border-dashed border-stone-300 px-2.5 py-2 text-xs font-semibold text-stone-600 hover:border-sidebar/40 hover:bg-rose-50 hover:text-sidebar transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
+                disabled={!!moduleLock}
+                title={moduleLock ?? undefined}
+                aria-describedby={moduleLock === MODULE_LOCKED_HINT ? "add-module-lock" : undefined}
+                className="mt-2 shrink-0 w-full inline-flex items-center justify-center gap-1.5 rounded-xl border border-dashed border-stone-300 px-2.5 py-2 text-xs font-semibold text-stone-600 hover:border-sidebar/40 hover:bg-rose-50 hover:text-sidebar transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-stone-300 disabled:hover:bg-transparent disabled:hover:text-stone-600"
               >
                 <Plus size={14} />
                 Add Module
               </button>
+              {/* Shown, not just a tooltip: touch screens never hover. */}
+              {moduleLock === MODULE_LOCKED_HINT && (
+                <p id="add-module-lock" className="mt-1.5 shrink-0 px-1 text-[11px] leading-snug text-stone-500">
+                  {MODULE_LOCKED_HINT}
+                </p>
+              )}
             </aside>
 
             {/* Right Column: Module Detail */}

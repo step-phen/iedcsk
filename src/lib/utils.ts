@@ -45,6 +45,10 @@ export const QUARTER_COMPLETED_HINT = "This quarter is completed, so its lessons
 export const QUARTER_NOT_SET_HINT =
   "This quarter isn't set up in the active school year yet, so its lessons and practical activities can't be changed. Set its dates in Manage Quarters first."
 
+/** On Add Module once the active school year has started (same text as the API's CurriculumController::MODULE_LOCKED). */
+export const MODULE_LOCKED_HINT =
+  "Modules cannot be added after the school year has started. New modules can be added once the next school year is activated, before its first quarter begins."
+
 /** The active quarter's one exception: a lesson or practical activity without a video can still get its first one. */
 export const ACTIVE_QUARTER_VIDEO_HINT =
   "This quarter is active: you can add a video where none exists yet. Everything else is view-only."
