@@ -41,12 +41,12 @@ export function middleInitial(middleName: string | null | undefined): string {
     : "";
 }
 
+/** "divine p. seno" → "Divine P. Seno"; names are stored as typed. */
+export const capitalizeWords = (s: string) => s.replace(/(^|\s)\S/g, (c) => c.toUpperCase());
+
 /** "Stephen Adolf V. Plaza", whatever case the name was typed in. */
 export function displayName(learner: { firstName: string; middleName: string | null; lastName: string }): string {
-  return [learner.firstName, middleInitial(learner.middleName), learner.lastName]
-    .filter(Boolean)
-    .join(" ")
-    .replace(/(^|\s)\S/g, (c) => c.toUpperCase());
+  return capitalizeWords([learner.firstName, middleInitial(learner.middleName), learner.lastName].filter(Boolean).join(" "));
 }
 
 /**

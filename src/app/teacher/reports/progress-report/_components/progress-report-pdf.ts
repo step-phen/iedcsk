@@ -1,5 +1,5 @@
 import { LOGO, SCHOOL, pngDataUrl } from "@/app/teacher/reports/learner-list/_components/learner-list-report";
-import { middleInitial } from "@/lib/learners";
+import { capitalizeWords, middleInitial } from "@/lib/learners";
 
 /** Who and when a report is for; frozen inside a finalized version's snapshot. */
 export interface ReportHeader {
@@ -32,9 +32,9 @@ export interface PrintedRow {
   remarks: string;
 }
 
-/** "Gabriel M. Reyes", as on the printed sample. */
+/** "Gabriel M. Reyes", as on the printed sample, whatever case the name was typed in. */
 export function reportLearnerName(h: ReportHeader) {
-  return [h.firstName, middleInitial(h.middleName), h.lastName, h.extensionName].filter(Boolean).join(" ");
+  return capitalizeWords([h.firstName, middleInitial(h.middleName), h.lastName, h.extensionName].filter(Boolean).join(" "));
 }
 
 /** Rows as printed: a subject's rows merge into one, so MAPEH shows its subheadings in one cell beside one remarks cell. */
