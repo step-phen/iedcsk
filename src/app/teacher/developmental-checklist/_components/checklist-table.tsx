@@ -11,6 +11,7 @@ import { middleInitial } from "@/lib/learners";
 import { cn, CONTENT_HAS_RECORDS_HINT } from "@/lib/utils";
 import SectionSelector, { SELECT_CLASS } from "@/app/teacher/_components/dashboard/section-selector";
 import Segmented from "@/app/teacher/_components/shared/segmented";
+import Pagination from "@/app/teacher/_components/shared/pagination";
 import type { Section } from "@/types/db";
 import { PRACTICAL_RESULT_LABEL, type PracticalResultValue } from "@/constants/enums";
 import { RESULT_CLASS, percentOf, scoreBand } from "@/lib/score-band";
@@ -60,6 +61,9 @@ const DOT_CLASS: Record<Rating, string> = {
 };
 
 const RATINGS = Object.keys(RATING_BADGE) as Rating[];
+
+// Learners per page in the Rate view.
+const PAGE_SIZE = 5;
 
 // Keeps the Learner column visibly separate while the item columns scroll under it.
 const STICKY_EDGE = "shadow-[inset_-1px_0_0_var(--color-gray-200)]";
@@ -149,6 +153,14 @@ export default function ChecklistTable({
           return status === "unrated" ? !r : r === status;
         })),
   );
+  // Rate view pages the filtered list, so a search reaches every learner; the page stays put across skills.
+  const [page, setPage] = useState(1);
+  const pageCount = Math.max(1, Math.ceil(shownLearners.length / PAGE_SIZE));
+  if (page > pageCount) setPage(pageCount);
+  const currentPage = Math.min(page, pageCount);
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageLearners = shownLearners.slice(start, start + PAGE_SIZE);
+  // Counts the whole section, not just this page.
   const ratedCount = item ? data.learners.filter((l) => ratingOf(keyOf(l.enrollmentId, item.itemId))).length : 0;
 
   function changeQuarter(next: string) {
@@ -249,7 +261,10 @@ export default function ChecklistTable({
             aria-label="Search learner"
             placeholder="Search learner"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
             className={cn(SELECT_CLASS, "w-48 cursor-text placeholder:text-gray-500")}
           />
           {view === "overview" && (
@@ -354,7 +369,7 @@ export default function ChecklistTable({
                   <span className="w-16 shrink-0 text-center">Remarks</span>
                 </div>
                 <ul className="divide-y divide-gray-100">
-                  {shownLearners.map((l) => {
+                  {pageLearners.map((l) => {
                     const name = learnerName(l);
                     const rating = ratingOf(keyOf(l.enrollmentId, item.itemId));
                     const remarks = remarksOf(keyOf(l.enrollmentId, item.itemId));
@@ -412,6 +427,14 @@ export default function ChecklistTable({
                 </ul>
               </div>
             )}
+            <Pagination
+              start={start}
+              shownOnPage={pageLearners.length}
+              total={shownLearners.length}
+              page={currentPage}
+              pageCount={pageCount}
+              onPageChange={setPage}
+            />
             <p className="border-t border-gray-100 px-5 py-2.5 text-xs text-gray-500">
               Tap a rating to save it. Tap it again to clear it.
               {item.activityId && " Ratings unlock once the learner finishes the activity."}
