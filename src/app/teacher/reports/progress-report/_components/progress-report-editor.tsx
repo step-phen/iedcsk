@@ -10,6 +10,7 @@ import { ModalShell } from "@/components/ui/modal-shell";
 import { PRACTICAL_RESULT_LABEL, type PracticalResultValue } from "@/constants/enums";
 import { apiFetch } from "@/lib/api";
 import { formatDatePH } from "@/lib/datetime";
+import { capitalizeWords } from "@/lib/learners";
 import { cn } from "@/lib/utils";
 import type { Section } from "@/types/db";
 import { downloadProgressReport, printedRows, reportLearnerName, type ReportHeader, type ReportRow } from "./progress-report-pdf";
@@ -98,7 +99,7 @@ const dateOf = (value: string) => formatDatePH(new Date(value.replace(" ", "T").
 const versionLabel = (v: { version: number; finalizedAt: string; correctionReason: string | null }) =>
   `Version ${v.version}${v.correctionReason ? `, corrected ${dateOf(v.finalizedAt)}` : ""}`;
 
-const sortName = (l: Roster["learners"][number]) => `${l.lastName}, ${l.firstName}`;
+const sortName = (l: Roster["learners"][number]) => capitalizeWords(`${l.lastName}, ${l.firstName}`);
 
 /** Filters plus the selected learner's report: generate, edit, finalize, correct, preview and download. */
 export default function ProgressReportEditor({
@@ -212,7 +213,7 @@ export default function ProgressReportEditor({
         ) : (
           <div className="py-8 text-center">
             <p className="text-sm font-semibold text-gray-800">
-              No progress report yet for {learner.firstName}, {quarter.quarterName}
+              No progress report yet for {capitalizeWords(learner.firstName)}, {quarter.quarterName}
             </p>
             <p className="mx-auto mt-1 max-w-md text-xs text-gray-500">
               The draft is written only from what is recorded this quarter: checklist ratings, practical ratings and digital scores. You can edit every
