@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { CircleCheck, CircleDashed, EyeOff, Gamepad2, Info, LifeBuoy, TrendingUp, type LucideIcon } from "lucide-react";
+import Link from "next/link";
+import { CircleCheck, CircleDashed, EyeOff, FileText, Gamepad2, Info, LifeBuoy, TrendingUp, type LucideIcon } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RATING_BADGE, type Rating } from "@/app/teacher/developmental-checklist/_components/checklist-table";
 import { cn } from "@/lib/utils";
@@ -33,7 +34,16 @@ const STATUS_ORDER = Object.keys(STATUS) as Status[];
 const statusOf = (item: ProgressItem): Status => item.rating ?? "unrated";
 
 /** The learner's Developmental Checklist ratings, one quarter at a time, grouped by domain. */
-export default function ProgressTab({ items, learnerName }: { items: ProgressItem[]; learnerName: string }) {
+export default function ProgressTab({
+  items,
+  learnerName,
+  reportHref,
+}: {
+  items: ProgressItem[];
+  learnerName: string;
+  /** Progress Report page with this learner picked; null when the learner has no section. */
+  reportHref: string | null;
+}) {
   // Opens on the latest quarter that has a rating, else the first quarter that has skills.
   const latestRated = Math.max(0, ...items.filter((i) => i.rating).map((i) => i.quarter));
   const [quarter, setQuarter] = useState(String(latestRated || items[0]?.quarter || 1));
@@ -55,35 +65,47 @@ export default function ProgressTab({ items, learnerName }: { items: ProgressIte
 
   return (
     <div className="space-y-6 p-4 md:p-5">
-      <Tabs
-        value={quarter}
-        onValueChange={(v) => {
-          setQuarter(String(v));
-          setFilter("all");
-        }}
-      >
-        <TabsList variant="line" className="min-w-0 overflow-x-auto scrollbar-hide">
-          {QUARTERS.map((name, i) => {
-            const inQuarter = items.filter((item) => item.quarter === i + 1);
-            const ratedInQuarter = inQuarter.filter((item) => item.rating).length;
-            return (
-              <TabsTrigger
-                key={name}
-                value={String(i + 1)}
-                className="gap-2 px-3 py-1.5 text-sm font-semibold whitespace-nowrap text-gray-600 data-active:text-[#4a0e1c] after:bg-[#4a0e1c]"
-              >
-                {name}
-                {inQuarter.length > 0 && (
-                  <span className="text-xs font-medium tabular-nums text-gray-500">
-                    {ratedInQuarter}/{inQuarter.length}
-                    <span className="sr-only"> skills rated</span>
-                  </span>
-                )}
-              </TabsTrigger>
-            );
-          })}
-        </TabsList>
-      </Tabs>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <Tabs
+          value={quarter}
+          onValueChange={(v) => {
+            setQuarter(String(v));
+            setFilter("all");
+          }}
+        >
+          <TabsList variant="line" className="min-w-0 overflow-x-auto scrollbar-hide">
+            {QUARTERS.map((name, i) => {
+              const inQuarter = items.filter((item) => item.quarter === i + 1);
+              const ratedInQuarter = inQuarter.filter((item) => item.rating).length;
+              return (
+                <TabsTrigger
+                  key={name}
+                  value={String(i + 1)}
+                  className="gap-2 px-3 py-1.5 text-sm font-semibold whitespace-nowrap text-gray-600 data-active:text-[#4a0e1c] after:bg-[#4a0e1c]"
+                >
+                  {name}
+                  {inQuarter.length > 0 && (
+                    <span className="text-xs font-medium tabular-nums text-gray-500">
+                      {ratedInQuarter}/{inQuarter.length}
+                      <span className="sr-only"> skills rated</span>
+                    </span>
+                  )}
+                </TabsTrigger>
+              );
+            })}
+          </TabsList>
+        </Tabs>
+        {/* Opens the Progress Report for the quarter picked here. */}
+        {reportHref && (
+          <Link
+            href={`${reportHref}&quarter=${quarter}`}
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 outline-none transition-colors hover:border-[#5b0610] hover:text-[#5b0610] focus-visible:ring-2 focus-visible:ring-[#5b0610]/40"
+          >
+            <FileText size={15} aria-hidden="true" />
+            Progress Report
+          </Link>
+        )}
+      </div>
 
       {shown.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 text-center">

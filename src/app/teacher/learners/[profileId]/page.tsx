@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
 import { cache } from "react";
 import { notFound } from "next/navigation";
@@ -8,7 +7,7 @@ import { serverApi } from "@/lib/server-api";
 import type { Guardian, LearnerAddress } from "@/types/db";
 import { calculateAge, calculateAgeYearsMonths, middleInitial } from "@/lib/learners";
 import { formatDatePH, formatWeekdayPH } from "@/lib/datetime";
-import { User, UserRound, TrendingUp, CalendarCheck, GraduationCap, FileText } from "lucide-react";
+import { User, UserRound, TrendingUp, CalendarCheck, GraduationCap } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import PageHeader from "@/app/teacher/_components/layout/page-header";
 import BackLink from "./_components/back-link";
@@ -173,16 +172,6 @@ export default async function LearnerProfilePage({
                 Progress
               </TabsTrigger>
             </TabsList>
-            {/* Opens the Progress Report page, with this learner already picked. */}
-            {learner.sectionId && (
-              <Link
-                href={`/teacher/reports/progress-report?section=${learner.sectionId}&learner=${learner.learnerId}`}
-                className="flex items-center gap-1.5 px-3 md:px-3.5 py-2 text-[13px] font-semibold whitespace-nowrap text-gray-500 hover:text-[#4a0e1c]"
-              >
-                <FileText size={14} />
-                Progress Report
-              </Link>
-            )}
         </div>
 
         {/* Active panel — its own card, separate from the tab bar above. */}
@@ -229,7 +218,11 @@ export default async function LearnerProfilePage({
           </TabsContent>
 
           <TabsContent value="progress" className="animate-in fade-in-0 duration-300">
-            <ProgressTab items={learner.progress} learnerName={learner.firstName} />
+            <ProgressTab
+              items={learner.progress}
+              learnerName={learner.firstName}
+              reportHref={learner.sectionId ? `/teacher/reports/progress-report?section=${learner.sectionId}&learner=${learner.learnerId}` : null}
+            />
           </TabsContent>
 
           <TabsContent value="attendance" className="animate-in fade-in-0 duration-300">
