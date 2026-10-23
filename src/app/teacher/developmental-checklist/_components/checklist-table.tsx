@@ -156,7 +156,8 @@ export default function ChecklistTable({
   // Rate view pages the filtered list, so a search reaches every learner; the page stays put across skills.
   const [page, setPage] = useState(1);
   const pageCount = Math.max(1, Math.ceil(shownLearners.length / PAGE_SIZE));
-  if (page > pageCount) setPage(pageCount);
+  // Only the Rate view pages; an Overview status filter must not move its saved page.
+  if (view === "rate" && page > pageCount) setPage(pageCount);
   const currentPage = Math.min(page, pageCount);
   const start = (currentPage - 1) * PAGE_SIZE;
   const pageLearners = shownLearners.slice(start, start + PAGE_SIZE);
