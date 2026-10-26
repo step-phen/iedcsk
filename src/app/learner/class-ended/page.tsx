@@ -7,6 +7,7 @@ import FireworksEffect from "@/components/effects/FireworksEffect";
 import { LottieAnimation } from "@/components/ui/lottie-animation";
 import { apiFetch } from "@/lib/api";
 import type { PracticalResultValue } from "@/constants/enums";
+import { ratingBand } from "@/lib/score-band";
 
 interface Learner {
   id: number;
@@ -35,13 +36,11 @@ function getBadge(score: number, total: number): Badge {
   return { label: "Keep Trying!", image: BADGES.green };
 }
 
-/**
- * A practical activity's rating is a 3-way category, not a percentage, so it
- * gets its own small mapping rather than reusing getBadge's score thresholds.
- */
+/** A practical activity's 1–5 rating, by the teacher's report bands: 4–5 gold, 3 silver, 1–2 keep practicing. */
 function getPracticalBadge(result: PracticalResultValue): Badge {
-  if (result === "very_good") return { label: "Excellent!", image: BADGES.gold };
-  if (result === "good") return { label: "Great Job!", image: BADGES.silver };
+  const band = ratingBand(result);
+  if (band === "very_good") return { label: "Excellent!", image: BADGES.gold };
+  if (band === "good") return { label: "Great Job!", image: BADGES.silver };
   return { label: "Keep Practicing!", image: BADGES.green };
 }
 
@@ -52,6 +51,7 @@ function ClassEndedContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [learnerName, setLearnerName] = useState<string | null>(null);
+  const [learnerId, setLearnerId] = useState<number | null>(null);
 
   const scoreParam = searchParams.get("score");
   const totalParam = searchParams.get("total");
@@ -102,7 +102,9 @@ function ClassEndedContent() {
     apiFetch("/api/classroom-session/me")
       .then((res) => (res.ok ? res.json() : null))
       .then((data: Learner | null) => {
-        if (!cancelled && data?.firstName) setLearnerName(data.firstName);
+        if (cancelled || !data) return;
+        if (data.firstName) setLearnerName(data.firstName);
+        setLearnerId(data.id);
       })
       .catch(() => {});
     return () => {
@@ -202,11 +204,11 @@ function ClassEndedContent() {
           </div>
         )}
 
-        {/* A finished activity goes back to the picker once it has a badge: a digital score, or a practical one the teacher has rated. */}
+        {/* Once it has a badge (a digital score, or a practical one the teacher has rated), Finish returns to the learner's own profile; the picker only if the device forgot them. */}
         {badge && (
           <button
             type="button"
-            onClick={() => router.push("/learner")}
+            onClick={() => router.push(learnerId ? `/learner/profile/${learnerId}` : "/learner")}
             className="mx-auto block rounded-full transition-transform duration-150 ease-out hover:scale-105 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#4f8fe0] focus-visible:ring-offset-2"
           >
             {/* The artwork has wide transparent margins, so it is shown zoomed inside a box cropped to the button itself. */}

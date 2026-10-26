@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { serverApi } from "@/lib/server-api";
-import { PRACTICAL_RESULT_LABEL, type PracticalResultValue } from "@/constants/enums";
+import { SCORE_BAND_LABEL, type ScoreBand } from "@/constants/enums";
 import type { Section } from "@/types/db";
 import { cn } from "@/lib/utils";
-import { RESULT_CLASS, percentOf, scoreBand } from "@/lib/score-band";
-import RecordFilters from "./record-filters";
+import { RESULT_CLASS, percentOf, ratingBand, ratingLabel, scoreBand } from "@/lib/score-band";
+import RecordFilters, { DomainSelect } from "./record-filters";
 import PrintRecord from "./print-record";
 import ExportRecord from "./export-record";
 import WeekNav from "./week-nav";
 import { LEGEND, learnerName, pickWeek, weekRecord, type Cell, type ClassroomRecord } from "./week-record";
 
-const DOT_CLASS: Record<PracticalResultValue, string> = {
+const DOT_CLASS: Record<ScoreBand, string> = {
   needs_help: "bg-rose-500",
   good: "bg-amber-500",
   very_good: "bg-emerald-500",
@@ -62,6 +62,8 @@ export default async function ClassScoresSection({
 
   const hasTable = !!shown && shown.columns.length > 0 && shown.rows.length > 0;
   const showWeekNav = byWeek && selectedWeek !== null;
+  // Shown even when the domain has no activities yet, so the teacher can switch back.
+  const hasDomains = !!record && record.domains.length > 1;
   const moduleName = shown?.modules.find((m) => m.id === shown.moduleId)?.name ?? "—";
   const domainName = shown && shown.domains.length > 1 ? (shown.domains.find((d) => d.id === shown.domainId)?.name ?? "—") : null;
 
@@ -74,7 +76,6 @@ export default async function ClassScoresSection({
           sectionId={sectionId}
           modules={record?.modules ?? []}
           moduleId={record?.moduleId ?? null}
-          domains={record?.domains ?? []}
           domainId={record?.domainId ?? null}
           quarter={record?.quarter ?? 1}
           view={byWeek ? "week" : "all"}
@@ -114,12 +115,13 @@ export default async function ClassScoresSection({
       </div>
       <div className="space-y-3 rounded-xl border border-gray-200/80 bg-white p-5 shadow-sm">
         {/* Outside the keyed fade, so the week buttons keep focus while the week's columns swap in. */}
-        {(hasTable || showWeekNav) && (
+        {(hasTable || showWeekNav || hasDomains) && (
           <div className="flex flex-wrap items-center justify-between gap-3">
             {hasTable && <Summary record={shown} averageLabel={byWeek ? "Week Average" : "Class average"} />}
-            {showWeekNav && (
-              <div className="ml-auto">
-                <WeekNav week={selectedWeek} weeks={weeks} />
+            {(hasDomains || showWeekNav) && (
+              <div className="ml-auto flex flex-wrap items-center gap-3">
+                {hasDomains && <DomainSelect domains={record.domains} domainId={record.domainId} />}
+                {showWeekNav && <WeekNav week={selectedWeek} weeks={weeks} />}
               </div>
             )}
           </div>
@@ -200,7 +202,7 @@ function Legend({ totalLabel }: { totalLabel: string }) {
       {LEGEND.map(([value, range]) => (
         <span key={value} className="flex items-center gap-1.5">
           <span aria-hidden="true" className={cn("size-2.5 rounded-full", DOT_CLASS[value])} />
-          <span className="font-semibold text-gray-800">{PRACTICAL_RESULT_LABEL[value]}</span> {range}
+          <span className="font-semibold text-gray-800">{SCORE_BAND_LABEL[value]}</span> {range}
         </span>
       ))}
       <span>
@@ -210,7 +212,7 @@ function Legend({ totalLabel }: { totalLabel: string }) {
         <span className="font-semibold text-amber-700">To rate</span> Practical activity waiting for your rating
       </span>
       <span>
-        <span className="font-semibold text-gray-800">{totalLabel}</span> counts a practical rating as Very Good 3, Good 2, Needs Help 1 (out of 3)
+        <span className="font-semibold text-gray-800">{totalLabel}</span> counts a practical rating as its 1–5 points (out of 5)
       </span>
     </div>
   );
@@ -338,5 +340,5 @@ function CellValue({ cell }: { cell: Cell | undefined }) {
       </span>
     );
   }
-  return <span className={cn(PILL, RESULT_CLASS[cell.rating])}>{PRACTICAL_RESULT_LABEL[cell.rating]}</span>;
+  return <span className={cn(PILL, RESULT_CLASS[ratingBand(cell.rating)])}>{ratingLabel(cell.rating)}</span>;
 }

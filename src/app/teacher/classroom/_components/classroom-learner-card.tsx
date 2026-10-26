@@ -4,9 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { ClipboardCheck, FileText } from "lucide-react";
 import type { ActiveSession, LearnerListItem } from "@/types/learner";
-import { PRACTICAL_RESULT_LABEL } from "@/constants/enums";
 import { displayName, getInitials, getAvatarColor } from "@/lib/learners";
-import { RESULT_CLASS, percentOf, scoreBand } from "@/lib/score-band";
+import { RESULT_CLASS, percentOf, ratingBand, ratingLabel, scoreBand } from "@/lib/score-band";
 import { cn } from "@/lib/utils";
 import PracticalScoreModal from "@/app/teacher/_components/shared/practical-score-modal";
 import ActivityOverviewModal from "@/app/teacher/_components/shared/activity-overview-modal";
@@ -87,7 +86,8 @@ export default function ClassroomLearnerCard({
             )}
           >
             {learner.photoUrl ? (
-              <Image src={learner.photoUrl} alt="" width={56} height={56} className="size-full object-cover" />
+              // Eager: the roster is on screen as soon as the page opens, and a photo is often its LCP.
+              <Image src={learner.photoUrl} alt="" width={56} height={56} loading="eager" className="size-full object-cover" />
             ) : (
               getInitials(learner.firstName, learner.lastName)
             )}
@@ -109,7 +109,7 @@ export default function ClassroomLearnerCard({
                 </span>
               )}
               {current?.practicalResult && (
-                <span className={cn(PILL, RESULT_CLASS[current.practicalResult])}>{PRACTICAL_RESULT_LABEL[current.practicalResult]}</span>
+                <span className={cn(PILL, RESULT_CLASS[ratingBand(current.practicalResult)])}>{ratingLabel(current.practicalResult)}</span>
               )}
             </div>
           </div>

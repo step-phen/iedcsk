@@ -1,4 +1,4 @@
-import type { PracticalResultValue } from "@/constants/enums";
+import { PRACTICAL_RESULT_MAX, type PracticalResultValue, type ScoreBand } from "@/constants/enums";
 import { hasMiddleName } from "@/lib/learners";
 
 export type Cell = { score: number; maxScore: number } | { rating: PracticalResultValue | null };
@@ -22,11 +22,8 @@ export interface ClassroomRecord {
   }[];
 }
 
-/** Same points as ClassroomRecordController::PRACTICAL_POINTS in the API; a rated practical counts out of 3. */
-export const PRACTICAL_POINTS: Record<PracticalResultValue, number> = { needs_help: 1, good: 2, very_good: 3 };
-
 /** The score bands the screen, print and Excel legends all explain. */
-export const LEGEND: [PracticalResultValue, string][] = [
+export const LEGEND: [ScoreBand, string][] = [
   ["very_good", "80% and up"],
   ["good", "60–79%"],
   ["needs_help", "below 60%"],
@@ -58,7 +55,7 @@ export function pickWeek(columns: ClassroomRecord["columns"], raw: string | unde
 /**
  * The record cut to one week's columns, each learner's total recounted from those cells the way the API
  * counts the quarter: points summed (not percents averaged), digital scores as they are (a zero still
- * counts), rated practicals on the 3-point scale, unrated or missing results left out, null when nothing counts.
+ * counts), rated practicals out of 5, unrated or missing results left out, null when nothing counts.
  */
 export function weekRecord(record: ClassroomRecord, week: number): ClassroomRecord {
   const columns = record.columns.filter((c) => c.week === week);
@@ -76,8 +73,9 @@ export function weekRecord(record: ClassroomRecord, week: number): ClassroomReco
           score += cell.score;
           maxScore += cell.maxScore;
         } else if (cell.rating) {
-          score += PRACTICAL_POINTS[cell.rating];
-          maxScore += 3;
+          // Same as ClassroomRecordController::points in the API: a rating is that many points out of 5.
+          score += cell.rating;
+          maxScore += PRACTICAL_RESULT_MAX;
         } else continue;
         counted = true;
       }
