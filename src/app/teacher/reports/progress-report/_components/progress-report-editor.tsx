@@ -7,7 +7,8 @@ import { Download, Eye, Lock, RefreshCw, Save, Sparkles, Unlock } from "lucide-r
 import { SELECT_CLASS } from "@/app/teacher/_components/dashboard/section-selector";
 import Segmented from "@/app/teacher/_components/shared/segmented";
 import { ModalShell } from "@/components/ui/modal-shell";
-import { PRACTICAL_RESULT_LABEL, type PracticalResultValue } from "@/constants/enums";
+import type { PracticalResultValue } from "@/constants/enums";
+import { ratingLabel } from "@/lib/score-band";
 import { apiFetch } from "@/lib/api";
 import { formatDatePH } from "@/lib/datetime";
 import { capitalizeWords } from "@/lib/learners";
@@ -595,7 +596,7 @@ function EvidenceList({ evidence, quarter, open = false, onInsert }: { evidence:
                 · Score {e.result.score}/{e.result.maxScore}
               </span>
             )}
-            {e.result?.rating && <span className="text-gray-600">· Practical: {PRACTICAL_RESULT_LABEL[e.result.rating]}</span>}
+            {e.result?.rating && <span className="text-gray-600">· Practical: {ratingLabel(e.result.rating)}</span>}
             {e.result && e.result.playedQuarter !== quarter && <span className="text-gray-500">· played in Q{e.result.playedQuarter}</span>}
             {e.source && <span className="text-gray-400">(used: {e.source})</span>}
             {[e.checklist?.remarks, e.result?.remarks].filter((r): r is string => !!r).map((remark) => (

@@ -6,6 +6,7 @@ import { calculateAge, displayName, getAvatarColor, getInitials } from "@/lib/le
 import { cn } from "@/lib/utils";
 
 /** The learner's photo, or their initials on their own color; shared by the card and the list row. */
+// Eager: a class is a few dozen small photos at most, and the first ones are often the page's LCP.
 export function LearnerPhoto({ learner, size }: { learner: LearnerListItem; size: "sm" | "lg" }) {
   const px = size === "lg" ? 56 : 36;
   return (
@@ -17,7 +18,7 @@ export function LearnerPhoto({ learner, size }: { learner: LearnerListItem; size
       )}
     >
       {learner.photoUrl ? (
-        <Image src={learner.photoUrl} alt="" width={px} height={px} className="size-full object-cover" />
+        <Image src={learner.photoUrl} alt="" width={px} height={px} loading="eager" className="size-full object-cover" />
       ) : (
         getInitials(learner.firstName, learner.lastName)
       )}

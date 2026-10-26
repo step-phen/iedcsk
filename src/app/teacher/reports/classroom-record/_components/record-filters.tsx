@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SectionSelector, { SELECT_CLASS } from "@/app/teacher/_components/dashboard/section-selector";
 import type { Section } from "@/types/db";
 import Segmented from "@/app/teacher/_components/shared/segmented";
@@ -12,13 +13,38 @@ const VIEWS = [
   { value: "week", label: "By Week" },
 ];
 
+/** The domain picker beside the week picker, for a module with several domains (MAPEH); only ?domain= changes, like WeekNav. */
+export function DomainSelect({ domains, domainId }: { domains: { id: number; name: string }[]; domainId: number | null }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [pending, startTransition] = useTransition();
+  const go = (next: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("domain", next);
+    startTransition(() => router.push(`${pathname}?${params}`, { scroll: false }));
+  };
+
+  return (
+    <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
+      Domain
+      <select value={domainId ?? ""} onChange={(e) => go(e.target.value)} disabled={pending} className={`${SELECT_CLASS} disabled:opacity-60`}>
+        {domains.map((d) => (
+          <option key={d.id} value={d.id}>
+            {d.name}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
 /** Section, module, quarter and view pickers; the URL holds the choice so the server re-renders the table. */
 export default function RecordFilters({
   sections,
   sectionId,
   modules,
   moduleId,
-  domains,
   domainId,
   quarter,
   view,
@@ -28,7 +54,6 @@ export default function RecordFilters({
   sectionId: number | null;
   modules: { id: number; name: string }[];
   moduleId: number | null;
-  domains: { id: number; name: string }[];
   domainId: number | null;
   quarter: number;
   view: "all" | "week";
@@ -68,18 +93,6 @@ export default function RecordFilters({
               ))}
             </select>
           </label>
-          {domains.length > 1 && (
-            <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
-              Domain
-              <select value={domainId ?? ""} onChange={(e) => go({ domain: Number(e.target.value) })} className={SELECT_CLASS}>
-                {domains.map((d) => (
-                  <option key={d.id} value={d.id}>
-                    {d.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-          )}
           <Segmented
             label="Quarter"
             options={QUARTERS.map((q) => ({ value: String(q), label: `Q${q}`, ariaLabel: `Quarter ${q}` }))}

@@ -114,14 +114,22 @@ export type ActivityFormat = "digital" | "practical";
 /** Marks a practical activity as having an instructional video to show (see `demonstrations`). */
 export const ACTIVITY_TYPE_DEMONSTRATION = "demonstration";
 
-/** `practical_activity_results.result` — the teacher's rubric rating of a learner's practical-activity performance. */
-export type PracticalResultValue = "needs_help" | "good" | "very_good";
+/** A result's band on the legends (lib/score-band.ts): 80%+ Very Good, 60–79% Good, below 60% Needs Help. */
+export type ScoreBand = "needs_help" | "good" | "very_good";
 
-export const PRACTICAL_RESULT_LABEL: Record<PracticalResultValue, string> = {
+export const SCORE_BAND_LABEL: Record<ScoreBand, string> = {
   needs_help: "Needs Help",
   good: "Good",
   very_good: "Very Good",
 };
+
+/** `learner_activity_attempts.practical_rating` — the teacher's 1 to 5 rating of a learner's practical activity. */
+export type PracticalResultValue = 1 | 2 | 3 | 4 | 5;
+
+export const PRACTICAL_RESULT_VALUES: PracticalResultValue[] = [1, 2, 3, 4, 5];
+
+/** A rating counts as that many points out of this, in totals and percents. */
+export const PRACTICAL_RESULT_MAX = 5;
 
 /**
  * A practical activity's rating status as reported to callers. `NOT_RATED`
@@ -129,20 +137,6 @@ export const PRACTICAL_RESULT_LABEL: Record<PracticalResultValue, string> = {
  * yet — never a value stored in the database.
  */
 export type PracticalRatingStatus = PracticalResultValue | "NOT_RATED";
-
-/**
- * Rubric → points for the quarterly grade's manual/practical component. The
- * one and only place this mapping is defined — nothing else should hardcode
- * 2/4/5.
- */
-export const PRACTICAL_RESULT_POINTS: Record<PracticalResultValue, number> = {
-  needs_help: 2,
-  good: 4,
-  very_good: 5,
-};
-
-/** Denominator for every PRACTICAL_RESULT_POINTS value above. */
-export const PRACTICAL_RESULT_POSSIBLE_POINTS = 5;
 
 // ── Assessments (quarterly grading) ─────────────────────────────────────────
 

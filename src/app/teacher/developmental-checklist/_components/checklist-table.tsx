@@ -13,8 +13,8 @@ import SectionSelector, { SELECT_CLASS } from "@/app/teacher/_components/dashboa
 import Segmented from "@/app/teacher/_components/shared/segmented";
 import Pagination from "@/app/teacher/_components/shared/pagination";
 import type { Section } from "@/types/db";
-import { PRACTICAL_RESULT_LABEL, type PracticalResultValue } from "@/constants/enums";
-import { RESULT_CLASS, percentOf, scoreBand } from "@/lib/score-band";
+import type { PracticalResultValue } from "@/constants/enums";
+import { RESULT_CLASS, percentOf, ratingBand, ratingLabel, scoreBand } from "@/lib/score-band";
 
 export type Rating = "achieved" | "developing" | "needs_support" | "not_yet_observed";
 
@@ -89,7 +89,7 @@ function ResultBadge({ result, compact = false }: { result: ActivityResult | und
       </span>
     );
   }
-  return <span className={cn(pill, RESULT_CLASS[result.rating])}>{PRACTICAL_RESULT_LABEL[result.rating]}</span>;
+  return <span className={cn(pill, RESULT_CLASS[ratingBand(result.rating)])}>{ratingLabel(result.rating)}</span>;
 }
 
 // "Plaza, Stephen A. V." style, the usual class-list order, with each word capitalized.

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 // The learner's uploaded photo, or their first initial when none was uploaded; size and colors come from className.
+// Eager: every screen that shows it (picker, profile, game header) has it above the fold, and on the profile it is the LCP.
 export function LearnerAvatar({
   photoUrl,
   firstName,
@@ -18,7 +19,7 @@ export function LearnerAvatar({
         className,
       )}
     >
-      {photoUrl ? <Image src={photoUrl} alt="" fill sizes="160px" className="object-cover" /> : firstName.charAt(0)}
+      {photoUrl ? <Image src={photoUrl} alt="" fill sizes="160px" loading="eager" className="object-cover" /> : firstName.charAt(0)}
     </span>
   );
 }

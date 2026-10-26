@@ -4,14 +4,15 @@ import { useEffect, useState, useTransition } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import type { PracticalResultValue, PracticalRatingStatus } from "@/constants/enums";
+import { PRACTICAL_RESULT_MAX, PRACTICAL_RESULT_VALUES, type PracticalResultValue, type PracticalRatingStatus, type ScoreBand } from "@/constants/enums";
 import { ModalShell } from "@/components/ui/modal-shell";
 import { apiFetch } from "@/lib/api";
+import { ratingBand } from "@/lib/score-band";
 
 // Ratings are saved against the section's classes, so a card without a section can't rate.
 async function submitPracticalRating(
   sectionId: number | undefined,
-  input: { learnerId: number; activityId: number; result: string; remarks?: string },
+  input: { learnerId: number; activityId: number; result: PracticalResultValue; remarks?: string },
 ): Promise<{ success: true } | { success: false; error: string }> {
   if (sectionId === undefined) return { success: false, error: "Rate practical activities from the Classroom page." };
   try {
@@ -27,12 +28,12 @@ async function submitPracticalRating(
   }
 }
 
-/** The three ratings, in the order a teacher reads them: struggling to strong. */
-const OPTIONS: { value: PracticalResultValue; label: string; active: string }[] = [
-  { value: "needs_help", label: "Needs Help", active: "bg-rose-600 text-white border-rose-600" },
-  { value: "good", label: "Good", active: "bg-amber-500 text-white border-amber-500" },
-  { value: "very_good", label: "Very Good", active: "bg-emerald-600 text-white border-emerald-600" },
-];
+/** A picked rating takes its band's color, red (1–2) to green (4–5). */
+const ACTIVE_CLASS: Record<ScoreBand, string> = {
+  needs_help: "bg-rose-600 text-white border-rose-600",
+  good: "bg-amber-500 text-white border-amber-500",
+  very_good: "bg-emerald-600 text-white border-emerald-600",
+};
 
 interface PracticalScoreModalProps {
   open: boolean;
@@ -152,23 +153,24 @@ export default function PracticalScoreModal({
             <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">
               Performance
             </p>
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Performance rating">
-              {OPTIONS.map((option) => {
-                const isSelected = selected === option.value;
+            <div className="flex flex-wrap gap-2" role="group" aria-label={`Performance rating, 1 to ${PRACTICAL_RESULT_MAX}`}>
+              {PRACTICAL_RESULT_VALUES.map((value) => {
+                const isSelected = selected === value;
                 return (
                   <button
-                    key={option.value}
+                    key={value}
                     type="button"
                     aria-pressed={isSelected}
+                    aria-label={`${value} of ${PRACTICAL_RESULT_MAX}`}
                     disabled={pending}
-                    onClick={() => setSelected(option.value)}
-                    className={`inline-flex items-center rounded-md border px-3 py-2 text-xs font-semibold transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 ${
+                    onClick={() => setSelected(value)}
+                    className={`inline-flex size-11 items-center justify-center rounded-md border text-base font-bold transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 ${
                       isSelected
-                        ? option.active
+                        ? ACTIVE_CLASS[ratingBand(value)]
                         : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
                     }`}
                   >
-                    {option.label}
+                    {value}
                   </button>
                 );
               })}

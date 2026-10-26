@@ -342,6 +342,8 @@ export default function UpdateLessonsModal({
             // Name and description are shared by the topic's day-rows, so one row with records locks both.
             const topicLock = lockReason(topic.entries.some((e) => e.hasRecords));
             const markProtected = () => topic.entries.forEach((e) => onLessonChanged(e.id, { hasRecords: true }));
+            // One video per topic, on its first day (MAPEH: Tuesday); learners watch it then, and the later day goes straight to its activity.
+            const lesson = topic.entries.find((e) => e.videoUrl) ?? topic.entries[0];
             return (
             <section key={topic.entries[0].id} className="rounded-xl border border-stone-200 bg-stone-50/70 p-3.5">
               <LessonNameEditor
@@ -362,78 +364,76 @@ export default function UpdateLessonsModal({
                 locked={topicLock}
                 onProtected={markProtected}
               />
-              <div className="mt-3 space-y-2">
-                {topic.entries.map((lesson) => (
-                  <div key={lesson.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-stone-200 bg-white px-3 py-2">
-                    {lesson.day && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-sidebar/70">{lesson.day}</span>
-                    )}
-                    {lesson.videoUrl ? (
-                      <span className="ml-auto inline-flex shrink-0 items-center gap-1">
-                        {/* Icon-only actions; aria-label names them for screen readers and title shows it on hover. */}
-                        <a
-                          href={lesson.videoUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          aria-label={`Watch video of ${lesson.lessonName}`}
-                          title="Watch video"
-                          className="inline-flex size-8 items-center justify-center rounded-full text-sidebar hover:bg-sidebar/10 outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
-                        >
-                          <Video size={16} />
-                        </a>
-                        <button
-                          type="button"
-                          onClick={() => setRemoving(lesson)}
-                          disabled={!!removeVideoLock(lesson.hasRecords)}
-                          aria-label={`Remove video of ${lesson.lessonName}`}
-                          title={removeVideoLock(lesson.hasRecords) ?? "Remove video"}
-                          className="inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-red-400/40"
-                        >
-                          <Trash2 size={15} />
-                        </button>
-                      </span>
-                    ) : lesson.id in uploads ? (
-                      <div className="ml-auto flex w-40 shrink-0 flex-col gap-1">
-                        <span className="inline-flex items-center justify-between gap-1.5 text-xs font-semibold text-stone-500">
-                          <span className="inline-flex items-center gap-1.5">
-                            <Loader2 size={14} className="animate-spin" />
-                            {/* At 100% the file is sent and the server is still saving it. */}
-                            {uploads[lesson.id] < 100 ? "Uploading..." : "Saving..."}
-                          </span>
-                          <span className="tabular-nums text-sidebar">{uploads[lesson.id]}%</span>
-                        </span>
-                        <div
-                          role="progressbar"
-                          aria-label={`Uploading video for ${lesson.lessonName}`}
-                          aria-valuemin={0}
-                          aria-valuemax={100}
-                          aria-valuenow={uploads[lesson.id]}
-                          className="h-1.5 w-full overflow-hidden rounded-full bg-stone-200"
-                        >
-                          <div className="h-full rounded-full bg-sidebar transition-[width] duration-200" style={{ width: `${uploads[lesson.id]}%` }} />
-                        </div>
-                      </div>
-                    ) : (
-                      <label
-                        title={addVideoLock(lesson.hasRecords) ?? undefined}
-                        className={`ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-sidebar/30 bg-white px-3 py-1 text-xs font-semibold text-sidebar focus-within:ring-2 focus-within:ring-sidebar/40 ${addVideoLock(lesson.hasRecords) ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-sidebar/10"}`}
+              <div className="mt-3">
+                <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-stone-200 bg-white px-3 py-2">
+                  {lesson.day && (
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-sidebar/70">{lesson.day}</span>
+                  )}
+                  {lesson.videoUrl ? (
+                    <span className="ml-auto inline-flex shrink-0 items-center gap-1">
+                      {/* Icon-only actions; aria-label names them for screen readers and title shows it on hover. */}
+                      <a
+                        href={lesson.videoUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Watch video of ${lesson.lessonName}`}
+                        title="Watch video"
+                        className="inline-flex size-8 items-center justify-center rounded-full text-sidebar hover:bg-sidebar/10 outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
                       >
-                        <Upload size={13} />
-                        Add Video
-                        <input
-                          type="file"
-                          accept={VIDEO_ACCEPT}
-                          className="sr-only"
-                          disabled={!!addVideoLock(lesson.hasRecords)}
-                          onChange={(e) => {
-                            handleVideoPicked(lesson.id, e.target.files?.[0]);
-                            e.target.value = "";
-                          }}
-                        />
-                      </label>
-                    )}
-                  </div>
-                ))}
+                        <Video size={16} />
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => setRemoving(lesson)}
+                        disabled={!!removeVideoLock(lesson.hasRecords)}
+                        aria-label={`Remove video of ${lesson.lessonName}`}
+                        title={removeVideoLock(lesson.hasRecords) ?? "Remove video"}
+                        className="inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-red-400/40"
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    </span>
+                  ) : lesson.id in uploads ? (
+                    <div className="ml-auto flex w-40 shrink-0 flex-col gap-1">
+                      <span className="inline-flex items-center justify-between gap-1.5 text-xs font-semibold text-stone-500">
+                        <span className="inline-flex items-center gap-1.5">
+                          <Loader2 size={14} className="animate-spin" />
+                          {/* At 100% the file is sent and the server is still saving it. */}
+                          {uploads[lesson.id] < 100 ? "Uploading..." : "Saving..."}
+                        </span>
+                        <span className="tabular-nums text-sidebar">{uploads[lesson.id]}%</span>
+                      </span>
+                      <div
+                        role="progressbar"
+                        aria-label={`Uploading video for ${lesson.lessonName}`}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-valuenow={uploads[lesson.id]}
+                        className="h-1.5 w-full overflow-hidden rounded-full bg-stone-200"
+                      >
+                        <div className="h-full rounded-full bg-sidebar transition-[width] duration-200" style={{ width: `${uploads[lesson.id]}%` }} />
+                      </div>
+                    </div>
+                  ) : (
+                    <label
+                      title={addVideoLock(lesson.hasRecords) ?? undefined}
+                      className={`ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-sidebar/30 bg-white px-3 py-1 text-xs font-semibold text-sidebar focus-within:ring-2 focus-within:ring-sidebar/40 ${addVideoLock(lesson.hasRecords) ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-sidebar/10"}`}
+                    >
+                      <Upload size={13} />
+                      Add Video
+                      <input
+                        type="file"
+                        accept={VIDEO_ACCEPT}
+                        className="sr-only"
+                        disabled={!!addVideoLock(lesson.hasRecords)}
+                        onChange={(e) => {
+                          handleVideoPicked(lesson.id, e.target.files?.[0]);
+                          e.target.value = "";
+                        }}
+                      />
+                    </label>
+                  )}
+                </div>
               </div>
             </section>
             );

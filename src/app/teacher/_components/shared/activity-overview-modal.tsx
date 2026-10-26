@@ -3,13 +3,14 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ActivityInfo } from "@/types/learner";
-import type { PracticalResultValue } from "@/constants/enums";
+import type { ScoreBand } from "@/constants/enums";
 import { ModalShell } from "@/components/ui/modal-shell";
+import { ratingBand, ratingLabel } from "@/lib/score-band";
 
-const PRACTICAL_RESULT_BADGE: Record<PracticalResultValue, { label: string; className: string }> = {
-  needs_help: { label: "Needs Help", className: "bg-rose-100 text-rose-700 border-rose-200" },
-  good: { label: "Good", className: "bg-amber-100 text-amber-700 border-amber-200" },
-  very_good: { label: "Very Good", className: "bg-emerald-100 text-emerald-700 border-emerald-200" },
+const PRACTICAL_RESULT_BADGE: Record<ScoreBand, string> = {
+  needs_help: "bg-rose-100 text-rose-700 border-rose-200",
+  good: "bg-amber-100 text-amber-700 border-amber-200",
+  very_good: "bg-emerald-100 text-emerald-700 border-emerald-200",
 };
 
 interface ActivityOverviewModalProps {
@@ -76,9 +77,9 @@ export default function ActivityOverviewModal({
             )}
             {act.practicalResult && (
               <span
-                className={`inline-block ml-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full border ${PRACTICAL_RESULT_BADGE[act.practicalResult].className}`}
+                className={`inline-block ml-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full border ${PRACTICAL_RESULT_BADGE[ratingBand(act.practicalResult)]}`}
               >
-                {PRACTICAL_RESULT_BADGE[act.practicalResult].label}
+                {ratingLabel(act.practicalResult)}
               </span>
             )}
           </div>

@@ -47,6 +47,8 @@ interface Activity {
 interface Lesson {
   id: number;
   lessonName: string;
+  /** Developmental domain the lesson belongs to; MAPEH has three. */
+  domainName: string;
   week: number;
   activities: Activity[];
 }
@@ -106,25 +108,43 @@ export default function ClassControls({
   const [showEndModal, setShowEndModal] = useState(false);
   const [showConfirmStart, setShowConfirmStart] = useState(false);
   const [selectedModuleId, setSelectedModuleId] = useState<string>("");
+  const [selectedDomain, setSelectedDomain] = useState<string>("");
   const [selectedLessonId, setSelectedLessonId] = useState<string>("");
   const [selectedActivityId, setSelectedActivityId] = useState<string>("");
 
   const resetSelections = () => {
     setSelectedModuleId("");
+    setSelectedDomain("");
     setSelectedLessonId("");
     setSelectedActivityId("");
   };
 
   // Derive selected module's lessons and activities (no quarter/week/day filtering — all shown)
   const selectedModule = modules.find((m) => m.id === Number(selectedModuleId));
-  const availableLessons = selectedModule?.lessons ?? [];
+  const moduleLessons = selectedModule?.lessons ?? [];
+  // A module spanning several domains (MAPEH) asks for the domain first, then lists only its lessons.
+  const availableDomains = [...new Set(moduleLessons.map((l) => l.domainName))];
+  const needsDomain = availableDomains.length > 1;
+  const domainLessons = needsDomain ? moduleLessons.filter((l) => l.domainName === selectedDomain) : moduleLessons;
+  // MAPEH saves one lesson row per class day under the same title (Tuesday's activity, Thursday's activity),
+  // so same-week rows sharing a title show as one lesson; each activity keeps its own lessonId for the start call.
+  const availableLessons = domainLessons.reduce<(Omit<Lesson, "activities"> & { activities: (Activity & { lessonId: number })[] })[]>(
+    (topics, l) => {
+      const activities = l.activities.map((a) => ({ ...a, lessonId: l.id }));
+      const same = topics.find((t) => t.week === l.week && t.lessonName === l.lessonName);
+      if (same) same.activities.push(...activities);
+      else topics.push({ ...l, activities });
+      return topics;
+    },
+    []
+  );
   const selectedLesson = availableLessons.find((l) => l.id === Number(selectedLessonId));
   const availableActivities = selectedLesson?.activities ?? [];
   const selectedActivity = availableActivities.find((a) => a.id === Number(selectedActivityId));
 
   const handleStartClass = async () => {
     const moduleId = selectedModuleId ? parseInt(selectedModuleId, 10) : null;
-    const lessonId = selectedLessonId ? parseInt(selectedLessonId, 10) : null;
+    const lessonId = selectedActivity?.lessonId ?? null;
     const activityId = selectedActivityId ? parseInt(selectedActivityId, 10) : null;
     const wasAlreadyActive = !!activeSession;
     startTransition(async () => {
@@ -215,6 +235,7 @@ export default function ClassControls({
                 value={selectedModuleId}
                 onValueChange={(value) => {
                   setSelectedModuleId(value ?? "");
+                  setSelectedDomain("");
                   setSelectedLessonId("");
                   setSelectedActivityId("");
                 }}
@@ -241,6 +262,36 @@ export default function ClassControls({
                 </SelectContent>
               </Select>
             </div>
+
+            {selectedModuleId && needsDomain && (
+              <div className="space-y-1.5">
+                <label className="text-sm font-semibold text-gray-600">Select Area</label>
+                <Select
+                  value={selectedDomain}
+                  onValueChange={(value) => {
+                    setSelectedDomain(value ?? "");
+                    setSelectedLessonId("");
+                    setSelectedActivityId("");
+                  }}
+                >
+                  <SelectTrigger className="w-full h-18 text-lg">
+                    <SelectValue placeholder="Select an area">
+                      {selectedDomain || "Select an area"}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Areas</SelectLabel>
+                      {availableDomains.map((domain) => (
+                        <SelectItem key={domain} value={domain} className={SELECT_ITEM_CLASS}>
+                          <MarqueeText>{domain}</MarqueeText>
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             {selectedModuleId && availableLessons.length > 0 && (
               <div className="space-y-1.5">
@@ -364,6 +415,11 @@ export default function ClassControls({
             {selectedModule && (
               <div className="text-sm text-gray-600">
                 <span className="font-semibold">Module:</span> {selectedModule.moduleName}
+              </div>
+            )}
+            {needsDomain && selectedDomain && (
+              <div className="text-sm text-gray-600">
+                <span className="font-semibold">Area:</span> {selectedDomain}
               </div>
             )}
             {selectedActivity && (

@@ -1,4 +1,5 @@
-import { PRACTICAL_RESULT_LABEL } from "@/constants/enums";
+import { SCORE_BAND_LABEL } from "@/constants/enums";
+import { ratingLabel } from "@/lib/score-band";
 import { percentOf } from "@/lib/score-band";
 import { LEGEND, learnerName, type Cell, type ClassroomRecord } from "./week-record";
 
@@ -25,7 +26,8 @@ function cellText(cell: Cell | undefined): string | null {
   if (!cell) return null;
   // Spaced so Excel opening the CSV reads "8 / 10" as text, not the date 8 October.
   if ("score" in cell) return `${cell.score} / ${cell.maxScore}`;
-  return cell.rating ? PRACTICAL_RESULT_LABEL[cell.rating] : "To rate";
+  // Spaced like a score so Excel keeps "4 / 5" as text too.
+  return cell.rating ? ratingLabel(cell.rating).replace("/", " / ") : "To rate";
 }
 
 /** The record as spreadsheet rows, cell for cell and total for total what the table shows; both formats use it. */
@@ -44,7 +46,7 @@ export function exportRows(record: ClassroomRecord, meta: ExportMeta) {
     ...record.columns.map(
       (c) =>
         `Week ${c.week} · ${c.name} (${
-          c.format === "practical" ? "Practical, out of 3" : c.maxScore !== null ? `out of ${c.maxScore}` : "Digital"
+          c.format === "practical" ? "Practical, out of 5" : c.maxScore !== null ? `out of ${c.maxScore}` : "Digital"
         })`,
     ),
     `${meta.totalLabel} Score`,
@@ -114,12 +116,12 @@ export async function toXlsx(record: ClassroomRecord, meta: ExportMeta): Promise
 
   sheet.addRow([]);
   sheet.addRow(["Legend"]).font = { bold: true };
-  for (const [value, range] of LEGEND) sheet.addRow([PRACTICAL_RESULT_LABEL[value], range]);
+  for (const [value, range] of LEGEND) sheet.addRow([SCORE_BAND_LABEL[value], range]);
   sheet.addRow(["(blank)", "Not done yet"]);
   sheet.addRow(["To rate", "Practical activity waiting for your rating"]);
   sheet.addRow([
     meta.totalLabel,
-    "Counts a practical rating as Very Good 3, Good 2, Needs Help 1 (out of 3); % is Score ÷ Possible, rounded",
+    "Counts a practical rating as its 1–5 points (out of 5); % is Score ÷ Possible, rounded",
   ]);
 
   return workbook.xlsx.writeBuffer() as Promise<ArrayBuffer>;

@@ -4,11 +4,11 @@ import { useState, useTransition, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import SectionSelector, { SELECT_CLASS } from "@/app/teacher/_components/dashboard/section-selector";
 import Segmented from "@/app/teacher/_components/shared/segmented";
-import { PRACTICAL_RESULT_LABEL, type PracticalResultValue } from "@/constants/enums";
+import type { PracticalResultValue, ScoreBand } from "@/constants/enums";
 import type { Section } from "@/types/db";
 import { hasMiddleName } from "@/lib/learners";
 import { formatDatePH } from "@/lib/datetime";
-import { RESULT_CLASS, percentOf, scoreBand } from "@/lib/score-band";
+import { RESULT_CLASS, percentOf, ratingBand, ratingLabel, scoreBand } from "@/lib/score-band";
 import { cn } from "@/lib/utils";
 
 type ChecklistRating = "achieved" | "developing" | "needs_support" | "not_yet_observed";
@@ -67,7 +67,7 @@ type Row = StrengthsData["rows"][number];
 const QUARTERS = [1, 2, 3, 4];
 
 /** The Classroom Record bands, worded for recorded performance only. */
-const BAND_LABEL: Record<PracticalResultValue, string> = {
+const BAND_LABEL: Record<ScoreBand, string> = {
   very_good: "Strength shown",
   good: "Developing",
   needs_help: "Needs Support",
@@ -193,7 +193,7 @@ function Legend() {
         <b className="font-semibold text-gray-800">Activity performance</b> is the Classroom Record total: points earned ÷ points
         possible across the module&apos;s assessed activities this quarter. It shows recorded performance, not mastery.
       </li>
-      <li>A rated practical activity counts as Very Good 3, Good 2, Needs Help 1, out of 3. Digital scores count as recorded, a zero too.</li>
+      <li>A rated practical activity counts as its 1–5 rating, out of 5. Digital scores count as recorded, a zero too.</li>
       <li>
         Missing, unfinished and unrated activities are left out of the percent; the &ldquo;activities assessed&rdquo; count shows how much is
         recorded. <b className="font-semibold text-gray-800">Limited coverage</b> means fewer than half are assessed.
@@ -363,7 +363,7 @@ function ResultLine({ entry, inline = false }: { entry: Entry; inline?: boolean 
   } else if (r.rating) {
     text = (
       <>
-        <span className={cn(PILL, RESULT_CLASS[r.rating])}>{PRACTICAL_RESULT_LABEL[r.rating]}</span> practical rating, {dateOf(r.at)}
+        <span className={cn(PILL, RESULT_CLASS[ratingBand(r.rating)])}>{ratingLabel(r.rating)}</span> practical rating, {dateOf(r.at)}
       </>
     );
   } else {
