@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { useSections } from "@/hooks/useSections";
+import type { Section } from "@/types/db";
 
 interface SectionSelectProps {
   /** Load the list only once the surrounding form is actually open. */
@@ -29,6 +31,17 @@ export default function SectionSelect({
 }: SectionSelectProps) {
   const { sections, loading, failed } = useSections(enabled);
   const options = sections.filter((s) => s.gradeLevel === gradeLevel);
+  // Defaults to the first section with room (Joy, then Faith); the teacher can still pick a full one.
+  const [picked, setPicked] = useState<string | null>(null);
+  const isFull = (s: Section) => s.learnerCount >= s.capacity;
+  const value = picked ?? options.find((s) => !isFull(s))?.sectionName ?? "";
+  const selected = options.find((s) => s.sectionName === value);
+  const allFull = options.length > 0 && options.every(isFull);
+  const notice = allFull
+    ? "All sections are full."
+    : selected && isFull(selected)
+      ? `This section is full (${selected.learnerCount}/${selected.capacity}). The learner will still be added here.`
+      : null;
 
   if (failed) {
     return (
@@ -53,6 +66,8 @@ export default function SectionSelect({
       <select
         id="section"
         name="section"
+        value={value}
+        onChange={(e) => setPicked(e.target.value)}
         disabled={!gradeLevel || loading}
         aria-invalid={!!error}
         aria-describedby={error ? "section-error" : undefined}
@@ -69,11 +84,12 @@ export default function SectionSelect({
         </option>
         {options.map((s) => (
           <option key={s.sectionId} value={s.sectionName}>
-            {s.sectionName}
+            {`${s.sectionName} — ${s.learnerCount}/${s.capacity}${isFull(s) ? " Full" : ""}`}
           </option>
         ))}
       </select>
       {error && <p id="section-error" className="text-xs text-red-500 mt-1">{error}</p>}
+      {!error && notice && <p className="text-xs text-amber-600 mt-1">{notice}</p>}
     </>
   );
 }

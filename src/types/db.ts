@@ -64,6 +64,9 @@ export interface Section {
   /** False once the section has any learner or classroom records; renameReason then says why. */
   canRename: boolean;
   renameReason: string | null;
+  /** Active learners in the section, against the seats it is meant to hold. */
+  learnerCount: number;
+  capacity: number;
 }
 
 /** A row of the institution-wide `school_years` table. name is UNIQUE and
