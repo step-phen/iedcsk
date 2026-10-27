@@ -72,6 +72,7 @@ function PendingHandover({ outgoing, onCancelled }: { outgoing: Outgoing; onCanc
       const res = await apiFetch("/api/me/handover/cancel", { method: "POST" });
       // 409: the incoming teacher accepted first, so this account is already retired.
       if (res.status === 409) {
+        // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- account retired; full reload clears its client state
         window.location.assign("/login");
         return;
       }

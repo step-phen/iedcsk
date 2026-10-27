@@ -44,9 +44,11 @@ async function redirectOnLostAccess(res: Response) {
   const path = window.location.pathname;
   if (!path.startsWith("/teacher") && path !== "/accept-handover") return;
   if (res.status === 401) {
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- not a component (no router here); full reload clears the lost session's client state
     window.location.assign("/login");
   } else if (res.status === 403 && path !== "/accept-handover") {
     const body = (await res.clone().json().catch(() => null)) as { code?: string } | null;
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- full reload so the next account starts with no client state
     if (body?.code === "handover_pending") window.location.assign("/accept-handover");
   }
 }
