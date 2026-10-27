@@ -305,6 +305,7 @@ export default function Sidebar({
   // Logout leaves the class session running, since a class can only be started once a day.
   async function handleLogout() {
     await apiFetch("/logout", { method: "POST" }).catch(() => {});
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- full reload clears client state after logout
     window.location.assign("/login");
   }
 

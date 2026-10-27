@@ -21,6 +21,7 @@ export default function AcceptHandoverForm({ fromName, sectionCount }: { fromNam
         body: JSON.stringify({ newPassword: form.get("newPassword"), confirmPassword: form.get("confirmPassword") }),
       });
       if (res.ok) {
+        // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- new password and session; full reload starts clean client state
         window.location.assign("/teacher");
         return;
       }
@@ -41,6 +42,7 @@ export default function AcceptHandoverForm({ fromName, sectionCount }: { fromNam
 
   async function logOut() {
     await apiFetch("/logout", { method: "POST" }).catch(() => {});
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- full reload clears client state after logout
     window.location.assign("/login");
   }
 
