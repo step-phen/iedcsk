@@ -1,12 +1,61 @@
 /* Look of Similarities; layout and spacing stay in Tailwind, artwork paths and spoken lines stay in Similarities.data.ts. */
 
-/* Cream paper; the picture itself is set from ASSETS.background. */
+/* Cream paper; the picture itself is set from ASSETS.background.
+   The corner badge, title and score are fixed, so the game screen pads its top by --top.
+   The score art is 466x192 (x2.43) and the title 846x290 (x2.92); the title is capped to the gap between the corners. */
 .screen {
+  --edge: clamp(10px, 1.8vh, 18px);
+  --side: clamp(12px, 1.8vw, 20px);
+  --score-h: clamp(56px, 9vh, 96px);
+  --title-h: max(40px, min(clamp(68px, 12vh, 145px), calc((100vw - 2 * (var(--score-h) * 2.43 + var(--side) + 8px)) / 2.92)));
+  --title-top: var(--edge);
+  --badge-max: calc((100vw - var(--title-h) * 2.92) / 2 - var(--side) - 8px);
+  --top: calc(var(--edge) + max(var(--title-h), var(--score-h)) + 8px);
   background-color: #fdf8ed;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   color: #16215c;
+}
+
+/* Upright phones are too narrow for three across: badge and score share the top row, the title gets its own below. */
+@media (max-width: 639px) {
+  .screen {
+    --score-h: clamp(52px, 7vh, 64px);
+    --title-h: clamp(48px, 8vh, 72px);
+    --title-top: calc(var(--edge) + var(--score-h) + 6px);
+    --badge-max: calc(100vw - var(--score-h) * 2.43 - 2 * var(--side) - 12px);
+    --top: calc(var(--title-top) + var(--title-h) + 8px);
+  }
+
+  .targetCard {
+    width: clamp(84px, 14vh, 120px);
+    height: clamp(84px, 14vh, 120px);
+  }
+}
+
+/* The three choices fill whatever room is left: one row, or two then one, whichever gives bigger cards.
+   --card is resolved on each card, so 100cqw/100cqh are this box's content size, inside the 14px kept clear
+   for the revealed card's zoom and check mark. */
+.choices {
+  container-type: size;
+  --gap: clamp(10px, 2.5vmin, 24px);
+  --card: clamp(
+    64px,
+    max(
+      min((100cqw - 2 * var(--gap)) / 3, 100cqh),
+      min((100cqw - var(--gap)) / 2, (100cqh - var(--gap)) / 2)
+    ),
+    260px
+  );
+  gap: var(--gap);
+  padding: 14px;
+}
+
+.choices > button {
+  width: var(--card);
+  height: var(--card);
+  padding: calc(var(--card) * 0.07);
 }
 
 .badge {
@@ -163,4 +212,34 @@
 .speakerButton:disabled {
   opacity: 0.5;
   cursor: default;
+}
+
+/* Phones held sideways are only ~320-430px tall: a slimmer top, the prompt and stars on one line,
+   and the target beside the choices instead of above them. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .screen {
+    --edge: 6px;
+    --score-h: 44px;
+    --title-h: 48px;
+    padding-bottom: 6px;
+  }
+
+  .top {
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .board {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .board > :first-child {
+    margin-top: 0;
+  }
+
+  .targetCard {
+    width: clamp(80px, 24vh, 110px);
+    height: clamp(80px, 24vh, 110px);
+  }
 }
