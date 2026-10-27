@@ -46,6 +46,7 @@ import {
 } from "@/lib/learners";
 import ProvinceSelect from "@/components/learner/province-select";
 import SectionSelect from "@/components/learner/section-select";
+import { invalidateSections } from "@/hooks/useSections";
 import {
   displaySchoolYear,
   useActiveSchoolYear,
@@ -231,6 +232,8 @@ export default function AddLearnerForm() {
 
   useEffect(() => {
     if (state.success) {
+      // Section seat counts changed; the next open fetches them fresh.
+      invalidateSections();
       toast.success("Learner added successfully!", { position: "top-center" });
       router.push("/teacher/learners");
       router.refresh();
