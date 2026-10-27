@@ -313,7 +313,7 @@ export default function Similarities({
 
   return (
     <div
-      className={`${styles.screen} fixed inset-0 h-dvh w-full box-border flex flex-col overflow-hidden font-baloo2 pt-[clamp(100px,16.5vh,190px)] px-[clamp(14px,3vw,30px)] pb-[clamp(10px,2vh,20px)]`}
+      className={`${styles.screen} fixed inset-0 h-dvh w-full box-border flex flex-col overflow-hidden font-baloo2 pt-[var(--top)] px-[clamp(14px,3vw,30px)] pb-[clamp(10px,2vh,20px)]`}
       style={BG_STYLE}
     >
       <RealisticEffect active={confettiOn} originX={burstOrigin.x} originY={burstOrigin.y} />
@@ -323,7 +323,7 @@ export default function Similarities({
       {/* The name and title stay up on the result screen too; only the live score banner leaves with the board. */}
       {learnerName && (
         <div
-          className={`${styles.badge} fixed top-[clamp(10px,1.8vh,18px)] left-[clamp(12px,1.8vw,20px)] z-10 flex max-w-[40%] items-center gap-2 rounded-full py-1.5 pl-1.5 pr-5 text-[clamp(17px,2.6vh,24px)] font-extrabold`}
+          className={`${styles.badge} fixed top-[var(--edge)] left-[var(--side)] z-10 flex max-w-[var(--badge-max)] items-center gap-2 rounded-full py-1.5 pl-1.5 pr-5 text-[clamp(17px,2.6vh,24px)] font-extrabold`}
         >
           <LearnerAvatar
             photoUrl={photoUrl}
@@ -333,15 +333,15 @@ export default function Similarities({
           <span className="truncate capitalize leading-none">{learnerName}</span>
         </div>
       )}
-      {/* Still an h1 so the heading survives; height-capped since the ~2.9:1 banner would reach the game area if sized by width. */}
-      <h1 className="fixed top-[clamp(10px,1.8vh,18px)] left-1/2 -translate-x-1/2 z-10 m-0 flex justify-center max-w-[45%]">
+      {/* Still an h1 so the heading survives; sized by --title-h, which keeps the ~2.9:1 banner clear of the badge and score. */}
+      <h1 className="fixed top-[var(--title-top)] left-1/2 -translate-x-1/2 z-10 m-0 flex justify-center">
         <Image
           src={ASSETS.title}
           alt={title}
           width={846}
           height={290}
           priority
-          className="h-[clamp(68px,12vh,145px)] w-auto max-w-full object-contain"
+          className="h-[var(--title-h)] w-auto max-w-none object-contain"
         />
       </h1>
 
@@ -354,11 +354,11 @@ export default function Similarities({
             width={466}
             height={192}
             loading="eager"
-            className="fixed top-[clamp(10px,1.8vh,18px)] right-[clamp(12px,1.8vw,20px)] z-10 h-[clamp(56px,9vh,96px)] w-auto object-contain"
+            className="fixed top-[var(--edge)] right-[var(--side)] z-10 h-[var(--score-h)] w-auto object-contain"
           />
 
           {/* ---------- TOP ---------- */}
-          <header className="flex flex-col items-center gap-[2px] shrink-0">
+          <header className={`${styles.top} flex flex-col items-center justify-center gap-[2px] shrink-0`}>
             <div className={`${styles.instruction} text-[clamp(18px,3vh,30px)] font-bold mt-[2px] text-center`}>
               Tap the pictures that are the same.
             </div>
@@ -379,7 +379,7 @@ export default function Similarities({
           </header>
 
           {/* ---------- CENTER: target on top, choices below ---------- */}
-          <main className="flex-1 flex flex-col items-center justify-center gap-[clamp(8px,1.8vh,16px)] min-h-0 mt-[2px]">
+          <main className={`${styles.board} flex-1 flex flex-col items-center justify-center gap-[clamp(8px,1.8vh,16px)] min-h-0 mt-[2px]`}>
             <div className="flex flex-col items-center gap-[clamp(4px,1vh,8px)] shrink-0 mt-[clamp(6px,1.6vh,20px)]">
               <div className={`${styles.targetLabel} text-[clamp(10px,1.4vh,12px)] font-extrabold tracking-[2px]`}>TARGET</div>
               <div className="flex flex-col items-center gap-[clamp(4px,1vh,8px)] shrink-0">
@@ -407,7 +407,8 @@ export default function Similarities({
               </div>
             </div>
 
-            <div className="flex flex-wrap justify-center content-center gap-[clamp(12px,2.2vw,24px)] w-full max-w-[960px] flex-1 min-h-0 overflow-y-auto p-[clamp(18px,3.5vh,32px)]">
+            {/* Card size comes from this box's own room (see .choices), so the three always fit without scrolling. */}
+            <div className={`${styles.choices} flex flex-wrap justify-center content-center w-full max-w-[960px] flex-1 self-stretch mx-auto min-w-0 min-h-0`}>
               {round.choices.map((card) => {
                 const state = cardState(card);
                 return (
@@ -420,9 +421,9 @@ export default function Similarities({
                     // The card shows no text, so without this the button has no accessible name.
                     aria-label={wordLabel(card.object)}
                     className={cn(
-                      // Capped so three cards plus gaps still clear the 960px row at every viewport height.
+                      // Width, height and padding come from .choices' --card.
                       styles.card,
-                      "relative box-border flex items-center justify-center w-[clamp(140px,32vh,260px)] h-[clamp(140px,32vh,260px)] rounded-3xl p-[clamp(10px,2vh,16px)] font-[inherit] shrink-0",
+                      "relative box-border flex items-center justify-center rounded-3xl font-[inherit] shrink-0",
                       phase === "playing" ? "cursor-pointer" : "cursor-default",
                       state === "correct" && styles.cardCorrect,
                       state === "reveal" && styles.cardReveal,
