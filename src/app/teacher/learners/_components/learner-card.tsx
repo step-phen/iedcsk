@@ -38,7 +38,7 @@ export default function LearnerCard({ learner }: { learner: LearnerListItem }) {
       {/* Every detail wraps instead of clipping; the card grows to fit. */}
       <span className="min-w-0 flex-1 space-y-0.5 break-words">
         <span className="block text-base font-semibold leading-snug text-gray-900 group-hover:text-sidebar">{displayName(learner)}</span>
-        <span className="block text-[11px] font-bold tracking-wide text-sidebar tabular-nums">LRN: {learner.lrn ?? "—"}</span>
+        <span className="block text-[11px] font-bold tracking-wide text-sidebar tabular-nums">LRN: {learner.lrn ?? "N/A"}</span>
         <span className="block text-xs text-gray-700">
           <span className="font-semibold text-gray-500">Section:</span>{" "}
           {learner.gradeLevel && learner.section ? `${learner.gradeLevel} - ${learner.section}` : "—"}
