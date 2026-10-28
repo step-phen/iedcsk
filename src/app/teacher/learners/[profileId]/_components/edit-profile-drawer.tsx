@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast"
 import { apiFetch } from "@/lib/api"
 import { extensionNames, guardianRelationships, hasMiddleName, PHOTO_ACCEPT, photoError } from "@/lib/learners"
 import type { LearnerAddress } from "@/types/db"
-import { Pencil, ImagePlus, Upload } from "lucide-react"
+import { Pencil, ImagePlus, Upload, Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ModalShell } from "@/components/ui/modal-shell"
 import ProvinceSelect from "@/components/learner/province-select"
@@ -35,6 +35,8 @@ interface GuardianInput {
   contactNumber: string
   /** Stored value: a preset token, or free text typed under "Other". */
   relationshipToLearner: string
+  guardianEmail: string | null
+  occupation: string | null
 }
 
 /**
@@ -42,6 +44,8 @@ interface GuardianInput {
  * presets came from the "Other" box and has to be put back there — otherwise
  * the dropdown would open on nothing and silently drop what was saved.
  */
+const BLANK_GUARDIAN: GuardianInput = { guardianName: "", contactNumber: "", relationshipToLearner: "", guardianEmail: null, occupation: null }
+
 function splitRelationship(stored: string) {
   const isPreset = (guardianRelationships as readonly string[]).includes(stored)
   return isPreset || stored === ""
@@ -64,7 +68,14 @@ function SectionHeader({ title }: { title: string }) {
 export default function EditProfileDrawer({ learner }: { learner: Learner }) {
   const [open, setOpen] = useState(false)
   // A learner with no guardian on file still gets one blank block to fill in.
-  const guardians = learner.guardians.length ? learner.guardians : [{ guardianName: "", contactNumber: "", relationshipToLearner: "" }]
+  const saved = learner.guardians.length ? learner.guardians : [BLANK_GUARDIAN]
+  // Keys of guardians added in this edit; only these can be removed, since the API never deletes saved ones.
+  const [added, setAdded] = useState<number[]>([])
+  const nextKey = useRef(0)
+  const guardians = [
+    ...saved.map((guardian, i) => ({ key: `saved-${i}`, guardian, onRemove: undefined })),
+    ...added.map((k) => ({ key: `added-${k}`, guardian: BLANK_GUARDIAN, onRemove: () => setAdded((prev) => prev.filter((x) => x !== k)) })),
+  ]
   // Starts as the learner's existing photo (a real URL); becomes a blob: URL once a new file is picked.
   const [photoPreview, setPhotoPreview] = useState<string | null>(learner.photoUrl)
   const photoInputRef = useRef<HTMLInputElement>(null)
@@ -126,7 +137,10 @@ export default function EditProfileDrawer({ learner }: { learner: Learner }) {
   return (
     <>
       <Button
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setAdded([])
+          setOpen(true)
+        }}
         className="group bg-[#5b0610] hover:bg-[#4d050d] h-9.5 justify-center text-white text-sm font-semibold cursor-pointer px-3"
       >
         <Pencil size={14} className="transition-transform group-hover:rotate-90 duration-300" />
@@ -322,9 +336,17 @@ export default function EditProfileDrawer({ learner }: { learner: Learner }) {
               <div className="space-y-4 rounded-xl bg-[#eae4c9]/25 border border-[#eae4c9] p-4">
                 <SectionHeader title="Guardian & Contact Information" />
                 <input type="hidden" name="guardianCount" value={guardians.length} />
-                {guardians.map((guardian, i) => (
-                  <GuardianFields key={i} index={i} numbered={guardians.length > 1} guardian={guardian} fieldErrors={fieldErrors} />
+                {guardians.map(({ key, guardian, onRemove }, i) => (
+                  <GuardianFields key={key} index={i} numbered={guardians.length > 1} guardian={guardian} fieldErrors={fieldErrors} onRemove={onRemove} />
                 ))}
+                <button
+                  type="button"
+                  onClick={() => setAdded((prev) => [...prev, nextKey.current++])}
+                  className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-gray-300 py-3 text-xs font-semibold text-gray-500 hover:border-[#5b0610] hover:text-[#5b0610] cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Add Secondary Contact / Guardian
+                </button>
               </div>
 
               {formError && (
@@ -355,11 +377,13 @@ function GuardianFields({
   numbered,
   guardian,
   fieldErrors,
+  onRemove,
 }: {
   index: number
   numbered: boolean
   guardian: GuardianInput
   fieldErrors: Record<string, string>
+  onRemove?: () => void
 }) {
   const seed = splitRelationship(guardian.relationshipToLearner)
   // Controlled so the "Other" text box can appear alongside it.
@@ -368,7 +392,21 @@ function GuardianFields({
 
   return (
     <div className="space-y-3">
-      {numbered && <p className="text-xs font-bold text-gray-500">Guardian {index + 1}</p>}
+      {numbered && (
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-bold text-gray-500">Guardian {index + 1}</p>
+          {onRemove && (
+            <button
+              type="button"
+              onClick={onRemove}
+              className="flex items-center gap-1 text-xs font-semibold text-red-500 hover:text-red-600 cursor-pointer"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              Remove
+            </button>
+          )}
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label className="block text-xs font-bold text-gray-700 mb-1.5">
@@ -421,6 +459,34 @@ function GuardianFields({
               {err("relationshipOther") && <p className="text-xs text-red-500 mt-1">{err("relationshipOther")}</p>}
             </div>
           )}
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-xs font-bold text-gray-500 mb-1.5">
+            Email Address <span className="text-gray-400 font-normal">(Optional)</span>
+          </label>
+          <input
+            name={`guardianEmail_${index}`}
+            type="email"
+            defaultValue={guardian.guardianEmail ?? ""}
+            placeholder="mariaclara@example.com"
+            className={inp(err("guardianEmail"))}
+          />
+          {err("guardianEmail") && <p className="text-xs text-red-500 mt-1">{err("guardianEmail")}</p>}
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-gray-500 mb-1.5">
+            Occupation / Workplace <span className="text-gray-400 font-normal">(Optional)</span>
+          </label>
+          <input
+            name={`occupation_${index}`}
+            defaultValue={guardian.occupation ?? ""}
+            maxLength={100}
+            placeholder="e.g. Government Employee"
+            className={inp(err("occupation"))}
+          />
+          {err("occupation") && <p className="text-xs text-red-500 mt-1">{err("occupation")}</p>}
         </div>
       </div>
     </div>

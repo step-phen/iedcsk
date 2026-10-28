@@ -206,10 +206,12 @@ export default async function LearnerProfilePage({
                     gender: learner.gender,
                     photoUrl: learner.photoUrl,
                     address: learner.address,
-                    guardians: learner.guardians.map(({ guardianName, contactNumber, relationshipToLearner }) => ({
+                    guardians: learner.guardians.map(({ guardianName, contactNumber, relationshipToLearner, guardianEmail, occupation }) => ({
                       guardianName,
                       contactNumber,
                       relationshipToLearner,
+                      guardianEmail,
+                      occupation,
                     })),
                   }}
                 />
