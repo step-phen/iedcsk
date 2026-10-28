@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Users, AlertCircle, UserPlus, type LucideIcon } from "lucide-react";
 import type { LearnerListItem } from "@/types/learner";
 import type { Gender } from "@/constants/enums";
-import { matchesLearnerSearch } from "@/lib/learners";
+import { calculateAge, matchesLearnerSearch } from "@/lib/learners";
 import { SELECT_CLASS } from "@/app/teacher/_components/dashboard/section-selector";
 import Segmented from "@/app/teacher/_components/shared/segmented";
 import Pagination from "@/app/teacher/_components/shared/pagination";
@@ -62,6 +62,7 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
   const [searchQuery, setSearchQuery] = useState("");
   const [genderFilter, setGenderFilter] = useState<Gender | "ALL">("ALL");
   const [sectionFilter, setSectionFilter] = useState("ALL");
+  const [ageFilter, setAgeFilter] = useState("ALL");
   const [view, setView] = useState<View>("list");
   // Held here, outside the per-view subtree, so List and Cards share one page.
   const [page, setPage] = useState(1);
@@ -82,9 +83,13 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
   }
 
   const sections = [...new Set(learners.map(sectionKey))].sort();
-  // Gender counts follow the search and section, so the numbers match what the teacher is looking at.
+  const ages = [...new Set(learners.map((l) => calculateAge(l.birthdate)))].sort((a, b) => a - b);
+  // Gender counts follow the search, section and age, so the numbers match what the teacher is looking at.
   const inScope = learners.filter(
-    (l) => matchesLearnerSearch(l, searchQuery) && (sectionFilter === "ALL" || sectionKey(l) === sectionFilter),
+    (l) =>
+      matchesLearnerSearch(l, searchQuery) &&
+      (sectionFilter === "ALL" || sectionKey(l) === sectionFilter) &&
+      (ageFilter === "ALL" || calculateAge(l.birthdate) === Number(ageFilter)),
   );
   const shown = inScope.filter((l) => genderFilter === "ALL" || l.gender === genderFilter);
   const boys = inScope.filter((l) => l.gender === "Male").length;
@@ -125,6 +130,25 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
             {sections.map((section) => (
               <option key={section} value={section}>
                 {section}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
+          Age
+          <select
+            name="age-filter"
+            value={ageFilter}
+            onChange={(e) => {
+              setAgeFilter(e.target.value);
+              setPage(1);
+            }}
+            className={SELECT_CLASS}
+          >
+            <option value="ALL">All ages</option>
+            {ages.map((age) => (
+              <option key={age} value={age}>
+                {age} years old
               </option>
             ))}
           </select>
