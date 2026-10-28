@@ -21,7 +21,7 @@ interface ProfileTabLearner {
   gradeLevel: string | null;
   section: string | null;
   /** Every guardian on file for this learner — a learner can have more than one. */
-  guardians: Pick<Guardian, "guardianId" | "guardianName" | "contactNumber" | "relationshipToLearner" | "guardianEmail">[];
+  guardians: Pick<Guardian, "guardianId" | "guardianName" | "contactNumber" | "relationshipToLearner" | "guardianEmail" | "occupation">[];
 }
 
 interface ProfileTabProps {
@@ -112,16 +112,17 @@ export default function ProfileTab({ learner, years, editAction }: ProfileTabPro
               {learner.guardians.length > 1 && (
                 <p className="text-xs font-bold text-gray-500 mb-2">Guardian {i + 1}</p>
               )}
+              {/* Every field always renders (N/A when empty) so the columns line up across guardians. */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <ReadOnlyField label="Guardian" value={guardian.guardianName} />
-                <ReadOnlyField label="Contact No." value={guardian.contactNumber} />
                 {/* The column already holds the real relationship — a teacher
                     who picked "Other" had their typed text stored in place of
                     the token. */}
                 <ReadOnlyField label="Relationship" value={guardian.relationshipToLearner} />
-                {/* Optional field — omitted entirely when not on file, unlike
-                    the required fields above which always show their "N/A" box. */}
-                {guardian.guardianEmail && <ReadOnlyField label="Email" value={guardian.guardianEmail} />}
+                <ReadOnlyField label="Occupation" value={guardian.occupation} />
+                <div className="hidden sm:block" />
+                <ReadOnlyField label="Contact No." value={guardian.contactNumber} />
+                <ReadOnlyField label="Email" value={guardian.guardianEmail} className="col-span-1 sm:col-span-3 break-all" />
               </div>
               {i < learner.guardians.length - 1 && <div className="border-t border-[#eae4c9] mt-4" />}
             </div>
