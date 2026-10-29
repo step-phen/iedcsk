@@ -3,10 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
-import { CircleCheck, CircleDashed, Download, EyeOff, FileText, Gamepad2, Info, LifeBuoy, Loader2, TrendingUp, type LucideIcon } from "lucide-react";
+import { Check, CircleCheck, CircleDashed, Download, EyeOff, FileText, Gamepad2, Info, LifeBuoy, Loader2, type LucideIcon } from "lucide-react";
 import { ModalShell } from "@/components/ui/modal-shell";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RATING_BADGE, type Rating } from "@/app/teacher/developmental-checklist/_components/checklist-table";
+import { ACCOMPLISHED, RATING_BADGE, isTaught, type Rating } from "@/app/teacher/developmental-checklist/_components/checklist-table";
 import { QUARTER_NAMES } from "@/lib/report-pdf";
 import { cn } from "@/lib/utils";
 import { byDomain, downloadChecklistSummary, type ChecklistSummaryLearner } from "./export-checklist-summary";
@@ -26,10 +26,10 @@ type Status = Rating | "unrated";
 
 // stroke colors the rating's arc in RatingRing; unrated has none, it is the ring's white track.
 const STATUS: Record<Status, { label: string; meaning: string; icon: LucideIcon; pill: string; dot: string; stroke?: string }> = {
-  achieved: { label: RATING_BADGE.achieved.label, meaning: "Can do this on their own.", icon: CircleCheck, pill: RATING_BADGE.achieved.className, dot: "bg-emerald-500", stroke: "stroke-emerald-500" },
-  developing: { label: RATING_BADGE.developing.label, meaning: "Getting there, but still needs practice.", icon: TrendingUp, pill: RATING_BADGE.developing.className, dot: "bg-amber-500", stroke: "stroke-amber-500" },
-  needs_support: { label: RATING_BADGE.needs_support.label, meaning: "Needs extra help to do this.", icon: LifeBuoy, pill: RATING_BADGE.needs_support.className, dot: "bg-red-500", stroke: "stroke-red-500" },
-  not_yet_observed: { label: RATING_BADGE.not_yet_observed.label, meaning: "The teacher has not seen this skill yet.", icon: EyeOff, pill: RATING_BADGE.not_yet_observed.className, dot: "bg-gray-400", stroke: "stroke-gray-400" },
+  achieved: { label: RATING_BADGE.achieved.label, meaning: "Does this skill well, on their own.", icon: CircleCheck, pill: RATING_BADGE.achieved.className, dot: "bg-emerald-500", stroke: "stroke-emerald-500" },
+  developing: { label: RATING_BADGE.developing.label, meaning: "Can do this skill.", icon: Check, pill: RATING_BADGE.developing.className, dot: "bg-yellow-400", stroke: "stroke-yellow-400" },
+  needs_support: { label: RATING_BADGE.needs_support.label, meaning: "Needs extra help to do this skill.", icon: LifeBuoy, pill: RATING_BADGE.needs_support.className, dot: "bg-red-500", stroke: "stroke-red-500" },
+  not_yet_observed: { label: RATING_BADGE.not_yet_observed.label, meaning: "This skill has not been taught yet.", icon: EyeOff, pill: RATING_BADGE.not_yet_observed.className, dot: "bg-gray-400", stroke: "stroke-gray-400" },
   unrated: { label: "Not rated yet", meaning: "No rating has been given yet.", icon: CircleDashed, pill: "border-dashed border-gray-300 bg-white text-gray-600", dot: "bg-gray-200" },
 };
 const STATUS_ORDER = Object.keys(STATUS) as Status[];
@@ -41,10 +41,17 @@ const countsOf = (list: ProgressItem[]) =>
 
 const percent = (part: number, whole: number) => (whole ? Math.round((part / whole) * 100) : 0);
 
-/** Donut of rated skills, one arc per rating; the white track left over is the unrated part. */
-function RatingRing({ counts, total, size, thickness, label, className }: { counts: Record<Status, number>; total: number; size: number; thickness: number; label: string; className?: string }) {
+/** Skills rated HA or A: the ones the learner can do. */
+const accomplished = (counts: Record<Status, number>) => ACCOMPLISHED.reduce((sum, r) => sum + counts[r], 0);
+
+/** Every skill except "/" (not yet introduced): the base for "X of Y" and the percent. */
+const taught = (counts: Record<Status, number>) => STATUS_ORDER.reduce((sum, s) => sum + (s === "unrated" || isTaught(s) ? counts[s] : 0), 0);
+
+/** Donut of the taught skills, one arc per rating, with the accomplished percent in the middle; the white track is the unrated part. */
+function RatingRing({ counts, size, thickness, className }: { counts: Record<Status, number>; size: number; thickness: number; className?: string }) {
   const r = (size - thickness) / 2;
-  const arcs = STATUS_ORDER.filter((s) => s !== "unrated" && counts[s] > 0).map((s) => ({ s, length: (counts[s] / total) * 100 }));
+  const total = taught(counts);
+  const arcs = STATUS_ORDER.filter((s) => s !== "unrated" && isTaught(s) && counts[s] > 0).map((s) => ({ s, length: (counts[s] / total) * 100 }));
   const starts = arcs.map((_, i) => arcs.slice(0, i).reduce((sum, a) => sum + a.length, 0));
   return (
     <div className={cn("relative shrink-0", className)} style={{ width: size, height: size }}>
@@ -66,7 +73,7 @@ function RatingRing({ counts, total, size, thickness, label, className }: { coun
         ))}
       </svg>
       <span aria-hidden="true" className="absolute inset-0 grid place-items-center font-bold tabular-nums text-gray-900">
-        {label}
+        {percent(accomplished(counts), total)}%
       </span>
     </div>
   );
@@ -184,11 +191,11 @@ export default function ProgressTab({
           <section aria-label="Quarter summary" className="space-y-4 rounded-xl bg-[#f6f1df] p-4 md:p-5">
             <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
               <div role="img" aria-label={STATUS_ORDER.filter((s) => counts[s]).map((s) => `${STATUS[s].label}: ${counts[s]}`).join(", ")}>
-                <RatingRing counts={counts} total={shown.length} size={112} thickness={13} label={`${percent(counts.achieved, shown.length)}%`} className="text-2xl" />
+                <RatingRing counts={counts} size={112} thickness={13} className="text-2xl" />
               </div>
               <div className="min-w-0 flex-1 basis-56 space-y-1">
                 <p className="text-base font-bold text-gray-900">
-                  {learnerName} has achieved {counts.achieved} of {shown.length} {shown.length === 1 ? "skill" : "skills"}
+                  {learnerName} has accomplished {accomplished(counts)} of {taught(counts)} {taught(counts) === 1 ? "skill" : "skills"}
                 </p>
                 <p className="text-sm text-gray-700">
                   {rated === 0
@@ -215,10 +222,10 @@ export default function ProgressTab({
                       }}
                       className="flex cursor-pointer flex-col items-center gap-1.5 rounded-xl border-2 border-transparent bg-white/60 px-2.5 py-3 text-center outline-none transition-colors hover:border-[#5b0610]/40 hover:bg-white focus-visible:ring-2 focus-visible:ring-[#5b0610]/40"
                     >
-                      <RatingRing counts={domainCount} total={domain.skills.length} size={64} thickness={8} label={`${percent(domainCount.achieved, domain.skills.length)}%`} className="text-sm" />
+                      <RatingRing counts={domainCount} size={64} thickness={8} className="text-sm" />
                       <span className="text-xs font-semibold leading-snug text-gray-900">{domain.domainName}</span>
                       <span className="text-xs tabular-nums text-gray-600">
-                        {domainCount.achieved} of {domain.skills.length} achieved
+                        {accomplished(domainCount)} of {taught(domainCount)} accomplished
                       </span>
                     </button>
                   );
@@ -234,7 +241,10 @@ export default function ProgressTab({
               <dl className="mt-3 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
                 {STATUS_ORDER.map((s) => (
                   <div key={s}>
-                    <dt className="font-semibold text-gray-900">{STATUS[s].label}</dt>
+                    <dt className="font-semibold text-gray-900">
+                      {s !== "unrated" && <span className="mr-1.5 font-bold text-[#5b0610]">{RATING_BADGE[s].code}</span>}
+                      {STATUS[s].label}
+                    </dt>
                     <dd>{STATUS[s].meaning}</dd>
                   </div>
                 ))}
@@ -248,14 +258,14 @@ export default function ProgressTab({
         open={domainOpen && !!pickedDomain}
         onClose={() => setDomainOpen(false)}
         title={pickedDomain?.domainName ?? ""}
-        subtitle={pickedDomain && pickedCounts ? `${QUARTER_NAMES[Number(quarter) - 1]} · ${pickedCounts.achieved} of ${pickedDomain.skills.length} achieved` : undefined}
+        subtitle={pickedDomain && pickedCounts ? `${QUARTER_NAMES[Number(quarter) - 1]} · ${accomplished(pickedCounts)} of ${taught(pickedCounts)} accomplished` : undefined}
         headerId="progress-domain-modal"
         panelClassName="flex max-h-[calc(100dvh-3rem)] flex-col"
       >
         {pickedDomain && pickedCounts && (
           <div className="flex min-h-0 flex-col">
             <div className="flex flex-wrap items-center gap-4 border-b border-gray-100 bg-[#f6f1df] px-6 py-4">
-              <RatingRing counts={pickedCounts} total={pickedDomain.skills.length} size={64} thickness={8} label={`${percent(pickedCounts.achieved, pickedDomain.skills.length)}%`} className="text-sm" />
+              <RatingRing counts={pickedCounts} size={64} thickness={8} className="text-sm" />
               <StatusLegend counts={pickedCounts} />
             </div>
             <div className="min-h-0 overflow-y-auto px-6 pb-2">

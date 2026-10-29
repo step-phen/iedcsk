@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, type FormEvent } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "react-hot-toast"
 import { apiFetch } from "@/lib/api"
-import { extensionNames, guardianRelationships, hasMiddleName, PHOTO_ACCEPT, photoError } from "@/lib/learners"
+import { extensionNames, formatMobile, guardianRelationships, hasMiddleName, PHOTO_ACCEPT, photoError } from "@/lib/learners"
 import type { LearnerAddress } from "@/types/db"
 import { Pencil, ImagePlus, Upload, Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -419,7 +419,16 @@ function GuardianFields({
           <label className="block text-xs font-bold text-gray-700 mb-1.5">
             Contact Number <span className="text-red-500">*</span>
           </label>
-          <input name={`contactNumber_${index}`} defaultValue={guardian.contactNumber} required className={inp(err("contactNumber"))} />
+          <input
+            name={`contactNumber_${index}`}
+            type="tel"
+            inputMode="numeric"
+            placeholder="0917 123 4567"
+            defaultValue={formatMobile(guardian.contactNumber)}
+            onChange={(e) => (e.currentTarget.value = formatMobile(e.currentTarget.value))}
+            required
+            className={inp(err("contactNumber"))}
+          />
           {err("contactNumber") && <p className="text-xs text-red-500 mt-1">{err("contactNumber")}</p>}
         </div>
         <div>

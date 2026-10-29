@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Download, Eye, Lock, RefreshCw, Save, Sparkles, Unlock } from "lucide-react";
 import { SELECT_CLASS } from "@/app/teacher/_components/dashboard/section-selector";
+import { ratingText, type Rating } from "@/app/teacher/developmental-checklist/_components/checklist-table";
 import Segmented from "@/app/teacher/_components/shared/segmented";
 import { ModalShell } from "@/components/ui/modal-shell";
 import type { PracticalResultValue } from "@/constants/enums";
@@ -26,7 +27,7 @@ interface Evidence {
   level: "strength" | "developing" | "needs" | null;
   source: "checklist" | "practical" | "digital" | null;
   status: "assessed" | "awaiting_rating" | "not_assessed";
-  checklist: { rating: keyof typeof CHECKLIST_LABEL; remarks: string | null } | null;
+  checklist: { rating: Rating; remarks: string | null } | null;
   result: { score: number | null; maxScore: number | null; rating: PracticalResultValue | null; remarks: string | null; playedQuarter: number } | null;
 }
 
@@ -72,7 +73,6 @@ interface Snapshot {
 
 type Printable = { header: ReportHeader; rows: ReportRow[]; status: string; version?: number };
 
-const CHECKLIST_LABEL = { achieved: "Achieved", developing: "Developing", needs_support: "Needs support", not_yet_observed: "Not yet observed" };
 
 const LEVEL = {
   strength: { label: "Strength", className: "bg-emerald-50 text-emerald-700" },
@@ -590,7 +590,7 @@ function EvidenceList({ evidence, quarter, open = false, onInsert }: { evidence:
             )}
             <span className="font-medium text-gray-900">{e.item}</span>
             {e.activityName && <span className="text-gray-500">· {e.activityName}</span>}
-            {e.checklist && <span className="text-gray-600">· Checklist: {CHECKLIST_LABEL[e.checklist.rating]}</span>}
+            {e.checklist && <span className="text-gray-600">· Checklist: {ratingText(e.checklist.rating)}</span>}
             {e.result?.maxScore != null && (
               <span className="text-gray-600">
                 · Score {e.result.score}/{e.result.maxScore}

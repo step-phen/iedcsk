@@ -40,6 +40,7 @@ import {
   MIN_LEARNER_AGE,
   MAX_LEARNER_AGE,
   extensionNames,
+  formatMobile,
   gradeLevels,
   PHOTO_ACCEPT,
   photoError,
@@ -1064,8 +1065,9 @@ function GuardianFields({
             id={contactKey}
             name={contactKey}
             type="tel"
-            maxLength={11}
+            inputMode="numeric"
             placeholder="0917 123 4567"
+            onChange={(e) => (e.currentTarget.value = formatMobile(e.currentTarget.value))}
             aria-invalid={!!fieldErrors[contactKey]}
             aria-describedby={
               fieldErrors[contactKey] ? `${contactKey}-error` : undefined

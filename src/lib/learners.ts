@@ -204,6 +204,15 @@ const learnerPhotoSchema = z
   .refine((f) => PHOTO_TYPES.includes(f.type), "Photo must be a JPG, PNG, or WEBP image.")
   .refine((f) => f.size <= MAX_PHOTO_MB * 1024 * 1024, `Photo must be ${MAX_PHOTO_MB}MB or smaller.`);
 
+/** An 11-digit PH mobile number grouped as "0917 123 4567" while it is typed; the API strips the spaces.
+ *  A pasted "+63 917 123 4567" becomes "0917 123 4567" rather than the wrong "6391 712 3456". */
+export function formatMobile(value: string): string {
+  let d = value.replace(/\D/g, "");
+  if (d.length >= 12 && d.startsWith("63")) d = `0${d.slice(2)}`;
+  d = d.slice(0, 11);
+  return [d.slice(0, 4), d.slice(4, 7), d.slice(7)].filter(Boolean).join(" ");
+}
+
 /** The first problem with a picked photo, or null when it may be uploaded. */
 export function photoError(file: File): string | null {
   const result = learnerPhotoSchema.safeParse(file);

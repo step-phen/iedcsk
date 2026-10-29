@@ -27,7 +27,7 @@ export type SectionChecklist = {
     /** hasRecords: learners already played it, so a skill can't be linked to it (API rule). */
     activities: { activityId: number; name: string; quarter: number; hasRecords: boolean }[];
   }[];
-  learners: { enrollmentId: number; learnerId: number; firstName: string; middleName: string | null; lastName: string }[];
+  learners: { enrollmentId: number; learnerId: number; firstName: string; middleName: string | null; lastName: string; lrn: string | null }[];
   ratings: { enrollmentId: number; itemId: number; quarter: number; rating: Rating; remarks: string | null }[];
   /** Each learner's latest result on the games linked to a skill. */
   results: ({ enrollmentId: number; activityId: number } & ActivityResult)[];
@@ -38,24 +38,35 @@ type ActivityResult = { score: number; maxScore: number } | { rating: PracticalR
 /** hasRecords: rated, or linked to a game with records (API rule); viewable, never changed again. */
 type ChecklistItem = { itemId: number; item: string; quarter: number; activityId: number | null; activityName: string | null; hasRecords: boolean };
 
-export const RATING_BADGE: Record<Rating, { label: string; className: string }> = {
-  achieved: { label: "Achieved", className: "bg-emerald-100 text-emerald-700 border-emerald-200" },
-  developing: { label: "Developing", className: "bg-amber-100 text-amber-700 border-amber-200" },
-  needs_support: { label: "Needs support", className: "bg-red-100 text-red-700 border-red-200" },
-  not_yet_observed: { label: "Not yet observed", className: "bg-gray-100 text-gray-600 border-gray-200" },
+// The school's Progress Report evaluation codes, shown over the stored keys (which are unchanged). Ratings saved
+// before the codes keep their key but read with the new meaning: an old "Developing" now shows as A, Accomplished.
+export const RATING_BADGE: Record<Rating, { code: string; label: string; className: string }> = {
+  achieved: { code: "HA", label: "Highly accomplished", className: "bg-emerald-100 text-emerald-700 border-emerald-200" },
+  developing: { code: "A", label: "Accomplished", className: "bg-yellow-100 text-yellow-800 border-yellow-300" },
+  needs_support: { code: "NS", label: "Needs support", className: "bg-red-100 text-red-700 border-red-200" },
+  not_yet_observed: { code: "/", label: "Not yet introduced", className: "bg-gray-100 text-gray-600 border-gray-200" },
 };
+
+/** HA and A: what the reports count as a skill the learner can do. */
+export const ACCOMPLISHED: readonly Rating[] = ["achieved", "developing"];
+export const isAccomplished = (rating: Rating | null) => rating !== null && ACCOMPLISHED.includes(rating);
+/** "/" means the skill has not been taught yet, so it is left out of "X of Y" counts and percents. */
+export const isTaught = (rating: Rating | null) => rating !== "not_yet_observed";
+/** "HA · Highly accomplished": the code beside its description, for one-line labels. */
+export const ratingText = (rating: Rating) => `${RATING_BADGE[rating].code} · ${RATING_BADGE[rating].label}`;
 
 // The picked rating's button fills with its color so the choice reads from across the room.
 const RATING_SOLID: Record<Rating, string> = {
   achieved: "border-emerald-700 bg-emerald-700 text-white",
-  developing: "border-amber-400 bg-amber-400 text-amber-950",
+  // Dark text on yellow: white on yellow is not readable.
+  developing: "border-yellow-400 bg-yellow-300 text-yellow-950",
   needs_support: "border-red-600 bg-red-600 text-white",
   not_yet_observed: "border-gray-500 bg-gray-500 text-white",
 };
 
 const DOT_CLASS: Record<Rating, string> = {
   achieved: "bg-emerald-500",
-  developing: "bg-amber-400",
+  developing: "bg-yellow-400",
   needs_support: "bg-red-500",
   not_yet_observed: "bg-gray-400",
 };
@@ -136,6 +147,9 @@ export default function ChecklistTable({
   const keyOf = (enrollmentId: number, itemId: number) => `${enrollmentId}-${itemId}-${quarter}`;
   const results = new Map(data.results.map((r) => [`${r.enrollmentId}-${r.activityId}`, r]));
   const resultOf = (enrollmentId: number, activityId: number | null) => (activityId ? results.get(`${enrollmentId}-${activityId}`) : undefined);
+  // What a cell reads as: its rating, or "/" (Not yet introduced) for a game the learner has not played yet, as the API's profile progress does.
+  const shownRatingOf = (enrollmentId: number, it: ChecklistItem): Rating | null =>
+    ratingOf(keyOf(enrollmentId, it.itemId)) ?? (it.activityId && !resultOf(enrollmentId, it.activityId) ? "not_yet_observed" : null);
   // The cell whose remarks are open in the modal.
   const [remarksCell, setRemarksCell] = useState<RemarksCell | null>(null);
   // The item form: "new" adds one, an item edits it.
@@ -149,7 +163,7 @@ export default function ChecklistTable({
       (view === "rate" ||
         !status ||
         items.some((it) => {
-          const r = ratingOf(keyOf(l.enrollmentId, it.itemId));
+          const r = shownRatingOf(l.enrollmentId, it);
           return status === "unrated" ? !r : r === status;
         })),
   );
@@ -162,7 +176,8 @@ export default function ChecklistTable({
   const start = (currentPage - 1) * PAGE_SIZE;
   const pageLearners = shownLearners.slice(start, start + PAGE_SIZE);
   // Counts the whole section, not just this page.
-  const ratedCount = item ? data.learners.filter((l) => ratingOf(keyOf(l.enrollmentId, item.itemId))).length : 0;
+  // "/" (Not yet introduced) is not an assessment, so only HA, A and NS fill the bar.
+  const ratedCount = item ? data.learners.filter((l) => isTaught(ratingOf(keyOf(l.enrollmentId, item.itemId)) ?? "not_yet_observed")).length : 0;
 
   function changeQuarter(next: string) {
     setQuarter(next);
@@ -280,7 +295,7 @@ export default function ChecklistTable({
               <option value="unrated">Not rated</option>
               {RATINGS.map((r) => (
                 <option key={r} value={r}>
-                  {RATING_BADGE[r].label}
+                  {ratingText(r)}
                 </option>
               ))}
             </select>
@@ -374,11 +389,20 @@ export default function ChecklistTable({
                     const name = learnerName(l);
                     const rating = ratingOf(keyOf(l.enrollmentId, item.itemId));
                     const remarks = remarksOf(keyOf(l.enrollmentId, item.itemId));
-                    // A skill linked to a game unlocks once the learner has finished it; the server enforces the same rule.
-                    const locked = !!item.activityId && !resultOf(l.enrollmentId, item.activityId);
+                    // A skill linked to a game: before the learner plays it only "/" (Not yet introduced) fits; once played,
+                    // the skill has been introduced and takes HA, A or NS. The server enforces the same rule.
+                    const played = !!item.activityId && !!resultOf(l.enrollmentId, item.activityId);
+                    const locked = !!item.activityId && !played;
+                    const unavailable = (r: Rating) => (r === "not_yet_observed" ? played : locked);
+                    // Until played, "/" shows on its own in gray; nothing is saved and there is nothing to tap.
+                    const implied = !rating && locked;
+                    const shown = implied ? "not_yet_observed" : rating;
                     return (
                       <li key={l.enrollmentId} className="flex min-w-xl items-center gap-x-4 px-5 py-2.5">
-                        <span className="w-52 shrink-0 truncate text-sm font-semibold text-gray-900">{name}</span>
+                        <span className="w-52 shrink-0">
+                          <span className="block truncate text-sm font-semibold text-gray-900">{name}</span>
+                          <span className="block text-xs text-gray-500 tabular-nums">LRN: {l.lrn ?? "N/A"}</span>
+                        </span>
                         {item.activityId && (
                           <span className="w-24 shrink-0">
                             <span className="sr-only">Activity result: </span>
@@ -391,17 +415,27 @@ export default function ChecklistTable({
                             <button
                               key={r}
                               type="button"
-                              aria-pressed={rating === r}
+                              aria-pressed={shown === r}
                               // An older rating on a locked skill can still be tapped to clear it.
-                              disabled={locked && rating !== r}
-                              title={locked ? `Wait until ${name} finishes ${item.activityName}` : undefined}
+                              disabled={implied || (rating !== r && unavailable(r))}
+                              title={
+                                implied && r === "not_yet_observed"
+                                  ? `${name} has not played ${item.activityName} yet`
+                                  : !unavailable(r)
+                                    ? RATING_BADGE[r].label
+                                    : r === "not_yet_observed"
+                                      ? `${name} already played ${item.activityName}, so this skill has been introduced`
+                                      : `Wait until ${name} finishes ${item.activityName}`
+                              }
                               onClick={() => rate(l.enrollmentId, item.itemId, rating === r ? null : r)}
                               className={cn(
                                 "h-8 cursor-pointer rounded-full border px-3 text-xs font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-sidebar/30 disabled:cursor-not-allowed disabled:opacity-40",
-                                rating === r ? RATING_SOLID[r] : "border-gray-300 bg-white text-gray-700 enabled:hover:border-gray-400 enabled:hover:bg-gray-50",
+                                shown === r ? RATING_SOLID[r] : "border-gray-300 bg-white text-gray-700 enabled:hover:border-gray-400 enabled:hover:bg-gray-50",
+                                // The automatic "/" stays at full strength so it reads as the current status.
+                                shown === r && "disabled:opacity-100",
                               )}
                             >
-                              {RATING_BADGE[r].label}
+                              <span className="font-bold">{RATING_BADGE[r].code}</span> {RATING_BADGE[r].label}
                             </button>
                           ))}
                         </div>
@@ -438,7 +472,7 @@ export default function ChecklistTable({
             />
             <p className="border-t border-gray-100 px-5 py-2.5 text-xs text-gray-500">
               Tap a rating to save it. Tap it again to clear it.
-              {item.activityId && " Ratings unlock once the learner finishes the activity."}
+              {item.activityId && " Until the learner plays the activity the skill shows / (Not yet introduced); after that, pick HA, A or NS."}
             </p>
           </>
         ) : shownLearners.length === 0 ? (
@@ -475,17 +509,23 @@ export default function ChecklistTable({
                     <tr key={l.enrollmentId} className="border-b border-gray-100 last:border-b-0">
                       <th scope="row" className={cn("sticky left-0 z-10 whitespace-nowrap bg-white px-4 py-2.5 text-left font-semibold text-gray-900", STICKY_EDGE)}>
                         {learnerName(l)}
+                        <span className="block text-xs font-normal text-gray-500 tabular-nums">LRN: {l.lrn ?? "N/A"}</span>
                       </th>
                       {items.map((it) => {
-                        const rating = ratingOf(keyOf(l.enrollmentId, it.itemId));
+                        const rating = shownRatingOf(l.enrollmentId, it);
                         const remarks = remarksOf(keyOf(l.enrollmentId, it.itemId));
                         return (
                           <td key={it.itemId} className="px-3 py-2.5">
                             <span className="flex flex-col items-start gap-1">
                               <span className="inline-flex items-center gap-1">
                                 {rating ? (
-                                  <span className={cn("rounded-full border px-2 py-0.5 text-[11px] font-bold whitespace-nowrap", RATING_BADGE[rating].className)}>
-                                    {RATING_BADGE[rating].label}
+                                  // The grid shows the code, as on the printed checklist; the legend below spells each one out.
+                                  <span
+                                    title={RATING_BADGE[rating].label}
+                                    className={cn("rounded-full border px-2 py-0.5 text-[11px] font-bold whitespace-nowrap", RATING_BADGE[rating].className)}
+                                  >
+                                    <span aria-hidden="true">{RATING_BADGE[rating].code}</span>
+                                    <span className="sr-only">{RATING_BADGE[rating].label}</span>
                                   </span>
                                 ) : (
                                   <span className="text-xs text-gray-400">Not rated</span>
@@ -511,7 +551,7 @@ export default function ChecklistTable({
               {RATINGS.map((r) => (
                 <span key={r} className="flex items-center gap-1.5">
                   <span aria-hidden="true" className={cn("size-2.5 rounded-full", DOT_CLASS[r])} />
-                  {RATING_BADGE[r].label}
+                  <span className="font-bold">{RATING_BADGE[r].code}</span> {RATING_BADGE[r].label}
                 </span>
               ))}
               <span className="flex items-center gap-1.5">
