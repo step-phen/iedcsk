@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { apiFetch } from "@/lib/api";
+import { currentWeekdayPH } from "@/lib/datetime";
 import { useActiveSchoolYear } from "@/hooks/useActiveSchoolYear";
 import { Play, Square, Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
@@ -111,6 +112,10 @@ export default function ClassControls({
   const [selectedDomain, setSelectedDomain] = useState<string>("");
   const [selectedLessonId, setSelectedLessonId] = useState<string>("");
   const [selectedActivityId, setSelectedActivityId] = useState<string>("");
+  // Today's timetable first; the switch opens every day's lessons, for one missed on a holiday.
+  const [showAll, setShowAll] = useState(false);
+  const today = currentWeekdayPH();
+  const todayName = today.charAt(0) + today.slice(1).toLowerCase();
 
   const resetSelections = () => {
     setSelectedModuleId("");
@@ -119,9 +124,12 @@ export default function ClassControls({
     setSelectedActivityId("");
   };
 
-  // Derive selected module's lessons and activities (no quarter/week/day filtering — all shown)
-  const selectedModule = modules.find((m) => m.id === Number(selectedModuleId));
-  const moduleLessons = selectedModule?.lessons ?? [];
+  // The API sends the active quarter's lessons of every module. Unless Show all days is on, only the modules on
+  // today's timetable and their lessons for today's weekday (all seven weeks) are offered.
+  const visibleModules = showAll ? modules : modules.filter((m) => m.scheduleDays.some((sd) => sd.day.toUpperCase() === today));
+  const selectedModule = visibleModules.find((m) => m.id === Number(selectedModuleId));
+  // Filtered before the merge below, so a MAPEH topic on Tuesday doesn't pick up Thursday's activity.
+  const moduleLessons = (selectedModule?.lessons ?? []).filter((l) => showAll || l.activities.some((a) => a.day.toUpperCase() === today));
   // A module spanning several domains (MAPEH) asks for the domain first, then lists only its lessons.
   const availableDomains = [...new Set(moduleLessons.map((l) => l.domainName))];
   const needsDomain = availableDomains.length > 1;
@@ -139,6 +147,11 @@ export default function ClassControls({
     []
   );
   const selectedLesson = availableLessons.find((l) => l.id === Number(selectedLessonId));
+  // "Week 3 · Letter B"; with every day shown, the lesson's day too ("Week 3 · Thu · Letter B").
+  const lessonLabel = (lesson: (typeof availableLessons)[number]) => {
+    const day = showAll ? lesson.activities[0]?.day.slice(0, 3) : "";
+    return [lesson.week > 0 && `Week ${lesson.week}`, day, lesson.lessonName].filter(Boolean).join(" · ");
+  };
   const availableActivities = selectedLesson?.activities ?? [];
   const selectedActivity = availableActivities.find((a) => a.id === Number(selectedActivityId));
 
@@ -248,12 +261,12 @@ export default function ClassControls({
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Modules</SelectLabel>
-                    {modules.length === 0 && (
+                    {visibleModules.length === 0 && (
                       <div className="px-2 py-2 text-sm text-gray-500">
                         No modules available.
                       </div>
                     )}
-                    {modules.map((mod) => (
+                    {visibleModules.map((mod) => (
                       <SelectItem key={mod.id} value={String(mod.id)} className={SELECT_ITEM_CLASS}>
                         <MarqueeText>{mod.moduleName}</MarqueeText>
                       </SelectItem>
@@ -261,7 +274,33 @@ export default function ClassControls({
                   </SelectGroup>
                 </SelectContent>
               </Select>
+              {modules.length > 0 && (
+                <label className="flex w-fit items-center gap-2 pt-1 text-xs font-medium text-gray-600 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={showAll}
+                    onChange={(e) => {
+                      setShowAll(e.target.checked);
+                      resetSelections();
+                    }}
+                    className="h-3.5 w-3.5 accent-[#5b0610] cursor-pointer"
+                  />
+                  Show all days
+                </label>
+              )}
             </div>
+
+            {modules.length > 0 && visibleModules.length === 0 && (
+              <p className="text-xs text-amber-600 bg-amber-50 p-2.5 rounded-md border border-amber-100">
+                No modules are scheduled on {todayName}. Turn on Show all days to pick another day&apos;s lesson.
+              </p>
+            )}
+
+            {selectedModuleId && moduleLessons.length === 0 && (
+              <p className="text-xs text-amber-600 bg-amber-50 p-2.5 rounded-md border border-amber-100">
+                No {showAll ? "" : `${todayName} `}lessons in {selectedModule?.moduleName} this quarter.
+              </p>
+            )}
 
             {selectedModuleId && needsDomain && (
               <div className="space-y-1.5">
@@ -305,7 +344,7 @@ export default function ClassControls({
                 >
                   <SelectTrigger className="w-full h-18 text-lg">
                     <SelectValue placeholder="Select a lesson">
-                      {selectedLesson ? selectedLesson.lessonName : "Select a lesson"}
+                      {selectedLesson ? lessonLabel(selectedLesson) : "Select a lesson"}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
@@ -313,9 +352,7 @@ export default function ClassControls({
                       <SelectLabel>Lessons</SelectLabel>
                       {availableLessons.map((lesson) => (
                         <SelectItem key={lesson.id} value={String(lesson.id)} className={SELECT_ITEM_CLASS}>
-                          <MarqueeText>
-                            {lesson.lessonName}
-                          </MarqueeText>
+                          <MarqueeText>{lessonLabel(lesson)}</MarqueeText>
                         </SelectItem>
                       ))}
                     </SelectGroup>
