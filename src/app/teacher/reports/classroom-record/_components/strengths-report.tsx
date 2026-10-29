@@ -10,7 +10,7 @@ import { ModalShell } from "@/components/ui/modal-shell";
 import type { PracticalResultValue, ScoreBand } from "@/constants/enums";
 import type { Section } from "@/types/db";
 import { capitalizeWords, hasMiddleName, middleInitial } from "@/lib/learners";
-import { useActiveSchoolYear } from "@/hooks/useActiveSchoolYear";
+import { useActiveSchoolYear, useActiveSchoolYearFailed } from "@/hooks/useActiveSchoolYear";
 import { formatDatePH } from "@/lib/datetime";
 import { RESULT_CLASS, percentOf, ratingBand, ratingLabel, scoreBand } from "@/lib/score-band";
 import { cn } from "@/lib/utils";
@@ -131,7 +131,11 @@ export interface ActivityResult {
   skills: string[];
   result: string;
   band: ScoreBand | null;
+  /** "Played in a Q2 class" when the game was played during another quarter's class; null otherwise. */
+  playedNote: string | null;
 }
+
+const playedNote = (playedQuarter: number, quarter: number) => (playedQuarter !== quarter ? `Played in a Q${playedQuarter} class` : null);
 
 /**
  * One row per activity the learner has a result for this quarter, in report-row order. An activity linked to several
@@ -165,6 +169,7 @@ function activityResults(learner: Learner, rows: Row[], quarter: number): Activi
       skills: e.item ? [e.item] : [],
       result,
       band,
+      playedNote: playedNote(r.playedQuarter, quarter),
     });
   }
   return [...out.values()];
@@ -209,10 +214,12 @@ export default function StrengthsReport({
   const [search, setSearch] = useState("");
   const quarter = report?.quarter ?? 1;
   const year = useActiveSchoolYear();
+  const yearFailed = useActiveSchoolYearFailed();
   const section = sections.find((s) => s.sectionId === sectionId);
   // What every learner's PDF carries besides the learner; null until the school year has loaded.
+  // A failed school-year load still allows the PDF, with "-" for the year, instead of a button stuck on loading.
   const pdfMeta =
-    year === undefined || !section
+    (year === undefined && !yearFailed) || !section
       ? null
       : { section: `${section.gradeLevel} - ${section.sectionName}`, schoolYear: year?.name ?? "-", teacherName, quarter };
 
@@ -255,9 +262,9 @@ export default function StrengthsReport({
         ) : !report ? (
           <Empty heading="Could not load the report" message="Please refresh the page." />
         ) : (
-          // Keyed by section and quarter so a new pick never shows the old one's learners; dimmed while it loads.
+          // Keyed by section so a new section never shows the old one's learners; a quarter change keeps the picked learner. Dimmed while it loads.
           <div
-            key={`${sectionId}-${quarter}`}
+            key={sectionId}
             className={cn("space-y-3 animate-in fade-in duration-200 motion-reduce:animate-none transition-opacity", isPending && "opacity-50")}
           >
             <InterventionPlan groups={interventionGroups(report.learners, report.rows, quarter)} />
@@ -589,6 +596,7 @@ function ResultsTable({ results }: { results: ActivityResult[] }) {
               </td>
               <td className="px-3 py-2 text-center">
                 <span className={cn(PILL, r.band ? RESULT_CLASS[r.band] : "bg-gray-100 text-gray-600")}>{r.result}</span>
+                {r.playedNote && <p className="mt-1 text-[11px] text-gray-500">{r.playedNote}</p>}
               </td>
               <td className={cn("px-3 py-2 font-semibold", r.band === "needs_help" ? "text-rose-700" : "text-gray-800")}>
                 {r.band ? INTERPRETATION[r.band] : "Waiting for your rating"}
@@ -848,8 +856,9 @@ function EvidenceRow({
       <div className="min-w-0">
         <p className="font-medium text-gray-900">{title}</p>
         {detail && <p className="text-[11px] text-gray-500">{detail}</p>}
-        {notes.map((n) => (
-          <p key={n} className="text-[11px] italic text-gray-600">
+        {notes.map((n, i) => (
+          // The checklist and result remarks can be the same text, so the position is the key.
+          <p key={i} className="text-[11px] italic text-gray-600">
             &ldquo;{n}&rdquo;
           </p>
         ))}
@@ -873,21 +882,31 @@ function ResultBadge({ entry, quarter }: { entry: Entry; quarter: number }) {
     );
   const r = entry.result;
   if (!r) return <span className="text-[11px] text-gray-400">Not done yet</span>;
+  const note = playedNote(r.playedQuarter, quarter);
+  let badge: ReactNode;
   if (r.score !== null && r.maxScore) {
     const pct = percentOf(r.score, r.maxScore);
-    return (
+    badge = (
       <span title={`${pct}% · ${dateOf(r.at)}`} className={cn(PILL, RESULT_CLASS[scoreBand(pct)])}>
         {r.score}/{r.maxScore}
       </span>
     );
-  }
-  if (r.rating)
-    return (
+  } else if (r.rating) {
+    badge = (
       <span title={`Practical rating · ${dateOf(r.at)}`} className={cn(PILL, RESULT_CLASS[ratingBand(r.rating)])}>
         {ratingLabel(r.rating)}
       </span>
     );
-  return <span className={cn(PILL, "bg-amber-50 text-amber-700")}>Needs your rating</span>;
+  } else {
+    badge = <span className={cn(PILL, "bg-amber-50 text-amber-700")}>Needs your rating</span>;
+  }
+  if (!note) return badge;
+  return (
+    <span className="flex flex-col items-start gap-0.5">
+      {badge}
+      <span className="text-[11px] text-gray-500">{note}</span>
+    </span>
+  );
 }
 
 /** Your checklist rating, the skill's only status; the date shows on hover. */

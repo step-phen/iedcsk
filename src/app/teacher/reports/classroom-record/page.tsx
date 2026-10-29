@@ -47,19 +47,15 @@ export default async function ClassroomRecordPage({ searchParams }: ClassroomRec
       <PageHeader className="mb-5" />
 
       {/* Plain title row like the Learners page, so the table sits higher on the screen. */}
-      <section className="relative flex flex-col gap-3">
+      <section className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <h1 className="text-xl font-bold text-stone-900 tracking-tight">Classroom Record</h1>
           <p className="text-xs text-stone-500 mt-0.5 max-w-2xl">
             How each learner did on this module&apos;s activities, by quarter.
           </p>
         </div>
-        {/* On wide screens it floats beside the title and tabs, so the tabs stay where they are. */}
-        {activeTab === "strengths" && (
-          <div className="lg:absolute lg:right-0 lg:top-0 lg:z-10">
-            <BandKey />
-          </div>
-        )}
+        {/* Beside the title on wide screens, in the flow so it never covers the tabs below. */}
+        {activeTab === "strengths" && <BandKey />}
       </section>
 
       <ReportTabs active={activeTab} hrefs={HREFS}>

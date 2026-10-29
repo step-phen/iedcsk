@@ -35,9 +35,9 @@ export default function LearnerCard({ learner }: { learner: LearnerListItem }) {
       className="group flex items-start gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm outline-none transition-[border-color,transform] duration-100 ease-out hover:border-sidebar/40 active:scale-[0.98] motion-reduce:active:scale-100 focus-visible:ring-2 focus-visible:ring-sidebar focus-visible:ring-offset-2"
     >
       <LearnerPhoto learner={learner} size="lg" />
-      {/* The full name stays on one line; the other details wrap instead of clipping. */}
+      {/* The name stays on one line, cut with an ellipsis when too long (full name on hover); the other details wrap. */}
       <span className="min-w-0 flex-1 space-y-0.5 break-words">
-        <span className="block whitespace-nowrap text-base font-semibold leading-snug text-gray-900 group-hover:text-sidebar">
+        <span title={displayName(learner)} className="block truncate text-base font-semibold leading-snug text-gray-900 group-hover:text-sidebar">
           {displayName(learner)}
         </span>
         <span className="block text-[11px] font-bold tracking-wide text-sidebar tabular-nums">LRN: {learner.lrn ?? "N/A"}</span>

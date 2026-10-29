@@ -52,17 +52,22 @@ export async function downloadStrengthsReport({
     ...table,
     startY: lastY() + 18,
     head: [["Domain / Activity", "Result", "Interpretation"]],
-    body: results.map((r) => [activityCell(r), r.result, interpretation(r)]),
+    body: results.map((r) => [activityCell(r), r.playedNote ? `${r.result}\n(${r.playedNote})` : r.result, interpretation(r)]),
     columnStyles: { 1: { cellWidth: inner * 0.2, halign: "center" }, 2: { cellWidth: inner * 0.25 } },
   });
 
+  // The bands note under the table; a new page when it would run into the footer.
   doc.setFont("helvetica", "normal").setFontSize(8).setTextColor(90);
-  doc.text(
+  const note = doc.splitTextToSize(
     "Results are each activity's latest recorded score or practical rating. 80% and up: Good performance; 60-79%: Developing; below 60% or a rating of 1-2: Needs more practice.",
-    40,
-    lastY() + 14,
-    { maxWidth: inner },
+    inner,
   );
+  let noteY = lastY() + 14;
+  if (noteY + note.length * 10 > height - 40) {
+    doc.addPage();
+    noteY = table.margin.top;
+  }
+  doc.text(note, 40, noteY);
 
   // Header and footer on every page, once the page count is known.
   const pages = doc.getNumberOfPages();
