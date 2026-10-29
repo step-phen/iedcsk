@@ -2,7 +2,7 @@
 
 import { useState, useEffect, use, Suspense } from "react";
 import Link from "next/link";
-import { Users, AlertCircle, UserPlus, type LucideIcon } from "lucide-react";
+import { Users, AlertCircle, UserPlus, UserRoundPlus, type LucideIcon } from "lucide-react";
 import type { LearnerListItem } from "@/types/learner";
 import type { Gender } from "@/constants/enums";
 import { calculateAge, matchesLearnerSearch } from "@/lib/learners";
@@ -12,6 +12,7 @@ import Pagination from "@/app/teacher/_components/shared/pagination";
 import LearnerCard from "./learner-card";
 import LearnerTable from "./learner-table";
 import LearnerSearch from "./learner-search";
+import ReEnrollModal from "./re-enroll-modal";
 import PageHeader from "@/app/teacher/_components/layout/page-header";
 import { PageLoader } from "@/components/ui/page-loader";
 
@@ -31,6 +32,10 @@ interface ClassListProps {
 }
 
 export default function ClassList({ learnersPromise }: ClassListProps) {
+  const [reEnrollOpen, setReEnrollOpen] = useState(false);
+  // Bumped on each open, so the modal starts with an empty search.
+  const [reEnrollKey, setReEnrollKey] = useState(0);
+
   return (
     <div className="flex-1 flex flex-col space-y-3">
       <PageHeader className="mb-3" />
@@ -40,14 +45,29 @@ export default function ClassList({ learnersPromise }: ClassListProps) {
           <h1 className="text-xl font-bold text-stone-900 tracking-tight">Learners &amp; Class List</h1>
           <p className="text-xs text-stone-500 mt-0.5 max-w-2xl">Every learner in your class. Click a name to open their profile.</p>
         </div>
-        <Link
-          href="/teacher/learners/add"
-          className="group inline-flex w-fit items-center gap-2 px-3.5 py-2 text-xs font-semibold text-white bg-sidebar hover:bg-[#7e1422] rounded-lg shadow-md transition-[background-color,transform] duration-100 ease-out active:scale-[0.97] motion-reduce:active:scale-100 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
-        >
-          <UserPlus size={16} className="text-amber-300" />
-          Add Learners
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setReEnrollKey((k) => k + 1);
+              setReEnrollOpen(true);
+            }}
+            className="inline-flex w-fit items-center gap-2 px-3.5 py-2 text-xs font-semibold text-sidebar bg-white border border-sidebar/30 hover:bg-[#eae4c9]/50 rounded-lg shadow-sm transition-[background-color,transform] duration-100 ease-out active:scale-[0.97] motion-reduce:active:scale-100 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
+          >
+            <UserRoundPlus size={16} />
+            Re-enroll Learner
+          </button>
+          <Link
+            href="/teacher/learners/add"
+            className="group inline-flex w-fit items-center gap-2 px-3.5 py-2 text-xs font-semibold text-white bg-sidebar hover:bg-[#7e1422] rounded-lg shadow-md transition-[background-color,transform] duration-100 ease-out active:scale-[0.97] motion-reduce:active:scale-100 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
+          >
+            <UserPlus size={16} className="text-amber-300" />
+            Add Learners
+          </Link>
+        </div>
       </section>
+
+      <ReEnrollModal key={reEnrollKey} open={reEnrollOpen} onClose={() => setReEnrollOpen(false)} />
 
       {/* Only the roster waits on the data; the loading screen reuses this with a promise that never resolves. */}
       <Suspense fallback={<PageLoader />}>
@@ -58,7 +78,11 @@ export default function ClassList({ learnersPromise }: ClassListProps) {
 }
 
 function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[]> }) {
-  const learners = use(learnersPromise);
+  const all = use(learnersPromise);
+  // Withdrawn learners stay off the roster, its counts and its pages unless the teacher asks for them.
+  const [showWithdrawn, setShowWithdrawn] = useState(false);
+  const withdrawnCount = all.filter((l) => l.enrollmentStatus === "withdrawn").length;
+  const learners = showWithdrawn ? all : all.filter((l) => l.enrollmentStatus !== "withdrawn");
   const [searchQuery, setSearchQuery] = useState("");
   const [genderFilter, setGenderFilter] = useState<Gender | "ALL">("ALL");
   const [sectionFilter, setSectionFilter] = useState("ALL");
@@ -106,76 +130,94 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
   return (
     <div className="flex flex-1 flex-col gap-3">
       {/* A floating translucent bar that stays under the header while the roster scrolls beneath it. */}
-      <div className="material-bar sticky top-[4.25rem] z-20 flex flex-wrap items-center gap-3 rounded-xl px-4 py-3 md:px-5">
-        {/* Every filter change starts over at page 1. */}
-        <LearnerSearch
-          searchQuery={searchQuery}
-          setSearchQuery={(q) => {
-            setSearchQuery(q);
-            setPage(1);
-          }}
-        />
-        <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
-          Section
-          <select
-            name="section-filter"
-            value={sectionFilter}
-            onChange={(e) => {
-              setSectionFilter(e.target.value);
+      <div className="material-bar sticky top-[4.25rem] z-20 flex flex-col gap-3 rounded-xl px-4 py-3 md:px-5">
+        {/* Search and the view on top; the filters sit under the search. */}
+        <div className="flex items-center gap-3">
+          {/* Every filter change starts over at page 1. */}
+          <LearnerSearch
+            searchQuery={searchQuery}
+            setSearchQuery={(q) => {
+              setSearchQuery(q);
               setPage(1);
             }}
-            className={SELECT_CLASS}
-          >
-            <option value="ALL">All sections</option>
-            {sections.map((section) => (
-              <option key={section} value={section}>
-                {section}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
-          Age
-          <select
-            name="age-filter"
-            value={ageFilter}
-            onChange={(e) => {
-              setAgeFilter(e.target.value);
-              setPage(1);
-            }}
-            className={SELECT_CLASS}
-          >
-            <option value="ALL">All ages</option>
-            {ages.map((age) => (
-              <option key={age} value={age}>
-                {age} years old
-              </option>
-            ))}
-          </select>
-        </label>
-        <Segmented
-          label="Show"
-          options={[
-            { value: "ALL", label: `All ${inScope.length}` },
-            { value: "Male", label: `Boys ${boys}` },
-            { value: "Female", label: `Girls ${inScope.length - boys}` },
-          ]}
-          value={genderFilter}
-          onChange={(v) => {
-            setGenderFilter(v as Gender | "ALL");
-            setPage(1);
-          }}
-        />
-        <div className="ml-auto">
-          <Segmented
-            label="View"
-            options={[
-              { value: "list", label: "List" },
-              { value: "cards", label: "Cards" },
-            ]}
-            value={view}
-            onChange={(v) => changeView(v as View)}
           />
+          <div className="ml-auto">
+            <Segmented
+              label="View"
+              options={[
+                { value: "list", label: "List" },
+                { value: "cards", label: "Cards" },
+              ]}
+              value={view}
+              onChange={(v) => changeView(v as View)}
+            />
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
+            Section
+            <select
+              name="section-filter"
+              value={sectionFilter}
+              onChange={(e) => {
+                setSectionFilter(e.target.value);
+                setPage(1);
+              }}
+              className={SELECT_CLASS}
+            >
+              <option value="ALL">All sections</option>
+              {sections.map((section) => (
+                <option key={section} value={section}>
+                  {section}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
+            Age
+            <select
+              name="age-filter"
+              value={ageFilter}
+              onChange={(e) => {
+                setAgeFilter(e.target.value);
+                setPage(1);
+              }}
+              className={SELECT_CLASS}
+            >
+              <option value="ALL">All ages</option>
+              {ages.map((age) => (
+                <option key={age} value={age}>
+                  {age} years old
+                </option>
+              ))}
+            </select>
+          </label>
+          <Segmented
+            label="Show"
+            options={[
+              { value: "ALL", label: `All ${inScope.length}` },
+              { value: "Male", label: `Boys ${boys}` },
+              { value: "Female", label: `Girls ${inScope.length - boys}` },
+            ]}
+            value={genderFilter}
+            onChange={(v) => {
+              setGenderFilter(v as Gender | "ALL");
+              setPage(1);
+            }}
+          />
+          {withdrawnCount > 0 && (
+            <button
+              type="button"
+              aria-pressed={showWithdrawn}
+              onClick={() => {
+                setShowWithdrawn((v) => !v);
+                setPage(1);
+              }}
+              className={`rounded-lg border px-2.5 py-1.5 text-xs font-semibold cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40 ${showWithdrawn ? "border-amber-300 bg-amber-100 text-amber-900" : "border-gray-300 bg-white text-gray-600 hover:bg-gray-50"}`}
+            >
+              Withdrawn ({withdrawnCount})
+            </button>
+          )}
         </div>
       </div>
 
@@ -184,7 +226,7 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
       <div className="flex flex-1 flex-col overflow-clip rounded-xl border border-gray-200 bg-white shadow-sm">
         {/* Keyed by view, so switching List and Cards cross-fades instead of jumping. */}
         <div key={view} className="flex-1 animate-in fade-in duration-200 motion-reduce:animate-none">
-          {learners.length === 0 ? (
+          {all.length === 0 ? (
             <EmptyState icon={Users} title="No Learners Yet" message="Add your first learner to get started." />
           ) : shown.length === 0 ? (
             <EmptyState
@@ -216,7 +258,6 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
           )}
         </div>
         <Pagination
-          start={start}
           shownOnPage={pageLearners.length}
           total={shown.length}
           page={currentPage}

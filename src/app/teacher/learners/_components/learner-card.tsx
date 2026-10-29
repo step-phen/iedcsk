@@ -41,6 +41,7 @@ export default function LearnerCard({ learner }: { learner: LearnerListItem }) {
           {displayName(learner)}
         </span>
         <span className="block text-[11px] font-bold tracking-wide text-sidebar tabular-nums">LRN: {learner.lrn ?? "N/A"}</span>
+        {learner.enrollmentStatus === "withdrawn" && <span className="block"><span className="shrink-0 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-900">Withdrawn</span></span>}
         <span className="block text-xs text-gray-700">
           <span className="font-semibold text-gray-500">Section:</span>{" "}
           {learner.gradeLevel && learner.section ? `${learner.gradeLevel} - ${learner.section}` : "—"}

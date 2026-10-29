@@ -444,8 +444,9 @@ function SchoolYearPanel({ onActivated }: { onActivated: () => void }) {
                 </div>
                 <span className="ml-auto flex flex-wrap items-center justify-end gap-x-3 gap-y-1">
                   <StatusBadge status={y.status} />
-                  {editButton(y)}
-                  {y.status !== "active" && setActiveButton(y)}
+                  {/* Only an upcoming year can be edited or switched to: the active one is in use, a completed one is history. */}
+                  {y.status === "upcoming" && editButton(y)}
+                  {y.status === "upcoming" && setActiveButton(y)}
                 </span>
               </li>
             ))}

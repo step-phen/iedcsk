@@ -14,9 +14,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { calculateAge, formatName, gradeLevels, hasMiddleName } from "@/lib/learners";
+import { calculateAge, formatName, gradeLevels, hasMiddleName, matchesLearnerSearch } from "@/lib/learners";
 import { formatDatePH } from "@/lib/datetime";
 import type { Gender } from "@/constants/enums";
+import Pagination from "@/app/teacher/_components/shared/pagination";
+import LearnerSearch from "@/app/teacher/learners/_components/learner-search";
 
 /** One row of GET /api/learners. */
 export interface LearnerListRow {
@@ -49,7 +51,7 @@ const birthdateFormat = new Intl.DateTimeFormat("en-US", { month: "short", day: 
 function toCells(l: LearnerListRow, i: number): string[] {
   return [
     String(i + 1),
-    l.lrn ?? "—",
+    l.lrn ?? "N/A",
     fullName(l),
     l.gender,
     birthdateFormat.format(new Date(`${l.birthdate}T00:00:00Z`)),
@@ -80,6 +82,8 @@ export default function LearnerListReport({
   emptyHeading = "No learners yet",
   emptyMessage = "Learners you add appear here, ready to print.",
   status,
+  pageSize,
+  dateLine,
 }: {
   learners: LearnerListRow[];
   teacherName: string | null;
@@ -88,20 +92,30 @@ export default function LearnerListReport({
   emptyMessage?: string;
   /** When set, a last "Status" column shows this value for every learner. */
   status?: string;
+  /** When set, the on-screen table gets a name/LRN search and pages of this size; print and PDF keep every matching row. */
+  pageSize?: number;
+  /** Top-right line of the PDF and printed header; defaults to today's date. */
+  dateLine?: string;
 }) {
   const sections = [...new Set(learners.map((l) => l.section).filter((s): s is string => !!s))].sort();
   const [section, setSection] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
   const [generating, setGenerating] = useState(false);
   // The print copy is portaled into <body>, which only exists in the browser.
   const isClient = useSyncExternalStore(subscribeNoop, () => true, () => false);
 
-  const rows = section === "all" ? learners : learners.filter((l) => l.section === section);
+  const rows = learners.filter((l) => (section === "all" || l.section === section) && matchesLearnerSearch(l, searchQuery));
+  const pageCount = pageSize ? Math.max(1, Math.ceil(rows.length / pageSize)) : 1;
+  const currentPage = Math.min(page, pageCount);
+  const pageStart = pageSize ? (currentPage - 1) * pageSize : 0;
+  const pageEnd = pageSize ? pageStart + pageSize : rows.length;
   const columns = status ? [...COLUMNS, "Status"] : COLUMNS;
   const cells = rows.map((l, i) => (status ? [...toCells(l, i), status] : toCells(l, i)));
   const males = rows.filter((l) => l.gender === "Male").length;
   const summary = `Male: ${males}    Female: ${rows.length - males}    Total: ${rows.length}`;
   const sectionLabel = (section === "all" ? sections : [section]).map((s) => `${gradeLevels[0]} - ${s}`).join(", ") || "—";
-  const today = formatDatePH(new Date());
+  const headerDate = dateLine ?? `Date: ${formatDatePH(new Date())}`;
 
   async function downloadPdf() {
     setGenerating(true);
@@ -119,7 +133,7 @@ export default function LearnerListReport({
       doc.setFontSize(10);
       doc.text(`Adviser: ${teacherName ?? "—"}`, 40, 104);
       doc.text(`Section: ${sectionLabel}`, 40, 118);
-      doc.text(`Date: ${today}`, width - 40, 104, { align: "right" });
+      doc.text(headerDate, width - 40, 104, { align: "right" });
 
       autoTable(doc, {
         startY: 130,
@@ -162,7 +176,13 @@ export default function LearnerListReport({
 
         <div className="border-b border-gray-300 bg-gray-50/60 px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
           {sections.length > 1 ? (
-            <Select value={section} onValueChange={(value) => setSection(value ?? "all")}>
+            <Select
+              value={section}
+              onValueChange={(value) => {
+                setSection(value ?? "all");
+                setPage(1);
+              }}
+            >
               <SelectTrigger className="h-auto rounded-lg px-3 py-1.5 text-[12px] font-bold text-gray-800 bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50 shadow-xs [&_svg]:text-gray-400">
                 <SelectValue>{section === "all" ? "All Sections" : section}</SelectValue>
               </SelectTrigger>
@@ -182,6 +202,15 @@ export default function LearnerListReport({
             </Select>
           ) : (
             <span className="text-[12px] font-bold text-gray-800 uppercase tracking-widest">Section: {sectionLabel}</span>
+          )}
+          {pageSize && (
+            <LearnerSearch
+              searchQuery={searchQuery}
+              setSearchQuery={(query) => {
+                setSearchQuery(query);
+                setPage(1);
+              }}
+            />
           )}
           <div className="flex items-center gap-2">
             <button
@@ -208,8 +237,14 @@ export default function LearnerListReport({
         <div className="overflow-x-auto">
           {rows.length === 0 ? (
             <div className="px-6 py-12 text-center">
-              <p className="text-sm font-semibold text-gray-800">{emptyHeading}</p>
-              <p className="text-xs text-gray-500 mt-1">{emptyMessage}</p>
+              {learners.length > 0 ? (
+                <p className="text-sm font-semibold text-gray-800">No learner matches &quot;{searchQuery.trim()}&quot;.</p>
+              ) : (
+                <>
+                  <p className="text-sm font-semibold text-gray-800">{emptyHeading}</p>
+                  <p className="text-xs text-gray-500 mt-1">{emptyMessage}</p>
+                </>
+              )}
             </div>
           ) : (
             <table className="w-full min-w-[720px] text-sm">
@@ -226,8 +261,8 @@ export default function LearnerListReport({
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {cells.map((row, r) => (
-                  <tr key={rows[r].learnerId} className="hover:bg-[#5b0610]/[0.025]">
+                {cells.slice(pageStart, pageEnd).map((row, r) => (
+                  <tr key={rows[pageStart + r].learnerId} className="hover:bg-[#5b0610]/[0.025]">
                     {row.map((cell, i) => (
                       <td
                         key={i}
@@ -238,6 +273,15 @@ export default function LearnerListReport({
                     ))}
                   </tr>
                 ))}
+                {/* Blank rows keep a short page as tall as a full one, so the card doesn't jump when paging, filtering or searching. */}
+                {pageSize && learners.length > pageSize &&
+                  Array.from({ length: pageEnd - Math.min(pageEnd, rows.length) }, (_, i) => (
+                    <tr key={`filler-${i}`} aria-hidden="true" className="!border-transparent">
+                      <td colSpan={columns.length} className="py-2.5 px-4 text-[13px]">
+                        &nbsp;
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           )}
@@ -246,6 +290,15 @@ export default function LearnerListReport({
         <div className="px-6 py-3 bg-gray-50/50 border-t border-gray-100">
           <p className="text-[12px] text-gray-600 tabular-nums font-semibold whitespace-pre">{summary}</p>
         </div>
+        {pageSize && (
+          <Pagination
+            shownOnPage={Math.min(pageEnd, rows.length) - pageStart}
+            total={rows.length}
+            page={currentPage}
+            pageCount={pageCount}
+            onPageChange={setPage}
+          />
+        )}
       </div>
 
       {/* The printed copy, laid out in points to match the downloaded PDF; only the print stylesheet in globals.css shows it. */}
@@ -265,7 +318,7 @@ export default function LearnerListReport({
                 <p>Adviser: {teacherName ?? "—"}</p>
                 <p>Section: {sectionLabel}</p>
               </div>
-              <p>Date: {today}</p>
+              <p>{headerDate}</p>
             </div>
             <table className="mt-[6pt] w-full border-collapse text-[9pt]">
               <thead>

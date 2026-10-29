@@ -169,10 +169,12 @@ export default function ChecklistTable({
   );
   // Rate view pages the filtered list, so a search reaches every learner; the page stays put across skills.
   const [page, setPage] = useState(1);
+  // The Overview pages on its own, so its status filter never moves the Rate view's saved page.
+  const [overviewPage, setOverviewPage] = useState(1);
   const pageCount = Math.max(1, Math.ceil(shownLearners.length / PAGE_SIZE));
-  // Only the Rate view pages; an Overview status filter must not move its saved page.
   if (view === "rate" && page > pageCount) setPage(pageCount);
-  const currentPage = Math.min(page, pageCount);
+  const currentPage = Math.min(view === "rate" ? page : overviewPage, pageCount);
+  const changePage = view === "rate" ? setPage : setOverviewPage;
   const start = (currentPage - 1) * PAGE_SIZE;
   const pageLearners = shownLearners.slice(start, start + PAGE_SIZE);
   // Counts the whole section, not just this page.
@@ -280,6 +282,7 @@ export default function ChecklistTable({
             onChange={(e) => {
               setSearch(e.target.value);
               setPage(1);
+              setOverviewPage(1);
             }}
             className={cn(SELECT_CLASS, "w-48 cursor-text placeholder:text-gray-500")}
           />
@@ -288,7 +291,10 @@ export default function ChecklistTable({
               name="status"
               aria-label="Rating status"
               value={status}
-              onChange={(e) => setStatus(e.target.value as typeof status)}
+              onChange={(e) => {
+                setStatus(e.target.value as typeof status);
+                setOverviewPage(1);
+              }}
               className={SELECT_CLASS}
             >
               <option value="">All ratings</option>
@@ -436,7 +442,7 @@ export default function ChecklistTable({
                                 shown === r && "disabled:opacity-100",
                               )}
                             >
-                              <span className="font-bold">{RATING_BADGE[r].code}</span> {RATING_BADGE[r].label}
+                              <span className="font-bold">{RATING_BADGE[r].code}</span> · {RATING_BADGE[r].label}
                             </button>
                           ))}
                         </div>
@@ -464,12 +470,11 @@ export default function ChecklistTable({
               </div>
             )}
             <Pagination
-              start={start}
               shownOnPage={pageLearners.length}
               total={shownLearners.length}
               page={currentPage}
               pageCount={pageCount}
-              onPageChange={setPage}
+              onPageChange={changePage}
             />
             <p className="border-t border-gray-100 px-5 py-2.5 text-xs text-gray-500">
               Tap a rating to save it. Tap it again to clear it.
@@ -507,7 +512,7 @@ export default function ChecklistTable({
                   </tr>
                 </thead>
                 <tbody>
-                  {shownLearners.map((l) => (
+                  {pageLearners.map((l) => (
                     <tr key={l.enrollmentId} className="border-b border-gray-100 last:border-b-0">
                       <th scope="row" className={cn("sticky left-0 z-10 whitespace-nowrap bg-white px-4 py-2.5 text-left font-semibold text-gray-900", STICKY_EDGE)}>
                         {learnerName(l)}
@@ -549,11 +554,18 @@ export default function ChecklistTable({
                 </tbody>
               </table>
             </div>
+            <Pagination
+              shownOnPage={pageLearners.length}
+              total={shownLearners.length}
+              page={currentPage}
+              pageCount={pageCount}
+              onPageChange={changePage}
+            />
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-gray-100 px-5 py-2.5 text-xs text-gray-600">
               {RATINGS.map((r) => (
                 <span key={r} className="flex items-center gap-1.5">
                   <span aria-hidden="true" className={cn("size-2.5 rounded-full", DOT_CLASS[r])} />
-                  <span className="font-bold">{RATING_BADGE[r].code}</span> {RATING_BADGE[r].label}
+                  <span className="font-bold">{RATING_BADGE[r].code}</span> · {RATING_BADGE[r].label}
                 </span>
               ))}
               <span className="flex items-center gap-1.5">

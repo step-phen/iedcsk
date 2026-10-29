@@ -183,3 +183,8 @@ export function formatDateTimePH(date: Date): string {
     timeZone: "Asia/Manila",
   }).format(date);
 }
+
+/** A date-only "2026-03-31" as "Mar 31, 2026"; "—" when there is none. */
+export function formatEndDate(date: string | null): string {
+  return date ? formatDatePH(new Date(`${date}T00:00:00Z`), { month: "short", day: "numeric", year: "numeric" }) : "—";
+}
