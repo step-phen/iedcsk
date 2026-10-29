@@ -99,7 +99,8 @@ export function useNotifications(teacherId: number): Notifications {
           }
           if (seen === null || newest > seen) writeId(sessionStorage, seenKey, newest);
         })
-        .catch((error) => console.error("[notifications]", error));
+        // A missed poll is retried on the next tick, so an unreachable API (asleep, restarting) is only a warning.
+        .catch((error) => console.warn("[notifications]", error));
     poll();
     const interval = setInterval(poll, POLL_MS);
     return () => {
