@@ -120,6 +120,20 @@ export async function downloadProgressReport({
     },
   });
 
+  // Prepared by the adviser, noted by the principal, at the foot of the last page; a new page when the table reaches it.
+  const signY = height - 62;
+  if ((doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY > signY - 60) doc.addPage();
+  doc.setDrawColor(0).setLineWidth(0.75).setTextColor(20);
+  for (const [x, label, name, role] of [
+    [40, "Prepared by:", header.teacherName, "Adviser"],
+    [width - 240, "Noted by:", "", "Principal"],
+  ] as const) {
+    doc.setFont("helvetica", "normal").setFontSize(10).text(label, x, signY - 40);
+    if (name) doc.setFont("helvetica", "bold").text(name, x + 100, signY - 4, { align: "center" });
+    doc.line(x, signY, x + 200, signY);
+    doc.setFont("helvetica", "normal").setFontSize(9).text(role, x + 100, signY + 12, { align: "center" });
+  }
+
   // Header and footer on every page, once the page count is known.
   const pages = doc.getNumberOfPages();
   for (let page = 1; page <= pages; page++) {
