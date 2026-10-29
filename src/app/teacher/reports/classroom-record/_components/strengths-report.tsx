@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import SectionSelector, { SELECT_CLASS } from "@/app/teacher/_components/dashboard/section-selector";
 import Segmented from "@/app/teacher/_components/shared/segmented";
+import { RATING_BADGE, ratingText, type Rating } from "@/app/teacher/developmental-checklist/_components/checklist-table";
 import { ModalShell } from "@/components/ui/modal-shell";
 import type { PracticalResultValue, ScoreBand } from "@/constants/enums";
 import type { Section } from "@/types/db";
@@ -16,7 +17,7 @@ import { RESULT_CLASS, percentOf, ratingBand, ratingLabel, scoreBand } from "@/l
 import { cn } from "@/lib/utils";
 import { downloadStrengthsReport } from "./strengths-pdf";
 
-type ChecklistRating = "achieved" | "developing" | "needs_support" | "not_yet_observed";
+type ChecklistRating = Rating;
 
 /** One checklist skill, or one activity no skill of this quarter links to (GET /api/sections/{id}/classroom-record/strengths). */
 interface Entry {
@@ -78,16 +79,9 @@ const BAND_LABEL: Record<ScoreBand, string> = {
   needs_help: "Needs Support",
 };
 
-const CHECKLIST_LABEL: Record<ChecklistRating, string> = {
-  achieved: "Achieved",
-  developing: "Developing",
-  needs_support: "Needs Support",
-  not_yet_observed: "Not yet observed",
-};
-
 const CHECKLIST_TONE: Record<ChecklistRating, string> = {
   achieved: RESULT_CLASS.very_good,
-  developing: RESULT_CLASS.good,
+  developing: RATING_BADGE.developing.className,
   needs_support: RESULT_CLASS.needs_help,
   not_yet_observed: "bg-gray-100 text-gray-600",
 };
@@ -762,7 +756,7 @@ function ModuleRow({
                 </div>
               </div>
               <div className="overflow-hidden rounded-lg border border-gray-200">
-                <div className="hidden grid-cols-[minmax(0,1fr)_7.5rem_8rem] gap-3 bg-gray-50 px-3 py-1.5 text-[11px] font-bold text-gray-500 sm:grid">
+                <div className="hidden grid-cols-[minmax(0,1fr)_7.5rem_11rem] gap-3 bg-gray-50 px-3 py-1.5 text-[11px] font-bold text-gray-500 sm:grid">
                   <span>Skill and activity</span>
                   <span>Activity result</span>
                   <span>Your rating</span>
@@ -818,10 +812,10 @@ type SkillFilter = ChecklistRating | "pending" | "all";
 
 const SKILL_FILTERS: { value: SkillFilter; label: string }[] = [
   { value: "all", label: "All" },
-  { value: "needs_support", label: "Needs Support" },
-  { value: "developing", label: "Developing" },
-  { value: "achieved", label: "Achieved" },
-  { value: "not_yet_observed", label: "Not yet observed" },
+  { value: "needs_support", label: ratingText("needs_support") },
+  { value: "developing", label: ratingText("developing") },
+  { value: "achieved", label: ratingText("achieved") },
+  { value: "not_yet_observed", label: ratingText("not_yet_observed") },
   { value: "pending", label: "Not rated" },
 ];
 
@@ -852,7 +846,7 @@ function EvidenceRow({
 }) {
   const notes = remarks.filter(Boolean);
   return (
-    <li className="flex flex-col gap-1.5 px-3 py-2 sm:grid sm:grid-cols-[minmax(0,1fr)_7.5rem_8rem] sm:items-center sm:gap-3">
+    <li className="flex flex-col gap-1.5 px-3 py-2 sm:grid sm:grid-cols-[minmax(0,1fr)_7.5rem_11rem] sm:items-center sm:gap-3">
       <div className="min-w-0">
         <p className="font-medium text-gray-900">{title}</p>
         {detail && <p className="text-[11px] text-gray-500">{detail}</p>}
@@ -914,7 +908,7 @@ function RatingBadge({ entry }: { entry: Entry }) {
   if (!entry.teacherStatus) return <span className={cn(PILL, "border border-dashed border-gray-300 text-gray-500")}>Not rated</span>;
   return (
     <span title={entry.checklist ? `Rated ${dateOf(entry.checklist.at)}` : undefined} className={cn(PILL, CHECKLIST_TONE[entry.teacherStatus])}>
-      {CHECKLIST_LABEL[entry.teacherStatus]}
+      {ratingText(entry.teacherStatus)}
     </span>
   );
 }

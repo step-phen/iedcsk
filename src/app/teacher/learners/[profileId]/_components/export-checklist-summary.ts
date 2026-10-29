@@ -1,4 +1,4 @@
-import { RATING_BADGE } from "@/app/teacher/developmental-checklist/_components/checklist-table";
+import { RATING_BADGE, isAccomplished, isTaught, ratingText } from "@/app/teacher/developmental-checklist/_components/checklist-table";
 import { capitalizeWords } from "@/lib/learners";
 import { QUARTER_NAMES, REPORT_MARGIN, drawLearnerReportChrome, lastTableY, slug } from "@/lib/report-pdf";
 import type { ProgressItem } from "./progress-tab";
@@ -11,7 +11,7 @@ export interface ChecklistSummaryLearner {
   teacherName: string | null;
 }
 
-const statusLabel = (i: ProgressItem) => (i.rating ? RATING_BADGE[i.rating].label : "Not rated yet");
+const statusLabel = (i: ProgressItem) => (i.rating ? ratingText(i.rating) : "Not rated yet");
 const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
 
 /** Skills of one quarter grouped by domain, in the order the API sends them. */
@@ -28,20 +28,27 @@ export function byDomain(items: ProgressItem[]) {
 /** The overall paragraph: counts only from recorded ratings, never a guess about skills not yet rated. */
 export function summaryText(firstName: string, items: ProgressItem[]) {
   const count = (r: ProgressItem["rating"]) => items.filter((i) => i.rating === r).length;
-  const sentences = [`${capitalizeWords(firstName)} has achieved ${count("achieved")} of ${plural(items.length, "developmental skill")} this quarter.`];
+  const done = items.filter((i) => isAccomplished(i.rating)).length;
+  const highly = count("achieved");
+  // "/" skills were not taught yet, so they are not part of the "of N"; the next sentence counts them.
+  const taught = items.filter((i) => isTaught(i.rating)).length;
+  const sentences = [
+    `${capitalizeWords(firstName)} has accomplished ${done} of ${plural(taught, "developmental skill")} this quarter${highly ? `, ${highly} of them highly accomplished` : ""}.`,
+  ];
   const rest = [
-    [count("developing"), "still developing"],
     [count("needs_support"), "needing support"],
-    [count("not_yet_observed"), "not yet observed"],
+    [count("not_yet_observed"), "not yet introduced"],
     [count(null), "not yet rated"],
   ].filter(([n]) => n) as [number, string][];
   if (rest.length) sentences.push(`${rest.map(([n, what]) => `${n} ${what}`).join(", ")}.`.replace(/^./, (c) => c.toUpperCase()));
 
   const groups = byDomain(items);
-  const mastered = groups.filter((g) => g.skills.every((s) => s.rating === "achieved")).map((g) => g.domainName);
-  const practice = groups.filter((g) => g.skills.some((s) => s.rating === "developing" || s.rating === "needs_support")).map((g) => g.domainName);
-  if (mastered.length) sentences.push(`All skills achieved in ${mastered.join(", ")}.`);
-  if (practice.length) sentences.push(`More practice is needed in ${practice.join(", ")}.`);
+  const mastered = groups
+    .filter((g) => g.skills.some((s) => isTaught(s.rating)) && g.skills.every((s) => !isTaught(s.rating) || isAccomplished(s.rating)))
+    .map((g) => g.domainName);
+  const support = groups.filter((g) => g.skills.some((s) => s.rating === "needs_support")).map((g) => g.domainName);
+  if (mastered.length) sentences.push(`All skills accomplished in ${mastered.join(", ")}.`);
+  if (support.length) sentences.push(`More support is needed in ${support.join(", ")}.`);
   return sentences.join(" ");
 }
 
@@ -72,20 +79,20 @@ export async function downloadChecklistSummary({
     ...table,
     head: [["Developmental Indicator / Skill", "Status"]],
     body: byDomain(items).flatMap((g) => [
-      [{ content: `${g.domainName} (${g.skills.filter((s) => s.rating === "achieved").length} of ${g.skills.length} achieved)`, colSpan: 2, styles: { fontStyle: "bold", fillColor: [246, 241, 223] } }],
+      [{ content: `${g.domainName} (${g.skills.filter((s) => isAccomplished(s.rating)).length} of ${g.skills.filter((s) => isTaught(s.rating)).length} accomplished)`, colSpan: 2, styles: { fontStyle: "bold", fillColor: [246, 241, 223] } }],
       ...g.skills.map((s) => [s.item, statusLabel(s)]),
     ]),
     showHead: "everyPage",
-    columnStyles: { 1: { cellWidth: 110, halign: "center" } },
+    columnStyles: { 1: { cellWidth: 150, halign: "center" } },
   });
 
-  // 2. Developed skills beside the ones still needing practice, then the overall paragraph.
-  const developed = items.filter((i) => i.rating === "achieved").map((i) => `• ${i.item}`);
-  const practice = items.filter((i) => i.rating === "developing" || i.rating === "needs_support").map((i) => `• ${i.item} (${statusLabel(i)})`);
+  // 2. Accomplished skills beside the ones needing support, then the overall paragraph.
+  const developed = items.filter((i) => isAccomplished(i.rating)).map((i) => `• ${i.item} (${RATING_BADGE[i.rating!].code})`);
+  const practice = items.filter((i) => i.rating === "needs_support").map((i) => `• ${i.item}`);
   autoTable(doc, {
     ...table,
     startY: lastY() + 18,
-    head: [["Skills Developed", "Skills Needing More Practice"]],
+    head: [["Skills Accomplished", "Skills Needing Support"]],
     body: [[developed.join("\n") || "None yet.", practice.join("\n") || "None."]],
     columnStyles: { 0: { cellWidth: (width - 80) / 2 } },
   });

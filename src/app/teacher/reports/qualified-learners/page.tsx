@@ -44,13 +44,13 @@ export default async function QualifiedLearnersPage() {
         </div>
       </div>
 
-      {/* Ready means every Q1 to Q4 checklist skill is rated achieved or developing. */}
+      {/* Ready means every Q1 to Q4 checklist skill is rated Highly accomplished or Accomplished. */}
       <LearnerListReport
         learners={learners}
         teacherName={me.teacherName}
         reportTitle="Learners Ready for Grade 1"
         emptyHeading="No learners ready yet"
-        emptyMessage="Learners appear here once every skill from the 1st to the 4th quarter is rated Achieved or Developing."
+        emptyMessage="Learners appear here once every skill from the 1st to the 4th quarter is rated HA (Highly accomplished) or A (Accomplished)."
         status="Promoted"
       />
     </div>
