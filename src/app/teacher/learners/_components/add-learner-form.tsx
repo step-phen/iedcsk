@@ -1066,7 +1066,6 @@ function GuardianFields({
             name={contactKey}
             type="tel"
             inputMode="numeric"
-            maxLength={13}
             placeholder="0917 123 4567"
             onChange={(e) => (e.currentTarget.value = formatMobile(e.currentTarget.value))}
             aria-invalid={!!fieldErrors[contactKey]}

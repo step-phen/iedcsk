@@ -423,7 +423,6 @@ function GuardianFields({
             name={`contactNumber_${index}`}
             type="tel"
             inputMode="numeric"
-            maxLength={13}
             placeholder="0917 123 4567"
             defaultValue={formatMobile(guardian.contactNumber)}
             onChange={(e) => (e.currentTarget.value = formatMobile(e.currentTarget.value))}
