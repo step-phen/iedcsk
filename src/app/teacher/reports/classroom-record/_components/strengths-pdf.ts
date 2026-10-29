@@ -1,7 +1,5 @@
-import { LOGO, SCHOOL, pngDataUrl } from "@/app/teacher/reports/learner-list/_components/learner-list-report";
+import { QUARTER_NAMES, REPORT_MARGIN, drawLearnerReportChrome, lastTableY, slug } from "@/lib/report-pdf";
 import type { ActivityResult } from "./strengths-report";
-
-const QUARTER_NAMES = ["1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter"];
 
 /** One learner's activity results for a quarter as an A4 PDF: the needs-practice list first, then every result. */
 export async function downloadStrengthsReport({
@@ -27,13 +25,12 @@ export async function downloadStrengthsReport({
   const width = doc.internal.pageSize.getWidth();
   const height = doc.internal.pageSize.getHeight();
   const inner = width - 80;
-  const logo = await pngDataUrl(LOGO).catch(() => null);
   const quarterName = QUARTER_NAMES[quarter - 1];
-  const lastY = () => (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY;
+  const lastY = () => lastTableY(doc);
   const table = {
     theme: "grid" as const,
     showHead: "everyPage" as const,
-    margin: { top: 176, left: 40, right: 40, bottom: 50 },
+    margin: REPORT_MARGIN,
     styles: { font: "helvetica", fontSize: 9.5, cellPadding: 6, lineColor: [0, 0, 0] as [number, number, number], lineWidth: 0.75, textColor: 20, valign: "top" as const },
     headStyles: { fillColor: [242, 242, 242] as [number, number, number], textColor: 20, fontStyle: "bold" as const, fontSize: 9 },
   };
@@ -69,28 +66,15 @@ export async function downloadStrengthsReport({
   }
   doc.text(note, 40, noteY);
 
-  // Header and footer on every page, once the page count is known.
-  const pages = doc.getNumberOfPages();
-  for (let page = 1; page <= pages; page++) {
-    doc.setPage(page);
-    doc.setTextColor(20);
-    if (logo) doc.addImage(logo, "PNG", 40, 26, 48, 48);
-    doc.setFont("helvetica", "bold").setFontSize(15).text(SCHOOL, width / 2, 54, { align: "center" });
-    doc.setDrawColor(91, 6, 16).setLineWidth(2).line(40, 84, width - 40, 84);
+  await drawLearnerReportChrome(doc, {
+    title: "STRENGTHS AND AREAS FOR IMPROVEMENT",
+    learnerName,
+    section,
+    term: quarterName,
+    schoolYear,
+    teacherName: teacherName ?? "-",
+    footer: `Strengths and weaknesses report | ${quarterName}`,
+  });
 
-    doc.setFontSize(10).text(`Learner Name: ${learnerName}`, 40, 106);
-    doc.text(`Section: ${section}`, 40, 121);
-    doc.text(`Term: ${quarterName}`, 40, 136);
-    doc.setFont("helvetica", "normal");
-    doc.text(`School Year: ${schoolYear}`, width - 40, 121, { align: "right" });
-    doc.text(`Teacher: ${teacherName ?? "-"}`, width - 40, 136, { align: "right" });
-    doc.setFont("helvetica", "bold").setFontSize(14).text("STRENGTHS AND AREAS FOR IMPROVEMENT", width / 2, 162, { align: "center" });
-
-    doc.setFont("helvetica", "normal").setFontSize(8).setTextColor(90);
-    doc.text(`Strengths and weaknesses report | ${quarterName}`, 40, height - 24);
-    doc.text(`Page ${page} of ${pages}`, width - 40, height - 24, { align: "right" });
-  }
-
-  const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   doc.save(`strengths-${slug(learnerName)}-${slug(schoolYear)}-q${quarter}.pdf`);
 }

@@ -1,6 +1,6 @@
-import { LOGO, SCHOOL, pngDataUrl } from "@/app/teacher/reports/learner-list/_components/learner-list-report";
 import { RATING_BADGE } from "@/app/teacher/developmental-checklist/_components/checklist-table";
 import { capitalizeWords } from "@/lib/learners";
+import { QUARTER_NAMES, REPORT_MARGIN, drawLearnerReportChrome, lastTableY, slug } from "@/lib/report-pdf";
 import type { ProgressItem } from "./progress-tab";
 
 export interface ChecklistSummaryLearner {
@@ -11,17 +11,16 @@ export interface ChecklistSummaryLearner {
   teacherName: string | null;
 }
 
-const QUARTER_NAMES = ["1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter"];
 const statusLabel = (i: ProgressItem) => (i.rating ? RATING_BADGE[i.rating].label : "Not rated yet");
 const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
 
 /** Skills of one quarter grouped by domain, in the order the API sends them. */
 export function byDomain(items: ProgressItem[]) {
-  const groups: { domainName: string; skills: ProgressItem[] }[] = [];
+  const groups: { domainId: number; domainName: string; skills: ProgressItem[] }[] = [];
   for (const item of items) {
-    const group = groups.find((g) => g.domainName === item.domainName);
+    const group = groups.find((g) => g.domainId === item.domainId);
     if (group) group.skills.push(item);
-    else groups.push({ domainName: item.domainName, skills: [item] });
+    else groups.push({ domainId: item.domainId, domainName: item.domainName, skills: [item] });
   }
   return groups;
 }
@@ -64,10 +63,9 @@ export async function downloadChecklistSummary({
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const width = doc.internal.pageSize.getWidth();
   const height = doc.internal.pageSize.getHeight();
-  const logo = await pngDataUrl(LOGO).catch(() => null);
   const quarterName = QUARTER_NAMES[quarter - 1];
-  const lastY = () => (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY;
-  const table = { theme: "grid" as const, margin: { top: 176, left: 40, right: 40, bottom: 50 }, styles: { fontSize: 9.5, cellPadding: 6, lineColor: [0, 0, 0] as [number, number, number], lineWidth: 0.5, textColor: 20, valign: "top" as const }, headStyles: { fillColor: [242, 242, 242] as [number, number, number], textColor: 20, fontStyle: "bold" as const } };
+  const lastY = () => lastTableY(doc);
+  const table = { theme: "grid" as const, margin: REPORT_MARGIN, styles: { fontSize: 9.5, cellPadding: 6, lineColor: [0, 0, 0] as [number, number, number], lineWidth: 0.5, textColor: 20, valign: "top" as const }, headStyles: { fillColor: [242, 242, 242] as [number, number, number], textColor: 20, fontStyle: "bold" as const } };
 
   // 1. Every skill of the quarter with its status, under its domain.
   autoTable(doc, {
@@ -115,28 +113,15 @@ export async function downloadChecklistSummary({
     doc.setFontSize(8).text(`${role} (signature over printed name)`, x + 100, signY + 12, { align: "center" }).setFontSize(10);
   }
 
-  // Header and footer on every page, once the page count is known.
-  const pages = doc.getNumberOfPages();
-  for (let page = 1; page <= pages; page++) {
-    doc.setPage(page);
-    doc.setTextColor(20);
-    if (logo) doc.addImage(logo, "PNG", 40, 26, 48, 48);
-    doc.setFont("helvetica", "bold").setFontSize(15).text(SCHOOL, width / 2, 54, { align: "center" });
-    doc.setDrawColor(91, 6, 16).setLineWidth(2).line(40, 84, width - 40, 84);
+  await drawLearnerReportChrome(doc, {
+    title: "DEVELOPMENTAL CHECKLIST SUMMARY",
+    learnerName: learner.name,
+    section: [learner.gradeLevel, learner.section].filter(Boolean).join(" - ") || "-",
+    term: quarterName,
+    schoolYear: learner.schoolYear ?? "-",
+    teacherName: learner.teacherName ?? "-",
+    footer: `${learner.gradeLevel ?? ""} | Individual developmental checklist summary | ${quarterName}`,
+  });
 
-    doc.setFontSize(10).text(`Learner Name: ${learner.name}`, 40, 106);
-    doc.text(`Section: ${[learner.gradeLevel, learner.section].filter(Boolean).join(" - ") || "-"}`, 40, 121);
-    doc.text(`Term: ${quarterName}`, 40, 136);
-    doc.setFont("helvetica", "normal");
-    doc.text(`School Year: ${learner.schoolYear ?? "-"}`, width - 40, 121, { align: "right" });
-    doc.text(`Teacher: ${learner.teacherName ?? "-"}`, width - 40, 136, { align: "right" });
-    doc.setFont("helvetica", "bold").setFontSize(14).text("DEVELOPMENTAL CHECKLIST SUMMARY", width / 2, 162, { align: "center" });
-
-    doc.setFont("helvetica", "normal").setFontSize(8).setTextColor(90);
-    doc.text(`${learner.gradeLevel ?? ""} | Individual developmental checklist summary | ${quarterName}`, 40, height - 24);
-    doc.text(`Page ${page} of ${pages}`, width - 40, height - 24, { align: "right" });
-  }
-
-  const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   doc.save(`checklist-summary-${slug(learner.name)}-${slug(learner.schoolYear ?? "")}-q${quarter}.pdf`);
 }

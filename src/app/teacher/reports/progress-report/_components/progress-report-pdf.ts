@@ -1,5 +1,5 @@
-import { LOGO, SCHOOL, pngDataUrl } from "@/app/teacher/reports/learner-list/_components/learner-list-report";
 import { capitalizeWords, middleInitial } from "@/lib/learners";
+import { REPORT_MARGIN, drawLearnerReportChrome, lastTableY, slug } from "@/lib/report-pdf";
 
 /** Who and when a report is for; frozen inside a finalized version's snapshot. */
 export interface ReportHeader {
@@ -49,8 +49,6 @@ export function printedRows(rows: ReportRow[]): PrintedRow[] {
   return out;
 }
 
-const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-
 /**
  * Downloads the report as an A4 PDF laid out like the printed sample. Fed only saved data (a draft as last saved,
  * or a finalized version's snapshot), the same object the on-screen preview renders.
@@ -73,7 +71,6 @@ export async function downloadProgressReport({
   const width = doc.internal.pageSize.getWidth();
   const height = doc.internal.pageSize.getHeight();
   const inner = width - 80;
-  const logo = await pngDataUrl(LOGO).catch(() => null);
   const name = reportLearnerName(header);
   const subheadings = new Set(rows.flatMap((r) => (r.subheading ? [r.subheading] : [])));
   let drawBold: (() => void) | null = null;
@@ -89,7 +86,7 @@ export async function downloadProgressReport({
     // Long text breaks across pages, and the column headings repeat on each one.
     showHead: "everyPage",
     rowPageBreak: "auto",
-    margin: { top: 176, left: 40, right: 40, bottom: 50 },
+    margin: REPORT_MARGIN,
     styles: { font: "helvetica", fontSize: 10, cellPadding: 8, lineColor: [0, 0, 0], lineWidth: 0.75, textColor: 20, valign: "top", overflow: "linebreak" },
     headStyles: { fillColor: [242, 242, 242], textColor: 20, fontStyle: "bold", fontSize: 9, halign: "center" },
     columnStyles: {
@@ -122,7 +119,7 @@ export async function downloadProgressReport({
 
   // Prepared by the adviser, noted by the principal, at the foot of the last page; a new page when the table reaches it.
   const signY = height - 62;
-  if ((doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY > signY - 60) doc.addPage();
+  if (lastTableY(doc) > signY - 60) doc.addPage();
   doc.setDrawColor(0).setLineWidth(0.75).setTextColor(20);
   for (const [x, label, name, role] of [
     [40, "Prepared by:", header.teacherName, "Adviser"],
@@ -134,27 +131,15 @@ export async function downloadProgressReport({
     doc.setFont("helvetica", "normal").setFontSize(9).text(role, x + 100, signY + 12, { align: "center" });
   }
 
-  // Header and footer on every page, once the page count is known.
-  const pages = doc.getNumberOfPages();
-  for (let page = 1; page <= pages; page++) {
-    doc.setPage(page);
-    doc.setTextColor(20);
-    if (logo) doc.addImage(logo, "PNG", 40, 26, 48, 48);
-    doc.setFont("helvetica", "bold").setFontSize(15).text(SCHOOL, width / 2, 54, { align: "center" });
-    doc.setDrawColor(91, 6, 16).setLineWidth(2).line(40, 84, width - 40, 84);
-
-    doc.setFontSize(10).text(`Learner Name: ${name}`, 40, 106);
-    doc.text(`Section: ${header.gradeLevel} - ${header.sectionName}`, 40, 121);
-    doc.text(`Term: ${header.quarterName}`, 40, 136);
-    doc.setFont("helvetica", "normal");
-    doc.text(`School Year: ${header.schoolYear}`, width - 40, 121, { align: "right" });
-    doc.text(`Teacher: ${header.teacherName}`, width - 40, 136, { align: "right" });
-    doc.setFont("helvetica", "bold").setFontSize(14).text("PROGRESS REPORT", width / 2, 162, { align: "center" });
-
-    doc.setFont("helvetica", "normal").setFontSize(8).setTextColor(90);
-    doc.text(`${header.gradeLevel} | Individual learner progress report | ${status}`, 40, height - 24);
-    doc.text(`Page ${page} of ${pages}`, width - 40, height - 24, { align: "right" });
-  }
+  await drawLearnerReportChrome(doc, {
+    title: "PROGRESS REPORT",
+    learnerName: name,
+    section: `${header.gradeLevel} - ${header.sectionName}`,
+    term: header.quarterName,
+    schoolYear: header.schoolYear,
+    teacherName: header.teacherName,
+    footer: `${header.gradeLevel} | Individual learner progress report | ${status}`,
+  });
 
   doc.save(`progress-report-${slug(name)}-${slug(header.schoolYear)}-q${header.quarter}${version ? `-v${version}` : ""}.pdf`);
 }

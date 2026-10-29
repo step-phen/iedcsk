@@ -1,4 +1,5 @@
 import { LOGO, SCHOOL, pngDataUrl } from "@/app/teacher/reports/learner-list/_components/learner-list-report";
+import { slug } from "@/lib/report-pdf";
 import type { AttendanceRow } from "./attendance-tab";
 
 export interface Sf2Learner {
@@ -85,6 +86,5 @@ export async function downloadSf2({
   doc.text(learner.teacherName ?? "Adviser", width - 130, signY + 14, { align: "center" });
   doc.setFontSize(8).text("Adviser", width - 130, signY + 26, { align: "center" });
 
-  const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   doc.save(`sf2-${slug(learner.name)}-${slug(monthLabel)}.pdf`);
 }

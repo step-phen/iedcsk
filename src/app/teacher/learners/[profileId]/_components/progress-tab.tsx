@@ -7,8 +7,9 @@ import { CircleCheck, CircleDashed, Download, EyeOff, FileText, Gamepad2, Info, 
 import { ModalShell } from "@/components/ui/modal-shell";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RATING_BADGE, type Rating } from "@/app/teacher/developmental-checklist/_components/checklist-table";
+import { QUARTER_NAMES } from "@/lib/report-pdf";
 import { cn } from "@/lib/utils";
-import { downloadChecklistSummary, type ChecklistSummaryLearner } from "./export-checklist-summary";
+import { byDomain, downloadChecklistSummary, type ChecklistSummaryLearner } from "./export-checklist-summary";
 
 export type ProgressItem = {
   itemId: number;
@@ -23,14 +24,13 @@ export type ProgressItem = {
 /** A skill's rating, or "unrated" while the teacher has not rated it yet. */
 type Status = Rating | "unrated";
 
-const QUARTERS = ["1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter"];
-
-const STATUS: Record<Status, { label: string; meaning: string; icon: LucideIcon; pill: string; dot: string; stroke: string }> = {
+// stroke colors the rating's arc in RatingRing; unrated has none, it is the ring's white track.
+const STATUS: Record<Status, { label: string; meaning: string; icon: LucideIcon; pill: string; dot: string; stroke?: string }> = {
   achieved: { label: RATING_BADGE.achieved.label, meaning: "Can do this on their own.", icon: CircleCheck, pill: RATING_BADGE.achieved.className, dot: "bg-emerald-500", stroke: "stroke-emerald-500" },
   developing: { label: RATING_BADGE.developing.label, meaning: "Getting there, but still needs practice.", icon: TrendingUp, pill: RATING_BADGE.developing.className, dot: "bg-amber-500", stroke: "stroke-amber-500" },
   needs_support: { label: RATING_BADGE.needs_support.label, meaning: "Needs extra help to do this.", icon: LifeBuoy, pill: RATING_BADGE.needs_support.className, dot: "bg-red-500", stroke: "stroke-red-500" },
   not_yet_observed: { label: RATING_BADGE.not_yet_observed.label, meaning: "The teacher has not seen this skill yet.", icon: EyeOff, pill: RATING_BADGE.not_yet_observed.className, dot: "bg-gray-400", stroke: "stroke-gray-400" },
-  unrated: { label: "Not rated yet", meaning: "No rating has been given yet.", icon: CircleDashed, pill: "border-dashed border-gray-300 bg-white text-gray-600", dot: "bg-gray-200", stroke: "stroke-white" },
+  unrated: { label: "Not rated yet", meaning: "No rating has been given yet.", icon: CircleDashed, pill: "border-dashed border-gray-300 bg-white text-gray-600", dot: "bg-gray-200" },
 };
 const STATUS_ORDER = Object.keys(STATUS) as Status[];
 
@@ -72,6 +72,21 @@ function RatingRing({ counts, total, size, thickness, label, className }: { coun
   );
 }
 
+/** Each rating present, as a colored dot, its name and its count. */
+function StatusLegend({ counts, className }: { counts: Record<Status, number>; className?: string }) {
+  return (
+    <ul className={cn("flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-gray-700", className)}>
+      {STATUS_ORDER.filter((s) => counts[s]).map((s) => (
+        <li key={s} className="inline-flex items-center gap-1.5">
+          <span aria-hidden="true" className={cn("size-2.5 rounded-full", STATUS[s].dot, s === "unrated" && "border border-gray-400")} />
+          {STATUS[s].label}
+          <span className="font-semibold tabular-nums text-gray-900">{counts[s]}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 /** The learner's Developmental Checklist ratings, one quarter at a time, grouped by domain. */
 export default function ProgressTab({
   items,
@@ -97,12 +112,7 @@ export default function ProgressTab({
   const shown = items.filter((i) => String(i.quarter) === quarter);
   const counts = countsOf(shown);
   const rated = shown.length - counts.unrated;
-  const quarterDomains = shown.reduce<{ domainId: number; domainName: string; skills: ProgressItem[] }[]>((groups, item) => {
-    const group = groups.find((g) => g.domainId === item.domainId);
-    if (group) group.skills.push(item);
-    else groups.push({ domainId: item.domainId, domainName: item.domainName, skills: [item] });
-    return groups;
-  }, []);
+  const quarterDomains = byDomain(shown);
   const pickedDomain = quarterDomains.find((d) => d.domainId === domainId);
   const pickedCounts = pickedDomain && countsOf(pickedDomain.skills);
 
@@ -129,7 +139,7 @@ export default function ProgressTab({
           }}
         >
           <TabsList variant="line" className="min-w-0 overflow-x-auto scrollbar-hide">
-            {QUARTERS.map((name, i) => (
+            {QUARTER_NAMES.map((name, i) => (
               <TabsTrigger
                 key={name}
                 value={String(i + 1)}
@@ -145,7 +155,7 @@ export default function ProgressTab({
             type="button"
             onClick={exportSummary}
             disabled={exporting || shown.length === 0}
-            title={shown.length === 0 ? "No checklist skills for this quarter" : `Download the ${QUARTERS[Number(quarter) - 1]} checklist summary as a PDF`}
+            title={shown.length === 0 ? "No checklist skills for this quarter" : `Download the ${QUARTER_NAMES[Number(quarter) - 1]} checklist summary as a PDF`}
             className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-[#5b0610] px-3 py-1.5 text-sm font-semibold text-white outline-none transition-colors hover:bg-[#4d050d] focus-visible:ring-2 focus-visible:ring-[#5b0610]/40 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {exporting ? <Loader2 size={15} className="animate-spin" aria-hidden="true" /> : <Download size={15} aria-hidden="true" />}
@@ -185,15 +195,7 @@ export default function ProgressTab({
                     ? "No skills have been rated for this quarter yet."
                     : `${rated} rated so far, ${counts.unrated} still waiting for a rating.`}
                 </p>
-                <ul className="flex flex-wrap gap-x-4 gap-y-1.5 pt-1.5 text-sm text-gray-700">
-                  {STATUS_ORDER.filter((s) => counts[s]).map((s) => (
-                    <li key={s} className="inline-flex items-center gap-1.5">
-                      <span aria-hidden="true" className={cn("size-2.5 rounded-full", STATUS[s].dot, s === "unrated" && "border border-gray-400")} />
-                      {STATUS[s].label}
-                      <span className="font-semibold tabular-nums text-gray-900">{counts[s]}</span>
-                    </li>
-                  ))}
-                </ul>
+                <StatusLegend counts={counts} className="pt-1.5" />
               </div>
             </div>
 
@@ -246,7 +248,7 @@ export default function ProgressTab({
         open={domainOpen && !!pickedDomain}
         onClose={() => setDomainOpen(false)}
         title={pickedDomain?.domainName ?? ""}
-        subtitle={pickedDomain && pickedCounts ? `${QUARTERS[Number(quarter) - 1]} · ${pickedCounts.achieved} of ${pickedDomain.skills.length} achieved` : undefined}
+        subtitle={pickedDomain && pickedCounts ? `${QUARTER_NAMES[Number(quarter) - 1]} · ${pickedCounts.achieved} of ${pickedDomain.skills.length} achieved` : undefined}
         headerId="progress-domain-modal"
         panelClassName="flex max-h-[calc(100dvh-3rem)] flex-col"
       >
@@ -254,15 +256,7 @@ export default function ProgressTab({
           <div className="flex min-h-0 flex-col">
             <div className="flex flex-wrap items-center gap-4 border-b border-gray-100 bg-[#f6f1df] px-6 py-4">
               <RatingRing counts={pickedCounts} total={pickedDomain.skills.length} size={64} thickness={8} label={`${percent(pickedCounts.achieved, pickedDomain.skills.length)}%`} className="text-sm" />
-              <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-gray-700">
-                {STATUS_ORDER.filter((s) => pickedCounts[s]).map((s) => (
-                  <li key={s} className="inline-flex items-center gap-1.5">
-                    <span aria-hidden="true" className={cn("size-2.5 rounded-full", STATUS[s].dot, s === "unrated" && "border border-gray-400")} />
-                    {STATUS[s].label}
-                    <span className="font-semibold tabular-nums text-gray-900">{pickedCounts[s]}</span>
-                  </li>
-                ))}
-              </ul>
+              <StatusLegend counts={pickedCounts} />
             </div>
             <div className="min-h-0 overflow-y-auto px-6 pb-2">
               <SkillList skills={pickedDomain.skills} />
