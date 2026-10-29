@@ -147,6 +147,9 @@ export default function ChecklistTable({
   const keyOf = (enrollmentId: number, itemId: number) => `${enrollmentId}-${itemId}-${quarter}`;
   const results = new Map(data.results.map((r) => [`${r.enrollmentId}-${r.activityId}`, r]));
   const resultOf = (enrollmentId: number, activityId: number | null) => (activityId ? results.get(`${enrollmentId}-${activityId}`) : undefined);
+  // What a cell reads as: its rating, or "/" (Not yet introduced) for a game the learner has not played yet, as the API's profile progress does.
+  const shownRatingOf = (enrollmentId: number, it: ChecklistItem): Rating | null =>
+    ratingOf(keyOf(enrollmentId, it.itemId)) ?? (it.activityId && !resultOf(enrollmentId, it.activityId) ? "not_yet_observed" : null);
   // The cell whose remarks are open in the modal.
   const [remarksCell, setRemarksCell] = useState<RemarksCell | null>(null);
   // The item form: "new" adds one, an item edits it.
@@ -160,7 +163,7 @@ export default function ChecklistTable({
       (view === "rate" ||
         !status ||
         items.some((it) => {
-          const r = ratingOf(keyOf(l.enrollmentId, it.itemId));
+          const r = shownRatingOf(l.enrollmentId, it);
           return status === "unrated" ? !r : r === status;
         })),
   );
@@ -509,7 +512,7 @@ export default function ChecklistTable({
                         <span className="block text-xs font-normal text-gray-500 tabular-nums">LRN: {l.lrn ?? "N/A"}</span>
                       </th>
                       {items.map((it) => {
-                        const rating = ratingOf(keyOf(l.enrollmentId, it.itemId));
+                        const rating = shownRatingOf(l.enrollmentId, it);
                         const remarks = remarksOf(keyOf(l.enrollmentId, it.itemId));
                         return (
                           <td key={it.itemId} className="px-3 py-2.5">
