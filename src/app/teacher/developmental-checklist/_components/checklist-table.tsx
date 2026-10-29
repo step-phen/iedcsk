@@ -27,7 +27,7 @@ export type SectionChecklist = {
     /** hasRecords: learners already played it, so a skill can't be linked to it (API rule). */
     activities: { activityId: number; name: string; quarter: number; hasRecords: boolean }[];
   }[];
-  learners: { enrollmentId: number; learnerId: number; firstName: string; middleName: string | null; lastName: string }[];
+  learners: { enrollmentId: number; learnerId: number; firstName: string; middleName: string | null; lastName: string; lrn: string | null }[];
   ratings: { enrollmentId: number; itemId: number; quarter: number; rating: Rating; remarks: string | null }[];
   /** Each learner's latest result on the games linked to a skill. */
   results: ({ enrollmentId: number; activityId: number } & ActivityResult)[];
@@ -396,7 +396,10 @@ export default function ChecklistTable({
                     const shown = implied ? "not_yet_observed" : rating;
                     return (
                       <li key={l.enrollmentId} className="flex min-w-xl items-center gap-x-4 px-5 py-2.5">
-                        <span className="w-52 shrink-0 truncate text-sm font-semibold text-gray-900">{name}</span>
+                        <span className="w-52 shrink-0">
+                          <span className="block truncate text-sm font-semibold text-gray-900">{name}</span>
+                          <span className="block text-xs text-gray-500 tabular-nums">LRN: {l.lrn ?? "N/A"}</span>
+                        </span>
                         {item.activityId && (
                           <span className="w-24 shrink-0">
                             <span className="sr-only">Activity result: </span>
@@ -503,6 +506,7 @@ export default function ChecklistTable({
                     <tr key={l.enrollmentId} className="border-b border-gray-100 last:border-b-0">
                       <th scope="row" className={cn("sticky left-0 z-10 whitespace-nowrap bg-white px-4 py-2.5 text-left font-semibold text-gray-900", STICKY_EDGE)}>
                         {learnerName(l)}
+                        <span className="block text-xs font-normal text-gray-500 tabular-nums">LRN: {l.lrn ?? "N/A"}</span>
                       </th>
                       {items.map((it) => {
                         const rating = ratingOf(keyOf(l.enrollmentId, it.itemId));
