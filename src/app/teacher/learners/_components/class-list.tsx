@@ -2,7 +2,7 @@
 
 import { useState, useEffect, use, Suspense } from "react";
 import Link from "next/link";
-import { Users, AlertCircle, UserPlus, type LucideIcon } from "lucide-react";
+import { Users, AlertCircle, UserPlus, UserRoundPlus, type LucideIcon } from "lucide-react";
 import type { LearnerListItem } from "@/types/learner";
 import type { Gender } from "@/constants/enums";
 import { calculateAge, matchesLearnerSearch } from "@/lib/learners";
@@ -12,6 +12,7 @@ import Pagination from "@/app/teacher/_components/shared/pagination";
 import LearnerCard from "./learner-card";
 import LearnerTable from "./learner-table";
 import LearnerSearch from "./learner-search";
+import ReEnrollModal from "./re-enroll-modal";
 import PageHeader from "@/app/teacher/_components/layout/page-header";
 import { PageLoader } from "@/components/ui/page-loader";
 
@@ -31,6 +32,10 @@ interface ClassListProps {
 }
 
 export default function ClassList({ learnersPromise }: ClassListProps) {
+  const [reEnrollOpen, setReEnrollOpen] = useState(false);
+  // Bumped on each open, so the modal starts with an empty search.
+  const [reEnrollKey, setReEnrollKey] = useState(0);
+
   return (
     <div className="flex-1 flex flex-col space-y-3">
       <PageHeader className="mb-3" />
@@ -40,14 +45,29 @@ export default function ClassList({ learnersPromise }: ClassListProps) {
           <h1 className="text-xl font-bold text-stone-900 tracking-tight">Learners &amp; Class List</h1>
           <p className="text-xs text-stone-500 mt-0.5 max-w-2xl">Every learner in your class. Click a name to open their profile.</p>
         </div>
-        <Link
-          href="/teacher/learners/add"
-          className="group inline-flex w-fit items-center gap-2 px-3.5 py-2 text-xs font-semibold text-white bg-sidebar hover:bg-[#7e1422] rounded-lg shadow-md transition-[background-color,transform] duration-100 ease-out active:scale-[0.97] motion-reduce:active:scale-100 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
-        >
-          <UserPlus size={16} className="text-amber-300" />
-          Add Learners
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setReEnrollKey((k) => k + 1);
+              setReEnrollOpen(true);
+            }}
+            className="inline-flex w-fit items-center gap-2 px-3.5 py-2 text-xs font-semibold text-sidebar bg-white border border-sidebar/30 hover:bg-[#eae4c9]/50 rounded-lg shadow-sm transition-[background-color,transform] duration-100 ease-out active:scale-[0.97] motion-reduce:active:scale-100 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
+          >
+            <UserRoundPlus size={16} />
+            Re-enroll Learner
+          </button>
+          <Link
+            href="/teacher/learners/add"
+            className="group inline-flex w-fit items-center gap-2 px-3.5 py-2 text-xs font-semibold text-white bg-sidebar hover:bg-[#7e1422] rounded-lg shadow-md transition-[background-color,transform] duration-100 ease-out active:scale-[0.97] motion-reduce:active:scale-100 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40"
+          >
+            <UserPlus size={16} className="text-amber-300" />
+            Add Learners
+          </Link>
+        </div>
       </section>
+
+      <ReEnrollModal key={reEnrollKey} open={reEnrollOpen} onClose={() => setReEnrollOpen(false)} />
 
       {/* Only the roster waits on the data; the loading screen reuses this with a promise that never resolves. */}
       <Suspense fallback={<PageLoader />}>
