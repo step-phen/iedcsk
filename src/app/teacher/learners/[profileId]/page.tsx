@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { requireTeacher } from "@/lib/auth";
 import { serverApi } from "@/lib/server-api";
 import type { Guardian, LearnerAddress } from "@/types/db";
-import { calculateAge, calculateAgeYearsMonths, middleInitial } from "@/lib/learners";
+import { calculateAge, calculateAgeYearsMonths, capitalizeWords, middleInitial } from "@/lib/learners";
 import { formatDatePH, formatWeekdayPH } from "@/lib/datetime";
 import { User, UserRound, TrendingUp, CalendarCheck, GraduationCap } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -28,6 +28,7 @@ type LearnerProfile = {
   photoUrl: string | null;
   gradeLevel: string | null;
   section: string | null;
+  schoolYear: string | null;
   sectionId: number | null;
   address: LearnerAddress | null;
   guardians: Guardian[];
@@ -223,6 +224,13 @@ export default async function LearnerProfilePage({
             <ProgressTab
               items={learner.progress}
               learnerName={learner.firstName}
+              learner={{
+                name: capitalizeWords([learner.firstName, initial, learner.lastName, learner.extensionName].filter(Boolean).join(" ")),
+                gradeLevel: learner.gradeLevel,
+                section: learner.section,
+                schoolYear: learner.schoolYear,
+                teacherName: teacher.teacherName,
+              }}
               reportHref={learner.sectionId ? `/teacher/reports/progress-report?section=${learner.sectionId}&learner=${learner.learnerId}` : null}
             />
           </TabsContent>
