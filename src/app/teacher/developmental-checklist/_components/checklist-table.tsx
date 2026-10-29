@@ -373,7 +373,8 @@ export default function ChecklistTable({
               <p className="px-4 py-12 text-center text-sm text-gray-500">No learners match this search.</p>
             ) : (
               // Header and rows share column widths and never wrap, so they stay aligned; narrow screens scroll sideways.
-              <div className="overflow-x-auto">
+              // relative: keeps the absolutely positioned sr-only labels inside this scroll box, not widening the page.
+              <div className="relative overflow-x-auto">
                 {/* Hidden from screen readers: each row's controls already carry their own labels. */}
                 <div
                   aria-hidden="true"
@@ -479,7 +480,8 @@ export default function ChecklistTable({
           <p className="px-4 py-12 text-center text-sm text-gray-500">No learners match these filters.</p>
         ) : (
           <>
-            <div className="overflow-x-auto">
+            {/* relative: keeps the absolutely positioned sr-only labels inside this scroll box, not widening the page. */}
+            <div className="relative overflow-x-auto">
               <table className="w-full border-collapse text-sm">
                 <thead>
                   <tr className="border-b border-gray-200 bg-gray-50">
