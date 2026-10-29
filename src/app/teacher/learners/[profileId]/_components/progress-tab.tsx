@@ -242,7 +242,11 @@ export default function ProgressTab({
                 {STATUS_ORDER.map((s) => (
                   <div key={s}>
                     <dt className="font-semibold text-gray-900">
-                      {s !== "unrated" && <span className="mr-1.5 font-bold text-[#5b0610]">{RATING_BADGE[s].code}</span>}
+                      {s !== "unrated" && (
+                        <>
+                          <span className="font-bold text-[#5b0610]">{RATING_BADGE[s].code}</span> ·{" "}
+                        </>
+                      )}
                       {STATUS[s].label}
                     </dt>
                     <dd>{STATUS[s].meaning}</dd>

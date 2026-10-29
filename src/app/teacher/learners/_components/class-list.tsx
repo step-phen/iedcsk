@@ -216,7 +216,6 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
           )}
         </div>
         <Pagination
-          start={start}
           shownOnPage={pageLearners.length}
           total={shown.length}
           page={currentPage}
