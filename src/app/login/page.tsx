@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Login | SPC Teacher Access",
-  description: "Southern De Oro Philippines College - Teacher Access Login",
+  description: "Southern de Oro Philippines College - Teacher Access Login",
 };
 
 export default async function LoginPage() {
@@ -61,7 +61,7 @@ export default async function LoginPage() {
 
       {/* Footer */}
       <footer className="relative z-10 bg-[#1a1a1a] py-3 text-center text-xs text-gray-400">
-        © 2026 Southern de oro Philippines College. All rights reserved.
+        © 2026 Southern de Oro Philippines College. All rights reserved.
         Capstone Project.
       </footer>
     </div>
