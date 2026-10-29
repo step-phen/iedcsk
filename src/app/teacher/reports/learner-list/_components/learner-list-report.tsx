@@ -31,7 +31,7 @@ export interface LearnerListRow {
   section: string | null;
 }
 
-export const SCHOOL = "Southern De Oro Philippines College";
+export const SCHOOL = "Southern de Oro Philippines College";
 export const LOGO = "/images/logo/spc-logo.webp";
 const COLUMNS = ["No.", "LRN", "Learner Name", "Sex", "Birthdate", "Age", "Section"];
 // No., Sex, Age and Status are centered, in the PDF and the printed copy alike.

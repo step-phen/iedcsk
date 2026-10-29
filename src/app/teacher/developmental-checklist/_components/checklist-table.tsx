@@ -578,7 +578,9 @@ function ItemModal({
 }) {
   const [pending, setPending] = useState(false);
   const [errors, setErrors] = useState<{ item?: string; activityId?: string; form?: string }>({});
-  const activities = domain.activities.filter((a) => a.quarter === quarter);
+  // Only games no other skill links to yet; the item being edited keeps its own.
+  const linked = new Set(domain.items.filter((i) => i.itemId !== item?.itemId).map((i) => i.activityId));
+  const activities = domain.activities.filter((a) => a.quarter === quarter && !linked.has(a.activityId));
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

@@ -4,6 +4,7 @@ import { requireTeacher } from "@/lib/auth";
 import ReportTabs, { type ReportTab } from "./_components/report-tabs";
 import ClassScoresSection from "./_components/class-scores-section";
 import StrengthsSection from "./_components/strengths-section";
+import { BandKey } from "./_components/strengths-report";
 
 interface ClassroomRecordPageProps {
   /** ?section=, ?module=, ?quarter=, ?view= and ?week= pick what the Class Scores table shows. */
@@ -46,16 +47,20 @@ export default async function ClassroomRecordPage({ searchParams }: ClassroomRec
       <PageHeader className="mb-5" />
 
       {/* Plain title row like the Learners page, so the table sits higher on the screen. */}
-      <section>
-        <h1 className="text-xl font-bold text-stone-900 tracking-tight">Classroom Record</h1>
-        <p className="text-xs text-stone-500 mt-0.5 max-w-2xl">
-          How each learner did on this module&apos;s activities, by quarter.
-        </p>
+      <section className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <h1 className="text-xl font-bold text-stone-900 tracking-tight">Classroom Record</h1>
+          <p className="text-xs text-stone-500 mt-0.5 max-w-2xl">
+            How each learner did on this module&apos;s activities, by quarter.
+          </p>
+        </div>
+        {/* Beside the title on wide screens, in the flow so it never covers the tabs below. */}
+        {activeTab === "strengths" && <BandKey />}
       </section>
 
       <ReportTabs active={activeTab} hrefs={HREFS}>
         {activeTab === "strengths" ? (
-          <StrengthsSection section={section} quarter={quarter} />
+          <StrengthsSection section={section} quarter={quarter} teacherName={me.teacherName} />
         ) : (
           <ClassScoresSection
             section={section}

@@ -1,6 +1,7 @@
 import { SCORE_BAND_LABEL } from "@/constants/enums";
 import { ratingLabel } from "@/lib/score-band";
 import { percentOf } from "@/lib/score-band";
+import { slug } from "@/lib/report-pdf";
 import { LEGEND, learnerName, type Cell, type ClassroomRecord } from "./week-record";
 
 /** What the export says about the record beside its rows; the same choices the screen and print show. */
@@ -127,7 +128,6 @@ export async function toXlsx(record: ClassroomRecord, meta: ExportMeta): Promise
   return workbook.xlsx.writeBuffer() as Promise<ArrayBuffer>;
 }
 
-const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 /** classroom-record-kindergarten-joy-mapeh-music-q1-week-3.xlsx */
 export function fileName(meta: ExportMeta, ext: "csv" | "xlsx") {

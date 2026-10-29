@@ -44,10 +44,10 @@ export default function LearnerTable({ learners, startIndex }: { learners: Learn
               </td>
               <td className="px-3 py-2 text-center text-gray-700">{learner.gender === "Male" ? "M" : "F"}</td>
               <td className="px-3 py-2 text-center text-gray-700 tabular-nums">{calculateAge(learner.birthdate)}</td>
-              {/* Same "View Profile" cue as the card view; the stretched name link does the navigating. */}
+              {/* Same "Profile" cue as the card view; the stretched name link does the navigating. */}
               <td aria-hidden="true" className="whitespace-nowrap px-3 py-2 text-xs font-semibold text-gray-500 group-hover:text-sidebar">
                 <span className="flex items-center justify-end gap-0.5">
-                  View Profile
+                  Profile
                   <ChevronRight size={16} />
                 </span>
               </td>
