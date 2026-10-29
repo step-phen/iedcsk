@@ -6,7 +6,7 @@ import { requireTeacher } from "@/lib/auth";
 import { serverApi } from "@/lib/server-api";
 import type { Guardian, LearnerAddress } from "@/types/db";
 import { calculateAge, calculateAgeYearsMonths, capitalizeWords, middleInitial } from "@/lib/learners";
-import { formatDatePH, formatWeekdayPH } from "@/lib/datetime";
+import { formatDatePH, formatEndDate, formatWeekdayPH } from "@/lib/datetime";
 import { User, UserRound, TrendingUp, CalendarCheck, GraduationCap } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import PageHeader from "@/app/teacher/_components/layout/page-header";
@@ -15,6 +15,7 @@ import EditProfileDrawer from "./_components/edit-profile-drawer";
 import ProfileTab from "./_components/profile-tab";
 import AttendanceTab from "./_components/attendance-tab";
 import ProgressTab, { type ProgressItem } from "./_components/progress-tab";
+import WithdrawButton from "./_components/withdraw-modal";
 
 type LearnerProfile = {
   learnerId: number;
@@ -30,6 +31,11 @@ type LearnerProfile = {
   section: string | null;
   schoolYear: string | null;
   sectionId: number | null;
+  /** This school year's enrollment: "active" or "withdrawn" (with its day and optional reason). */
+  enrollmentStatus: string | null;
+  withdrawnOn: string | null;
+  withdrawalReason: string | null;
+  canWithdraw: boolean;
   address: LearnerAddress | null;
   guardians: Guardian[];
   attendances: { date: string; status: "present" | "absent" | "late" | "excused"; recordedAt: string; reason: string | null }[];
@@ -87,6 +93,7 @@ export default async function LearnerProfilePage({
   const age = calculateAgeYearsMonths(birthdate);
 
   const initial = middleInitial(learner.middleName);
+  const withdrawn = learner.enrollmentStatus === "withdrawn";
   const displayName = `${learner.lastName}, ${learner.firstName}${initial ? ` ${initial}` : ""}`;
 
   // PH-explicit formatting — the server's own local timezone getters don't
@@ -118,7 +125,7 @@ export default async function LearnerProfilePage({
         {/* Learner header — its own card, separate from the tabs/content card
             below so the two don't read as one connected block. */}
         <div className="overflow-hidden rounded-2xl border border-gray-200 bg-[#5b0610] shadow-sm mb-0">
-          <div className="px-4 py-4 flex items-center gap-4">
+          <div className="px-4 py-4 flex flex-wrap items-center gap-4">
             <div className="w-24 h-24 rounded-full flex items-center justify-center text-white text-lg font-bold shrink-0 bg-white/20 overflow-hidden">
               {learner.photoUrl ? (
                 <Image src={learner.photoUrl} alt="" width={96} height={96} loading="eager" className="w-full h-full object-cover" />
@@ -132,6 +139,11 @@ export default async function LearnerProfilePage({
                 <span className="inline-flex items-center rounded-full bg-white/15 px-2 py-0.5 text-[11px] font-semibold text-white">
                   LRN: {learner.lrn ?? "N/A"}
                 </span>
+                {withdrawn && (
+                  <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-semibold text-amber-900">
+                    {["Withdrawn", formatEndDate(learner.withdrawnOn), learner.withdrawalReason].filter(Boolean).join(" · ")}
+                  </span>
+                )}
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-white">
@@ -145,6 +157,11 @@ export default async function LearnerProfilePage({
                 </p>
               </div>
             </div>
+            {learner.canWithdraw && (
+              <div className="ml-auto">
+                <WithdrawButton learnerId={learner.learnerId} learnerName={`${learner.firstName} ${learner.lastName}`} schoolYear={learner.schoolYear} />
+              </div>
+            )}
           </div>
         </div>
 
@@ -238,6 +255,7 @@ export default async function LearnerProfilePage({
           <TabsContent value="attendance" className="animate-in fade-in-0 duration-300">
             <AttendanceTab
               data={attendanceData}
+              withdrawn={withdrawn}
               learner={{ id: learner.learnerId, name: displayName, lrn: learner.lrn, gradeLevel: learner.gradeLevel, section: learner.section, teacherName: teacher.teacherName }}
             />
           </TabsContent>

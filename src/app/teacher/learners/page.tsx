@@ -19,8 +19,9 @@ export default async function LearnersPage() {
   await requireTeacher();
 
   // Essential data, so a failure reaches the error boundary instead of showing an empty list.
-  const res = await serverApi("/api/learners");
-  if (!res.ok) throw new Error(`GET /api/learners failed: ${res.status}`);
+  // The class list also shows this year's withdrawn learners, behind its toggle.
+  const res = await serverApi("/api/learners?withWithdrawn=1");
+  if (!res.ok) throw new Error(`GET /api/learners?withWithdrawn=1 failed: ${res.status}`);
   const rows = (await res.json()) as LearnerRow[];
 
   // ponytail: session, attendance, and activity fields stay empty until the classroom endpoints exist in Laravel.

@@ -78,7 +78,11 @@ export default function ClassList({ learnersPromise }: ClassListProps) {
 }
 
 function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[]> }) {
-  const learners = use(learnersPromise);
+  const all = use(learnersPromise);
+  // Withdrawn learners stay off the roster, its counts and its pages unless the teacher asks for them.
+  const [showWithdrawn, setShowWithdrawn] = useState(false);
+  const withdrawnCount = all.filter((l) => l.enrollmentStatus === "withdrawn").length;
+  const learners = showWithdrawn ? all : all.filter((l) => l.enrollmentStatus !== "withdrawn");
   const [searchQuery, setSearchQuery] = useState("");
   const [genderFilter, setGenderFilter] = useState<Gender | "ALL">("ALL");
   const [sectionFilter, setSectionFilter] = useState("ALL");
@@ -126,76 +130,94 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
   return (
     <div className="flex flex-1 flex-col gap-3">
       {/* A floating translucent bar that stays under the header while the roster scrolls beneath it. */}
-      <div className="material-bar sticky top-[4.25rem] z-20 flex flex-wrap items-center gap-3 rounded-xl px-4 py-3 md:px-5">
-        {/* Every filter change starts over at page 1. */}
-        <LearnerSearch
-          searchQuery={searchQuery}
-          setSearchQuery={(q) => {
-            setSearchQuery(q);
-            setPage(1);
-          }}
-        />
-        <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
-          Section
-          <select
-            name="section-filter"
-            value={sectionFilter}
-            onChange={(e) => {
-              setSectionFilter(e.target.value);
+      <div className="material-bar sticky top-[4.25rem] z-20 flex flex-col gap-3 rounded-xl px-4 py-3 md:px-5">
+        {/* Search and the view on top; the filters sit under the search. */}
+        <div className="flex items-center gap-3">
+          {/* Every filter change starts over at page 1. */}
+          <LearnerSearch
+            searchQuery={searchQuery}
+            setSearchQuery={(q) => {
+              setSearchQuery(q);
               setPage(1);
             }}
-            className={SELECT_CLASS}
-          >
-            <option value="ALL">All sections</option>
-            {sections.map((section) => (
-              <option key={section} value={section}>
-                {section}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
-          Age
-          <select
-            name="age-filter"
-            value={ageFilter}
-            onChange={(e) => {
-              setAgeFilter(e.target.value);
-              setPage(1);
-            }}
-            className={SELECT_CLASS}
-          >
-            <option value="ALL">All ages</option>
-            {ages.map((age) => (
-              <option key={age} value={age}>
-                {age} years old
-              </option>
-            ))}
-          </select>
-        </label>
-        <Segmented
-          label="Show"
-          options={[
-            { value: "ALL", label: `All ${inScope.length}` },
-            { value: "Male", label: `Boys ${boys}` },
-            { value: "Female", label: `Girls ${inScope.length - boys}` },
-          ]}
-          value={genderFilter}
-          onChange={(v) => {
-            setGenderFilter(v as Gender | "ALL");
-            setPage(1);
-          }}
-        />
-        <div className="ml-auto">
-          <Segmented
-            label="View"
-            options={[
-              { value: "list", label: "List" },
-              { value: "cards", label: "Cards" },
-            ]}
-            value={view}
-            onChange={(v) => changeView(v as View)}
           />
+          <div className="ml-auto">
+            <Segmented
+              label="View"
+              options={[
+                { value: "list", label: "List" },
+                { value: "cards", label: "Cards" },
+              ]}
+              value={view}
+              onChange={(v) => changeView(v as View)}
+            />
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
+            Section
+            <select
+              name="section-filter"
+              value={sectionFilter}
+              onChange={(e) => {
+                setSectionFilter(e.target.value);
+                setPage(1);
+              }}
+              className={SELECT_CLASS}
+            >
+              <option value="ALL">All sections</option>
+              {sections.map((section) => (
+                <option key={section} value={section}>
+                  {section}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex items-center gap-2 text-xs font-bold text-gray-700">
+            Age
+            <select
+              name="age-filter"
+              value={ageFilter}
+              onChange={(e) => {
+                setAgeFilter(e.target.value);
+                setPage(1);
+              }}
+              className={SELECT_CLASS}
+            >
+              <option value="ALL">All ages</option>
+              {ages.map((age) => (
+                <option key={age} value={age}>
+                  {age} years old
+                </option>
+              ))}
+            </select>
+          </label>
+          <Segmented
+            label="Show"
+            options={[
+              { value: "ALL", label: `All ${inScope.length}` },
+              { value: "Male", label: `Boys ${boys}` },
+              { value: "Female", label: `Girls ${inScope.length - boys}` },
+            ]}
+            value={genderFilter}
+            onChange={(v) => {
+              setGenderFilter(v as Gender | "ALL");
+              setPage(1);
+            }}
+          />
+          {withdrawnCount > 0 && (
+            <button
+              type="button"
+              aria-pressed={showWithdrawn}
+              onClick={() => {
+                setShowWithdrawn((v) => !v);
+                setPage(1);
+              }}
+              className={`rounded-lg border px-2.5 py-1.5 text-xs font-semibold cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-sidebar/40 ${showWithdrawn ? "border-amber-300 bg-amber-100 text-amber-900" : "border-gray-300 bg-white text-gray-600 hover:bg-gray-50"}`}
+            >
+              Withdrawn ({withdrawnCount})
+            </button>
+          )}
         </div>
       </div>
 
@@ -204,7 +226,7 @@ function Roster({ learnersPromise }: { learnersPromise: Promise<LearnerListItem[
       <div className="flex flex-1 flex-col overflow-clip rounded-xl border border-gray-200 bg-white shadow-sm">
         {/* Keyed by view, so switching List and Cards cross-fades instead of jumping. */}
         <div key={view} className="flex-1 animate-in fade-in duration-200 motion-reduce:animate-none">
-          {learners.length === 0 ? (
+          {all.length === 0 ? (
             <EmptyState icon={Users} title="No Learners Yet" message="Add your first learner to get started." />
           ) : shown.length === 0 ? (
             <EmptyState

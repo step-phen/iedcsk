@@ -34,6 +34,8 @@ export interface ActiveSession {
 
 export interface LearnerListItem
   extends Pick<Learner, "learnerId" | "lrn" | "firstName" | "middleName" | "lastName" | "gradeLevel" | "section" | "photoUrl" | "gender" | "birthdate"> {
+  /** This school year's enrollment status; the class list hides "withdrawn" ones behind a toggle. */
+  enrollmentStatus?: string | null;
   /** null when the learner hasn't started today's activity. */
   participantStatus: ActiveParticipantStatus | null;
   missingActivities: ActivityInfo[];

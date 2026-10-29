@@ -22,6 +22,8 @@ export interface AttendanceRow {
 interface AttendanceTabProps {
   data: AttendanceRow[];
   learner: Sf2Learner;
+  /** A withdrawn enrollment's attendance can't change, so no excuse slip. */
+  withdrawn?: boolean;
 }
 
 const WEEKDAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
@@ -30,7 +32,7 @@ function dayKey(d: Date) {
   return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
 }
 
-export default function AttendanceTab({ data, learner }: AttendanceTabProps) {
+export default function AttendanceTab({ data, learner, withdrawn = false }: AttendanceTabProps) {
   const [exporting, setExporting] = useState(false);
   const [slipOpen, setSlipOpen] = useState(false);
   // A new key each time the modal opens, so its form starts empty.
@@ -305,18 +307,20 @@ export default function AttendanceTab({ data, learner }: AttendanceTabProps) {
           />
 
           <div className="flex flex-col gap-2 pt-2 border-t border-gray-300/60">
-            <button
-              onClick={() => {
-                setSlipKey((k) => k + 1);
-                setSlipOpen(true);
-              }}
-              disabled={absentDays.length === 0}
-              title={absentDays.length === 0 ? "No absences to excuse" : "Excuse one of this learner's absences"}
-              className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <FileText className="w-3.5 h-3.5" />
-              Log Excuse Slip
-            </button>
+            {!withdrawn && (
+              <button
+                onClick={() => {
+                  setSlipKey((k) => k + 1);
+                  setSlipOpen(true);
+                }}
+                disabled={absentDays.length === 0}
+                title={absentDays.length === 0 ? "No absences to excuse" : "Excuse one of this learner's absences"}
+                className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                Log Excuse Slip
+              </button>
+            )}
             <button
               onClick={exportSf2}
               disabled={exporting}
