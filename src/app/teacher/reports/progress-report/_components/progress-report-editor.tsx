@@ -31,7 +31,7 @@ interface Evidence {
   result: { score: number | null; maxScore: number | null; rating: PracticalResultValue | null; remarks: string | null; playedQuarter: number } | null;
 }
 
-type EditorRow = ReportRow & { generatedObserved: string | null; evidence: Evidence[] };
+type EditorRow = ReportRow & { evidence: Evidence[] };
 
 /** GET /api/progress-reports/{id} */
 export interface Report {

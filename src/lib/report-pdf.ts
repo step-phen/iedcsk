@@ -13,6 +13,25 @@ export const lastTableY = (doc: jsPDF) => (doc as unknown as { lastAutoTable: { 
 export const REPORT_MARGIN = { top: 176, left: 40, right: 40, bottom: 50 };
 
 /**
+ * Two "Noted by:" signature lines below `afterY`, on a new page (lines `pageTop` + 64) when they don't fit.
+ * `left` relabels the left line and prints whose signature it is under it.
+ */
+export function drawNotedBy(doc: jsPDF, afterY: number, pageTop = REPORT_MARGIN.top, left?: { label: string; name: string }) {
+  const width = doc.internal.pageSize.getWidth();
+  let signY = afterY + 70;
+  if (signY > doc.internal.pageSize.getHeight() - 70) {
+    doc.addPage();
+    signY = pageTop + 64;
+  }
+  doc.setDrawColor(0).setLineWidth(0.75).setFont("helvetica", "normal").setFontSize(10).setTextColor(20);
+  for (const x of [40, width - 240]) {
+    doc.text(x === 40 && left ? left.label : "Noted by:", x, signY - 40);
+    doc.line(x, signY, x + 200, signY);
+  }
+  if (left) doc.text(left.name, 140, signY + 13, { align: "center" });
+}
+
+/**
  * The shared look of a one-learner report: logo, school name and learner details on top, a footer note and page
  * numbers at the bottom. Call it last, once every page exists, so "Page x of y" knows the total.
  */

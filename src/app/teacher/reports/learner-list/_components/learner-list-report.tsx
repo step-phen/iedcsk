@@ -60,6 +60,20 @@ function toCells(l: LearnerListRow, i: number): string[] {
   ];
 }
 
+/** Two blank "Noted by:" lines at the foot of a printed copy, as drawNotedBy puts them on the PDFs. */
+export function NotedBy() {
+  return (
+    <div className="mt-[30pt] flex justify-between break-inside-avoid text-[10pt]">
+      {[0, 1].map((i) => (
+        <div key={i} className="w-[200pt]">
+          <p>Noted by:</p>
+          <div className="mt-[30pt] border-t-[0.75pt] border-black" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /** jsPDF can't read webp, so the logo is redrawn on a canvas and handed over as PNG. */
 export async function pngDataUrl(src: string): Promise<string> {
   const img = document.createElement("img");
@@ -121,7 +135,7 @@ export default function LearnerListReport({
     setGenerating(true);
     try {
       // Loaded on click so the PDF library stays out of the page's first load.
-      const [{ jsPDF }, { autoTable }] = await Promise.all([import("jspdf"), import("jspdf-autotable")]);
+      const [{ jsPDF }, { autoTable }, { drawNotedBy, lastTableY }] = await Promise.all([import("jspdf"), import("jspdf-autotable"), import("@/lib/report-pdf")]);
       const doc = new jsPDF({ unit: "pt", format: "a4" });
       const width = doc.internal.pageSize.getWidth();
       const height = doc.internal.pageSize.getHeight();
@@ -151,6 +165,7 @@ export default function LearnerListReport({
           doc.setFontSize(8).text(`Page ${pageNumber}`, width - 40, height - 20, { align: "right" });
         },
       });
+      drawNotedBy(doc, lastTableY(doc), 40);
 
       doc.save(`${reportTitle.toLowerCase().replace(/\s+/g, "-")}-${(section === "all" ? "all-sections" : section).toLowerCase().replace(/\s+/g, "-")}.pdf`);
     } catch (err) {
@@ -343,6 +358,7 @@ export default function LearnerListReport({
               </tbody>
             </table>
             <p className="border border-t-0 border-[#c8c8c8] bg-[#f5f5f5] p-[5pt] text-[9pt] font-bold whitespace-pre">{summary}</p>
+            <NotedBy />
           </div>,
           document.body,
         )}

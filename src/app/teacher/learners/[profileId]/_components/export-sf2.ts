@@ -1,5 +1,5 @@
 import { LOGO, SCHOOL, pngDataUrl } from "@/app/teacher/reports/learner-list/_components/learner-list-report";
-import { slug } from "@/lib/report-pdf";
+import { drawNotedBy, lastTableY, slug } from "@/lib/report-pdf";
 import type { AttendanceRow } from "./attendance-tab";
 
 export interface Sf2Learner {
@@ -79,12 +79,7 @@ export async function downloadSf2({
     },
   });
 
-  // The adviser signs the report.
-  const finalY = (doc as unknown as { lastAutoTable?: { finalY: number } }).lastAutoTable?.finalY ?? 148;
-  const signY = Math.min(finalY + 60, height - 50);
-  doc.setFontSize(10).line(width - 220, signY, width - 40, signY);
-  doc.text(learner.teacherName ?? "Adviser", width - 130, signY + 14, { align: "center" });
-  doc.setFontSize(8).text("Adviser", width - 130, signY + 26, { align: "center" });
+  drawNotedBy(doc, lastTableY(doc), 40);
 
   doc.save(`sf2-${slug(learner.name)}-${slug(monthLabel)}.pdf`);
 }

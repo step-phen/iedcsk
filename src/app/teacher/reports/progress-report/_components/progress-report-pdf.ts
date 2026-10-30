@@ -1,5 +1,5 @@
 import { capitalizeWords, middleInitial } from "@/lib/learners";
-import { REPORT_MARGIN, drawLearnerReportChrome, lastTableY, slug } from "@/lib/report-pdf";
+import { REPORT_MARGIN, drawLearnerReportChrome, drawNotedBy, lastTableY, slug } from "@/lib/report-pdf";
 
 /** Who and when a report is for; frozen inside a finalized version's snapshot. */
 export interface ReportHeader {
@@ -24,6 +24,8 @@ export interface ReportRow {
   remarksRow: boolean;
   developmentObserved: string;
   commentsRemarks: string | null;
+  /** The system's draft of developmentObserved; equal to it while the teacher has not rewritten the row. */
+  generatedObserved: string | null;
 }
 
 export interface PrintedRow {
@@ -69,7 +71,6 @@ export async function downloadProgressReport({
   const [{ jsPDF }, { autoTable }] = await Promise.all([import("jspdf"), import("jspdf-autotable")]);
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const width = doc.internal.pageSize.getWidth();
-  const height = doc.internal.pageSize.getHeight();
   const inner = width - 80;
   const name = reportLearnerName(header);
   const subheadings = new Set(rows.flatMap((r) => (r.subheading ? [r.subheading] : [])));
@@ -117,19 +118,10 @@ export async function downloadProgressReport({
     },
   });
 
-  // Prepared by the adviser, noted by the principal, at the foot of the last page; a new page when the table reaches it.
-  const signY = height - 62;
-  if (lastTableY(doc) > signY - 60) doc.addPage();
-  doc.setDrawColor(0).setLineWidth(0.75).setTextColor(20);
-  for (const [x, label, name, role] of [
-    [40, "Prepared by:", header.teacherName, "Adviser"],
-    [width - 240, "Noted by:", "", "Principal"],
-  ] as const) {
-    doc.setFont("helvetica", "normal").setFontSize(10).text(label, x, signY - 40);
-    if (name) doc.setFont("helvetica", "bold").text(name, x + 100, signY - 4, { align: "center" });
-    doc.line(x, signY, x + 200, signY);
-    doc.setFont("helvetica", "normal").setFontSize(9).text(role, x + 100, signY + 12, { align: "center" });
-  }
+  // The teacher "prepared" the report only when every Development Observed is in their own words;
+  // with any system-written row left, they only note it.
+  const ownWords = rows.every((r) => r.developmentObserved !== r.generatedObserved);
+  drawNotedBy(doc, lastTableY(doc), undefined, { label: ownWords ? "Prepared by:" : "Noted by:", name: header.teacherName });
 
   await drawLearnerReportChrome(doc, {
     title: "PROGRESS REPORT",

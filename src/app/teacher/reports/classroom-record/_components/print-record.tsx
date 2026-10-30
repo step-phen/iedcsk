@@ -4,7 +4,7 @@ import { useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { Printer } from "lucide-react";
-import { LOGO, SCHOOL } from "@/app/teacher/reports/learner-list/_components/learner-list-report";
+import { LOGO, NotedBy, SCHOOL } from "@/app/teacher/reports/learner-list/_components/learner-list-report";
 import { formatDatePH } from "@/lib/datetime";
 
 const subscribeNoop = () => () => {};
@@ -54,6 +54,7 @@ export default function PrintRecord({
               <p>Date: {formatDatePH(new Date())}</p>
             </div>
             {children}
+            <NotedBy />
           </div>,
           document.body,
         )}

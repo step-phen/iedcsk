@@ -1,4 +1,4 @@
-import { QUARTER_NAMES, REPORT_MARGIN, drawLearnerReportChrome, lastTableY, slug } from "@/lib/report-pdf";
+import { QUARTER_NAMES, REPORT_MARGIN, drawLearnerReportChrome, drawNotedBy, lastTableY, slug } from "@/lib/report-pdf";
 import type { ActivityResult } from "./strengths-report";
 
 /** One learner's activity results for a quarter as an A4 PDF: the needs-practice list first, then every result. */
@@ -65,6 +65,7 @@ export async function downloadStrengthsReport({
     noteY = table.margin.top;
   }
   doc.text(note, 40, noteY);
+  drawNotedBy(doc, noteY + note.length * 10);
 
   await drawLearnerReportChrome(doc, {
     title: "STRENGTHS AND AREAS FOR IMPROVEMENT",
