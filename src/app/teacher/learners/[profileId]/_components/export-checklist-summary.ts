@@ -1,6 +1,6 @@
 import { RATING_BADGE, isAccomplished, isTaught, ratingText } from "@/app/teacher/developmental-checklist/_components/checklist-table";
 import { capitalizeWords } from "@/lib/learners";
-import { QUARTER_NAMES, REPORT_MARGIN, drawLearnerReportChrome, lastTableY, slug } from "@/lib/report-pdf";
+import { QUARTER_NAMES, REPORT_MARGIN, drawLearnerReportChrome, drawNotedBy, lastTableY, slug } from "@/lib/report-pdf";
 import type { ProgressItem } from "./progress-tab";
 
 export interface ChecklistSummaryLearner {
@@ -69,7 +69,6 @@ export async function downloadChecklistSummary({
   const [{ jsPDF }, { autoTable }] = await Promise.all([import("jspdf"), import("jspdf-autotable")]);
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const width = doc.internal.pageSize.getWidth();
-  const height = doc.internal.pageSize.getHeight();
   const quarterName = QUARTER_NAMES[quarter - 1];
   const lastY = () => lastTableY(doc);
   const table = { theme: "grid" as const, margin: REPORT_MARGIN, styles: { fontSize: 9.5, cellPadding: 6, lineColor: [0, 0, 0] as [number, number, number], lineWidth: 0.5, textColor: 20, valign: "top" as const }, headStyles: { fillColor: [242, 242, 242] as [number, number, number], textColor: 20, fontStyle: "bold" as const } };
@@ -104,21 +103,8 @@ export async function downloadChecklistSummary({
     styles: { ...table.styles, fontSize: 10, cellPadding: 8 },
   });
 
-  // 3. Adviser and parent sign, on a new page when the last one is full.
-  let signY = lastY() + 70;
-  if (signY > height - 70) {
-    doc.addPage();
-    signY = 240;
-  }
-  doc.setDrawColor(0).setLineWidth(0.75).setFont("helvetica", "normal").setFontSize(10).setTextColor(20);
-  for (const [x, name, role] of [
-    [40, learner.teacherName ?? "", "Adviser"],
-    [width - 240, "", "Parent / Guardian"],
-  ] as const) {
-    doc.line(x, signY, x + 200, signY);
-    if (name) doc.text(name, x + 100, signY - 4, { align: "center" });
-    doc.setFontSize(8).text(`${role} (signature over printed name)`, x + 100, signY + 12, { align: "center" }).setFontSize(10);
-  }
+  // 3. Two blank "Noted by:" lines.
+  drawNotedBy(doc, lastY());
 
   await drawLearnerReportChrome(doc, {
     title: "DEVELOPMENTAL CHECKLIST SUMMARY",
